@@ -1,0 +1,898 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		F001 /* VoiceNotesOndeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = S001 /* VoiceNotesOndeviceApp.swift */; };
+		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
+		F003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S003 /* ContentView.swift */; };
+		F004 /* AudioPreprocessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S004 /* AudioPreprocessor.swift */; };
+		F005 /* ChunkProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S005 /* ChunkProcessor.swift */; };
+		F006 /* VADFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = S006 /* VADFilter.swift */; };
+		F007 /* WhisperModelLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = S007 /* WhisperModelLoader.swift */; };
+		F008 /* ExportFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = S008 /* ExportFormat.swift */; };
+		F009 /* Recording.swift in Sources */ = {isa = PBXBuildFile; fileRef = S009 /* Recording.swift */; };
+		F010 /* SourceType.swift in Sources */ = {isa = PBXBuildFile; fileRef = S010 /* SourceType.swift */; };
+		F011 /* TranscriptSegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = S011 /* TranscriptSegment.swift */; };
+		F012 /* TranscriptionStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = S012 /* TranscriptionStatus.swift */; };
+		F013 /* WhisperLanguage.swift in Sources */ = {isa = PBXBuildFile; fileRef = S013 /* WhisperLanguage.swift */; };
+		F014 /* AudioPlayerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S014 /* AudioPlayerService.swift */; };
+		F015 /* AudioRecorderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S015 /* AudioRecorderService.swift */; };
+		F016 /* BatchTranscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S016 /* BatchTranscriptionManager.swift */; };
+		F017 /* BatchTranscriptionQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = S017 /* BatchTranscriptionQueue.swift */; };
+		F018 /* CoreMLTranscriber.swift in Sources */ = {isa = PBXBuildFile; fileRef = S018 /* CoreMLTranscriber.swift */; };
+		F019 /* ExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S019 /* ExportService.swift */; };
+		F020 /* MediaImportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S020 /* MediaImportService.swift */; };
+		F021 /* RecordingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = S021 /* RecordingStore.swift */; };
+		F022 /* TranscriptExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = S022 /* TranscriptExporter.swift */; };
+		F023 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S023 /* AudioFileManager.swift */; };
+		F024 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = S024 /* Logger.swift */; };
+		F025 /* PermissionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S025 /* PermissionManager.swift */; };
+		F026 /* TimeFormatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = S026 /* TimeFormatters.swift */; };
+		F027 /* RecorderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S027 /* RecorderViewModel.swift */; };
+		F028 /* RecordingDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S028 /* RecordingDetailViewModel.swift */; };
+		F029 /* RecordingsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S029 /* RecordingsListViewModel.swift */; };
+		F030 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = S030 /* SettingsViewModel.swift */; };
+		F031 /* ConfirmationDialog.swift in Sources */ = {isa = PBXBuildFile; fileRef = S031 /* ConfirmationDialog.swift */; };
+		F032 /* ErrorBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = S032 /* ErrorBanner.swift */; };
+		F033 /* LoadingOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = S033 /* LoadingOverlay.swift */; };
+		F034 /* PlaybackBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = S034 /* PlaybackBar.swift */; };
+		F035 /* RecordingDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S035 /* RecordingDetailView.swift */; };
+		F036 /* SegmentRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = S036 /* SegmentRow.swift */; };
+		F037 /* TranscriptionProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S037 /* TranscriptionProgressView.swift */; };
+		F038 /* ExportSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = S038 /* ExportSheet.swift */; };
+		F039 /* FAQView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S039 /* FAQView.swift */; };
+		F040 /* DocumentPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S040 /* DocumentPickerView.swift */; };
+		F041 /* ImportMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S041 /* ImportMenuView.swift */; };
+		F042 /* PhotosPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S042 /* PhotosPickerView.swift */; };
+		F043 /* AudioRecorderExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = S043 /* AudioRecorderExample.swift */; };
+		F044 /* RecorderSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = S044 /* RecorderSheet.swift */; };
+		F045 /* RecordingControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = S045 /* RecordingControls.swift */; };
+		F046 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S046 /* WaveformView.swift */; };
+		F047 /* EmptyLibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S047 /* EmptyLibraryView.swift */; };
+		F048 /* RecordingRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = S048 /* RecordingRow.swift */; };
+		F049 /* RecordingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S049 /* RecordingsListView.swift */; };
+		F050 /* LanguagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S050 /* LanguagePickerView.swift */; };
+		F051 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S051 /* SettingsView.swift */; };
+		F052 /* StorageUsageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S052 /* StorageUsageView.swift */; };
+		F053 /* RatingPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S053 /* RatingPromptView.swift */; };
+		F054 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S054 /* FeedbackService.swift */; };
+		F055 /* RecycleBinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S055 /* RecycleBinView.swift */; };
+		F056 /* CustomDictionaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S056 /* CustomDictionaryService.swift */; };
+		F057 /* CustomDictionaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S057 /* CustomDictionaryView.swift */; };
+		F058 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S058 /* AppGroupManager.swift */; };
+		F059 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = S059 /* AppIntents.swift */; };
+		F100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
+		F101 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = R003 /* Models */; };
+		WF001 /* SecureVoxWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS001 /* SecureVoxWidgetBundle.swift */; };
+		WF002 /* SecureVoxWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS002 /* SecureVoxWidget.swift */; };
+		WF003 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS003 /* AppGroupManager.swift */; };
+		WF100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
+		WHISPERKIT_BUILD /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = WHISPERKIT_REF /* WhisperKit */; };
+		WIDGET_EMBED /* SecureVoxWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		WIDGET_PROXY /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = PROJECT /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = WIDGET_TARGET;
+			remoteInfo = SecureVoxWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EMBED_EXTENSIONS /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				WIDGET_EMBED /* SecureVoxWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		PRODUCT /* VoiceNotesOndevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceNotesOndevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		R001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		R002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		R003 /* Models */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Models; sourceTree = "<group>"; };
+		S001 /* VoiceNotesOndeviceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceNotesOndeviceApp.swift; sourceTree = "<group>"; };
+		S002 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
+		S003 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		S004 /* AudioPreprocessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPreprocessor.swift; sourceTree = "<group>"; };
+		S005 /* ChunkProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChunkProcessor.swift; sourceTree = "<group>"; };
+		S006 /* VADFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VADFilter.swift; sourceTree = "<group>"; };
+		S007 /* WhisperModelLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperModelLoader.swift; sourceTree = "<group>"; };
+		S008 /* ExportFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportFormat.swift; sourceTree = "<group>"; };
+		S009 /* Recording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recording.swift; sourceTree = "<group>"; };
+		S010 /* SourceType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SourceType.swift; sourceTree = "<group>"; };
+		S011 /* TranscriptSegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptSegment.swift; sourceTree = "<group>"; };
+		S012 /* TranscriptionStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionStatus.swift; sourceTree = "<group>"; };
+		S013 /* WhisperLanguage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhisperLanguage.swift; sourceTree = "<group>"; };
+		S014 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
+		S015 /* AudioRecorderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderService.swift; sourceTree = "<group>"; };
+		S016 /* BatchTranscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTranscriptionManager.swift; sourceTree = "<group>"; };
+		S017 /* BatchTranscriptionQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchTranscriptionQueue.swift; sourceTree = "<group>"; };
+		S018 /* CoreMLTranscriber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreMLTranscriber.swift; sourceTree = "<group>"; };
+		S019 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
+		S020 /* MediaImportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaImportService.swift; sourceTree = "<group>"; };
+		S021 /* RecordingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingStore.swift; sourceTree = "<group>"; };
+		S022 /* TranscriptExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptExporter.swift; sourceTree = "<group>"; };
+		S023 /* AudioFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioFileManager.swift; sourceTree = "<group>"; };
+		S024 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		S025 /* PermissionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionManager.swift; sourceTree = "<group>"; };
+		S026 /* TimeFormatters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeFormatters.swift; sourceTree = "<group>"; };
+		S027 /* RecorderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderViewModel.swift; sourceTree = "<group>"; };
+		S028 /* RecordingDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDetailViewModel.swift; sourceTree = "<group>"; };
+		S029 /* RecordingsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsListViewModel.swift; sourceTree = "<group>"; };
+		S030 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		S031 /* ConfirmationDialog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationDialog.swift; sourceTree = "<group>"; };
+		S032 /* ErrorBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorBanner.swift; sourceTree = "<group>"; };
+		S033 /* LoadingOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingOverlay.swift; sourceTree = "<group>"; };
+		S034 /* PlaybackBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaybackBar.swift; sourceTree = "<group>"; };
+		S035 /* RecordingDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingDetailView.swift; sourceTree = "<group>"; };
+		S036 /* SegmentRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentRow.swift; sourceTree = "<group>"; };
+		S037 /* TranscriptionProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TranscriptionProgressView.swift; sourceTree = "<group>"; };
+		S038 /* ExportSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportSheet.swift; sourceTree = "<group>"; };
+		S039 /* FAQView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FAQView.swift; sourceTree = "<group>"; };
+		S040 /* DocumentPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPickerView.swift; sourceTree = "<group>"; };
+		S041 /* ImportMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportMenuView.swift; sourceTree = "<group>"; };
+		S042 /* PhotosPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosPickerView.swift; sourceTree = "<group>"; };
+		S043 /* AudioRecorderExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorderExample.swift; sourceTree = "<group>"; };
+		S044 /* RecorderSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecorderSheet.swift; sourceTree = "<group>"; };
+		S045 /* RecordingControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingControls.swift; sourceTree = "<group>"; };
+		S046 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
+		S047 /* EmptyLibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyLibraryView.swift; sourceTree = "<group>"; };
+		S048 /* RecordingRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingRow.swift; sourceTree = "<group>"; };
+		S049 /* RecordingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordingsListView.swift; sourceTree = "<group>"; };
+		S050 /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
+		S051 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		S052 /* StorageUsageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageUsageView.swift; sourceTree = "<group>"; };
+		S053 /* RatingPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingPromptView.swift; sourceTree = "<group>"; };
+		S054 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
+		S055 /* RecycleBinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinView.swift; sourceTree = "<group>"; };
+		S056 /* CustomDictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDictionaryService.swift; sourceTree = "<group>"; };
+		S057 /* CustomDictionaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDictionaryView.swift; sourceTree = "<group>"; };
+		S058 /* AppGroupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupManager.swift; sourceTree = "<group>"; };
+		S059 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
+		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
+		WS001 /* SecureVoxWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureVoxWidgetBundle.swift; sourceTree = "<group>"; };
+		WS002 /* SecureVoxWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureVoxWidget.swift; sourceTree = "<group>"; };
+		WS003 /* AppGroupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FRAMEWORKS_PHASE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		WIDGET_FRAMEWORKS_PHASE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		APP_GROUP /* App */ = {
+			isa = PBXGroup;
+			children = (
+				S001 /* VoiceNotesOndeviceApp.swift */,
+				S002 /* AppConstants.swift */,
+				S003 /* ContentView.swift */,
+				S058 /* AppGroupManager.swift */,
+				S059 /* AppIntents.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		COREML_GROUP /* CoreML */ = {
+			isa = PBXGroup;
+			children = (
+				S004 /* AudioPreprocessor.swift */,
+				S005 /* ChunkProcessor.swift */,
+				S006 /* VADFilter.swift */,
+				S007 /* WhisperModelLoader.swift */,
+			);
+			path = CoreML;
+			sourceTree = "<group>";
+		};
+		MAIN_GROUP /* VoiceNotesOndevice */ = {
+			isa = PBXGroup;
+			children = (
+				APP_GROUP /* App */,
+				COREML_GROUP /* CoreML */,
+				MODELS_GROUP /* Models */,
+				SERVICES_GROUP /* Services */,
+				UTILS_GROUP /* Utils */,
+				VIEWMODELS_GROUP /* ViewModels */,
+				VIEWS_GROUP /* Views */,
+				RESOURCES_GROUP /* Resources */,
+			);
+			path = VoiceNotesOndevice;
+			sourceTree = "<group>";
+		};
+		MODELS_GROUP /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				S008 /* ExportFormat.swift */,
+				S009 /* Recording.swift */,
+				S010 /* SourceType.swift */,
+				S011 /* TranscriptSegment.swift */,
+				S012 /* TranscriptionStatus.swift */,
+				S013 /* WhisperLanguage.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		PRODUCTS_GROUP /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				PRODUCT /* VoiceNotesOndevice.app */,
+				WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		RESOURCES_GROUP /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				R001 /* Assets.xcassets */,
+				R002 /* Info.plist */,
+				R003 /* Models */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		ROOT_GROUP = {
+			isa = PBXGroup;
+			children = (
+				MAIN_GROUP /* VoiceNotesOndevice */,
+				WIDGET_GROUP /* SecureVoxWidget */,
+				PRODUCTS_GROUP /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		SERVICES_GROUP /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				S014 /* AudioPlayerService.swift */,
+				S015 /* AudioRecorderService.swift */,
+				S016 /* BatchTranscriptionManager.swift */,
+				S017 /* BatchTranscriptionQueue.swift */,
+				S018 /* CoreMLTranscriber.swift */,
+				S019 /* ExportService.swift */,
+				S020 /* MediaImportService.swift */,
+				S021 /* RecordingStore.swift */,
+				S022 /* TranscriptExporter.swift */,
+				S056 /* CustomDictionaryService.swift */,
+				S054 /* FeedbackService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		UTILS_GROUP /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				S023 /* AudioFileManager.swift */,
+				S024 /* Logger.swift */,
+				S025 /* PermissionManager.swift */,
+				S026 /* TimeFormatters.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		VIEWMODELS_GROUP /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				S027 /* RecorderViewModel.swift */,
+				S028 /* RecordingDetailViewModel.swift */,
+				S029 /* RecordingsListViewModel.swift */,
+				S030 /* SettingsViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		VIEWS_COMMON_GROUP /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				S053 /* RatingPromptView.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		VIEWS_COMPONENTS_GROUP /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				S031 /* ConfirmationDialog.swift */,
+				S032 /* ErrorBanner.swift */,
+				S033 /* LoadingOverlay.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		VIEWS_DETAIL_GROUP /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				S034 /* PlaybackBar.swift */,
+				S035 /* RecordingDetailView.swift */,
+				S036 /* SegmentRow.swift */,
+				S037 /* TranscriptionProgressView.swift */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		VIEWS_EXPORT_GROUP /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				S038 /* ExportSheet.swift */,
+			);
+			path = Export;
+			sourceTree = "<group>";
+		};
+		VIEWS_FAQ_GROUP /* FAQ */ = {
+			isa = PBXGroup;
+			children = (
+				S039 /* FAQView.swift */,
+			);
+			path = FAQ;
+			sourceTree = "<group>";
+		};
+		VIEWS_GROUP /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				VIEWS_COMMON_GROUP /* Common */,
+				VIEWS_COMPONENTS_GROUP /* Components */,
+				VIEWS_DETAIL_GROUP /* Detail */,
+				VIEWS_EXPORT_GROUP /* Export */,
+				VIEWS_FAQ_GROUP /* FAQ */,
+				VIEWS_IMPORT_GROUP /* Import */,
+				VIEWS_RECORDING_GROUP /* Recording */,
+				VIEWS_RECORDINGS_GROUP /* Recordings */,
+				VIEWS_SETTINGS_GROUP /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		VIEWS_IMPORT_GROUP /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				S040 /* DocumentPickerView.swift */,
+				S041 /* ImportMenuView.swift */,
+				S042 /* PhotosPickerView.swift */,
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
+		VIEWS_RECORDINGS_GROUP /* Recordings */ = {
+			isa = PBXGroup;
+			children = (
+				S047 /* EmptyLibraryView.swift */,
+				S048 /* RecordingRow.swift */,
+				S049 /* RecordingsListView.swift */,
+			);
+			path = Recordings;
+			sourceTree = "<group>";
+		};
+		VIEWS_RECORDING_GROUP /* Recording */ = {
+			isa = PBXGroup;
+			children = (
+				S043 /* AudioRecorderExample.swift */,
+				S044 /* RecorderSheet.swift */,
+				S045 /* RecordingControls.swift */,
+				S046 /* WaveformView.swift */,
+			);
+			path = Recording;
+			sourceTree = "<group>";
+		};
+		VIEWS_SETTINGS_GROUP /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				S050 /* LanguagePickerView.swift */,
+				S057 /* CustomDictionaryView.swift */,
+				S055 /* RecycleBinView.swift */,
+				S051 /* SettingsView.swift */,
+				S052 /* StorageUsageView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		WIDGET_GROUP /* SecureVoxWidget */ = {
+			isa = PBXGroup;
+			children = (
+				WS001 /* SecureVoxWidgetBundle.swift */,
+				WS002 /* SecureVoxWidget.swift */,
+				WS003 /* AppGroupManager.swift */,
+				WR001 /* Info.plist */,
+				WR002 /* SecureVoxWidget.entitlements */,
+			);
+			path = SecureVoxWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		MAIN_TARGET /* VoiceNotesOndevice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BUILD_CONFIG_LIST /* Build configuration list for PBXNativeTarget "VoiceNotesOndevice" */;
+			buildPhases = (
+				SOURCES_PHASE /* Sources */,
+				FRAMEWORKS_PHASE /* Frameworks */,
+				RESOURCES_PHASE /* Resources */,
+				EMBED_EXTENSIONS /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				WIDGET_DEPENDENCY /* PBXTargetDependency */,
+			);
+			name = VoiceNotesOndevice;
+			packageProductDependencies = (
+				WHISPERKIT_REF /* WhisperKit */,
+			);
+			productName = VoiceNotesOndevice;
+			productReference = PRODUCT /* VoiceNotesOndevice.app */;
+			productType = "com.apple.product-type.application";
+		};
+		WIDGET_TARGET /* SecureVoxWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = WIDGET_BUILD_CONFIG_LIST /* Build configuration list for PBXNativeTarget "SecureVoxWidgetExtension" */;
+			buildPhases = (
+				WIDGET_SOURCES_PHASE /* Sources */,
+				WIDGET_FRAMEWORKS_PHASE /* Frameworks */,
+				WIDGET_RESOURCES_PHASE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SecureVoxWidgetExtension;
+			productName = SecureVoxWidgetExtension;
+			productReference = WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		PROJECT /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1620;
+				TargetAttributes = {
+					MAIN_TARGET = {
+						CreatedOnToolsVersion = 15.0;
+					};
+					WIDGET_TARGET = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = PROJECT_BUILD_CONFIG_LIST /* Build configuration list for PBXProject "VoiceNotesOndevice" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ROOT_GROUP;
+			packageReferences = (
+				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
+			);
+			productRefGroup = PRODUCTS_GROUP /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				MAIN_TARGET /* VoiceNotesOndevice */,
+				WIDGET_TARGET /* SecureVoxWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		RESOURCES_PHASE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F100 /* Assets.xcassets in Resources */,
+				F101 /* Models in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		WIDGET_RESOURCES_PHASE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				WF100 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		SOURCES_PHASE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F001 /* VoiceNotesOndeviceApp.swift in Sources */,
+				F002 /* AppConstants.swift in Sources */,
+				F003 /* ContentView.swift in Sources */,
+				F004 /* AudioPreprocessor.swift in Sources */,
+				F005 /* ChunkProcessor.swift in Sources */,
+				F006 /* VADFilter.swift in Sources */,
+				F007 /* WhisperModelLoader.swift in Sources */,
+				F008 /* ExportFormat.swift in Sources */,
+				F009 /* Recording.swift in Sources */,
+				F010 /* SourceType.swift in Sources */,
+				F011 /* TranscriptSegment.swift in Sources */,
+				F012 /* TranscriptionStatus.swift in Sources */,
+				F013 /* WhisperLanguage.swift in Sources */,
+				F014 /* AudioPlayerService.swift in Sources */,
+				F015 /* AudioRecorderService.swift in Sources */,
+				F016 /* BatchTranscriptionManager.swift in Sources */,
+				F017 /* BatchTranscriptionQueue.swift in Sources */,
+				F018 /* CoreMLTranscriber.swift in Sources */,
+				F019 /* ExportService.swift in Sources */,
+				F020 /* MediaImportService.swift in Sources */,
+				F021 /* RecordingStore.swift in Sources */,
+				F022 /* TranscriptExporter.swift in Sources */,
+				F054 /* FeedbackService.swift in Sources */,
+				F023 /* AudioFileManager.swift in Sources */,
+				F024 /* Logger.swift in Sources */,
+				F025 /* PermissionManager.swift in Sources */,
+				F026 /* TimeFormatters.swift in Sources */,
+				F027 /* RecorderViewModel.swift in Sources */,
+				F028 /* RecordingDetailViewModel.swift in Sources */,
+				F029 /* RecordingsListViewModel.swift in Sources */,
+				F030 /* SettingsViewModel.swift in Sources */,
+				F031 /* ConfirmationDialog.swift in Sources */,
+				F032 /* ErrorBanner.swift in Sources */,
+				F033 /* LoadingOverlay.swift in Sources */,
+				F034 /* PlaybackBar.swift in Sources */,
+				F035 /* RecordingDetailView.swift in Sources */,
+				F036 /* SegmentRow.swift in Sources */,
+				F037 /* TranscriptionProgressView.swift in Sources */,
+				F038 /* ExportSheet.swift in Sources */,
+				F039 /* FAQView.swift in Sources */,
+				F040 /* DocumentPickerView.swift in Sources */,
+				F041 /* ImportMenuView.swift in Sources */,
+				F042 /* PhotosPickerView.swift in Sources */,
+				F043 /* AudioRecorderExample.swift in Sources */,
+				F044 /* RecorderSheet.swift in Sources */,
+				F045 /* RecordingControls.swift in Sources */,
+				F046 /* WaveformView.swift in Sources */,
+				F047 /* EmptyLibraryView.swift in Sources */,
+				F048 /* RecordingRow.swift in Sources */,
+				F049 /* RecordingsListView.swift in Sources */,
+				F050 /* LanguagePickerView.swift in Sources */,
+				F051 /* SettingsView.swift in Sources */,
+				F052 /* StorageUsageView.swift in Sources */,
+				F053 /* RatingPromptView.swift in Sources */,
+				F055 /* RecycleBinView.swift in Sources */,
+				F056 /* CustomDictionaryService.swift in Sources */,
+				F057 /* CustomDictionaryView.swift in Sources */,
+				F058 /* AppGroupManager.swift in Sources */,
+				F059 /* AppIntents.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		WIDGET_SOURCES_PHASE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				WF001 /* SecureVoxWidgetBundle.swift in Sources */,
+				WF002 /* SecureVoxWidget.swift in Sources */,
+				WF003 /* AppGroupManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		WIDGET_DEPENDENCY /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = WIDGET_TARGET /* SecureVoxWidgetExtension */;
+			targetProxy = WIDGET_PROXY /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DEBUG_CONFIG /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 6;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7RS696YC75;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoiceNotesOndevice/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SecureVox;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SecureVox needs microphone access to record audio for transcription.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SecureVox needs photo library access to import videos for transcription.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 6.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+			};
+			name = Debug;
+		};
+		RELEASE_CONFIG /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 6;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7RS696YC75;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = VoiceNotesOndevice/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SecureVox;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "SecureVox needs microphone access to record audio for transcription.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SecureVox needs photo library access to import videos for transcription.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 6.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,6";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		WIDGET_DEBUG_CONFIG /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 7RS696YC75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SecureVoxWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SecureVoxWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 5.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		WIDGET_RELEASE_CONFIG /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 4;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 7RS696YC75;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SecureVoxWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SecureVoxWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 5.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BUILD_CONFIG_LIST /* Build configuration list for PBXNativeTarget "VoiceNotesOndevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEBUG_CONFIG /* Debug */,
+				RELEASE_CONFIG /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		PROJECT_BUILD_CONFIG_LIST /* Build configuration list for PBXProject "VoiceNotesOndevice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEBUG_CONFIG /* Debug */,
+				RELEASE_CONFIG /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		WIDGET_BUILD_CONFIG_LIST /* Build configuration list for PBXNativeTarget "SecureVoxWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				WIDGET_DEBUG_CONFIG /* Debug */,
+				WIDGET_RELEASE_CONFIG /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/argmaxinc/WhisperKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.9.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		WHISPERKIT_REF /* WhisperKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */;
+			productName = WhisperKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = PROJECT /* Project object */;
+}

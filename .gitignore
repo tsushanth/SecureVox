@@ -1,0 +1,64 @@
+# macOS
+.DS_Store
+*.swp
+*~
+
+# iOS
+ios/build/
+ios/DerivedData/
+ios/*.xcuserstate
+ios/**/*.xcuserstate
+ios/*.xcworkspace/xcuserdata/
+ios/**/*.xcworkspace/xcuserdata/
+ios/*.pbxuser
+ios/**/*.pbxuser
+ios/*.mode1v3
+ios/**/*.mode1v3
+ios/*.mode2v3
+ios/**/*.mode2v3
+ios/*.perspectivev3
+ios/**/*.perspectivev3
+ios/xcuserdata/
+ios/**/xcuserdata/
+ios/*.moved-aside
+ios/**/*.moved-aside
+ios/*.hmap
+ios/**/*.hmap
+ios/*.ipa
+ios/**/*.ipa
+ios/*.dSYM.zip
+ios/**/*.dSYM.zip
+ios/*.dSYM
+ios/**/*.dSYM
+ios/Pods/
+ios/Podfile.lock
+ios/.swiftpm/
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/*.iml
+android/.idea/
+android/captures/
+android/.externalNativeBuild/
+android/.cxx/
+android/app/.cxx/
+android/app/src/main/cpp/whisper.cpp/
+
+# Whisper models (too large for git)
+*.bin
+*.mlmodel
+*.mlmodelc
+*.mlpackage
+
+# IDE
+.vscode/
+*.sublime-*
+
+# Secrets
+*.keystore
+*.jks
+google-services.json
+GoogleService-Info.plist
