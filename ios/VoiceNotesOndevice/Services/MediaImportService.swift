@@ -43,6 +43,7 @@ actor MediaImportService {
         case extractionFailed(Error)
         case cancelled
         case fileTooLarge(Int64)
+        case durationTooLong(TimeInterval)
         case readerInitFailed
         case writerInitFailed
         case readingFailed(String)
@@ -65,6 +66,11 @@ actor MediaImportService {
             case .fileTooLarge(let size):
                 let formatted = ByteCountFormatter.string(fromByteCount: size, countStyle: .file)
                 return "File too large: \(formatted). Maximum supported size is 2 GB."
+            case .durationTooLong(let duration):
+                let hours = Int(duration) / 3600
+                let minutes = (Int(duration) % 3600) / 60
+                let maxHours = Int(AppConstants.Audio.maxRecordingDuration) / 3600
+                return "File too long: \(hours)h \(minutes)m. Maximum supported duration is \(maxHours) hours."
             case .readerInitFailed:
                 return "Failed to initialize audio reader"
             case .writerInitFailed:
@@ -196,20 +202,62 @@ actor MediaImportService {
         isCancelled = true
     }
 
-    /// Clean up temporary files
-    func cleanupTemporaryFiles() {
+    /// Clean up temporary files older than specified age
+    /// - Parameter maxAge: Maximum age in seconds for temp files (default: 1 hour)
+    /// - Returns: Number of files cleaned up and total bytes freed
+    @discardableResult
+    func cleanupTemporaryFiles(maxAge: TimeInterval = 3600) -> (filesRemoved: Int, bytesFreed: Int64) {
         let tempDir = FileManager.default.temporaryDirectory
-        let tempFiles = try? FileManager.default.contentsOfDirectory(
-            at: tempDir,
-            includingPropertiesForKeys: nil
-        )
+        let fileManager = FileManager.default
 
-        let audioExtensions = ["m4a", "wav", "mp3", "aac", "mp4", "mov"]
-        tempFiles?.forEach { url in
-            if audioExtensions.contains(url.pathExtension.lowercased()) {
-                try? FileManager.default.removeItem(at: url)
+        guard let tempFiles = try? fileManager.contentsOfDirectory(
+            at: tempDir,
+            includingPropertiesForKeys: [.fileSizeKey, .creationDateKey],
+            options: .skipsHiddenFiles
+        ) else {
+            return (0, 0)
+        }
+
+        let audioExtensions = Set(["m4a", "wav", "mp3", "aac", "mp4", "mov", "aiff", "caf"])
+        let now = Date()
+        var filesRemoved = 0
+        var bytesFreed: Int64 = 0
+
+        for url in tempFiles {
+            let ext = url.pathExtension.lowercased()
+            guard audioExtensions.contains(ext) else { continue }
+
+            do {
+                let resourceValues = try url.resourceValues(forKeys: [.fileSizeKey, .creationDateKey])
+                let creationDate = resourceValues.creationDate ?? now
+                let fileAge = now.timeIntervalSince(creationDate)
+
+                // Only remove files older than maxAge
+                if fileAge > maxAge {
+                    let fileSize = Int64(resourceValues.fileSize ?? 0)
+                    try fileManager.removeItem(at: url)
+                    filesRemoved += 1
+                    bytesFreed += fileSize
+                    print("[MediaImportService] Cleaned up temp file: \(url.lastPathComponent) (\(fileAge)s old, \(fileSize) bytes)")
+                }
+            } catch {
+                // Log but continue with other files
+                print("[MediaImportService] Failed to clean up \(url.lastPathComponent): \(error.localizedDescription)")
             }
         }
+
+        if filesRemoved > 0 {
+            let bytesFormatted = ByteCountFormatter.string(fromByteCount: bytesFreed, countStyle: .file)
+            print("[MediaImportService] Cleanup complete: \(filesRemoved) files removed, \(bytesFormatted) freed")
+        }
+
+        return (filesRemoved, bytesFreed)
+    }
+
+    /// Clean up all temporary audio/video files immediately (regardless of age)
+    @discardableResult
+    func cleanupAllTemporaryFiles() -> (filesRemoved: Int, bytesFreed: Int64) {
+        return cleanupTemporaryFiles(maxAge: 0)
     }
 
     /// Check available storage space
@@ -304,6 +352,13 @@ actor MediaImportService {
 
         // Get duration
         let duration = try await asset.load(.duration).seconds
+
+        // Validate duration against maximum
+        if duration > AppConstants.Audio.maxRecordingDuration {
+            // Clean up temp file before throwing
+            try? FileManager.default.removeItem(at: url)
+            throw ImportError.durationTooLong(duration)
+        }
 
         // Extract audio using AVAssetReader
         let outputURL: URL
@@ -533,9 +588,9 @@ actor MediaImportService {
         exportSession.outputURL = outputURL
         exportSession.outputFileType = .m4a
 
-        // Track progress
+        // Track progress using explicit AnyCancellable type
         let progressTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-        var progressCancellable: Any?
+        var progressCancellable: AnyCancellable?
 
         progressCancellable = progressTimer.sink { _ in
             let exportProgress = 0.3 + Double(exportSession.progress) * 0.5
@@ -545,10 +600,9 @@ actor MediaImportService {
         // Export
         await exportSession.export()
 
-        // Cancel progress timer
-        if let cancellable = progressCancellable as? AnyCancellable {
-            cancellable.cancel()
-        }
+        // Cancel progress timer - properly typed, no unsafe cast needed
+        progressCancellable?.cancel()
+        progressCancellable = nil
 
         // Check for errors
         if let error = exportSession.error {

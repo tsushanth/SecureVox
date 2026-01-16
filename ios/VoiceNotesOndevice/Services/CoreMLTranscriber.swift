@@ -196,6 +196,24 @@ actor CoreMLTranscriber {
     private var isCancelled: Bool = false
     private var whisperKitFailed: Bool = false
 
+    /// Tracks number of concurrent transcription operations to prevent race conditions
+    private var activeTranscriptionCount: Int = 0
+
+    /// Model loading progress (0.0 - 1.0) for UI indication
+    /// - 0.0: Not started
+    /// - 0.1-0.3: Downloading model (if needed)
+    /// - 0.3-0.9: Loading/compiling model
+    /// - 1.0: Complete
+    private(set) var modelLoadProgress: Double = 0
+
+    /// Whether a model download is in progress
+    private(set) var isDownloadingModel: Bool = false
+
+    // MARK: - Transcription Configuration
+
+    /// Number of words before creating a new segment (configurable threshold)
+    static let segmentWordThreshold: Int = 10
+
     // MARK: - Singleton
 
     static let shared = CoreMLTranscriber()
@@ -236,9 +254,17 @@ actor CoreMLTranscriber {
         print("[CoreMLTranscriber] Using Apple Speech fallback")
     }
 
+    /// Timeout duration for model loading (2 minutes for downloads, 30 seconds for bundled)
+    private static let modelLoadTimeoutBundled: TimeInterval = 30
+    private static let modelLoadTimeoutDownload: TimeInterval = 120
+
     private func loadWhisperKit(_ model: WhisperModel) async throws {
         print("[CoreMLTranscriber] Loading WhisperKit model: \(model.rawValue)")
         print("[CoreMLTranscriber] Device Neural Engine support: \(Self.hasNeuralEngineSupport)")
+
+        // Reset progress tracking
+        modelLoadProgress = 0
+        isDownloadingModel = false
 
         // Get compute options based on device capability
         let computeOptions = Self.computeOptions(for: model)
@@ -249,23 +275,91 @@ actor CoreMLTranscriber {
             // Use bundled model folder directly - WhisperKit expects the folder containing .mlmodelc files
             modelFolderPath = bundledPath
             print("[CoreMLTranscriber] Using bundled model at: \(bundledPath)")
+            modelLoadProgress = 0.3 // Skip download phase
         } else {
             // Download model on-demand
             modelFolderPath = nil
+            isDownloadingModel = true
             print("[CoreMLTranscriber] Model not bundled, will download: \(model.rawValue)")
+            modelLoadProgress = 0.05
         }
 
-        // Initialize WhisperKit
-        print("[CoreMLTranscriber] Initializing WhisperKit (download=\(modelFolderPath == nil))...")
-        whisperKit = try await WhisperKit(
-            model: model.rawValue,
-            modelFolder: modelFolderPath,
-            computeOptions: computeOptions,
-            verbose: true,  // Enable verbose logging to see what's happening
-            prewarm: false,
-            download: modelFolderPath == nil // Only download if not bundled
-        )
-        print("[CoreMLTranscriber] WhisperKit initialized successfully")
+        // Determine timeout based on whether we need to download
+        let timeout = modelFolderPath != nil ? Self.modelLoadTimeoutBundled : Self.modelLoadTimeoutDownload
+
+        // Initialize WhisperKit with timeout
+        print("[CoreMLTranscriber] Initializing WhisperKit (download=\(modelFolderPath == nil), timeout=\(timeout)s)...")
+
+        do {
+            // Start progress simulation task (will be cancelled when model loads)
+            let progressTask = Task { [weak self] in
+                let progressIntervalNs: UInt64 = 2_000_000_000 // 2 seconds
+                let maxIntervals = Int(timeout / 2)
+                let isDownloading = await self?.isDownloadingModel ?? false
+
+                for i in 1...maxIntervals {
+                    try Task.checkCancellation()
+                    try await Task.sleep(nanoseconds: progressIntervalNs)
+                    // Update progress on main actor
+                    let baseProgress = isDownloading ? 0.05 : 0.3
+                    let progressRange = 0.6
+                    let simulatedProgress = baseProgress + (Double(i) / Double(maxIntervals)) * progressRange
+                    await self?.updateModelLoadProgress(min(0.9, simulatedProgress))
+                }
+            }
+
+            whisperKit = try await withThrowingTaskGroup(of: WhisperKit.self) { group in
+                // Task to load the model
+                group.addTask {
+                    try await WhisperKit(
+                        model: model.rawValue,
+                        modelFolder: modelFolderPath,
+                        computeOptions: computeOptions,
+                        verbose: true,
+                        prewarm: false,
+                        download: modelFolderPath == nil
+                    )
+                }
+
+                // Task to enforce timeout
+                group.addTask {
+                    try await Task.sleep(nanoseconds: UInt64(timeout * 1_000_000_000))
+                    throw TranscriptionError.modelLoadFailed(
+                        NSError(domain: "CoreMLTranscriber", code: -1, userInfo: [
+                            NSLocalizedDescriptionKey: "Model loading timed out after \(Int(timeout)) seconds"
+                        ])
+                    )
+                }
+
+                // Return first completed result (either success or timeout)
+                guard let result = try await group.next() else {
+                    throw TranscriptionError.modelNotLoaded
+                }
+
+                // Cancel remaining tasks
+                group.cancelAll()
+                return result
+            }
+
+            // Cancel progress task and mark loading complete
+            progressTask.cancel()
+            modelLoadProgress = 1.0
+            isDownloadingModel = false
+            print("[CoreMLTranscriber] WhisperKit initialized successfully")
+        } catch is CancellationError {
+            modelLoadProgress = 0
+            isDownloadingModel = false
+            throw TranscriptionError.cancelled
+        } catch {
+            modelLoadProgress = 0
+            isDownloadingModel = false
+            throw error
+        }
+    }
+
+    /// Helper to update model load progress from non-isolated context
+    private func updateModelLoadProgress(_ progress: Double) {
+        self.modelLoadProgress = progress
     }
 
     private func loadAppleSpeech() async throws {
@@ -489,11 +583,17 @@ actor CoreMLTranscriber {
             try await loadModel(getSelectedModel())
         }
 
+        // Track concurrent transcriptions
+        activeTranscriptionCount += 1
         isProcessing = true
         isCancelled = false
 
         defer {
-            isProcessing = false
+            activeTranscriptionCount -= 1
+            // Only mark as not processing if no other transcriptions are active
+            if activeTranscriptionCount == 0 {
+                isProcessing = false
+            }
         }
 
         // Get audio duration
@@ -504,21 +604,33 @@ actor CoreMLTranscriber {
             throw TranscriptionError.audioTooShort
         }
 
-        // Try WhisperKit first if available
-        if currentEngine == .whisperKit, let whisperKit = whisperKit {
+        // Capture engine state at the start to avoid race conditions
+        // Each transcription uses the engine state from when it started
+        let engineToUse = currentEngine
+        let whisperKitInstance = whisperKit
+        let wasWhisperKitAlreadyFailed = whisperKitFailed
+
+        // Try WhisperKit first if available and not already failed
+        if engineToUse == .whisperKit, let kit = whisperKitInstance {
             do {
                 return try await transcribeWithWhisperKit(
-                    whisperKit: whisperKit,
+                    whisperKit: kit,
                     audioURL: audioURL,
                     languageCode: languageCode,
                     duration: duration,
                     onPartial: onPartial
                 )
             } catch {
-                print("WhisperKit transcription failed: \(error.localizedDescription)")
-                print("Falling back to Apple Speech...")
-                whisperKitFailed = true
-                currentEngine = .appleSpeech
+                print("[CoreMLTranscriber] WhisperKit transcription failed: \(error.localizedDescription)")
+                print("[CoreMLTranscriber] Falling back to Apple Speech...")
+
+                // Only update shared state if no other transcription is using WhisperKit
+                // This prevents one failing transcription from affecting concurrent ones
+                if activeTranscriptionCount == 1 {
+                    whisperKitFailed = true
+                    currentEngine = .appleSpeech
+                }
+                // Continue to Apple Speech fallback for this transcription
             }
         }
 
@@ -531,9 +643,10 @@ actor CoreMLTranscriber {
                 onPartial: onPartial
             )
         } catch {
-            // If WhisperKit already failed and Apple Speech also fails, throw allEnginesFailed
-            if whisperKitFailed {
-                print("Apple Speech also failed: \(error.localizedDescription)")
+            // If WhisperKit already failed (either before or during this transcription)
+            // and Apple Speech also fails, throw allEnginesFailed
+            if wasWhisperKitAlreadyFailed || engineToUse == .whisperKit {
+                print("[CoreMLTranscriber] Apple Speech also failed: \(error.localizedDescription)")
                 throw TranscriptionError.allEnginesFailed
             }
             // Otherwise just propagate the Apple Speech error
@@ -551,6 +664,15 @@ actor CoreMLTranscriber {
         onPartial: @escaping (Double, String?) -> Void
     ) async throws -> [TranscriptSegment] {
 
+        // Get custom dictionary prompt if enabled
+        let customPrompt = await MainActor.run {
+            CustomDictionaryService.shared.promptString
+        }
+
+        if let prompt = customPrompt {
+            print("[CoreMLTranscriber] Using custom dictionary prompt: \(prompt.prefix(100))...")
+        }
+
         // Configure decoding options with more lenient thresholds for better fallback handling
         let options = DecodingOptions(
             task: .transcribe,
@@ -562,6 +684,10 @@ actor CoreMLTranscriber {
             skipSpecialTokens: true,
             withoutTimestamps: false,
             wordTimestamps: true,
+            promptTokens: nil,                     // Let WhisperKit handle tokenization
+            prefixTokens: nil,
+            suppressBlank: true,
+            supressTokens: nil,
             compressionRatioThreshold: 2.8,        // More lenient compression threshold (default is 2.4)
             logProbThreshold: -1.2,                // More lenient log probability threshold (default is -1.0)
             firstTokenLogProbThreshold: -1.5,      // More lenient first token threshold (default is -1.5)
@@ -618,7 +744,7 @@ actor CoreMLTranscriber {
 
                         let wordText = word.word.trimmingCharacters(in: CharacterSet.whitespaces)
                         let isPunctuation = wordText.hasSuffix(".") || wordText.hasSuffix("?") || wordText.hasSuffix("!")
-                        let isLongEnough = currentSegmentWords.count >= 10
+                        let isLongEnough = currentSegmentWords.count >= Self.segmentWordThreshold
 
                         if isPunctuation || isLongEnough {
                             let segmentText = currentSegmentWords.map { $0.word }.joined()
@@ -860,7 +986,7 @@ actor CoreMLTranscriber {
 
             let wordText = segment.substring.trimmingCharacters(in: .whitespaces)
             let isPunctuation = wordText.hasSuffix(".") || wordText.hasSuffix("?") || wordText.hasSuffix("!")
-            let isLongEnough = currentWords.count >= 10
+            let isLongEnough = currentWords.count >= Self.segmentWordThreshold
 
             if isPunctuation || isLongEnough {
                 let segmentText = currentWords.map { $0.substring }.joined(separator: " ")

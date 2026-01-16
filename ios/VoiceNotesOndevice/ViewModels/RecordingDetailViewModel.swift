@@ -79,9 +79,9 @@ final class RecordingDetailViewModel: ObservableObject {
         recording.audioFileURL != nil
     }
 
-    /// Sorted segments for display
+    /// Sorted segments for display (uses Recording's sortedSegments)
     var sortedSegments: [TranscriptSegment] {
-        recording.segments.sorted { $0.startTime < $1.startTime }
+        recording.sortedSegments
     }
 
     /// Currently active segment based on playback time
@@ -112,6 +112,8 @@ final class RecordingDetailViewModel: ObservableObject {
     private var playbackTimer: Timer?
     private let modelContext: ModelContext
     private var transcriptionTask: Task<Void, Never>?
+    /// Flag to prevent concurrent model loading operations
+    private var isModelLoadInProgress: Bool = false
 
     // MARK: - Initialization
 
@@ -220,10 +222,24 @@ final class RecordingDetailViewModel: ObservableObject {
         let transcriber = CoreMLTranscriber.shared
         let selectedModel = getSelectedModel()
 
-        // Ensure model is loaded
+        // Ensure model is loaded - guard against concurrent loads
         do {
+            // Check if another load is already in progress
+            if isModelLoadInProgress {
+                statusMessage = "Waiting for model to load..."
+                // Wait for the other load to complete
+                while isModelLoadInProgress {
+                    try await Task.sleep(nanoseconds: 100_000_000) // 100ms
+                }
+            }
+
+            isModelLoadInProgress = true
             isLoadingModel = true
             statusMessage = "Loading \(selectedModel.displayName) model..."
+
+            defer {
+                isModelLoadInProgress = false
+            }
 
             // Always load the selected model (it will unload any previous model)
             let currentlyLoaded = await transcriber.loadedModel
@@ -240,6 +256,7 @@ final class RecordingDetailViewModel: ObservableObject {
                 statusMessage = "Using Apple Speech (fallback)..."
             }
         } catch {
+            isModelLoadInProgress = false
             isLoadingModel = false
             await handleTranscriptionError(error)
             return
@@ -304,10 +321,24 @@ final class RecordingDetailViewModel: ObservableObject {
     private func performTranscriptionWithModel(audioURL: URL, model: CoreMLTranscriber.WhisperModel) async {
         let transcriber = CoreMLTranscriber.shared
 
-        // Load the specific model
+        // Load the specific model - guard against concurrent loads
         do {
+            // Check if another load is already in progress
+            if isModelLoadInProgress {
+                statusMessage = "Waiting for model to load..."
+                // Wait for the other load to complete
+                while isModelLoadInProgress {
+                    try await Task.sleep(nanoseconds: 100_000_000) // 100ms
+                }
+            }
+
+            isModelLoadInProgress = true
             isLoadingModel = true
             statusMessage = "Loading \(model.displayName) model..."
+
+            defer {
+                isModelLoadInProgress = false
+            }
 
             try await transcriber.loadModel(model)
 
@@ -320,6 +351,7 @@ final class RecordingDetailViewModel: ObservableObject {
                 statusMessage = "Using Apple Speech (fallback)..."
             }
         } catch {
+            isModelLoadInProgress = false
             isLoadingModel = false
             await handleTranscriptionError(error)
             return

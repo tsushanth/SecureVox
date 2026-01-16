@@ -1,6 +1,9 @@
 import Foundation
 import SwiftUI
 import Combine
+#if os(iOS)
+import UIKit
+#endif
 
 /// ViewModel for active recording session
 @MainActor
@@ -22,6 +25,9 @@ final class RecorderViewModel: ObservableObject {
 
     /// Whether microphone permission is granted
     @Published private(set) var hasPermission: Bool = false
+
+    /// Whether to show the settings prompt for permission denied
+    @Published var showPermissionDeniedAlert: Bool = false
 
     // MARK: - Recording State
 
@@ -78,17 +84,28 @@ final class RecorderViewModel: ObservableObject {
             hasPermission = true
         case .denied:
             hasPermission = false
-            errorMessage = "Microphone access denied. Please enable in Settings."
+            // Show alert that guides user to Settings
+            showPermissionDeniedAlert = true
         case .undetermined:
             // Request permission
             let granted = await audioRecorder.requestMicrophonePermission()
             hasPermission = granted
             if !granted {
-                errorMessage = "Microphone access is required to record."
+                // User just denied, show the settings prompt
+                showPermissionDeniedAlert = true
             }
         @unknown default:
             hasPermission = false
         }
+    }
+
+    /// Open the app's Settings page where user can enable microphone permission
+    func openSettings() {
+        #if os(iOS)
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL)
+        }
+        #endif
     }
 
     /// Check current permission status
@@ -102,7 +119,8 @@ final class RecorderViewModel: ObservableObject {
         checkPermission()
 
         guard hasPermission else {
-            errorMessage = "Microphone permission required. Please enable in Settings."
+            // Show the settings prompt instead of just an error message
+            showPermissionDeniedAlert = true
             return
         }
 

@@ -24,7 +24,15 @@ struct VoiceNotesOndeviceApp: App {
 
     // MARK: - Model Container
 
-    var sharedModelContainer: ModelContainer = {
+    /// Result of attempting to create the model container
+    private let modelContainerResult: Result<ModelContainer, Error>
+
+    /// The model container if successfully created
+    private var sharedModelContainer: ModelContainer? {
+        try? modelContainerResult.get()
+    }
+
+    init() {
         let schema = Schema([
             Recording.self,
             TranscriptSegment.self
@@ -32,24 +40,50 @@ struct VoiceNotesOndeviceApp: App {
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
+            modelContainerResult = .success(container)
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            modelContainerResult = .failure(error)
         }
-    }()
+    }
 
     // MARK: - Body
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .preferredColorScheme(colorScheme)
-                .environmentObject(deepLinkHandler)
-                .onOpenURL { url in
-                    handleDeepLink(url)
-                }
+            if let container = sharedModelContainer {
+                ContentView()
+                    .preferredColorScheme(colorScheme)
+                    .environmentObject(deepLinkHandler)
+                    .onOpenURL { url in
+                        handleDeepLink(url)
+                    }
+                    .modelContainer(container)
+                    .task {
+                        // Clean up expired recordings from recycle bin on app launch
+                        await performStartupCleanup(container: container)
+                    }
+            } else {
+                DatabaseErrorView(error: modelContainerResult.error)
+                    .preferredColorScheme(colorScheme)
+            }
         }
-        .modelContainer(sharedModelContainer)
+    }
+
+    // MARK: - Startup Tasks
+
+    @MainActor
+    private func performStartupCleanup(container: ModelContainer) async {
+        // Clean up expired recordings from recycle bin
+        let cleanedCount = RecycleBinService.shared.cleanupExpiredRecordings(modelContext: container.mainContext)
+        if cleanedCount > 0 {
+            print("[App] Startup cleanup: removed \(cleanedCount) expired recording(s) from recycle bin")
+        }
+
+        // Clean up old temporary import files
+        Task.detached {
+            await MediaImportService.shared.cleanupTemporaryFiles()
+        }
     }
 
     // MARK: - Deep Link Handling
@@ -79,4 +113,67 @@ final class DeepLinkHandler: ObservableObject {
     @Published var shouldStartRecording = false
 
     private init() {}
+}
+
+// MARK: - Result Extension
+
+private extension Result {
+    /// Extract the error from a Result, returns nil if success
+    var error: Failure? {
+        switch self {
+        case .success:
+            return nil
+        case .failure(let error):
+            return error
+        }
+    }
+}
+
+// MARK: - Database Error View
+
+/// View shown when the database fails to initialize
+private struct DatabaseErrorView: View {
+    let error: Error?
+
+    var body: some View {
+        VStack(spacing: 24) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 64))
+                .foregroundColor(.orange)
+
+            Text("Database Error")
+                .font(.title)
+                .fontWeight(.bold)
+
+            Text("SecureVox was unable to initialize its database. This may be due to insufficient storage space or a corrupted database file.")
+                .font(.body)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
+            if let error = error {
+                Text(error.localizedDescription)
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding()
+                    .background(Color(.systemGray6))
+                    .cornerRadius(8)
+            }
+
+            VStack(spacing: 12) {
+                Text("Try the following:")
+                    .font(.headline)
+
+                VStack(alignment: .leading, spacing: 8) {
+                    Label("Free up storage space on your device", systemImage: "internaldrive")
+                    Label("Restart the app", systemImage: "arrow.clockwise")
+                    Label("Reinstall the app if the issue persists", systemImage: "arrow.down.app")
+                }
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+            }
+            .padding()
+        }
+        .padding()
+    }
 }

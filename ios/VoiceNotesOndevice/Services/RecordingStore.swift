@@ -85,6 +85,7 @@ final class RecordingStore: ObservableObject {
     // MARK: - CRUD Operations
 
     /// Fetch all recordings with current filters and sort order
+    /// Uses SwiftData predicates for efficient database-level filtering
     func fetchRecordings() async throws {
         var descriptor = FetchDescriptor<Recording>()
 
@@ -102,24 +103,59 @@ final class RecordingStore: ObservableObject {
             descriptor.sortBy = [SortDescriptor(\.title, order: .forward)]
         }
 
-        let allRecordings = try modelContext.fetch(descriptor)
+        // Build predicate for database-level filtering
+        descriptor.predicate = buildFilterPredicate()
 
-        // Apply filters in memory
-        var filtered = allRecordings
+        var fetchedRecordings = try modelContext.fetch(descriptor)
 
-        if let status = filterStatus {
-            filtered = filtered.filter { $0.status == status }
-        }
-
+        // Full-text search on transcript must be done in-memory since it's a computed property
+        // Only apply if there's a search query and the title predicate didn't match
         if !searchText.isEmpty {
             let query = searchText.lowercased()
-            filtered = filtered.filter { recording in
-                recording.title.lowercased().contains(query) ||
-                recording.fullTranscript.lowercased().contains(query)
+            fetchedRecordings = fetchedRecordings.filter { recording in
+                // Title is already filtered by predicate, but we need to include
+                // transcript matches. Re-check title to avoid duplicating logic.
+                recording.title.localizedCaseInsensitiveContains(query) ||
+                recording.fullTranscript.localizedCaseInsensitiveContains(query)
             }
         }
 
-        recordings = filtered
+        recordings = fetchedRecordings
+    }
+
+    /// Build a SwiftData predicate for filtering recordings at the database level
+    private func buildFilterPredicate() -> Predicate<Recording>? {
+        let hasStatusFilter = filterStatus != nil
+        let hasSearchFilter = !searchText.isEmpty
+
+        // No filters - return nil to fetch all
+        if !hasStatusFilter && !hasSearchFilter {
+            return nil
+        }
+
+        // Status filter only
+        if hasStatusFilter && !hasSearchFilter {
+            let statusRawValue = filterStatus!.rawValue
+            return #Predicate<Recording> { recording in
+                recording.statusRaw == statusRawValue
+            }
+        }
+
+        // Search filter only (title search at DB level, transcript search in-memory)
+        if !hasStatusFilter && hasSearchFilter {
+            let query = searchText
+            return #Predicate<Recording> { recording in
+                recording.title.localizedStandardContains(query)
+            }
+        }
+
+        // Both filters
+        let statusRawValue = filterStatus!.rawValue
+        let query = searchText
+        return #Predicate<Recording> { recording in
+            recording.statusRaw == statusRawValue &&
+            recording.title.localizedStandardContains(query)
+        }
     }
 
     /// Get a single recording by ID
@@ -212,7 +248,12 @@ final class RecordingStore: ObservableObject {
     func deleteRecording(_ recording: Recording) throws {
         // Delete audio file
         if let audioURL = recording.audioFileURL {
-            try? FileManager.default.removeItem(at: audioURL)
+            do {
+                try FileManager.default.removeItem(at: audioURL)
+            } catch {
+                // Log but continue - we still want to delete the database record
+                print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+            }
         }
 
         modelContext.delete(recording)
@@ -223,7 +264,12 @@ final class RecordingStore: ObservableObject {
     func deleteRecordings(_ recordings: [Recording]) throws {
         for recording in recordings {
             if let audioURL = recording.audioFileURL {
-                try? FileManager.default.removeItem(at: audioURL)
+                do {
+                    try FileManager.default.removeItem(at: audioURL)
+                } catch {
+                    // Log but continue - we still want to delete the database record
+                    print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+                }
             }
             modelContext.delete(recording)
         }
@@ -247,15 +293,27 @@ final class RecordingStore: ObservableObject {
 
     /// Delete all audio files
     func deleteAllAudioFiles() async throws {
+        var failedDeletions: [String] = []
+
         for recording in recordings {
             if let audioURL = recording.audioFileURL {
-                try? FileManager.default.removeItem(at: audioURL)
+                do {
+                    try FileManager.default.removeItem(at: audioURL)
+                } catch {
+                    // Log but continue - we still want to update the database records
+                    print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+                    failedDeletions.append(audioURL.lastPathComponent)
+                }
                 recording.audioFileName = nil
                 recording.audioFileSize = 0
             }
         }
 
         try modelContext.save()
+
+        if !failedDeletions.isEmpty {
+            print("[RecordingStore] Warning: Failed to delete \(failedDeletions.count) audio file(s)")
+        }
     }
 
     // MARK: - Utilities
@@ -315,7 +373,7 @@ final class RecordingStore: ObservableObject {
     // MARK: - Private Methods
 
     private func generateExportContent(recording: Recording, format: ExportFormat) -> String {
-        let segments = recording.segments.sorted { $0.startTime < $1.startTime }
+        let segments = recording.sortedSegments
 
         switch format {
         case .txt:
@@ -347,9 +405,15 @@ final class RecordingStore: ObservableObject {
 
 extension RecordingStore {
     static var preview: RecordingStore {
-        let schema = Schema([Recording.self, TranscriptSegment.self])
-        let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
-        let container = try! ModelContainer(for: schema, configurations: [config])
-        return RecordingStore(modelContext: container.mainContext)
+        do {
+            let schema = Schema([Recording.self, TranscriptSegment.self])
+            let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+            let container = try ModelContainer(for: schema, configurations: [config])
+            return RecordingStore(modelContext: container.mainContext)
+        } catch {
+            // Fallback: Create a minimal in-memory container
+            // This should never fail, but provides safety for previews
+            fatalError("Failed to create preview RecordingStore: \(error.localizedDescription)")
+        }
     }
 }

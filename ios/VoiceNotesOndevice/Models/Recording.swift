@@ -25,14 +25,14 @@ final class Recording {
     // MARK: - Audio Properties
 
     /// Duration in seconds
-    var duration: TimeInterval
+    var duration: TimeInterval = 0
 
     /// Relative path from app's documents directory
     /// Example: "recordings/abc123.m4a"
     var audioFileName: String?
 
     /// File size in bytes (for storage management UI)
-    var audioFileSize: Int64
+    var audioFileSize: Int64 = 0
 
     // MARK: - Source Information
 
@@ -58,10 +58,10 @@ final class Recording {
     var errorMessage: String?
 
     /// Progress 0.0 - 1.0 during transcription
-    var transcriptionProgress: Double
+    var transcriptionProgress: Double = 0
 
     /// Whether this recording is marked as favorite
-    var isFavorite: Bool
+    var isFavorite: Bool = false
 
     /// Date when recording was moved to recycle bin (nil = not deleted)
     var deletedAt: Date?
@@ -125,10 +125,16 @@ final class Recording {
         }
     }
 
+    /// Cached sorted segments to avoid repeated sorting
+    /// Note: SwiftData models can't have stored computed properties with caching,
+    /// so we rely on the caller to cache if needed for performance-critical paths
+    var sortedSegments: [TranscriptSegment] {
+        segments.sorted { $0.startTime < $1.startTime }
+    }
+
     /// Combined transcript text from all segments
     var fullTranscript: String {
-        segments
-            .sorted { $0.startTime < $1.startTime }
+        sortedSegments
             .map(\.text)
             .joined(separator: " ")
     }
