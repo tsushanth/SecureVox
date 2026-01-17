@@ -1,5 +1,8 @@
 package com.securevox.app.presentation.recordings
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -22,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
+import com.securevox.app.service.MediaImportService
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -36,17 +40,52 @@ fun RecordingsScreen(
     val isRecording by viewModel.isRecording.collectAsState()
     val audioLevel by viewModel.audioLevel.collectAsState()
     val recordingDuration by viewModel.recordingDuration.collectAsState()
+    val searchQuery by viewModel.searchQuery.collectAsState()
+    val filter by viewModel.filter.collectAsState()
+    val isImporting by viewModel.isImporting.collectAsState()
+    val importError by viewModel.importError.collectAsState()
+
+    var showSearch by remember { mutableStateOf(false) }
+
+    // File picker launcher
+    val filePickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.OpenDocument()
+    ) { uri: Uri? ->
+        uri?.let { viewModel.importMedia(it) }
+    }
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("SecureVox") },
-                actions = {
-                    IconButton(onClick = onSettingsClick) {
-                        Icon(Icons.Default.Settings, contentDescription = "Settings")
+            if (showSearch) {
+                SearchBar(
+                    query = searchQuery,
+                    onQueryChange = { viewModel.setSearchQuery(it) },
+                    onClose = {
+                        showSearch = false
+                        viewModel.setSearchQuery("")
                     }
-                }
-            )
+                )
+            } else {
+                TopAppBar(
+                    title = { Text("SecureVox") },
+                    actions = {
+                        IconButton(onClick = { showSearch = true }) {
+                            Icon(Icons.Default.Search, contentDescription = "Search")
+                        }
+                        IconButton(
+                            onClick = {
+                                filePickerLauncher.launch(MediaImportService.getSupportedMimeTypes())
+                            },
+                            enabled = !isImporting
+                        ) {
+                            Icon(Icons.Default.FileOpen, contentDescription = "Import media")
+                        }
+                        IconButton(onClick = onSettingsClick) {
+                            Icon(Icons.Default.Settings, contentDescription = "Settings")
+                        }
+                    }
+                )
+            }
         },
         floatingActionButton = {
             RecordButton(
@@ -76,9 +115,23 @@ fun RecordingsScreen(
                 )
             }
 
+            // Importing indicator
+            if (isImporting) {
+                ImportingIndicator()
+            }
+
+            // Filter tabs
+            FilterTabs(
+                currentFilter = filter,
+                onFilterSelected = { viewModel.setFilter(it) }
+            )
+
             // Recordings list
             if (recordings.isEmpty() && !isRecording) {
-                EmptyState()
+                EmptyState(
+                    isFavoritesFilter = filter == RecordingsFilter.FAVORITES,
+                    hasSearchQuery = searchQuery.isNotBlank()
+                )
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
@@ -91,14 +144,59 @@ fun RecordingsScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(recordings, key = { it.id }) { recording ->
-                        RecordingItem(
+                        SwipeableRecordingItem(
                             recording = recording,
                             onClick = { onRecordingClick(recording.id) },
-                            onDelete = { viewModel.deleteRecording(recording) }
+                            onDelete = { viewModel.deleteRecording(recording) },
+                            onToggleFavorite = { viewModel.toggleFavorite(recording) }
                         )
                     }
                 }
             }
+        }
+    }
+
+    // Import error dialog
+    importError?.let { error ->
+        AlertDialog(
+            onDismissRequest = { viewModel.clearImportError() },
+            title = { Text("Import Failed") },
+            text = { Text(error) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.clearImportError() }) {
+                    Text("OK")
+                }
+            }
+        )
+    }
+}
+
+@Composable
+private fun ImportingIndicator() {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            CircularProgressIndicator(
+                modifier = Modifier.size(24.dp),
+                strokeWidth = 2.dp
+            )
+            Text(
+                text = "Importing media...",
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         }
     }
 }
@@ -126,19 +224,16 @@ private fun RecordButton(
         label = "pulse"
     )
 
-    Box(
-        modifier = Modifier
-            .size(72.dp)
-            .scale(if (isRecording) scale * pulse else 1f)
-            .clip(CircleShape)
-            .background(if (isRecording) Color.Red else MaterialTheme.colorScheme.primary)
-            .clickable(onClick = onClick),
-        contentAlignment = Alignment.Center
+    LargeFloatingActionButton(
+        onClick = onClick,
+        modifier = Modifier.scale(if (isRecording) scale * pulse else 1f),
+        shape = CircleShape,
+        containerColor = if (isRecording) Color.Red else MaterialTheme.colorScheme.primary,
+        contentColor = Color.White
     ) {
         Icon(
             imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
             contentDescription = if (isRecording) "Stop recording" else "Start recording",
-            tint = Color.White,
             modifier = Modifier.size(32.dp)
         )
     }
@@ -219,12 +314,109 @@ private fun RecordingIndicator(
 }
 
 @Composable
-private fun RecordingItem(
+private fun TranscriptionStatusChip(status: TranscriptionStatus) {
+    val (text, color) = when (status) {
+        TranscriptionStatus.PENDING -> "Pending" to MaterialTheme.colorScheme.secondary
+        TranscriptionStatus.IN_PROGRESS -> "Processing" to MaterialTheme.colorScheme.tertiary
+        TranscriptionStatus.COMPLETED -> "Done" to MaterialTheme.colorScheme.primary
+        TranscriptionStatus.FAILED -> "Failed" to MaterialTheme.colorScheme.error
+    }
+
+    Surface(
+        shape = RoundedCornerShape(16.dp),
+        color = color.copy(alpha = 0.1f)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = color
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SearchBar(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    onClose: () -> Unit
+) {
+    TopAppBar(
+        title = {
+            TextField(
+                value = query,
+                onValueChange = onQueryChange,
+                placeholder = { Text("Search recordings") },
+                singleLine = true,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.Transparent,
+                    unfocusedContainerColor = Color.Transparent,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                modifier = Modifier.fillMaxWidth()
+            )
+        },
+        navigationIcon = {
+            IconButton(onClick = onClose) {
+                Icon(Icons.Default.ArrowBack, contentDescription = "Close search")
+            }
+        },
+        actions = {
+            if (query.isNotEmpty()) {
+                IconButton(onClick = { onQueryChange("") }) {
+                    Icon(Icons.Default.Clear, contentDescription = "Clear")
+                }
+            }
+        }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun FilterTabs(
+    currentFilter: RecordingsFilter,
+    onFilterSelected: (RecordingsFilter) -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        FilterChip(
+            selected = currentFilter == RecordingsFilter.ALL,
+            onClick = { onFilterSelected(RecordingsFilter.ALL) },
+            label = { Text("All") },
+            leadingIcon = if (currentFilter == RecordingsFilter.ALL) {
+                { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp)) }
+            } else null
+        )
+        FilterChip(
+            selected = currentFilter == RecordingsFilter.FAVORITES,
+            onClick = { onFilterSelected(RecordingsFilter.FAVORITES) },
+            label = { Text("Favorites") },
+            leadingIcon = {
+                Icon(
+                    if (currentFilter == RecordingsFilter.FAVORITES) Icons.Default.Star else Icons.Default.StarBorder,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
+        )
+    }
+}
+
+@Composable
+private fun SwipeableRecordingItem(
     recording: Recording,
     onClick: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onToggleFavorite: () -> Unit
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showActions by remember { mutableStateOf(false) }
 
     Card(
         modifier = Modifier
@@ -239,12 +431,26 @@ private fun RecordingItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = recording.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    Text(
+                        text = recording.title,
+                        style = MaterialTheme.typography.titleMedium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f, fill = false)
+                    )
+                    if (recording.isFavorite) {
+                        Icon(
+                            Icons.Default.Star,
+                            contentDescription = "Favorite",
+                            tint = Color(0xFFFFD700),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -269,11 +475,21 @@ private fun RecordingItem(
             }
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 TranscriptionStatusChip(recording.transcriptionStatus)
 
+                // Favorite button
+                IconButton(onClick = onToggleFavorite) {
+                    Icon(
+                        if (recording.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
+                        contentDescription = if (recording.isFavorite) "Remove from favorites" else "Add to favorites",
+                        tint = if (recording.isFavorite) Color(0xFFFFD700) else MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+
+                // Delete button
                 IconButton(onClick = { showDeleteDialog = true }) {
                     Icon(
                         Icons.Default.Delete,
@@ -310,29 +526,10 @@ private fun RecordingItem(
 }
 
 @Composable
-private fun TranscriptionStatusChip(status: TranscriptionStatus) {
-    val (text, color) = when (status) {
-        TranscriptionStatus.PENDING -> "Pending" to MaterialTheme.colorScheme.secondary
-        TranscriptionStatus.IN_PROGRESS -> "Processing" to MaterialTheme.colorScheme.tertiary
-        TranscriptionStatus.COMPLETED -> "Done" to MaterialTheme.colorScheme.primary
-        TranscriptionStatus.FAILED -> "Failed" to MaterialTheme.colorScheme.error
-    }
-
-    Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = color.copy(alpha = 0.1f)
-    ) {
-        Text(
-            text = text,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
-            style = MaterialTheme.typography.labelSmall,
-            color = color
-        )
-    }
-}
-
-@Composable
-private fun EmptyState() {
+private fun EmptyState(
+    isFavoritesFilter: Boolean = false,
+    hasSearchQuery: Boolean = false
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -342,18 +539,30 @@ private fun EmptyState() {
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
-                Icons.Default.Mic,
+                when {
+                    hasSearchQuery -> Icons.Default.SearchOff
+                    isFavoritesFilter -> Icons.Default.StarBorder
+                    else -> Icons.Default.Mic
+                },
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
             Text(
-                text = "No recordings yet",
+                text = when {
+                    hasSearchQuery -> "No recordings found"
+                    isFavoritesFilter -> "No favorites yet"
+                    else -> "No recordings yet"
+                },
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
-                text = "Tap the microphone button to start",
+                text = when {
+                    hasSearchQuery -> "Try a different search term"
+                    isFavoritesFilter -> "Swipe right on a recording to favorite it"
+                    else -> "Tap the microphone button to start"
+                },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
             )

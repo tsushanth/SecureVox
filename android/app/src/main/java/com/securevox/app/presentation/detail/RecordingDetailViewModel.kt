@@ -8,6 +8,10 @@ import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.service.AudioPlayerService
+import com.securevox.app.service.ExportFormat
+import com.securevox.app.service.ExportService
+import com.securevox.app.service.PlaybackSpeed
+import android.content.Intent
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -21,7 +25,8 @@ class RecordingDetailViewModel(
         database.recordingDao(),
         database.transcriptSegmentDao()
     )
-    private val audioPlayer = AudioPlayerService(application)
+    private val audioPlayer = AudioPlayerService.getInstance(application)
+    private val exportService = ExportService(application)
 
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
@@ -32,6 +37,7 @@ class RecordingDetailViewModel(
     val isPlaying: StateFlow<Boolean> = audioPlayer.isPlaying
     val currentPosition: StateFlow<Long> = audioPlayer.currentPosition
     val duration: StateFlow<Long> = audioPlayer.duration
+    val playbackSpeed: StateFlow<PlaybackSpeed> = audioPlayer.playbackSpeed
 
     val activeSegment: StateFlow<TranscriptSegment?> = combine(
         segments,
@@ -71,6 +77,14 @@ class RecordingDetailViewModel(
         audioPlayer.skipBackward()
     }
 
+    fun setPlaybackSpeed(speed: PlaybackSpeed) {
+        audioPlayer.setPlaybackSpeed(speed)
+    }
+
+    fun cyclePlaybackSpeed() {
+        audioPlayer.cyclePlaybackSpeed()
+    }
+
     fun deleteRecording() {
         viewModelScope.launch {
             recording.value?.let { rec ->
@@ -83,8 +97,17 @@ class RecordingDetailViewModel(
         return segments.value.joinToString(" ") { it.text }
     }
 
+    fun exportTranscript(format: ExportFormat): Intent? {
+        val rec = recording.value ?: return null
+        val segs = segments.value
+        if (segs.isEmpty()) return null
+        return exportService.exportToFile(segs, format, rec.title)
+    }
+
     override fun onCleared() {
         super.onCleared()
-        audioPlayer.release()
+        // Don't release the audio player - it's a singleton that preserves playback
+        // across navigation. The player will be released when a different recording
+        // is loaded or when the app is destroyed.
     }
 }

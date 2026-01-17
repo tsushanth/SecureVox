@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
+import com.securevox.app.presentation.settings.ThemeMode
 
 private val LightColorScheme = lightColorScheme(
     primary = Color(0xFF1976D2),
@@ -56,10 +57,19 @@ private val DarkColorScheme = darkColorScheme(
 
 @Composable
 fun SecureVoxTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: ThemeMode = ThemeMode.SYSTEM,
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
+    val systemDarkTheme = isSystemInDarkTheme()
+
+    // Determine if we should use dark theme based on ThemeMode
+    val darkTheme = when (themeMode) {
+        ThemeMode.SYSTEM -> systemDarkTheme
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+    }
+
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current

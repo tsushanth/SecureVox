@@ -10,6 +10,8 @@ import com.securevox.app.SecureVoxApp
 import com.securevox.app.presentation.detail.RecordingDetailScreen
 import com.securevox.app.presentation.onboarding.SetupScreen
 import com.securevox.app.presentation.recordings.RecordingsScreen
+import com.securevox.app.presentation.settings.CustomDictionaryScreen
+import com.securevox.app.presentation.settings.FAQScreen
 import com.securevox.app.presentation.settings.SettingsScreen
 import com.securevox.app.whisper.WhisperModel
 
@@ -20,6 +22,8 @@ sealed class Screen(val route: String) {
         fun createRoute(recordingId: String) = "recording/$recordingId"
     }
     object Settings : Screen("settings")
+    object FAQ : Screen("faq")
+    object CustomDictionary : Screen("custom_dictionary")
 }
 
 @Composable
@@ -75,6 +79,20 @@ fun SecureVoxNavHost() {
 
         composable(Screen.Settings.route) {
             SettingsScreen(
+                onNavigateBack = { navController.popBackStack() },
+                onNavigateToFAQ = { navController.navigate(Screen.FAQ.route) },
+                onNavigateToCustomDictionary = { navController.navigate(Screen.CustomDictionary.route) }
+            )
+        }
+
+        composable(Screen.FAQ.route) {
+            FAQScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.CustomDictionary.route) {
+            CustomDictionaryScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }

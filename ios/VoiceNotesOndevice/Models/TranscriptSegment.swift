@@ -66,6 +66,13 @@ final class TranscriptSegment {
 
     // MARK: - Initialization
 
+    /// Creates a new transcript segment with validated timing
+    /// - Parameters:
+    ///   - startTime: Start time in seconds (must be >= 0)
+    ///   - endTime: End time in seconds (must be >= startTime)
+    ///   - text: Transcribed text for this segment
+    ///   - confidence: Optional confidence score (0.0 - 1.0)
+    /// - Note: If endTime < startTime, values will be swapped to ensure validity
     init(
         startTime: TimeInterval,
         endTime: TimeInterval,
@@ -73,10 +80,36 @@ final class TranscriptSegment {
         confidence: Double? = nil
     ) {
         self.id = UUID()
-        self.startTime = startTime
-        self.endTime = endTime
+
+        // Validate and normalize times - ensure non-negative
+        let validStartTime = max(0, startTime)
+        let validEndTime = max(0, endTime)
+
+        // Ensure startTime <= endTime by swapping if necessary
+        if validStartTime <= validEndTime {
+            self.startTime = validStartTime
+            self.endTime = validEndTime
+        } else {
+            // Swap times if endTime is before startTime
+            self.startTime = validEndTime
+            self.endTime = validStartTime
+        }
+
         self.text = text
-        self.confidence = confidence
+
+        // Validate confidence is in valid range (0.0 - 1.0)
+        if let conf = confidence {
+            self.confidence = min(1.0, max(0.0, conf))
+        } else {
+            self.confidence = nil
+        }
+    }
+
+    // MARK: - Validation
+
+    /// Check if the segment has valid timing
+    var hasValidTiming: Bool {
+        startTime >= 0 && endTime >= startTime
     }
 
     // MARK: - Private Helpers

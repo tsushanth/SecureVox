@@ -14,6 +14,7 @@ class AudioPlayerService: NSObject, ObservableObject {
 
     private var audioPlayer: AVAudioPlayer?
     private var displayLink: CADisplayLink?
+    private var displayLinkTarget: DisplayLinkTarget?
     private var audioURL: URL?
 
     // MARK: - Initialization
@@ -23,7 +24,12 @@ class AudioPlayerService: NSObject, ObservableObject {
     }
 
     deinit {
-        stop()
+        // Explicitly invalidate display link to break any remaining references
+        displayLink?.invalidate()
+        displayLink = nil
+        displayLinkTarget = nil
+        audioPlayer?.stop()
+        audioPlayer = nil
     }
 
     // MARK: - Public Methods
@@ -110,7 +116,15 @@ class AudioPlayerService: NSObject, ObservableObject {
     // MARK: - Private Methods
 
     private func startDisplayLink() {
-        displayLink = CADisplayLink(target: self, selector: #selector(updateTime))
+        stopDisplayLink() // Ensure any existing link is stopped first
+
+        // Use a weak wrapper to avoid retain cycle between CADisplayLink -> self
+        let target = DisplayLinkTarget { [weak self] in
+            self?.updateTime()
+        }
+        displayLinkTarget = target
+
+        displayLink = CADisplayLink(target: target, selector: #selector(DisplayLinkTarget.tick))
         displayLink?.preferredFrameRateRange = CAFrameRateRange(minimum: 15, maximum: 30)
         displayLink?.add(to: .main, forMode: .common)
     }
@@ -118,11 +132,30 @@ class AudioPlayerService: NSObject, ObservableObject {
     private func stopDisplayLink() {
         displayLink?.invalidate()
         displayLink = nil
+        displayLinkTarget = nil
     }
 
-    @objc private func updateTime() {
+    private func updateTime() {
         guard let player = audioPlayer else { return }
         currentTime = player.currentTime
+    }
+}
+
+// MARK: - Display Link Target
+
+/// A helper class that breaks the retain cycle between CADisplayLink and its target.
+/// CADisplayLink retains its target strongly, so using `self` directly would create a retain cycle.
+/// This wrapper holds a weak reference via closure capture, allowing proper deallocation.
+private final class DisplayLinkTarget: NSObject {
+    private let handler: () -> Void
+
+    init(handler: @escaping () -> Void) {
+        self.handler = handler
+        super.init()
+    }
+
+    @objc func tick() {
+        handler()
     }
 }
 

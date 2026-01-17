@@ -2,6 +2,8 @@ package com.securevox.app.service
 
 import android.content.Context
 import android.media.MediaPlayer
+import android.media.PlaybackParams
+import android.os.Build
 import android.util.Log
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,13 +12,44 @@ import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
 
 /**
- * Service for playing back audio recordings.
+ * Playback speed options matching iOS
  */
-class AudioPlayerService(private val context: Context) {
+enum class PlaybackSpeed(val speed: Float, val displayName: String) {
+    SPEED_0_5X(0.5f, "0.5x"),
+    SPEED_0_75X(0.75f, "0.75x"),
+    SPEED_1X(1.0f, "1x"),
+    SPEED_1_25X(1.25f, "1.25x"),
+    SPEED_1_5X(1.5f, "1.5x"),
+    SPEED_2X(2.0f, "2x");
+
+    companion object {
+        val DEFAULT = SPEED_1X
+    }
+}
+
+/**
+ * Service for playing back audio recordings.
+ * This is a singleton to preserve playback state across navigation.
+ */
+class AudioPlayerService private constructor(private val context: Context) {
 
     companion object {
         private const val TAG = "AudioPlayerService"
+
+        @Volatile
+        private var instance: AudioPlayerService? = null
+
+        fun getInstance(context: Context): AudioPlayerService {
+            return instance ?: synchronized(this) {
+                instance ?: AudioPlayerService(context.applicationContext).also {
+                    instance = it
+                }
+            }
+        }
     }
+
+    // Track currently loaded file path
+    private var currentFilePath: String? = null
 
     private var mediaPlayer: MediaPlayer? = null
     private var positionUpdateJob: Job? = null
@@ -30,15 +63,35 @@ class AudioPlayerService(private val context: Context) {
     private val _duration = MutableStateFlow(0L)
     val duration: StateFlow<Long> = _duration.asStateFlow()
 
+    private val _playbackSpeed = MutableStateFlow(PlaybackSpeed.DEFAULT)
+    val playbackSpeed: StateFlow<PlaybackSpeed> = _playbackSpeed.asStateFlow()
+
     private val scope = CoroutineScope(Dispatchers.Main + SupervisorJob())
+
+    private var _isLoaded = MutableStateFlow(false)
+    val isLoaded: StateFlow<Boolean> = _isLoaded.asStateFlow()
 
     /**
      * Load an audio file for playback.
+     * If the same file is already loaded, this does nothing.
      * @param filePath Path to the audio file
-     * @return true if loaded successfully
+     * @return true if loaded successfully (or already loaded)
      */
     fun load(filePath: String): Boolean {
+        // If this file is already loaded, don't reload
+        if (filePath == currentFilePath && mediaPlayer != null && _isLoaded.value) {
+            Log.d(TAG, "File already loaded: $filePath")
+            return true
+        }
+
+        // Different file or not loaded - release and load fresh
         release()
+        _isLoaded.value = false
+
+        if (filePath.isEmpty()) {
+            Log.e(TAG, "Empty file path")
+            return false
+        }
 
         val file = File(filePath)
         if (!file.exists()) {
@@ -46,10 +99,16 @@ class AudioPlayerService(private val context: Context) {
             return false
         }
 
+        if (file.length() < 44) {
+            Log.e(TAG, "File too small to be valid WAV: ${file.length()} bytes")
+            return false
+        }
+
+        Log.i(TAG, "Loading audio file: $filePath (${file.length()} bytes)")
+
         try {
             mediaPlayer = MediaPlayer().apply {
                 setDataSource(filePath)
-                prepare()
 
                 setOnCompletionListener {
                     _isPlaying.value = false
@@ -63,17 +122,32 @@ class AudioPlayerService(private val context: Context) {
                     _isPlaying.value = false
                     true
                 }
+
+                prepare()
             }
 
+            currentFilePath = filePath
             _duration.value = mediaPlayer?.duration?.toLong() ?: 0L
             _currentPosition.value = 0L
-            Log.i(TAG, "Loaded: $filePath, duration: ${_duration.value}ms")
+            _isLoaded.value = true
+            Log.i(TAG, "Loaded successfully: $filePath, duration: ${_duration.value}ms")
             return true
 
         } catch (e: Exception) {
-            Log.e(TAG, "Error loading file", e)
+            Log.e(TAG, "Error loading file: ${e.message}", e)
+            mediaPlayer?.release()
+            mediaPlayer = null
+            currentFilePath = null
+            _isLoaded.value = false
             return false
         }
+    }
+
+    /**
+     * Check if a specific file is currently loaded
+     */
+    fun isFileLoaded(filePath: String): Boolean {
+        return filePath == currentFilePath && _isLoaded.value
     }
 
     /**
@@ -144,6 +218,38 @@ class AudioPlayerService(private val context: Context) {
         seekTo(newPosition)
     }
 
+    /**
+     * Set playback speed.
+     * @param speed PlaybackSpeed enum value
+     */
+    fun setPlaybackSpeed(speed: PlaybackSpeed) {
+        _playbackSpeed.value = speed
+        mediaPlayer?.let { player ->
+            try {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    val params = player.playbackParams
+                    params.speed = speed.speed
+                    player.playbackParams = params
+                    Log.i(TAG, "Playback speed set to: ${speed.displayName}")
+                } else {
+                    Log.w(TAG, "Playback speed change requires Android M or higher")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error setting playback speed: ${e.message}")
+            }
+        }
+    }
+
+    /**
+     * Cycle to the next playback speed.
+     */
+    fun cyclePlaybackSpeed() {
+        val speeds = PlaybackSpeed.entries
+        val currentIndex = speeds.indexOf(_playbackSpeed.value)
+        val nextIndex = (currentIndex + 1) % speeds.size
+        setPlaybackSpeed(speeds[nextIndex])
+    }
+
     private fun startPositionUpdates() {
         positionUpdateJob?.cancel()
         positionUpdateJob = scope.launch {
@@ -168,8 +274,19 @@ class AudioPlayerService(private val context: Context) {
         stopPositionUpdates()
         mediaPlayer?.release()
         mediaPlayer = null
+        currentFilePath = null
         _isPlaying.value = false
         _currentPosition.value = 0L
         _duration.value = 0L
+        _isLoaded.value = false
+        _playbackSpeed.value = PlaybackSpeed.DEFAULT
+    }
+
+    /**
+     * Stop playback but keep file loaded (for use when navigating away)
+     */
+    fun stop() {
+        pause()
+        seekTo(0)
     }
 }

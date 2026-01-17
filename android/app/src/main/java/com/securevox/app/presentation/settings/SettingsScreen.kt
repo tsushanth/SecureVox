@@ -23,6 +23,8 @@ import com.securevox.app.whisper.WhisperModel
 @Composable
 fun SettingsScreen(
     onNavigateBack: () -> Unit,
+    onNavigateToFAQ: () -> Unit = {},
+    onNavigateToCustomDictionary: () -> Unit = {},
     viewModel: SettingsViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -31,8 +33,24 @@ fun SettingsScreen(
     val selectedModel by viewModel.selectedModel.collectAsState()
     val selectedLanguage by viewModel.selectedLanguage.collectAsState()
     val storageUsed by viewModel.storageUsed.collectAsState()
+    val themeMode by viewModel.themeMode.collectAsState()
+
+    // Recording settings
+    val soundEffectsEnabled by viewModel.soundEffectsEnabled.collectAsState()
+    val hapticFeedbackEnabled by viewModel.hapticFeedbackEnabled.collectAsState()
+
+    // Transcription settings
+    val autoPunctuationEnabled by viewModel.autoPunctuationEnabled.collectAsState()
+    val smartCapitalizationEnabled by viewModel.smartCapitalizationEnabled.collectAsState()
+
+    // Data management settings
+    val recycleBinRetention by viewModel.recycleBinRetention.collectAsState()
+    val autoDeleteAudio by viewModel.autoDeleteAudio.collectAsState()
+    val autoCopyToClipboard by viewModel.autoCopyToClipboard.collectAsState()
 
     var showLanguageDialog by remember { mutableStateOf(false) }
+    var showThemeDialog by remember { mutableStateOf(false) }
+    var showRecycleBinDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -95,6 +113,141 @@ fun SettingsScreen(
                 )
             }
 
+            // Transcription Section
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Transcription",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Auto-Punctuation",
+                    subtitle = "Automatically add punctuation to transcripts",
+                    icon = Icons.Default.FormatQuote,
+                    checked = autoPunctuationEnabled,
+                    onCheckedChange = { viewModel.setAutoPunctuationEnabled(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Smart Capitalization",
+                    subtitle = "Capitalize sentences and proper nouns",
+                    icon = Icons.Default.TextFormat,
+                    checked = smartCapitalizationEnabled,
+                    onCheckedChange = { viewModel.setSmartCapitalizationEnabled(it) }
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = "Custom Dictionary",
+                    subtitle = "Add words to improve transcription accuracy",
+                    icon = Icons.Default.Book,
+                    onClick = onNavigateToCustomDictionary
+                )
+            }
+
+            // Recording Section
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Recording",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Sound Effects",
+                    subtitle = "Play sounds when starting/stopping recording",
+                    icon = Icons.Default.VolumeUp,
+                    checked = soundEffectsEnabled,
+                    onCheckedChange = { viewModel.setSoundEffectsEnabled(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Haptic Feedback",
+                    subtitle = "Vibrate when starting/stopping recording",
+                    icon = Icons.Default.Vibration,
+                    checked = hapticFeedbackEnabled,
+                    onCheckedChange = { viewModel.setHapticFeedbackEnabled(it) }
+                )
+            }
+
+            // Data Management Section
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Data Management",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = "Recycle Bin",
+                    subtitle = if (recycleBinRetention == RecycleBinRetention.DISABLED) {
+                        "Recordings deleted immediately"
+                    } else {
+                        "Keep deleted recordings for ${recycleBinRetention.displayName}"
+                    },
+                    icon = Icons.Default.Delete,
+                    onClick = { showRecycleBinDialog = true }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Auto-Delete Audio",
+                    subtitle = "Delete audio files after transcription completes",
+                    icon = Icons.Default.DeleteSweep,
+                    checked = autoDeleteAudio,
+                    onCheckedChange = { viewModel.setAutoDeleteAudio(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = "Auto-Copy to Clipboard",
+                    subtitle = "Copy transcript to clipboard after transcription",
+                    icon = Icons.Default.ContentCopy,
+                    checked = autoCopyToClipboard,
+                    onCheckedChange = { viewModel.setAutoCopyToClipboard(it) }
+                )
+            }
+
+            // Appearance Section
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Appearance",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = "Theme",
+                    subtitle = themeMode.displayName,
+                    icon = Icons.Default.Palette,
+                    onClick = { showThemeDialog = true }
+                )
+            }
+
             // Storage Section
             item {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -148,6 +301,15 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = "FAQ & Help",
+                    subtitle = "Common questions and troubleshooting",
+                    icon = Icons.Default.HelpOutline,
+                    onClick = onNavigateToFAQ
                 )
             }
 
@@ -217,6 +379,105 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // Theme selection dialog
+    if (showThemeDialog) {
+        AlertDialog(
+            onDismissRequest = { showThemeDialog = false },
+            title = { Text("Select Theme") },
+            text = {
+                Column {
+                    ThemeMode.entries.forEach { mode ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = mode == themeMode,
+                                onClick = {
+                                    viewModel.setThemeMode(mode)
+                                    showThemeDialog = false
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = mode.displayName,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = when (mode) {
+                                        ThemeMode.SYSTEM -> "Follow system settings"
+                                        ThemeMode.LIGHT -> "Always use light theme"
+                                        ThemeMode.DARK -> "Always use dark theme"
+                                    },
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showThemeDialog = false }) {
+                    Text("Cancel")
+                }
+            }
+        )
+    }
+
+    // Recycle bin retention dialog
+    if (showRecycleBinDialog) {
+        AlertDialog(
+            onDismissRequest = { showRecycleBinDialog = false },
+            title = { Text("Recycle Bin Retention") },
+            text = {
+                Column {
+                    RecycleBinRetention.entries.forEach { retention ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = retention == recycleBinRetention,
+                                onClick = {
+                                    viewModel.setRecycleBinRetention(retention)
+                                    showRecycleBinDialog = false
+                                }
+                            )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column {
+                                Text(
+                                    text = retention.displayName,
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Text(
+                                    text = when (retention) {
+                                        RecycleBinRetention.DISABLED -> "Recordings are permanently deleted immediately"
+                                        RecycleBinRetention.DAYS_7 -> "Deleted recordings can be restored within 7 days"
+                                        RecycleBinRetention.DAYS_14 -> "Deleted recordings can be restored within 14 days"
+                                        RecycleBinRetention.DAYS_30 -> "Deleted recordings can be restored within 30 days"
+                                    },
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showRecycleBinDialog = false }) {
                     Text("Cancel")
                 }
             }
@@ -448,6 +709,52 @@ private fun SettingsCard(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+    }
+}
+
+@Composable
+private fun SettingsToggleCard(
+    title: String,
+    subtitle: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit
+) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(
+                    icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary
+                )
+                Column {
+                    Text(
+                        text = title,
+                        style = MaterialTheme.typography.titleMedium
+                    )
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+            Switch(
+                checked = checked,
+                onCheckedChange = onCheckedChange
             )
         }
     }

@@ -9,6 +9,8 @@ import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
+import com.securevox.app.whisper.WhisperModel
+import com.securevox.app.SecureVoxApp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -33,7 +35,7 @@ class TranscriptionWorker(
 
         fun createWorkRequest(
             recordingId: String,
-            modelName: String = "ggml-base.bin",
+            modelName: String = "ggml-tiny.bin",
             language: String = "en"
         ): OneTimeWorkRequest {
             val inputData = workDataOf(
@@ -75,12 +77,28 @@ class TranscriptionWorker(
             val recording = repository.getRecordingById(recordingId)
                 ?: return@withContext Result.failure()
 
-            // Initialize Whisper
+            // Initialize Whisper with downloaded model
             val whisperLib = WhisperLib(applicationContext)
-            val initialized = whisperLib.initializeFromAsset(modelName)
+            val modelManager = SecureVoxApp.instance.modelManager
+
+            // Find the model by filename, default to TINY
+            val whisperModel = WhisperModel.fromFileName(modelName) ?: WhisperModel.TINY
+
+            // Check if model is downloaded
+            if (!modelManager.isModelDownloaded(whisperModel)) {
+                Log.e(TAG, "Model not downloaded: ${whisperModel.fileName}")
+                repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
+                return@withContext Result.failure()
+            }
+
+            // Get the model path from ModelManager
+            val modelPath = modelManager.getModelPath(whisperModel)
+            Log.i(TAG, "Initializing Whisper with model: $modelPath")
+
+            val initialized = whisperLib.initialize(modelPath)
 
             if (!initialized) {
-                Log.e(TAG, "Failed to initialize Whisper model")
+                Log.e(TAG, "Failed to initialize Whisper model from: $modelPath")
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }

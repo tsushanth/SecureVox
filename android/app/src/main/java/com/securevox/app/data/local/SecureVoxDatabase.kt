@@ -9,8 +9,8 @@ import com.securevox.app.data.model.TranscriptSegment
 
 @Database(
     entities = [Recording::class, TranscriptSegment::class],
-    version = 1,
-    exportSchema = true
+    version = 2,
+    exportSchema = false
 )
 abstract class SecureVoxDatabase : RoomDatabase() {
 
