@@ -46,4 +46,10 @@ interface RecordingDao {
 
     @Query("SELECT * FROM recordings WHERE title LIKE '%' || :query || '%' ORDER BY createdAt DESC")
     fun searchRecordings(query: String): Flow<List<Recording>>
+
+    @Query("UPDATE recordings SET isFavorite = :isFavorite WHERE id = :id")
+    suspend fun updateFavoriteStatus(id: String, isFavorite: Boolean)
+
+    @Query("SELECT * FROM recordings WHERE isFavorite = 1 ORDER BY createdAt DESC")
+    fun getFavoriteRecordings(): Flow<List<Recording>>
 }

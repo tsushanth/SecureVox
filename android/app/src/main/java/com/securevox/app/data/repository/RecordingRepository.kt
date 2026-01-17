@@ -42,6 +42,11 @@ class RecordingRepository(
 
     fun searchRecordings(query: String): Flow<List<Recording>> = recordingDao.searchRecordings(query)
 
+    suspend fun toggleFavorite(recordingId: String, isFavorite: Boolean) =
+        recordingDao.updateFavoriteStatus(recordingId, isFavorite)
+
+    fun getFavoriteRecordings(): Flow<List<Recording>> = recordingDao.getFavoriteRecordings()
+
     // Segments
     fun getSegmentsForRecording(recordingId: String): Flow<List<TranscriptSegment>> =
         segmentDao.getSegmentsForRecording(recordingId)

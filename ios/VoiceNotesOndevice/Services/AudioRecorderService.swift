@@ -33,6 +33,8 @@ final class AudioRecorderService: NSObject, ObservableObject {
         case alreadyRecording
         case interruptionNotRecoverable
         case noOutputFile
+        case insufficientDiskSpace(available: Int64, required: Int64)
+        case diskSpaceRunningLow(available: Int64)
 
         var errorDescription: String? {
             switch self {
@@ -54,9 +56,24 @@ final class AudioRecorderService: NSObject, ObservableObject {
                 return "Recording was interrupted and could not be resumed."
             case .noOutputFile:
                 return "No output file was created."
+            case .insufficientDiskSpace(let available, _):
+                let formatted = ByteCountFormatter.string(fromByteCount: available, countStyle: .file)
+                return "Not enough disk space to start recording. Only \(formatted) available."
+            case .diskSpaceRunningLow(let available):
+                let formatted = ByteCountFormatter.string(fromByteCount: available, countStyle: .file)
+                return "Recording stopped: disk space running low (\(formatted) remaining)."
             }
         }
     }
+
+    /// Minimum disk space required to start recording (50 MB)
+    private static let minimumDiskSpaceToStart: Int64 = 50 * 1024 * 1024
+
+    /// Disk space threshold to stop recording (20 MB)
+    private static let minimumDiskSpaceToContinue: Int64 = 20 * 1024 * 1024
+
+    /// How often to check disk space during recording (seconds)
+    private static let diskSpaceCheckInterval: TimeInterval = 10
 
     struct RecordingResult {
         /// URL to the recorded audio file
@@ -84,6 +101,7 @@ final class AudioRecorderService: NSObject, ObservableObject {
     private var currentRecordingURL: URL?
     private var recordingStartTime: Date?
     private var durationTimer: Timer?
+    private var diskSpaceTimer: Timer?
 
     private var isInterrupted: Bool = false
     private var wasRecordingBeforeInterruption: Bool = false
@@ -154,6 +172,15 @@ final class AudioRecorderService: NSObject, ObservableObject {
             throw RecorderError.microphonePermissionRestricted
         }
 
+        // Check available disk space before starting
+        let availableSpace = availableDiskSpace()
+        if availableSpace < Self.minimumDiskSpaceToStart {
+            throw RecorderError.insufficientDiskSpace(
+                available: availableSpace,
+                required: Self.minimumDiskSpaceToStart
+            )
+        }
+
         // Generate output file URL
         let outputURL = generateOutputURL()
 
@@ -169,8 +196,9 @@ final class AudioRecorderService: NSObject, ObservableObject {
         isInterrupted = false
         errorMessage = nil
 
-        // Start duration timer
+        // Start duration timer and disk space monitoring
         startDurationTimer()
+        startDiskSpaceMonitoring()
 
         return outputURL
     }
@@ -387,9 +415,10 @@ final class AudioRecorderService: NSObject, ObservableObject {
 
     @discardableResult
     private func stopRecordingInternal(cancelled: Bool) -> RecordingResult? {
-        // Stop duration timer
+        // Stop timers
         durationTimer?.invalidate()
         durationTimer = nil
+        stopDiskSpaceMonitoring()
 
         // Stop and clean up audio engine
         if let engine = audioEngine {
@@ -450,6 +479,47 @@ final class AudioRecorderService: NSObject, ObservableObject {
             guard let self = self, let startTime = self.recordingStartTime else { return }
             DispatchQueue.main.async {
                 self.duration = Date().timeIntervalSince(startTime)
+            }
+        }
+    }
+
+    private func startDiskSpaceMonitoring() {
+        diskSpaceTimer = Timer.scheduledTimer(withTimeInterval: Self.diskSpaceCheckInterval, repeats: true) { [weak self] _ in
+            self?.checkDiskSpaceDuringRecording()
+        }
+    }
+
+    private func stopDiskSpaceMonitoring() {
+        diskSpaceTimer?.invalidate()
+        diskSpaceTimer = nil
+    }
+
+    private func checkDiskSpaceDuringRecording() {
+        guard isRecording else { return }
+
+        let available = availableDiskSpace()
+        if available < Self.minimumDiskSpaceToContinue {
+            // Stop recording due to low disk space
+            DispatchQueue.main.async { [weak self] in
+                self?.errorMessage = RecorderError.diskSpaceRunningLow(available: available).localizedDescription
+                self?.stopRecordingInternal(cancelled: false)
+            }
+        }
+    }
+
+    /// Get available disk space in bytes
+    private func availableDiskSpace() -> Int64 {
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        do {
+            let values = try documentsURL.resourceValues(forKeys: [.volumeAvailableCapacityForImportantUsageKey])
+            return values.volumeAvailableCapacityForImportantUsage ?? 0
+        } catch {
+            // Fallback to older API
+            do {
+                let attributes = try FileManager.default.attributesOfFileSystem(forPath: documentsURL.path)
+                return attributes[.systemFreeSize] as? Int64 ?? 0
+            } catch {
+                return 0
             }
         }
     }

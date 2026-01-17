@@ -18,7 +18,8 @@ data class Recording(
     val createdAt: Long = System.currentTimeMillis(),
     val transcriptionStatus: TranscriptionStatus = TranscriptionStatus.PENDING,
     val transcriptionProgress: Int = 0,
-    val language: String = "en"
+    val language: String = "en",
+    val isFavorite: Boolean = false
 )
 
 /**

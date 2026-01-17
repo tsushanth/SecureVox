@@ -3,6 +3,7 @@ package com.securevox.app.presentation.detail
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +25,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
+import com.securevox.app.service.ExportFormat
+import com.securevox.app.service.PlaybackSpeed
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -48,9 +51,12 @@ fun RecordingDetailScreen(
     val currentPosition by viewModel.currentPosition.collectAsState()
     val duration by viewModel.duration.collectAsState()
     val activeSegment by viewModel.activeSegment.collectAsState()
+    val playbackSpeed by viewModel.playbackSpeed.collectAsState()
 
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showSpeedMenu by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
+    var showExportMenu by remember { mutableStateOf(false) }
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -99,6 +105,14 @@ fun RecordingDetailScreen(
                             }
                         )
                         DropdownMenuItem(
+                            text = { Text("Export") },
+                            leadingIcon = { Icon(Icons.Default.Share, null) },
+                            onClick = {
+                                showMenu = false
+                                showExportMenu = true
+                            }
+                        )
+                        DropdownMenuItem(
                             text = { Text("Delete") },
                             leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) },
                             onClick = {
@@ -106,6 +120,27 @@ fun RecordingDetailScreen(
                                 showDeleteDialog = true
                             }
                         )
+                    }
+
+                    // Export format submenu
+                    DropdownMenu(
+                        expanded = showExportMenu,
+                        onDismissRequest = { showExportMenu = false }
+                    ) {
+                        ExportFormat.entries.forEach { format ->
+                            DropdownMenuItem(
+                                text = { Text(format.displayName) },
+                                onClick = {
+                                    showExportMenu = false
+                                    val intent = viewModel.exportTranscript(format)
+                                    if (intent != null) {
+                                        context.startActivity(Intent.createChooser(intent, "Export transcript"))
+                                    } else {
+                                        Toast.makeText(context, "Export failed", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            )
+                        }
                     }
                 }
             )
@@ -157,10 +192,12 @@ fun RecordingDetailScreen(
                 isPlaying = isPlaying,
                 currentPosition = currentPosition,
                 duration = duration,
+                playbackSpeed = playbackSpeed,
                 onPlayPause = { viewModel.togglePlayPause() },
                 onSeek = { viewModel.seekTo(it) },
                 onSkipBack = { viewModel.skipBackward() },
-                onSkipForward = { viewModel.skipForward() }
+                onSkipForward = { viewModel.skipForward() },
+                onSpeedChange = { viewModel.setPlaybackSpeed(it) }
             )
         }
     }
@@ -230,11 +267,15 @@ private fun PlaybackControls(
     isPlaying: Boolean,
     currentPosition: Long,
     duration: Long,
+    playbackSpeed: PlaybackSpeed,
     onPlayPause: () -> Unit,
     onSeek: (Long) -> Unit,
     onSkipBack: () -> Unit,
-    onSkipForward: () -> Unit
+    onSkipForward: () -> Unit,
+    onSpeedChange: (PlaybackSpeed) -> Unit
 ) {
+    var showSpeedMenu by remember { mutableStateOf(false) }
+
     Surface(
         modifier = Modifier.fillMaxWidth(),
         tonalElevation = 8.dp
@@ -273,9 +314,51 @@ private fun PlaybackControls(
             // Control buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                // Speed button
+                Box {
+                    FilledTonalButton(
+                        onClick = { showSpeedMenu = true },
+                        modifier = Modifier.width(64.dp),
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                    ) {
+                        Text(
+                            text = playbackSpeed.displayName,
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                    DropdownMenu(
+                        expanded = showSpeedMenu,
+                        onDismissRequest = { showSpeedMenu = false }
+                    ) {
+                        PlaybackSpeed.entries.forEach { speed ->
+                            DropdownMenuItem(
+                                text = {
+                                    Text(
+                                        text = speed.displayName,
+                                        fontWeight = if (speed == playbackSpeed) FontWeight.Bold else FontWeight.Normal
+                                    )
+                                },
+                                onClick = {
+                                    onSpeedChange(speed)
+                                    showSpeedMenu = false
+                                },
+                                trailingIcon = {
+                                    if (speed == playbackSpeed) {
+                                        Icon(
+                                            Icons.Default.Check,
+                                            contentDescription = "Selected",
+                                            tint = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    }
+                }
+
                 IconButton(onClick = onSkipBack) {
                     Icon(
                         Icons.Default.Replay10,
@@ -283,8 +366,6 @@ private fun PlaybackControls(
                         modifier = Modifier.size(32.dp)
                     )
                 }
-
-                Spacer(modifier = Modifier.width(24.dp))
 
                 FloatingActionButton(
                     onClick = onPlayPause,
@@ -297,8 +378,6 @@ private fun PlaybackControls(
                     )
                 }
 
-                Spacer(modifier = Modifier.width(24.dp))
-
                 IconButton(onClick = onSkipForward) {
                     Icon(
                         Icons.Default.Forward10,
@@ -306,6 +385,9 @@ private fun PlaybackControls(
                         modifier = Modifier.size(32.dp)
                     )
                 }
+
+                // Spacer for balance
+                Spacer(modifier = Modifier.width(64.dp))
             }
         }
     }

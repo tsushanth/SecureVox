@@ -118,7 +118,11 @@ class AudioRecorderService(private val context: Context) {
         if (!_isRecording.value) return null
 
         _isRecording.value = false
-        recordingJob?.cancel()
+
+        // Wait for recording job to finish writing
+        runBlocking {
+            recordingJob?.join()
+        }
         recordingJob = null
 
         audioRecord?.stop()
@@ -128,7 +132,7 @@ class AudioRecorderService(private val context: Context) {
         val file = outputFile
         outputFile = null
 
-        Log.i(TAG, "Recording stopped: ${file?.absolutePath}")
+        Log.i(TAG, "Recording stopped: ${file?.absolutePath}, size: ${file?.length()} bytes")
         return file?.absolutePath
     }
 
