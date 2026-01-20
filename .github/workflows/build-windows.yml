@@ -1,0 +1,97 @@
+name: Build Windows
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'windows/**'
+      - '.github/workflows/build-windows.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'windows/**'
+      - '.github/workflows/build-windows.yml'
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '8.0.x'
+  SOLUTION_PATH: 'windows/SecureVox.sln'
+
+jobs:
+  build-native:
+    name: Build Native Library
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup CMake
+        uses: lukka/get-cmake@latest
+
+      - name: Build whisper_native.dll (x64)
+        run: |
+          cd windows/src/SecureVox.Native
+          cmake -B build -A x64 -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release
+
+      - name: Upload native library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: whisper-native-x64
+          path: windows/src/SecureVox.Native/build/bin/Release/whisper_native.dll
+          if-no-files-found: warn
+
+  build-app:
+    name: Build WinUI 3 App
+    runs-on: windows-latest
+    needs: build-native
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Download native library
+        uses: actions/download-artifact@v4
+        with:
+          name: whisper-native-x64
+          path: windows/src/SecureVox.Native/build/bin/Release/
+
+      - name: Restore NuGet packages
+        run: dotnet restore ${{ env.SOLUTION_PATH }}
+
+      - name: Build solution (Debug)
+        run: dotnet build ${{ env.SOLUTION_PATH }} -c Debug -p:Platform=x64 --no-restore
+
+      - name: Build solution (Release)
+        run: dotnet build ${{ env.SOLUTION_PATH }} -c Release -p:Platform=x64 --no-restore
+
+      # Note: MSIX packaging requires a certificate which we don't have in CI
+      # For now, just verify the build succeeds
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: SecureVox-Windows-x64-Debug
+          path: |
+            windows/src/SecureVox.App/bin/x64/Debug/
+          if-no-files-found: warn
+
+  # Future: Add MSIX packaging job when certificate is configured
+  # package:
+  #   name: Create MSIX Package
+  #   runs-on: windows-latest
+  #   needs: build-app
+  #   if: github.ref == 'refs/heads/main'

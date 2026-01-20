@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="SecureVox.App.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Spacing="24" Padding="0,0,20,20" MaxWidth="800">
+            <TextBlock Text="Settings" Style="{StaticResource TitleTextBlockStyle}" />
+
+            <!-- Model Selection -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Transcription Model" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock
+                    Text="Choose a model based on your accuracy and speed needs"
+                    Style="{StaticResource CaptionTextBlockStyle}"
+                    Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+
+                <RadioButtons x:Name="ModelSelector">
+                    <RadioButton Content="Tiny (~75 MB) - Fast, good accuracy" Tag="ggml-tiny.bin" />
+                    <RadioButton Content="Base (~148 MB) - Balanced" Tag="ggml-base.bin" />
+                    <RadioButton Content="Small (~488 MB) - Higher accuracy" Tag="ggml-small.bin" />
+                    <RadioButton Content="Large V3 Turbo (~1.5 GB) - Best accuracy" Tag="ggml-large-v3-turbo.bin" />
+                </RadioButtons>
+
+                <Button x:Name="DownloadModelButton" Content="Download Selected Model" Click="DownloadModel_Click" />
+                <ProgressBar x:Name="DownloadProgress" Visibility="Collapsed" />
+                <TextBlock x:Name="ModelStatus" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
+
+            <!-- Language -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Default Language" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <ComboBox x:Name="LanguageSelector" Width="200">
+                    <ComboBoxItem Content="Auto-detect" Tag="auto" IsSelected="True" />
+                    <ComboBoxItem Content="English" Tag="en" />
+                    <ComboBoxItem Content="Spanish" Tag="es" />
+                    <ComboBoxItem Content="French" Tag="fr" />
+                    <ComboBoxItem Content="German" Tag="de" />
+                    <ComboBoxItem Content="Chinese" Tag="zh" />
+                    <ComboBoxItem Content="Japanese" Tag="ja" />
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Auto-transcribe -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Automation" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <ToggleSwitch x:Name="AutoTranscribeToggle" Header="Auto-transcribe after recording" IsOn="True" />
+                <ToggleSwitch x:Name="StartWithWindowsToggle" Header="Start with Windows" />
+            </StackPanel>
+
+            <!-- Recycle Bin -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="Recycle Bin" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="Keep deleted items for" VerticalAlignment="Center" />
+                    <NumberBox x:Name="RetentionDaysBox" Value="30" Minimum="1" Maximum="90" SpinButtonPlacementMode="Compact" />
+                    <TextBlock Text="days" VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- About -->
+            <StackPanel Spacing="8">
+                <TextBlock Text="About" Style="{StaticResource SubtitleTextBlockStyle}" />
+                <TextBlock Text="SecureVox v1.0.0" />
+                <TextBlock Text="Privacy-first voice transcription" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <TextBlock Text="100% on-device processing - your audio never leaves your computer" Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                <HyperlinkButton Content="View on GitHub" NavigateUri="https://github.com/kreativekoala/SecureVox" />
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

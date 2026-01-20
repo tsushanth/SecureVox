@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="SecureVox.App.Views.FAQPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ScrollViewer>
+        <StackPanel Spacing="16" Padding="0,0,20,20" MaxWidth="800">
+            <TextBlock Text="Frequently Asked Questions" Style="{StaticResource TitleTextBlockStyle}" />
+
+            <Expander Header="Is my audio data private?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    Yes! SecureVox processes all audio 100% on your device. Your recordings and transcriptions never leave your computer. We don't collect, store, or transmit any of your audio data.
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="What audio formats are supported?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    SecureVox supports importing MP3, M4A, WAV, AIFF, FLAC, and OGG audio files. For video files, we support MP4, MOV, M4V, AVI, MKV, and WebM - the audio track will be extracted automatically.
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="Which model should I choose?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    • Tiny (~75 MB): Fast transcription, good for quick notes&#x0a;
+                    • Base (~148 MB): Balanced speed and accuracy&#x0a;
+                    • Small (~488 MB): Higher accuracy, recommended for most users&#x0a;
+                    • Large V3 Turbo (~1.5 GB): Best accuracy, requires more RAM and processing time
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="How do I improve transcription accuracy?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    1. Use a larger model for better accuracy&#x0a;
+                    2. Record in a quiet environment&#x0a;
+                    3. Speak clearly and at a moderate pace&#x0a;
+                    4. Add specialized terms to your Custom Dictionary&#x0a;
+                    5. Select the correct language in Settings
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="What languages are supported?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    SecureVox supports 99+ languages including English, Spanish, French, German, Italian, Portuguese, Chinese, Japanese, Korean, Russian, Arabic, Hindi, and many more. You can select "Auto-detect" to automatically identify the language.
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="Where are my recordings stored?" HorizontalAlignment="Stretch">
+                <TextBlock TextWrapping="Wrap" Padding="0,10">
+                    Recordings are stored locally in your user data folder. You can export transcripts at any time in TXT, SRT, VTT, or JSON format.
+                </TextBlock>
+            </Expander>
+
+            <Expander Header="How do I contact support?" HorizontalAlignment="Stretch">
+                <StackPanel Padding="0,10">
+                    <TextBlock TextWrapping="Wrap">
+                        For support, feature requests, or bug reports:
+                    </TextBlock>
+                    <HyperlinkButton Content="GitHub Issues" NavigateUri="https://github.com/kreativekoala/SecureVox/issues" />
+                    <HyperlinkButton Content="Email Support" NavigateUri="mailto:support@kreativekoala.com" />
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

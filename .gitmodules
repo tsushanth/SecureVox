@@ -1,0 +1,3 @@
+[submodule "windows/src/SecureVox.Native/whisper.cpp"]
+	path = windows/src/SecureVox.Native/whisper.cpp
+	url = https://github.com/ggerganov/whisper.cpp.git

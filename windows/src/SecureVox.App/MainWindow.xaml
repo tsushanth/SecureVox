@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Window
+    x:Class="SecureVox.App.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SecureVox.App"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="SecureVox">
+
+    <Grid>
+        <NavigationView
+            x:Name="NavView"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="True"
+            PaneDisplayMode="Left"
+            SelectionChanged="NavView_SelectionChanged">
+
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Microphone" Content="Recordings" Tag="Recordings" />
+                <NavigationViewItem Icon="Library" Content="Vocabulary" Tag="Vocabulary" />
+                <NavigationViewItem Icon="Keyboard" Content="Shortcuts" Tag="Shortcuts" />
+                <NavigationViewItem Icon="Help" Content="FAQ" Tag="FAQ" />
+                <NavigationViewItem Icon="Delete" Content="Recycle Bin" Tag="RecycleBin" />
+            </NavigationView.MenuItems>
+
+            <NavigationView.PaneFooter>
+                <StackPanel Orientation="Vertical" Margin="0,0,0,10">
+                    <TextBlock
+                        Text="SecureVox"
+                        FontSize="12"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                        HorizontalAlignment="Center" />
+                    <TextBlock
+                        Text="v1.0.0"
+                        FontSize="10"
+                        Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                        HorizontalAlignment="Center" />
+                </StackPanel>
+            </NavigationView.PaneFooter>
+
+            <Frame x:Name="ContentFrame" Padding="20" />
+        </NavigationView>
+    </Grid>
+</Window>
