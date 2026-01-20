@@ -1,10 +1,13 @@
 import SwiftUI
 import SwiftData
+import os.log
 #if os(iOS)
 import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
+
+private let listViewLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "RecordingsListView")
 
 /// Main library screen showing all recordings with a prominent record button
 struct RecordingsListView: View {
@@ -113,10 +116,10 @@ struct RecordingsListView: View {
                 Text("Are you sure you want to delete this recording? This cannot be undone.")
             }
             .onChange(of: recordings.count) { oldCount, newCount in
-                print("[RECORDINGS LIST] Count changed from \(oldCount) to \(newCount)")
+                listViewLogger.debug("Count changed from \(oldCount) to \(newCount)")
             }
             .onAppear {
-                print("[RECORDINGS LIST] View appeared, recordings count: \(recordings.count)")
+                listViewLogger.debug("View appeared, recordings count: \(recordings.count)")
                 // Check if we should start recording from widget deep link
                 if deepLinkHandler.shouldStartRecording {
                     deepLinkHandler.shouldStartRecording = false

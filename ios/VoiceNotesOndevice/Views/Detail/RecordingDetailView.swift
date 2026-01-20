@@ -1,6 +1,9 @@
 import SwiftUI
 import SwiftData
 import AVFoundation
+import os.log
+
+private let detailViewLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "RecordingDetailView")
 
 /// Detail view for viewing transcript, playback, and managing a recording
 struct RecordingDetailView: View {
@@ -72,13 +75,13 @@ struct RecordingDetailView: View {
             titleVisibility: .visible
         ) {
             Button("Delete Recording", role: .destructive) {
-                print("[DELETE] Confirmation dialog - Delete button pressed")
+                detailViewLogger.debug("Confirmation dialog - Delete button pressed")
                 viewModel.deleteRecording()
-                print("[DELETE] deleteRecording() called, now dismissing")
+                detailViewLogger.debug("deleteRecording() called, now dismissing")
                 dismiss()
             }
             Button("Cancel", role: .cancel) {
-                print("[DELETE] Confirmation dialog - Cancel pressed")
+                detailViewLogger.debug("Confirmation dialog - Cancel pressed")
             }
         }
         .confirmationDialog(
@@ -594,7 +597,7 @@ struct RecordingDetailView: View {
                 Divider()
 
                 Button(role: .destructive) {
-                    print("[DELETE] Menu - Delete Recording tapped, showing confirmation")
+                    detailViewLogger.debug("Menu - Delete Recording tapped, showing confirmation")
                     showingDeleteConfirmation = true
                 } label: {
                     Label("Delete Recording", systemImage: "trash")

@@ -2,6 +2,9 @@ import Foundation
 import WhisperKit
 import Speech
 import AVFoundation
+import os.log
+
+private let coreMLLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "CoreMLTranscriber")
 
 /// Actor responsible for running on-device speech transcription.
 /// Uses WhisperKit as primary engine with Apple Speech as fallback for memory-constrained devices.
@@ -170,14 +173,14 @@ actor CoreMLTranscriber {
         if hasNeuralEngineSupport {
             // Device has Neural Engine - use automatic selection for best performance
             // WhisperKit will choose between CPU, GPU, and ANE based on what's optimal
-            print("[CoreMLTranscriber] Device has Neural Engine support, using automatic compute selection")
+            coreMLLogger.debug("Device has Neural Engine support, using automatic compute selection")
             return ModelComputeOptions(
                 audioEncoderCompute: .all,
                 textDecoderCompute: .all
             )
         } else {
             // Older device - use CPU only to avoid memory issues
-            print("[CoreMLTranscriber] Device lacks Neural Engine, using CPU-only mode")
+            coreMLLogger.debug("Device lacks Neural Engine, using CPU-only mode")
             return ModelComputeOptions(
                 audioEncoderCompute: .cpuOnly,
                 textDecoderCompute: .cpuOnly
@@ -239,11 +242,11 @@ actor CoreMLTranscriber {
             try await loadWhisperKit(model)
             currentEngine = .whisperKit
             loadedModel = model
-            print("[CoreMLTranscriber] Successfully loaded WhisperKit with model: \(model.rawValue)")
+            coreMLLogger.info("Successfully loaded WhisperKit with model: \(model.rawValue)")
             return
         } catch {
-            print("[CoreMLTranscriber] WhisperKit failed to load: \(error.localizedDescription)")
-            print("[CoreMLTranscriber] Falling back to Apple Speech...")
+            coreMLLogger.error("WhisperKit failed to load: \(error.localizedDescription)")
+            coreMLLogger.info("Falling back to Apple Speech...")
             whisperKitFailed = true
         }
 
@@ -251,7 +254,7 @@ actor CoreMLTranscriber {
         try await loadAppleSpeech()
         currentEngine = .appleSpeech
         loadedModel = model
-        print("[CoreMLTranscriber] Using Apple Speech fallback")
+        coreMLLogger.info("Using Apple Speech fallback")
     }
 
     /// Timeout duration for model loading (2 minutes for downloads, 30 seconds for bundled)
@@ -259,8 +262,8 @@ actor CoreMLTranscriber {
     private static let modelLoadTimeoutDownload: TimeInterval = 120
 
     private func loadWhisperKit(_ model: WhisperModel) async throws {
-        print("[CoreMLTranscriber] Loading WhisperKit model: \(model.rawValue)")
-        print("[CoreMLTranscriber] Device Neural Engine support: \(Self.hasNeuralEngineSupport)")
+        coreMLLogger.info("Loading WhisperKit model: \(model.rawValue)")
+        coreMLLogger.debug("Device Neural Engine support: \(Self.hasNeuralEngineSupport)")
 
         // Reset progress tracking
         modelLoadProgress = 0
@@ -274,13 +277,13 @@ actor CoreMLTranscriber {
         if model == .tiny, let bundledPath = Bundle.main.path(forResource: "openai_whisper-tiny", ofType: nil, inDirectory: "Models/whisperkit-temp") {
             // Use bundled model folder directly - WhisperKit expects the folder containing .mlmodelc files
             modelFolderPath = bundledPath
-            print("[CoreMLTranscriber] Using bundled model at: \(bundledPath)")
+            coreMLLogger.info("Using bundled model at: \(bundledPath)")
             modelLoadProgress = 0.3 // Skip download phase
         } else {
             // Download model on-demand
             modelFolderPath = nil
             isDownloadingModel = true
-            print("[CoreMLTranscriber] Model not bundled, will download: \(model.rawValue)")
+            coreMLLogger.info("Model not bundled, will download: \(model.rawValue)")
             modelLoadProgress = 0.05
         }
 
@@ -288,7 +291,7 @@ actor CoreMLTranscriber {
         let timeout = modelFolderPath != nil ? Self.modelLoadTimeoutBundled : Self.modelLoadTimeoutDownload
 
         // Initialize WhisperKit with timeout
-        print("[CoreMLTranscriber] Initializing WhisperKit (download=\(modelFolderPath == nil), timeout=\(timeout)s)...")
+        coreMLLogger.info("Initializing WhisperKit (download=\(modelFolderPath == nil), timeout=\(timeout)s)...")
 
         do {
             // Start progress simulation task (will be cancelled when model loads)
@@ -345,7 +348,7 @@ actor CoreMLTranscriber {
             progressTask.cancel()
             modelLoadProgress = 1.0
             isDownloadingModel = false
-            print("[CoreMLTranscriber] WhisperKit initialized successfully")
+            coreMLLogger.info("WhisperKit initialized successfully")
         } catch is CancellationError {
             modelLoadProgress = 0
             isDownloadingModel = false
@@ -621,8 +624,8 @@ actor CoreMLTranscriber {
                     onPartial: onPartial
                 )
             } catch {
-                print("[CoreMLTranscriber] WhisperKit transcription failed: \(error.localizedDescription)")
-                print("[CoreMLTranscriber] Falling back to Apple Speech...")
+                coreMLLogger.error("WhisperKit transcription failed: \(error.localizedDescription)")
+                coreMLLogger.info("Falling back to Apple Speech...")
 
                 // Only update shared state if no other transcription is using WhisperKit
                 // This prevents one failing transcription from affecting concurrent ones
@@ -646,7 +649,7 @@ actor CoreMLTranscriber {
             // If WhisperKit already failed (either before or during this transcription)
             // and Apple Speech also fails, throw allEnginesFailed
             if wasWhisperKitAlreadyFailed || engineToUse == .whisperKit {
-                print("[CoreMLTranscriber] Apple Speech also failed: \(error.localizedDescription)")
+                coreMLLogger.error("Apple Speech also failed: \(error.localizedDescription)")
                 throw TranscriptionError.allEnginesFailed
             }
             // Otherwise just propagate the Apple Speech error
@@ -670,7 +673,7 @@ actor CoreMLTranscriber {
         }
 
         if let prompt = customPrompt {
-            print("[CoreMLTranscriber] Using custom dictionary prompt: \(prompt.prefix(100))...")
+            coreMLLogger.debug("Using custom dictionary prompt: \(prompt.prefix(100))...")
         }
 
         // Configure decoding options with more lenient thresholds for better fallback handling
@@ -722,9 +725,9 @@ actor CoreMLTranscriber {
         }
 
         // Log transcription results for debugging
-        print("[CoreMLTranscriber] Transcription completed with \(results.count) result(s)")
+        coreMLLogger.debug("Transcription completed with \(results.count) result(s)")
         for (index, result) in results.enumerated() {
-            print("[CoreMLTranscriber] Result \(index): \(result.segments.count) segments, text: \(result.text.prefix(100))...")
+            coreMLLogger.debug("Result \(index): \(result.segments.count) segments, text: \(result.text.prefix(100))...")
         }
 
         var segments: [TranscriptSegment] = []

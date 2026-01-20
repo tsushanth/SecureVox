@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 /// Service for exporting transcripts in various formats
 struct ExportService {
@@ -75,6 +76,26 @@ struct ExportService {
         try content.write(to: tempURL, atomically: true, encoding: .utf8)
 
         return tempURL
+    }
+
+    /// Copy transcript content to clipboard
+    @MainActor
+    static func copyToClipboard(recording: Recording, format: ExportFormat = .txt) {
+        let content = generate(from: recording, format: format)
+        UIPasteboard.general.string = content
+    }
+
+    /// Copy plain text transcript to clipboard
+    @MainActor
+    static func copyToClipboard(segments: [TranscriptSegment]) {
+        let content = generateTXT(from: segments)
+        UIPasteboard.general.string = content
+    }
+
+    /// Copy a single segment to clipboard
+    @MainActor
+    static func copyToClipboard(segment: TranscriptSegment) {
+        UIPasteboard.general.string = segment.text
     }
 
     // MARK: - Private Helpers
