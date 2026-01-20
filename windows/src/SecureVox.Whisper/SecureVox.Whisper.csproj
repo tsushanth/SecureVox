@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>x64;ARM64</Platforms>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SecureVox.Core\SecureVox.Core.csproj" />
+  </ItemGroup>
+
+  <!-- Include native DLL based on platform -->
+  <ItemGroup Condition="'$(Platform)' == 'x64'">
+    <Content Include="..\SecureVox.Native\build\bin\Release\whisper_native.dll"
+             CopyToOutputDirectory="PreserveNewest"
+             Link="whisper_native.dll"
+             Condition="Exists('..\SecureVox.Native\build\bin\Release\whisper_native.dll')" />
+  </ItemGroup>
+
+</Project>

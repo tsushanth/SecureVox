@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="SecureVox.App.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SecureVox.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <!-- Other merged dictionaries here -->
+            </ResourceDictionary.MergedDictionaries>
+            <!-- Other app resources here -->
+
+            <!-- Brand Colors -->
+            <Color x:Key="BrandPrimaryColor">#6366F1</Color>
+            <Color x:Key="BrandSecondaryColor">#8B5CF6</Color>
+
+            <SolidColorBrush x:Key="BrandPrimaryBrush" Color="{StaticResource BrandPrimaryColor}" />
+            <SolidColorBrush x:Key="BrandSecondaryBrush" Color="{StaticResource BrandSecondaryColor}" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
