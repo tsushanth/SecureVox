@@ -1,6 +1,9 @@
 import Foundation
 import SwiftData
 import Combine
+import os.log
+
+private let storeLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "RecordingStore")
 
 /// Central data access layer for Recording entities
 @MainActor
@@ -252,7 +255,7 @@ final class RecordingStore: ObservableObject {
                 try FileManager.default.removeItem(at: audioURL)
             } catch {
                 // Log but continue - we still want to delete the database record
-                print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+                storeLogger.warning("Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
             }
         }
 
@@ -268,7 +271,7 @@ final class RecordingStore: ObservableObject {
                     try FileManager.default.removeItem(at: audioURL)
                 } catch {
                     // Log but continue - we still want to delete the database record
-                    print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+                    storeLogger.warning("Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
                 }
             }
             modelContext.delete(recording)
@@ -301,7 +304,7 @@ final class RecordingStore: ObservableObject {
                     try FileManager.default.removeItem(at: audioURL)
                 } catch {
                     // Log but continue - we still want to update the database records
-                    print("[RecordingStore] Warning: Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
+                    storeLogger.warning("Failed to delete audio file at \(audioURL.path): \(error.localizedDescription)")
                     failedDeletions.append(audioURL.lastPathComponent)
                 }
                 recording.audioFileName = nil
@@ -312,7 +315,7 @@ final class RecordingStore: ObservableObject {
         try modelContext.save()
 
         if !failedDeletions.isEmpty {
-            print("[RecordingStore] Warning: Failed to delete \(failedDeletions.count) audio file(s)")
+            storeLogger.warning("Failed to delete \(failedDeletions.count) audio file(s)")
         }
     }
 
@@ -412,8 +415,14 @@ extension RecordingStore {
             return RecordingStore(modelContext: container.mainContext)
         } catch {
             // Fallback: Create a minimal in-memory container
-            // This should never fail, but provides safety for previews
-            fatalError("Failed to create preview RecordingStore: \(error.localizedDescription)")
+            // This should never fail in practice, but we need to return something for previews
+            storeLogger.error("Failed to create preview RecordingStore: \(error.localizedDescription)")
+            // Try one more time with absolutely minimal configuration
+            let fallbackSchema = Schema([Recording.self, TranscriptSegment.self])
+            let fallbackConfig = ModelConfiguration(schema: fallbackSchema, isStoredInMemoryOnly: true)
+            // swiftlint:disable:next force_try
+            let fallbackContainer = try! ModelContainer(for: fallbackSchema, configurations: [fallbackConfig])
+            return RecordingStore(modelContext: fallbackContainer.mainContext)
         }
     }
 }

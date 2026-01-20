@@ -1,5 +1,8 @@
 import Foundation
 import SwiftData
+import os.log
+
+private let recycleBinLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "RecycleBinService")
 
 /// Service for managing the recycle bin and automatic cleanup of expired recordings
 @MainActor
@@ -23,7 +26,7 @@ final class RecycleBinService {
 
         // If retention is 0 (disabled) or negative, don't auto-cleanup
         guard retentionDays > 0 else {
-            print("[RecycleBinService] Recycle bin is disabled (retention: \(retentionDays)), skipping cleanup")
+            recycleBinLogger.debug("Recycle bin is disabled (retention: \(retentionDays)), skipping cleanup")
             return 0
         }
 
@@ -50,28 +53,28 @@ final class RecycleBinService {
                     if let audioURL = recording.audioFileURL {
                         do {
                             try FileManager.default.removeItem(at: audioURL)
-                            print("[RecycleBinService] Deleted audio file: \(audioURL.lastPathComponent)")
+                            recycleBinLogger.debug("Deleted audio file: \(audioURL.lastPathComponent)")
                         } catch {
-                            print("[RecycleBinService] Warning: Failed to delete audio file: \(error.localizedDescription)")
+                            recycleBinLogger.warning("Failed to delete audio file: \(error.localizedDescription)")
                         }
                     }
 
                     // Delete from database
                     modelContext.delete(recording)
                     cleanedCount += 1
-                    print("[RecycleBinService] Permanently deleted expired recording: \(recording.title)")
+                    recycleBinLogger.info("Permanently deleted expired recording: \(recording.title)")
                 }
             }
 
             if cleanedCount > 0 {
                 try modelContext.save()
-                print("[RecycleBinService] Cleaned up \(cleanedCount) expired recording(s)")
+                recycleBinLogger.info("Cleaned up \(cleanedCount) expired recording(s)")
             }
 
             return cleanedCount
 
         } catch {
-            print("[RecycleBinService] Error during cleanup: \(error.localizedDescription)")
+            recycleBinLogger.error("Error during cleanup: \(error.localizedDescription)")
             return 0
         }
     }
@@ -91,19 +94,19 @@ final class RecycleBinService {
                 do {
                     try FileManager.default.removeItem(at: audioURL)
                 } catch {
-                    print("[RecycleBinService] Warning: Failed to delete audio file: \(error.localizedDescription)")
+                    recycleBinLogger.warning("Failed to delete audio file: \(error.localizedDescription)")
                 }
             }
 
             modelContext.delete(recording)
             try modelContext.save()
-            print("[RecycleBinService] Permanently deleted recording: \(recording.title)")
+            recycleBinLogger.info("Permanently deleted recording: \(recording.title)")
         } else {
             // Soft delete - move to recycle bin
             recording.deletedAt = Date()
             recording.updatedAt = Date()
             try modelContext.save()
-            print("[RecycleBinService] Moved recording to recycle bin: \(recording.title)")
+            recycleBinLogger.info("Moved recording to recycle bin: \(recording.title)")
         }
     }
 
@@ -112,7 +115,7 @@ final class RecycleBinService {
         recording.deletedAt = nil
         recording.updatedAt = Date()
         try modelContext.save()
-        print("[RecycleBinService] Restored recording: \(recording.title)")
+        recycleBinLogger.info("Restored recording: \(recording.title)")
     }
 
     /// Get count of recordings in recycle bin
@@ -148,7 +151,7 @@ final class RecycleBinService {
         }
 
         try modelContext.save()
-        print("[RecycleBinService] Emptied recycle bin: \(count) recording(s) permanently deleted")
+        recycleBinLogger.info("Emptied recycle bin: \(count) recording(s) permanently deleted")
         return count
     }
 }

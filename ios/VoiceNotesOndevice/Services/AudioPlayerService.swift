@@ -4,11 +4,42 @@ import Combine
 /// Service for audio playback
 class AudioPlayerService: NSObject, ObservableObject {
 
+    // MARK: - Playback Speed
+
+    enum PlaybackSpeed: Double, CaseIterable, Identifiable {
+        case half = 0.5
+        case threeQuarters = 0.75
+        case normal = 1.0
+        case oneAndQuarter = 1.25
+        case oneAndHalf = 1.5
+        case double = 2.0
+
+        var id: Double { rawValue }
+
+        var displayName: String {
+            switch self {
+            case .half: return "0.5x"
+            case .threeQuarters: return "0.75x"
+            case .normal: return "1x"
+            case .oneAndQuarter: return "1.25x"
+            case .oneAndHalf: return "1.5x"
+            case .double: return "2x"
+            }
+        }
+    }
+
     // MARK: - Published Properties
 
     @Published private(set) var isPlaying: Bool = false
     @Published private(set) var currentTime: TimeInterval = 0
     @Published private(set) var duration: TimeInterval = 0
+    @Published private(set) var isPaused: Bool = false
+    @Published var playbackSpeed: PlaybackSpeed = .normal {
+        didSet {
+            audioPlayer?.rate = Float(playbackSpeed.rawValue)
+            UserDefaults.standard.set(playbackSpeed.rawValue, forKey: "playbackSpeed")
+        }
+    }
 
     // MARK: - Private Properties
 
@@ -21,6 +52,11 @@ class AudioPlayerService: NSObject, ObservableObject {
 
     override init() {
         super.init()
+        // Load saved playback speed
+        if let savedSpeed = UserDefaults.standard.object(forKey: "playbackSpeed") as? Double,
+           let speed = PlaybackSpeed(rawValue: savedSpeed) {
+            playbackSpeed = speed
+        }
     }
 
     deinit {
@@ -40,6 +76,8 @@ class AudioPlayerService: NSObject, ObservableObject {
 
         audioPlayer = try AVAudioPlayer(contentsOf: url)
         audioPlayer?.delegate = self
+        audioPlayer?.enableRate = true
+        audioPlayer?.rate = Float(playbackSpeed.rawValue)
         audioPlayer?.prepareToPlay()
 
         audioURL = url
@@ -58,8 +96,10 @@ class AudioPlayerService: NSObject, ObservableObject {
             return
         }
 
+        player.rate = Float(playbackSpeed.rawValue)
         player.play()
         isPlaying = true
+        isPaused = false
         startDisplayLink()
     }
 
@@ -67,6 +107,7 @@ class AudioPlayerService: NSObject, ObservableObject {
     func pause() {
         audioPlayer?.pause()
         isPlaying = false
+        isPaused = true
         stopDisplayLink()
     }
 
@@ -111,6 +152,20 @@ class AudioPlayerService: NSObject, ObservableObject {
     func setRate(_ rate: Float) {
         audioPlayer?.enableRate = true
         audioPlayer?.rate = rate
+    }
+
+    /// Set playback speed using the enum
+    func setSpeed(_ speed: PlaybackSpeed) {
+        playbackSpeed = speed
+    }
+
+    /// Cycle through available playback speeds
+    func cycleSpeed() {
+        let speeds = PlaybackSpeed.allCases
+        guard let currentIndex = speeds.firstIndex(of: playbackSpeed) else { return }
+
+        let nextIndex = (currentIndex + 1) % speeds.count
+        playbackSpeed = speeds[nextIndex]
     }
 
     // MARK: - Private Methods

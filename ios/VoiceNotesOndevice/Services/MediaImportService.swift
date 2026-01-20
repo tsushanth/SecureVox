@@ -2,6 +2,9 @@ import Foundation
 import PhotosUI
 import AVFoundation
 import UniformTypeIdentifiers
+import os.log
+
+private let importLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "MediaImportService")
 
 /// Service for importing audio and video files with audio extraction
 actor MediaImportService {
@@ -238,17 +241,17 @@ actor MediaImportService {
                     try fileManager.removeItem(at: url)
                     filesRemoved += 1
                     bytesFreed += fileSize
-                    print("[MediaImportService] Cleaned up temp file: \(url.lastPathComponent) (\(fileAge)s old, \(fileSize) bytes)")
+                    importLogger.debug("Cleaned up temp file: \(url.lastPathComponent) (\(fileAge)s old, \(fileSize) bytes)")
                 }
             } catch {
                 // Log but continue with other files
-                print("[MediaImportService] Failed to clean up \(url.lastPathComponent): \(error.localizedDescription)")
+                importLogger.warning("Failed to clean up \(url.lastPathComponent): \(error.localizedDescription)")
             }
         }
 
         if filesRemoved > 0 {
             let bytesFormatted = ByteCountFormatter.string(fromByteCount: bytesFreed, countStyle: .file)
-            print("[MediaImportService] Cleanup complete: \(filesRemoved) files removed, \(bytesFormatted) freed")
+            importLogger.info("Cleanup complete: \(filesRemoved) files removed, \(bytesFormatted) freed")
         }
 
         return (filesRemoved, bytesFreed)

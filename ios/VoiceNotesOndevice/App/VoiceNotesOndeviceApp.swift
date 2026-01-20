@@ -1,5 +1,8 @@
 import SwiftUI
 import SwiftData
+import os.log
+
+private let appLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "App")
 
 /// Main entry point for VoiceNotesOndevice app
 @main
@@ -77,7 +80,7 @@ struct VoiceNotesOndeviceApp: App {
         // Clean up expired recordings from recycle bin
         let cleanedCount = RecycleBinService.shared.cleanupExpiredRecordings(modelContext: container.mainContext)
         if cleanedCount > 0 {
-            print("[App] Startup cleanup: removed \(cleanedCount) expired recording(s) from recycle bin")
+            appLogger.info("Startup cleanup: removed \(cleanedCount) expired recording(s) from recycle bin")
         }
 
         // Clean up old temporary import files

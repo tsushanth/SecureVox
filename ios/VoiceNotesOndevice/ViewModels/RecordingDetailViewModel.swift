@@ -3,11 +3,14 @@ import SwiftUI
 import SwiftData
 import AVFoundation
 import Combine
+import os.log
 #if os(iOS)
 import UIKit
 #elseif os(macOS)
 import AppKit
 #endif
+
+private let detailVMLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "RecordingDetailViewModel")
 
 /// ViewModel for the recording detail screen with playback and transcription
 @MainActor
@@ -702,39 +705,41 @@ final class RecordingDetailViewModel: ObservableObject {
 
     /// Delete the recording completely (audio file, segments, and recording)
     func deleteRecording() {
-        print("[DELETE] Starting deletion of recording: \(recording.id) - \(recording.title)")
+        let recordingId = recording.id
+        let recordingTitle = recording.title
+        detailVMLogger.info("Starting deletion of recording: \(recordingId) - \(recordingTitle)")
 
         // Stop playback first
         stopPlayback()
 
         // Delete audio file if it exists
         if let audioURL = recording.audioFileURL {
-            print("[DELETE] Removing audio file at: \(audioURL.path)")
+            detailVMLogger.debug("Removing audio file at: \(audioURL.path)")
             do {
                 try FileManager.default.removeItem(at: audioURL)
-                print("[DELETE] Audio file removed successfully")
+                detailVMLogger.debug("Audio file removed successfully")
             } catch {
-                print("[DELETE] Failed to remove audio file: \(error)")
+                detailVMLogger.error("Failed to remove audio file: \(error.localizedDescription)")
             }
         }
 
         // Delete all segments
         let segmentCount = recording.segments.count
-        print("[DELETE] Deleting \(segmentCount) segments")
+        detailVMLogger.debug("Deleting \(segmentCount) segments")
         for segment in recording.segments {
             modelContext.delete(segment)
         }
 
         // Delete the recording itself
-        print("[DELETE] Deleting recording from SwiftData")
+        detailVMLogger.debug("Deleting recording from SwiftData")
         modelContext.delete(recording)
 
         // Save and verify
         do {
             try modelContext.save()
-            print("[DELETE] SwiftData save successful")
+            detailVMLogger.info("SwiftData save successful")
         } catch {
-            print("[DELETE] SwiftData save failed: \(error)")
+            detailVMLogger.error("SwiftData save failed: \(error.localizedDescription)")
             errorMessage = "Failed to delete: \(error.localizedDescription)"
         }
     }
