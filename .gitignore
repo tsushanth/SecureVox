@@ -2,6 +2,19 @@
 .DS_Store
 *.swp
 *~
+.claude-config
+
+# macOS App
+macos/build/
+macos/DerivedData/
+macos/*.xcuserstate
+macos/**/*.xcuserstate
+macos/*.xcworkspace/xcuserdata/
+macos/**/*.xcworkspace/xcuserdata/
+macos/xcuserdata/
+macos/**/xcuserdata/
+macos/*.app/
+macos/**/*.app/
 
 # iOS
 ios/build/
@@ -46,6 +59,7 @@ android/.externalNativeBuild/
 android/.cxx/
 android/app/.cxx/
 android/app/src/main/cpp/whisper.cpp/
+android/app/release/
 
 # Whisper models (too large for git)
 *.bin
