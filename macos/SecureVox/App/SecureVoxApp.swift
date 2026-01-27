@@ -14,6 +14,7 @@ struct SecureVoxApp: App {
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
     @State private var modelContainerError: Error?
+    @Environment(\.openWindow) private var openWindow
 
     // MARK: - SwiftData
 
@@ -56,10 +57,24 @@ struct SecureVoxApp: App {
         }
     }
 
+    // MARK: - Helpers
+
+    private func openMainWindow() {
+        // First try to find and show existing window
+        if let existingWindow = NSApp.windows.first(where: { $0.identifier?.rawValue == "main" || $0.title.contains("SecureVox") }) {
+            existingWindow.makeKeyAndOrderFront(nil)
+            NSApp.activate(ignoringOtherApps: true)
+            return
+        }
+        // Open new window if none exists
+        openWindow(id: "main")
+        NSApp.activate(ignoringOtherApps: true)
+    }
+
     // MARK: - Body
 
     var body: some Scene {
-        WindowGroup {
+        WindowGroup(id: "main") {
             if hasCompletedOnboarding {
                 ContentView()
                     .environmentObject(appState)
@@ -106,6 +121,14 @@ struct SecureVoxApp: App {
                 }
                 .keyboardShortcut(",", modifiers: .command)
             }
+
+            // Window menu - allows reopening main window
+            CommandGroup(after: .windowList) {
+                Button("Main Window") {
+                    openMainWindow()
+                }
+                .keyboardShortcut("0", modifiers: .command)
+            }
         }
 
         // Settings window
@@ -118,7 +141,6 @@ struct SecureVoxApp: App {
         // Menu bar icon
         MenuBarExtra("SecureVox", systemImage: "waveform.circle.fill") {
             MenuBarView()
-                .environmentObject(appState)
         }
         .menuBarExtraStyle(.menu)
     }
@@ -127,26 +149,11 @@ struct SecureVoxApp: App {
 // MARK: - Menu Bar View
 
 struct MenuBarView: View {
-    @EnvironmentObject private var appState: AppState
     @Environment(\.openWindow) private var openWindow
 
     var body: some View {
-        Button("New Recording") {
-            appState.startRecording()
-            NSApp.activate(ignoringOtherApps: true)
-        }
-        .keyboardShortcut("n", modifiers: .command)
-
-        Button("Import Audio...") {
-            appState.showImportPanel = true
-            NSApp.activate(ignoringOtherApps: true)
-        }
-        .keyboardShortcut("i", modifiers: .command)
-
-        Divider()
-
         Button("Open SecureVox") {
-            NSApp.activate(ignoringOtherApps: true)
+            openMainWindow()
         }
 
         Divider()
@@ -155,6 +162,20 @@ struct MenuBarView: View {
             NSApp.terminate(nil)
         }
         .keyboardShortcut("q", modifiers: .command)
+    }
+
+    private func openMainWindow() {
+        // First try to find and show existing window
+        for window in NSApp.windows {
+            if window.canBecomeMain && !window.title.isEmpty {
+                window.makeKeyAndOrderFront(nil)
+                NSApp.activate(ignoringOtherApps: true)
+                return
+            }
+        }
+        // Open new window if none exists
+        openWindow(id: "main")
+        NSApp.activate(ignoringOtherApps: true)
     }
 }
 
@@ -175,8 +196,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
         // Reopen main window when dock icon clicked
         if !flag {
-            for window in sender.windows {
-                window.makeKeyAndOrderFront(self)
+            // Try to find and show existing main window
+            if let mainWindow = sender.windows.first(where: { $0.canBecomeMain }) {
+                mainWindow.makeKeyAndOrderFront(self)
+            } else {
+                // No window exists, create new one via menu action
+                // This triggers the WindowGroup to create a new window
+                sender.sendAction(#selector(NSWindow.makeKeyAndOrderFront(_:)), to: nil, from: nil)
             }
         }
         return true
