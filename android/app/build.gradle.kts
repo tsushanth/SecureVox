@@ -12,7 +12,7 @@ android {
         applicationId = "com.securevox.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 5
+        versionCode = 6
         versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -29,7 +29,8 @@ android {
             cmake {
                 arguments += listOf(
                     "-DWHISPER_BUILD_TESTS=OFF",
-                    "-DWHISPER_BUILD_EXAMPLES=OFF"
+                    "-DWHISPER_BUILD_EXAMPLES=OFF",
+                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
                 )
                 cppFlags += listOf("-std=c++17", "-O3", "-fPIC")
             }
