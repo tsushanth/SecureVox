@@ -276,7 +276,7 @@ struct ImportMenuView: View {
             duration: result.duration,
             sourceType: result.sourceType
         )
-        recording.audioFileName = result.audioFileURL.lastPathComponent
+        recording.audioFileName = AppConstants.Storage.recordingsDirectory + "/" + result.audioFileURL.lastPathComponent
         recording.audioFileSize = result.fileSize
 
         // Save to SwiftData

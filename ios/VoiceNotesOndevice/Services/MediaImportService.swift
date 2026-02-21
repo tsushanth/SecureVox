@@ -99,7 +99,9 @@ actor MediaImportService {
     // MARK: - Supported Types
 
     static let supportedAudioTypes: [UTType] = [
-        .mp3, .mpeg4Audio, .wav, .aiff, .audio
+        .mp3, .mpeg4Audio, .wav, .aiff,
+        UTType("org.xiph.flac")!, // FLAC
+        .audio
     ]
 
     static let supportedVideoTypes: [UTType] = [
@@ -410,7 +412,7 @@ actor MediaImportService {
     ) async throws -> URL {
         let outputURL = FileManager.default.temporaryDirectory
             .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("m4a")
+            .appendingPathExtension("wav")
 
         // Get audio track
         let audioTracks = try await asset.loadTracks(withMediaType: .audio)
@@ -426,10 +428,19 @@ actor MediaImportService {
             throw ImportError.readerInitFailed
         }
 
-        // Configure reader output settings (PCM for reading)
+        // Log source audio format for debugging
+        let sourceDescription = try await audioTrack.load(.formatDescriptions)
+        if let firstDesc = sourceDescription.first {
+            let sourceFormat = CMAudioFormatDescriptionGetStreamBasicDescription(firstDesc)?.pointee
+            importLogger.info("Source audio: \(sourceFormat?.mSampleRate ?? 0) Hz, \(sourceFormat?.mChannelsPerFrame ?? 0) ch")
+        }
+
+        // Configure reader output settings (PCM for reading at Whisper's native 16kHz)
+        let whisperSampleRate = AppConstants.Audio.whisperSampleRate
+        importLogger.info("Converting to \(whisperSampleRate) Hz mono for Whisper compatibility")
         let readerOutputSettings: [String: Any] = [
             AVFormatIDKey: kAudioFormatLinearPCM,
-            AVSampleRateKey: 44100,
+            AVSampleRateKey: whisperSampleRate,
             AVNumberOfChannelsKey: 1,
             AVLinearPCMBitDepthKey: 16,
             AVLinearPCMIsFloatKey: false,
@@ -448,20 +459,23 @@ actor MediaImportService {
         }
         reader.add(readerOutput)
 
-        // Create asset writer
+        // Create asset writer with WAV (LPCM) output — more reliable than AAC at 16kHz
         let writer: AVAssetWriter
         do {
-            writer = try AVAssetWriter(outputURL: outputURL, fileType: .m4a)
+            writer = try AVAssetWriter(outputURL: outputURL, fileType: .wav)
         } catch {
             throw ImportError.writerInitFailed
         }
 
-        // Configure writer input settings (AAC for output)
+        // Write as Linear PCM at 16kHz mono (matching Whisper's native format)
         let writerInputSettings: [String: Any] = [
-            AVFormatIDKey: kAudioFormatMPEG4AAC,
-            AVSampleRateKey: 44100,
+            AVFormatIDKey: kAudioFormatLinearPCM,
+            AVSampleRateKey: whisperSampleRate,
             AVNumberOfChannelsKey: 1,
-            AVEncoderBitRateKey: 128000
+            AVLinearPCMBitDepthKey: 16,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
+            AVLinearPCMIsNonInterleaved: false
         ]
 
         let writerInput = AVAssetWriterInput(
@@ -561,66 +575,21 @@ actor MediaImportService {
         asset: AVURLAsset,
         progress: @escaping (ImportProgress) -> Void
     ) async throws -> URL {
-        let outputURL = FileManager.default.temporaryDirectory
-            .appendingPathComponent(UUID().uuidString)
-            .appendingPathExtension("m4a")
-
         progress(ImportProgress(stage: .converting, fractionCompleted: 0.3))
 
-        // Check if already in compatible format
-        let fileExtension = url.pathExtension.lowercased()
-        if fileExtension == "m4a" {
-            // Just copy
-            try FileManager.default.copyItem(at: url, to: outputURL)
-            progress(ImportProgress(stage: .converting, fractionCompleted: 0.8))
-            return outputURL
-        }
-
-        // Use AVAssetExportSession for format conversion
-        guard let exportSession = AVAssetExportSession(
-            asset: asset,
-            presetName: AVAssetExportPresetAppleM4A
-        ) else {
-            throw ImportError.extractionFailed(
-                NSError(domain: "MediaImport", code: -1, userInfo: [
-                    NSLocalizedDescriptionKey: "Cannot create export session"
-                ])
-            )
-        }
-
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = .m4a
-
-        // Track progress using explicit AnyCancellable type
-        let progressTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-        var progressCancellable: AnyCancellable?
-
-        progressCancellable = progressTimer.sink { _ in
-            let exportProgress = 0.3 + Double(exportSession.progress) * 0.5
-            progress(ImportProgress(stage: .converting, fractionCompleted: exportProgress))
-        }
-
-        // Export
-        await exportSession.export()
-
-        // Cancel progress timer - properly typed, no unsafe cast needed
-        progressCancellable?.cancel()
-        progressCancellable = nil
-
-        // Check for errors
-        if let error = exportSession.error {
-            throw ImportError.extractionFailed(error)
-        }
-
-        guard exportSession.status == .completed else {
-            throw ImportError.extractionFailed(
-                NSError(domain: "MediaImport", code: -2, userInfo: [
-                    NSLocalizedDescriptionKey: "Export failed with status: \(exportSession.status.rawValue)"
-                ])
-            )
-        }
-
-        return outputURL
+        // Always convert to 16kHz mono M4A using AVAssetReader/Writer
+        // This ensures Whisper gets audio at its native sample rate regardless of source format
+        return try await extractAudioWithAssetReader(
+            from: asset,
+            progress: { importProgress in
+                // Remap progress from extracting range (0.2-0.8) to converting range (0.3-0.8)
+                let remapped = ImportProgress(
+                    stage: .converting,
+                    fractionCompleted: 0.3 + (importProgress.fractionCompleted - 0.2) * (0.5 / 0.6)
+                )
+                progress(remapped)
+            }
+        )
     }
 
     // MARK: - File Management
@@ -631,7 +600,7 @@ actor MediaImportService {
 
         try FileManager.default.createDirectory(at: recordingsDir, withIntermediateDirectories: true)
 
-        let fileName = "\(UUID().uuidString).m4a"
+        let fileName = "\(UUID().uuidString).wav"
         let finalURL = recordingsDir.appendingPathComponent(fileName)
 
         try FileManager.default.moveItem(at: sourceURL, to: finalURL)
@@ -645,11 +614,3 @@ actor MediaImportService {
     }
 }
 
-// MARK: - Combine Support
-
-import Combine
-
-extension MediaImportService {
-    /// AnyCancellable wrapper for timer
-    typealias AnyCancellable = Combine.AnyCancellable
-}

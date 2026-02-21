@@ -1,17 +1,20 @@
 package com.securevox.app.service
 
 import android.content.Context
+import android.media.MediaCodec
 import android.media.MediaExtractor
 import android.media.MediaFormat
 import android.media.MediaMetadataRetriever
-import android.media.MediaMuxer
 import android.net.Uri
 import android.provider.OpenableColumns
+import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import java.io.RandomAccessFile
 import java.nio.ByteBuffer
+import java.nio.ByteOrder
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -30,11 +33,25 @@ sealed class ImportResult {
 }
 
 /**
- * Service for importing media files (audio and video) for transcription
+ * Service for importing media files (audio and video) for transcription.
+ *
+ * All imported files are converted to WAV 16kHz mono 16-bit PCM,
+ * matching the format expected by Whisper and TranscriptionWorker.
  */
 class MediaImportService(private val context: Context) {
 
     companion object {
+        private const val TAG = "MediaImportService"
+
+        /** Whisper's required sample rate */
+        private const val TARGET_SAMPLE_RATE = 16000
+
+        /** Maximum import file size (2 GB) */
+        private const val MAX_IMPORT_FILE_SIZE = 2L * 1024 * 1024 * 1024
+
+        /** Timeout for MediaCodec dequeue operations in microseconds */
+        private const val CODEC_TIMEOUT_US = 10_000L
+
         // Supported audio formats
         private val SUPPORTED_AUDIO_MIMES = setOf(
             "audio/mpeg",      // MP3
@@ -95,72 +112,52 @@ class MediaImportService(private val context: Context) {
             val mimeType = context.contentResolver.getType(uri)
             val fileName = getFileName(uri) ?: "imported_media"
 
+            // Validate file size
+            val fileSize = getFileSize(uri)
+            if (fileSize > MAX_IMPORT_FILE_SIZE) {
+                val sizeMB = fileSize / (1024 * 1024)
+                return@withContext ImportResult.Error("File too large: ${sizeMB} MB. Maximum supported size is 2 GB.")
+            }
+
             when {
                 mimeType == null -> {
                     ImportResult.Error("Could not determine file type")
                 }
                 isAudioType(mimeType) -> {
-                    importAudioFile(uri, fileName)
+                    importAndConvertMedia(uri, fileName)
                 }
                 isVideoType(mimeType) -> {
-                    extractAudioFromVideo(uri, fileName)
+                    importAndConvertMedia(uri, fileName)
                 }
                 else -> {
                     ImportResult.Error("Unsupported file type: $mimeType")
                 }
             }
         } catch (e: Exception) {
+            Log.e(TAG, "Import failed", e)
             ImportResult.Error("Import failed: ${e.message}")
         }
     }
 
     /**
-     * Import an audio file directly
+     * Import and convert any audio/video file to WAV 16kHz mono 16-bit PCM.
+     * Uses MediaExtractor to find the audio track and MediaCodec to decode it.
      */
-    private suspend fun importAudioFile(uri: Uri, originalFileName: String): ImportResult =
+    private suspend fun importAndConvertMedia(uri: Uri, originalFileName: String): ImportResult =
         withContext(Dispatchers.IO) {
+            val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+            val outputFileName = "import_${timestamp}.wav"
+            val outputFile = File(recordingsDir, outputFileName)
+
+            var extractor: MediaExtractor? = null
+            var codec: MediaCodec? = null
+
             try {
-                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-                val extension = getExtensionFromFileName(originalFileName) ?: "m4a"
-                val outputFileName = "import_${timestamp}.$extension"
-                val outputFile = File(recordingsDir, outputFileName)
-
-                // Copy file
-                context.contentResolver.openInputStream(uri)?.use { input ->
-                    FileOutputStream(outputFile).use { output ->
-                        input.copyTo(output)
-                    }
-                } ?: return@withContext ImportResult.Error("Could not open file")
-
-                // Get duration
-                val duration = getMediaDuration(uri)
-
-                ImportResult.Success(
-                    audioFilePath = outputFile.absolutePath,
-                    originalFileName = originalFileName,
-                    duration = duration,
-                    fileSize = outputFile.length()
-                )
-            } catch (e: Exception) {
-                ImportResult.Error("Failed to import audio: ${e.message}")
-            }
-        }
-
-    /**
-     * Extract audio track from a video file
-     */
-    private suspend fun extractAudioFromVideo(uri: Uri, originalFileName: String): ImportResult =
-        withContext(Dispatchers.IO) {
-            try {
-                val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
-                val outputFileName = "import_${timestamp}.m4a"
-                val outputFile = File(recordingsDir, outputFileName)
-
-                // Create media extractor
-                val extractor = MediaExtractor()
+                // Set up extractor
+                extractor = MediaExtractor()
                 context.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
                     extractor.setDataSource(pfd.fileDescriptor)
-                } ?: return@withContext ImportResult.Error("Could not open video file")
+                } ?: return@withContext ImportResult.Error("Could not open file")
 
                 // Find audio track
                 var audioTrackIndex = -1
@@ -177,47 +174,32 @@ class MediaImportService(private val context: Context) {
                 }
 
                 if (audioTrackIndex == -1 || audioFormat == null) {
-                    extractor.release()
-                    return@withContext ImportResult.Error("No audio track found in video")
+                    return@withContext ImportResult.Error("No audio track found in file")
                 }
 
-                // Select audio track
                 extractor.selectTrack(audioTrackIndex)
 
-                // Create muxer for output
-                val muxer = MediaMuxer(
-                    outputFile.absolutePath,
-                    MediaMuxer.OutputFormat.MUXER_OUTPUT_MPEG_4
-                )
+                val sourceMime = audioFormat.getString(MediaFormat.KEY_MIME) ?: "audio/mp4"
+                val sourceSampleRate = audioFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
+                val sourceChannels = audioFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
+                Log.i(TAG, "Source audio: $sourceMime, ${sourceSampleRate}Hz, ${sourceChannels}ch")
 
-                val outputTrackIndex = muxer.addTrack(audioFormat)
-                muxer.start()
+                // Configure decoder
+                codec = MediaCodec.createDecoderByType(sourceMime)
+                codec.configure(audioFormat, null, null, 0)
+                codec.start()
 
-                // Extract and write audio
-                val bufferSize = audioFormat.getInteger(MediaFormat.KEY_MAX_INPUT_SIZE, 1024 * 1024)
-                val buffer = ByteBuffer.allocate(bufferSize)
-                val bufferInfo = android.media.MediaCodec.BufferInfo()
+                // Decode all audio to raw PCM samples
+                val pcmSamples = decodeAudioToPcm(extractor, codec, sourceSampleRate, sourceChannels)
+                Log.i(TAG, "Decoded ${pcmSamples.size} samples at ${TARGET_SAMPLE_RATE}Hz mono")
 
-                while (true) {
-                    val sampleSize = extractor.readSampleData(buffer, 0)
-                    if (sampleSize < 0) break
-
-                    bufferInfo.offset = 0
-                    bufferInfo.size = sampleSize
-                    bufferInfo.presentationTimeUs = extractor.sampleTime
-                    bufferInfo.flags = extractor.sampleFlags
-
-                    muxer.writeSampleData(outputTrackIndex, buffer, bufferInfo)
-                    extractor.advance()
-                }
-
-                // Cleanup
-                muxer.stop()
-                muxer.release()
-                extractor.release()
+                // Write as WAV file
+                writeWavFile(outputFile, pcmSamples, TARGET_SAMPLE_RATE)
 
                 // Get duration
-                val duration = getMediaDuration(Uri.fromFile(outputFile))
+                val duration = getMediaDuration(uri)
+
+                Log.i(TAG, "Import complete: ${outputFile.absolutePath}, ${outputFile.length()} bytes")
 
                 ImportResult.Success(
                     audioFilePath = outputFile.absolutePath,
@@ -226,9 +208,185 @@ class MediaImportService(private val context: Context) {
                     fileSize = outputFile.length()
                 )
             } catch (e: Exception) {
-                ImportResult.Error("Failed to extract audio from video: ${e.message}")
+                Log.e(TAG, "Failed to convert media", e)
+                outputFile.delete()
+                ImportResult.Error("Failed to import media: ${e.message}")
+            } finally {
+                try { codec?.stop() } catch (_: Exception) {}
+                try { codec?.release() } catch (_: Exception) {}
+                try { extractor?.release() } catch (_: Exception) {}
             }
         }
+
+    /**
+     * Decode audio using MediaCodec, resample to 16kHz mono, return as ShortArray.
+     */
+    private fun decodeAudioToPcm(
+        extractor: MediaExtractor,
+        codec: MediaCodec,
+        sourceSampleRate: Int,
+        sourceChannels: Int
+    ): ShortArray {
+        val allSamples = mutableListOf<Short>()
+        val bufferInfo = MediaCodec.BufferInfo()
+        var isEos = false
+        var inputDone = false
+
+        while (!isEos) {
+            // Feed input buffers
+            if (!inputDone) {
+                val inputIndex = codec.dequeueInputBuffer(CODEC_TIMEOUT_US)
+                if (inputIndex >= 0) {
+                    val inputBuffer = codec.getInputBuffer(inputIndex)!!
+                    val sampleSize = extractor.readSampleData(inputBuffer, 0)
+
+                    if (sampleSize < 0) {
+                        codec.queueInputBuffer(inputIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
+                        inputDone = true
+                    } else {
+                        val presentationTimeUs = extractor.sampleTime
+                        codec.queueInputBuffer(inputIndex, 0, sampleSize, presentationTimeUs, 0)
+                        extractor.advance()
+                    }
+                }
+            }
+
+            // Drain output buffers
+            val outputIndex = codec.dequeueOutputBuffer(bufferInfo, CODEC_TIMEOUT_US)
+            if (outputIndex >= 0) {
+                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                    isEos = true
+                }
+
+                val outputBuffer = codec.getOutputBuffer(outputIndex)
+                if (outputBuffer != null && bufferInfo.size > 0) {
+                    outputBuffer.position(bufferInfo.offset)
+                    outputBuffer.limit(bufferInfo.offset + bufferInfo.size)
+
+                    // Read decoded PCM samples (16-bit)
+                    val shortBuffer = outputBuffer.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer()
+                    val samples = ShortArray(shortBuffer.remaining())
+                    shortBuffer.get(samples)
+
+                    // Mix down to mono if stereo/multi-channel
+                    val monoSamples = if (sourceChannels > 1) {
+                        mixToMono(samples, sourceChannels)
+                    } else {
+                        samples
+                    }
+
+                    // Resample to target rate if needed
+                    val resampled = if (sourceSampleRate != TARGET_SAMPLE_RATE) {
+                        resample(monoSamples, sourceSampleRate, TARGET_SAMPLE_RATE)
+                    } else {
+                        monoSamples
+                    }
+
+                    for (s in resampled) {
+                        allSamples.add(s)
+                    }
+                }
+
+                codec.releaseOutputBuffer(outputIndex, false)
+            }
+        }
+
+        return allSamples.toShortArray()
+    }
+
+    /**
+     * Mix multi-channel audio down to mono by averaging channels.
+     */
+    private fun mixToMono(samples: ShortArray, channels: Int): ShortArray {
+        val monoLength = samples.size / channels
+        val mono = ShortArray(monoLength)
+        for (i in 0 until monoLength) {
+            var sum = 0L
+            for (ch in 0 until channels) {
+                sum += samples[i * channels + ch]
+            }
+            mono[i] = (sum / channels).toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+        }
+        return mono
+    }
+
+    /**
+     * Resample audio using linear interpolation.
+     */
+    private fun resample(samples: ShortArray, fromRate: Int, toRate: Int): ShortArray {
+        if (fromRate == toRate || samples.isEmpty()) return samples
+
+        val ratio = fromRate.toDouble() / toRate.toDouble()
+        val outputLength = (samples.size / ratio).toInt()
+        val output = ShortArray(outputLength)
+
+        for (i in 0 until outputLength) {
+            val srcPos = i * ratio
+            val srcIndex = srcPos.toInt()
+            val fraction = srcPos - srcIndex
+
+            val sample1 = samples[srcIndex]
+            val sample2 = if (srcIndex + 1 < samples.size) samples[srcIndex + 1] else sample1
+
+            // Linear interpolation
+            val interpolated = sample1 + (fraction * (sample2 - sample1))
+            output[i] = interpolated.toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+        }
+
+        return output
+    }
+
+    /**
+     * Write PCM samples as a WAV file with proper RIFF header.
+     */
+    private fun writeWavFile(file: File, samples: ShortArray, sampleRate: Int) {
+        val dataSize = samples.size * 2 // 16-bit = 2 bytes per sample
+
+        FileOutputStream(file).use { fos ->
+            // Write placeholder header
+            fos.write(ByteArray(44))
+
+            // Write PCM data
+            val buffer = ByteBuffer.allocate(samples.size * 2)
+            buffer.order(ByteOrder.LITTLE_ENDIAN)
+            for (sample in samples) {
+                buffer.putShort(sample)
+            }
+            fos.write(buffer.array())
+        }
+
+        // Update WAV header
+        RandomAccessFile(file, "rw").use { raf ->
+            val totalSize = dataSize + 36
+
+            raf.seek(0)
+            raf.writeBytes("RIFF")
+            raf.writeIntLE(totalSize)
+            raf.writeBytes("WAVE")
+            raf.writeBytes("fmt ")
+            raf.writeIntLE(16)          // Subchunk1Size
+            raf.writeShortLE(1)         // AudioFormat (PCM)
+            raf.writeShortLE(1)         // NumChannels (mono)
+            raf.writeIntLE(sampleRate)  // SampleRate
+            raf.writeIntLE(sampleRate * 2) // ByteRate (sampleRate * channels * bytesPerSample)
+            raf.writeShortLE(2)         // BlockAlign (channels * bytesPerSample)
+            raf.writeShortLE(16)        // BitsPerSample
+            raf.writeBytes("data")
+            raf.writeIntLE(dataSize)
+        }
+    }
+
+    private fun RandomAccessFile.writeIntLE(value: Int) {
+        write(value and 0xFF)
+        write((value shr 8) and 0xFF)
+        write((value shr 16) and 0xFF)
+        write((value shr 24) and 0xFF)
+    }
+
+    private fun RandomAccessFile.writeShortLE(value: Int) {
+        write(value and 0xFF)
+        write((value shr 8) and 0xFF)
+    }
 
     /**
      * Get the duration of a media file in milliseconds
@@ -240,6 +398,25 @@ class MediaImportService(private val context: Context) {
             val durationStr = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION)
             retriever.release()
             durationStr?.toLongOrNull() ?: 0L
+        } catch (e: Exception) {
+            0L
+        }
+    }
+
+    /**
+     * Get file size from URI
+     */
+    private fun getFileSize(uri: Uri): Long {
+        return try {
+            context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    val sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE)
+                    if (sizeIndex >= 0 && !cursor.isNull(sizeIndex)) {
+                        return@use cursor.getLong(sizeIndex)
+                    }
+                }
+                0L
+            } ?: 0L
         } catch (e: Exception) {
             0L
         }
@@ -267,18 +444,6 @@ class MediaImportService(private val context: Context) {
         }
 
         return fileName
-    }
-
-    /**
-     * Get file extension from file name
-     */
-    private fun getExtensionFromFileName(fileName: String): String? {
-        val lastDot = fileName.lastIndexOf('.')
-        return if (lastDot >= 0 && lastDot < fileName.length - 1) {
-            fileName.substring(lastDot + 1).lowercase()
-        } else {
-            null
-        }
     }
 
     private fun isAudioType(mimeType: String): Boolean {

@@ -179,7 +179,7 @@ enum AppConstants {
 
     enum RatingPrompt {
         /// Minimum transcriptions before showing the first prompt
-        static let minTranscriptionsForFirstPrompt = 3
+        static let minTranscriptionsForFirstPrompt = 1
 
         /// Transcriptions between prompts for users who chose "Not Now"
         static let transcriptionsBetweenPrompts = 10
