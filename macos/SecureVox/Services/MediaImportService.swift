@@ -1,6 +1,10 @@
 import Foundation
 import AVFoundation
 import AppKit
+import UniformTypeIdentifiers
+import os.log
+
+private let importLogger = Logger(subsystem: "com.voicenotes.ondevice.macos", category: "MediaImportService")
 
 /// Service for importing audio and video files
 class MediaImportService {
@@ -38,7 +42,7 @@ class MediaImportService {
         let isVideo = isVideoFile(url: url)
 
         // Get duration
-        let asset = AVAsset(url: url)
+        let asset = AVURLAsset(url: url)
         let duration = try await asset.load(.duration).seconds
 
         guard duration <= AppConstants.Audio.maxRecordingDuration else {
@@ -49,13 +53,8 @@ class MediaImportService {
             throw ImportError.durationTooShort
         }
 
-        // If video, extract audio
-        let audioURL: URL
-        if isVideo {
-            audioURL = try await extractAudioFromVideo(url: url)
-        } else {
-            audioURL = try copyToRecordingsDirectory(url: url)
-        }
+        // Convert to 16kHz mono WAV for Whisper compatibility
+        let audioURL = try await convertToWhisperFormat(asset: asset)
 
         // Get final file size
         let finalSize = try getFileSize(url: audioURL)
@@ -65,8 +64,136 @@ class MediaImportService {
             duration: duration,
             fileSize: finalSize,
             originalFileName: url.lastPathComponent,
-            sourceType: isVideo ? .imported : .imported // Could differentiate video vs audio import
+            sourceType: .imported
         )
+    }
+
+    // MARK: - Audio Conversion
+
+    /// Convert any audio/video file to 16kHz mono 16-bit PCM WAV using AVAssetReader/Writer
+    private func convertToWhisperFormat(asset: AVURLAsset) async throws -> URL {
+        // Get audio track
+        let audioTracks = try await asset.loadTracks(withMediaType: .audio)
+        guard let audioTrack = audioTracks.first else {
+            throw ImportError.noAudioTrack
+        }
+
+        // Log source format
+        let sourceDescription = try await audioTrack.load(.formatDescriptions)
+        if let firstDesc = sourceDescription.first {
+            let sourceFormat = CMAudioFormatDescriptionGetStreamBasicDescription(firstDesc)?.pointee
+            importLogger.info("Source audio: \(sourceFormat?.mSampleRate ?? 0) Hz, \(sourceFormat?.mChannelsPerFrame ?? 0) ch")
+        }
+
+        let whisperSampleRate = AppConstants.Audio.whisperSampleRate
+        importLogger.info("Converting to \(whisperSampleRate) Hz mono WAV for Whisper compatibility")
+
+        // Create output URL in recordings directory
+        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+        let recordingsURL = documentsURL.appendingPathComponent(AppConstants.Storage.recordingsDirectory)
+        try FileManager.default.createDirectory(at: recordingsURL, withIntermediateDirectories: true)
+
+        let fileName = "\(UUID().uuidString).wav"
+        let outputURL = recordingsURL.appendingPathComponent(fileName)
+
+        // Configure reader
+        let reader = try AVAssetReader(asset: asset)
+
+        let readerOutputSettings: [String: Any] = [
+            AVFormatIDKey: kAudioFormatLinearPCM,
+            AVSampleRateKey: whisperSampleRate,
+            AVNumberOfChannelsKey: 1,
+            AVLinearPCMBitDepthKey: 16,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
+            AVLinearPCMIsNonInterleaved: false
+        ]
+
+        let readerOutput = AVAssetReaderTrackOutput(
+            track: audioTrack,
+            outputSettings: readerOutputSettings
+        )
+        readerOutput.alwaysCopiesSampleData = false
+
+        guard reader.canAdd(readerOutput) else {
+            throw ImportError.exportFailed
+        }
+        reader.add(readerOutput)
+
+        // Configure writer as WAV (Linear PCM)
+        let writer = try AVAssetWriter(outputURL: outputURL, fileType: .wav)
+
+        let writerInputSettings: [String: Any] = [
+            AVFormatIDKey: kAudioFormatLinearPCM,
+            AVSampleRateKey: whisperSampleRate,
+            AVNumberOfChannelsKey: 1,
+            AVLinearPCMBitDepthKey: 16,
+            AVLinearPCMIsFloatKey: false,
+            AVLinearPCMIsBigEndianKey: false,
+            AVLinearPCMIsNonInterleaved: false
+        ]
+
+        let writerInput = AVAssetWriterInput(
+            mediaType: .audio,
+            outputSettings: writerInputSettings
+        )
+        writerInput.expectsMediaDataInRealTime = false
+
+        guard writer.canAdd(writerInput) else {
+            throw ImportError.exportFailed
+        }
+        writer.add(writerInput)
+
+        // Start reading and writing
+        guard reader.startReading() else {
+            throw ImportError.exportFailed
+        }
+
+        guard writer.startWriting() else {
+            throw ImportError.exportFailed
+        }
+
+        writer.startSession(atSourceTime: .zero)
+
+        // Process samples
+        return try await withCheckedThrowingContinuation { continuation in
+            let queue = DispatchQueue(label: "com.securevox.macos.audioconversion")
+
+            writerInput.requestMediaDataWhenReady(on: queue) {
+                while writerInput.isReadyForMoreMediaData {
+                    if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                        writerInput.append(sampleBuffer)
+                    } else {
+                        // No more samples
+                        writerInput.markAsFinished()
+
+                        switch reader.status {
+                        case .completed:
+                            writer.finishWriting {
+                                if writer.status == .completed {
+                                    importLogger.info("Conversion complete: \(outputURL.lastPathComponent)")
+                                    continuation.resume(returning: outputURL)
+                                } else {
+                                    importLogger.error("Writer failed: \(writer.error?.localizedDescription ?? "unknown")")
+                                    continuation.resume(throwing: ImportError.exportFailed)
+                                }
+                            }
+                        case .failed:
+                            writer.cancelWriting()
+                            importLogger.error("Reader failed: \(reader.error?.localizedDescription ?? "unknown")")
+                            continuation.resume(throwing: ImportError.exportFailed)
+                        case .cancelled:
+                            writer.cancelWriting()
+                            continuation.resume(throwing: ImportError.cancelled)
+                        default:
+                            writer.cancelWriting()
+                            continuation.resume(throwing: ImportError.exportFailed)
+                        }
+                        return
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - File Operations
@@ -79,62 +206,6 @@ class MediaImportService {
     private func isVideoFile(url: URL) -> Bool {
         let videoExtensions = ["mp4", "mov", "m4v", "avi", "mkv", "webm"]
         return videoExtensions.contains(url.pathExtension.lowercased())
-    }
-
-    private func copyToRecordingsDirectory(url: URL) throws -> URL {
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let recordingsURL = documentsURL.appendingPathComponent(AppConstants.Storage.recordingsDirectory)
-
-        // Create directory if needed
-        try FileManager.default.createDirectory(at: recordingsURL, withIntermediateDirectories: true)
-
-        // Generate unique filename
-        let fileName = "import_\(Int(Date().timeIntervalSince1970))_\(url.lastPathComponent)"
-        let destinationURL = recordingsURL.appendingPathComponent(fileName)
-
-        // Copy file
-        try FileManager.default.copyItem(at: url, to: destinationURL)
-
-        return destinationURL
-    }
-
-    private func extractAudioFromVideo(url: URL) async throws -> URL {
-        let asset = AVAsset(url: url)
-
-        // Check for audio tracks
-        let audioTracks = try await asset.loadTracks(withMediaType: .audio)
-        guard !audioTracks.isEmpty else {
-            throw ImportError.noAudioTrack
-        }
-
-        // Create output URL
-        let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let recordingsURL = documentsURL.appendingPathComponent(AppConstants.Storage.recordingsDirectory)
-        try FileManager.default.createDirectory(at: recordingsURL, withIntermediateDirectories: true)
-
-        let fileName = "import_\(Int(Date().timeIntervalSince1970)).m4a"
-        let outputURL = recordingsURL.appendingPathComponent(fileName)
-
-        // Export audio
-        guard let exportSession = AVAssetExportSession(asset: asset, presetName: AVAssetExportPresetAppleM4A) else {
-            throw ImportError.exportFailed
-        }
-
-        exportSession.outputURL = outputURL
-        exportSession.outputFileType = .m4a
-
-        await exportSession.export()
-
-        switch exportSession.status {
-        case .completed:
-            return outputURL
-        case .failed:
-            throw ImportError.exportFailed
-        case .cancelled:
-            throw ImportError.cancelled
-        default:
-            throw ImportError.exportFailed
-        }
     }
 
     // MARK: - Open Panel
@@ -199,8 +270,6 @@ enum ImportError: LocalizedError {
 }
 
 // MARK: - UTType Extension
-
-import UniformTypeIdentifiers
 
 extension UTType {
     static let mp3 = UTType(filenameExtension: "mp3")!
