@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import os.log
+import FirebaseCore
 
 private let appLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "App")
 
@@ -36,6 +37,9 @@ struct VoiceNotesOndeviceApp: App {
     }
 
     init() {
+        // Configure Firebase for analytics
+        FirebaseApp.configure()
+
         let schema = Schema([
             Recording.self,
             TranscriptSegment.self
