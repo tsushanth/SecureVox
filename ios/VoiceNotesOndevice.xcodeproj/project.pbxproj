@@ -10,6 +10,9 @@
 		F001 /* VoiceNotesOndeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = S001 /* VoiceNotesOndeviceApp.swift */; };
 		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
 		F003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S003 /* ContentView.swift */; };
+		F061 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S061 /* AnalyticsService.swift */; };
+		F102 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = R004 /* GoogleService-Info.plist */; };
+		FIREBASE_ANALYTICS_BUILD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */; };
 		F004 /* AudioPreprocessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S004 /* AudioPreprocessor.swift */; };
 		F005 /* ChunkProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S005 /* ChunkProcessor.swift */; };
 		F006 /* VADFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = S006 /* VADFilter.swift */; };
@@ -166,6 +169,8 @@
 		S058 /* AppGroupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupManager.swift; sourceTree = "<group>"; };
 		S059 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
 		S060 /* RecycleBinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinService.swift; sourceTree = "<group>"; };
+		S061 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
+		R004 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
@@ -180,6 +185,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
+				FIREBASE_ANALYTICS_BUILD /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				R001 /* Assets.xcassets */,
+				R004 /* GoogleService-Info.plist */,
 				R002 /* Info.plist */,
 				R003 /* Models */,
 			);
@@ -275,6 +282,7 @@
 		SERVICES_GROUP /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				S061 /* AnalyticsService.swift */,
 				S014 /* AudioPlayerService.swift */,
 				S015 /* AudioRecorderService.swift */,
 				S016 /* BatchTranscriptionManager.swift */,
@@ -449,6 +457,7 @@
 			name = VoiceNotesOndevice;
 			packageProductDependencies = (
 				WHISPERKIT_REF /* WhisperKit */,
+				FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */,
 			);
 			productName = VoiceNotesOndevice;
 			productReference = PRODUCT /* VoiceNotesOndevice.app */;
@@ -500,6 +509,7 @@
 			mainGroup = ROOT_GROUP;
 			packageReferences = (
 				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
+				FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = PRODUCTS_GROUP /* Products */;
 			projectDirPath = "";
@@ -518,6 +528,7 @@
 			files = (
 				F100 /* Assets.xcassets in Resources */,
 				F101 /* Models in Resources */,
+				F102 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +607,7 @@
 				F058 /* AppGroupManager.swift in Sources */,
 				F059 /* AppIntents.swift in Sources */,
 				F060 /* RecycleBinService.swift in Sources */,
+				F061 /* AnalyticsService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,6 +904,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -899,6 +919,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */;
 			productName = WhisperKit;
+		};
+		FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
