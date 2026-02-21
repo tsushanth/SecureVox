@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import os.log
+import RevenueCat
 
 private let appLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "App")
 
@@ -36,6 +37,11 @@ struct VoiceNotesOndeviceApp: App {
     }
 
     init() {
+        // Configure RevenueCat
+        Purchases.logLevel = .debug
+        Purchases.configure(withAPIKey: AppConstants.RevenueCat.apiKey)
+        appLogger.info("RevenueCat configured for subscription tracking")
+
         let schema = Schema([
             Recording.self,
             TranscriptSegment.self

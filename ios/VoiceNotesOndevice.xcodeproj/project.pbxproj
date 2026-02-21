@@ -74,6 +74,7 @@
 		WF003 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS003 /* AppGroupManager.swift */; };
 		WF100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
 		WHISPERKIT_BUILD /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = WHISPERKIT_REF /* WhisperKit */; };
+		REVENUECAT_BUILD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = REVENUECAT_REF /* RevenueCat */; };
 		WIDGET_EMBED /* SecureVoxWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -180,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
+				REVENUECAT_BUILD /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,6 +451,7 @@
 			name = VoiceNotesOndevice;
 			packageProductDependencies = (
 				WHISPERKIT_REF /* WhisperKit */,
+				REVENUECAT_REF /* RevenueCat */,
 			);
 			productName = VoiceNotesOndevice;
 			productReference = PRODUCT /* VoiceNotesOndevice.app */;
@@ -500,6 +503,7 @@
 			mainGroup = ROOT_GROUP;
 			packageReferences = (
 				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
+				REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */,
 			);
 			productRefGroup = PRODUCTS_GROUP /* Products */;
 			projectDirPath = "";
@@ -892,6 +896,14 @@
 				minimumVersion = 0.9.0;
 			};
 		};
+		REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -899,6 +911,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */;
 			productName = WhisperKit;
+		};
+		REVENUECAT_REF /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */;
+			productName = RevenueCat;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
