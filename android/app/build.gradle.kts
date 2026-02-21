@@ -7,12 +7,13 @@ plugins {
 android {
     namespace = "com.securevox.app"
     compileSdk = 35
+    ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.securevox.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 7
+        versionCode = 8
         versionName = "1.1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
