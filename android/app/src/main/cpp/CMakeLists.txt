@@ -72,6 +72,9 @@ target_include_directories(whisper_jni PRIVATE
     ${WHISPER_CPP_DIR}/ggml/include
 )
 
+# 16 KB page size support (required by Google Play)
+target_link_options(whisper_jni PRIVATE "-Wl,-z,max-page-size=16384")
+
 target_link_libraries(whisper_jni
     whisper
     ggml
