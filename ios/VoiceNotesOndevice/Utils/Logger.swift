@@ -26,6 +26,9 @@ enum Logger {
     /// UI/View logs
     static let ui = os.Logger(subsystem: subsystem, category: "ui")
 
+    /// Attribution/analytics logs
+    static let attribution = os.Logger(subsystem: subsystem, category: "attribution")
+
     // MARK: - Convenience Methods
 
     /// Log info message
