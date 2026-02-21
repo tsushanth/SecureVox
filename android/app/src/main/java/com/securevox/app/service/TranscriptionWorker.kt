@@ -154,14 +154,48 @@ class TranscriptionWorker(
 
     private fun loadAudioFile(filePath: String): FloatArray? {
         val file = File(filePath)
-        if (!file.exists()) return null
+        if (!file.exists()) {
+            Log.e(TAG, "Audio file not found: $filePath")
+            return null
+        }
 
         return try {
             FileInputStream(file).use { fis ->
-                // Skip WAV header (44 bytes)
-                fis.skip(44)
+                val header = ByteArray(44)
+                val headerBytesRead = fis.read(header)
+                if (headerBytesRead < 44) {
+                    Log.e(TAG, "File too small for WAV header: $headerBytesRead bytes")
+                    return null
+                }
 
-                // Read remaining as 16-bit PCM
+                // Validate RIFF/WAVE header
+                val riff = String(header, 0, 4)
+                val wave = String(header, 8, 4)
+                if (riff != "RIFF" || wave != "WAVE") {
+                    Log.e(TAG, "Invalid WAV header: RIFF=$riff, WAVE=$wave")
+                    return null
+                }
+
+                // Parse WAV format info
+                val headerBuffer = ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN)
+                val audioFormat = headerBuffer.getShort(20).toInt()
+                val channels = headerBuffer.getShort(22).toInt()
+                val sampleRate = headerBuffer.getInt(24)
+                val bitsPerSample = headerBuffer.getShort(34).toInt()
+
+                Log.i(TAG, "WAV format: ${sampleRate}Hz, ${channels}ch, ${bitsPerSample}bit, fmt=$audioFormat")
+
+                if (audioFormat != 1) { // 1 = PCM
+                    Log.e(TAG, "Unsupported WAV audio format: $audioFormat (expected PCM=1)")
+                    return null
+                }
+
+                if (bitsPerSample != 16) {
+                    Log.e(TAG, "Unsupported bits per sample: $bitsPerSample (expected 16)")
+                    return null
+                }
+
+                // Read PCM data
                 val bytes = fis.readBytes()
                 val shortBuffer = ByteBuffer.wrap(bytes)
                     .order(ByteOrder.LITTLE_ENDIAN)
@@ -170,9 +204,44 @@ class TranscriptionWorker(
                 val samples = ShortArray(shortBuffer.remaining())
                 shortBuffer.get(samples)
 
+                // Mix to mono if multi-channel
+                val monoSamples = if (channels > 1) {
+                    val monoLength = samples.size / channels
+                    ShortArray(monoLength) { i ->
+                        var sum = 0L
+                        for (ch in 0 until channels) {
+                            sum += samples[i * channels + ch]
+                        }
+                        (sum / channels).toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                    }
+                } else {
+                    samples
+                }
+
+                // Resample to 16kHz if needed
+                val targetRate = 16000
+                val finalSamples = if (sampleRate != targetRate) {
+                    Log.i(TAG, "Resampling from ${sampleRate}Hz to ${targetRate}Hz")
+                    val ratio = sampleRate.toDouble() / targetRate.toDouble()
+                    val outputLength = (monoSamples.size / ratio).toInt()
+                    ShortArray(outputLength) { i ->
+                        val srcPos = i * ratio
+                        val srcIndex = srcPos.toInt()
+                        val fraction = srcPos - srcIndex
+                        val s1 = monoSamples[srcIndex]
+                        val s2 = if (srcIndex + 1 < monoSamples.size) monoSamples[srcIndex + 1] else s1
+                        (s1 + (fraction * (s2 - s1))).toInt()
+                            .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                    }
+                } else {
+                    monoSamples
+                }
+
+                Log.i(TAG, "Loaded ${finalSamples.size} samples (${finalSamples.size / targetRate.toFloat()}s)")
+
                 // Convert to float array normalized to [-1, 1]
-                FloatArray(samples.size) { i ->
-                    samples[i].toFloat() / Short.MAX_VALUE
+                FloatArray(finalSamples.size) { i ->
+                    finalSamples[i].toFloat() / Short.MAX_VALUE
                 }
             }
         } catch (e: Exception) {
