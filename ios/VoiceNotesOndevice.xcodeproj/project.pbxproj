@@ -70,6 +70,7 @@
 		F058 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S058 /* AppGroupManager.swift */; };
 		F059 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = S059 /* AppIntents.swift */; };
 		F060 /* RecycleBinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S060 /* RecycleBinService.swift */; };
+		F061 /* SearchAdsAttributionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S061 /* SearchAdsAttributionService.swift */; };
 		F100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
 		F101 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = R003 /* Models */; };
 		WF001 /* SecureVoxWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS001 /* SecureVoxWidgetBundle.swift */; };
@@ -172,6 +173,7 @@
 		S060 /* RecycleBinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinService.swift; sourceTree = "<group>"; };
 		S061 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		R004 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		S061 /* SearchAdsAttributionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchAdsAttributionService.swift; sourceTree = "<group>"; };
 		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
@@ -297,6 +299,7 @@
 				S022 /* TranscriptExporter.swift */,
 				S056 /* CustomDictionaryService.swift */,
 				S054 /* FeedbackService.swift */,
+				S061 /* SearchAdsAttributionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -612,6 +615,7 @@
 				F059 /* AppIntents.swift in Sources */,
 				F060 /* RecycleBinService.swift in Sources */,
 				F061 /* AnalyticsService.swift in Sources */,
+				F061 /* SearchAdsAttributionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

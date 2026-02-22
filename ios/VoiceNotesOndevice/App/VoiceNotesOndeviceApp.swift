@@ -75,6 +75,9 @@ struct VoiceNotesOndeviceApp: App {
                     .task {
                         // Clean up expired recordings from recycle bin on app launch
                         await performStartupCleanup(container: container)
+
+                        // Request Apple Search Ads attribution on first launch
+                        SearchAdsAttributionService.shared.requestAttributionIfNeeded()
                     }
             } else {
                 DatabaseErrorView(error: modelContainerResult.error)
