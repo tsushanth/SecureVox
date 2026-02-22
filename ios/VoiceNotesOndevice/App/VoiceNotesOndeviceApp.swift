@@ -2,6 +2,7 @@ import SwiftUI
 import SwiftData
 import os.log
 import RevenueCat
+import FirebaseCore
 
 private let appLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "App")
 
@@ -41,6 +42,9 @@ struct VoiceNotesOndeviceApp: App {
         Purchases.logLevel = .debug
         Purchases.configure(withAPIKey: AppConstants.RevenueCat.apiKey)
         appLogger.info("RevenueCat configured for subscription tracking")
+
+        // Configure Firebase for analytics
+        FirebaseApp.configure()
 
         let schema = Schema([
             Recording.self,
