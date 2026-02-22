@@ -179,8 +179,7 @@ enum AppConstants {
 
     enum RevenueCat {
         /// RevenueCat API key for iOS
-        /// Get this from: https://app.revenuecat.com/ > Project Settings > API Keys
-        static let apiKey = "YOUR_REVENUECAT_API_KEY"
+        static let apiKey = "appl_cJUmneGzmLtpjACvTZvQcRzCPNg"
     }
 
     // MARK: - Rating Prompt Configuration
