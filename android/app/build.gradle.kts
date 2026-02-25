@@ -121,6 +121,9 @@ dependencies {
     // Work Manager for background transcription
     implementation("androidx.work:work-runtime-ktx:2.9.0")
 
+    // TikTok Business SDK for attribution
+    implementation("com.github.tiktok:tiktok-business-android-sdk:1.3.1")
+
     // Testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
