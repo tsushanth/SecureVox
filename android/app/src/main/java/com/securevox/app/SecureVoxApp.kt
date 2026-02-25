@@ -1,6 +1,7 @@
 package com.securevox.app
 
 import android.app.Application
+import com.google.firebase.FirebaseApp
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.whisper.ModelManager
 
@@ -17,6 +18,9 @@ class SecureVoxApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+
+        // Initialize Firebase Analytics
+        FirebaseApp.initializeApp(this)
     }
 
     companion object {
