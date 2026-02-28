@@ -11,8 +11,6 @@
 		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
 		F003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S003 /* ContentView.swift */; };
 		F061 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S061 /* AnalyticsService.swift */; };
-		F102 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = R004 /* GoogleService-Info.plist */; };
-		FIREBASE_ANALYTICS_BUILD /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */; };
 		F004 /* AudioPreprocessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S004 /* AudioPreprocessor.swift */; };
 		F005 /* ChunkProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = S005 /* ChunkProcessor.swift */; };
 		F006 /* VADFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = S006 /* VADFilter.swift */; };
@@ -78,6 +76,7 @@
 		WF100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
 		WHISPERKIT_BUILD /* WhisperKit in Frameworks */ = {isa = PBXBuildFile; productRef = WHISPERKIT_REF /* WhisperKit */; };
 		REVENUECAT_BUILD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = REVENUECAT_REF /* RevenueCat */; };
+		FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FACEBOOK_SDK_REF /* FacebookCore */; };
 		WIDGET_EMBED /* SecureVoxWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
@@ -171,7 +170,6 @@
 		S059 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
 		S060 /* RecycleBinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinService.swift; sourceTree = "<group>"; };
 		S061 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
-		R004 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
@@ -186,11 +184,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
-<<<<<<< HEAD
 				REVENUECAT_BUILD /* RevenueCat in Frameworks */,
-=======
-				FIREBASE_ANALYTICS_BUILD /* FirebaseAnalytics in Frameworks */,
->>>>>>> 7c8c0bf ([improvement] Add Firebase Analytics)
+				FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				R001 /* Assets.xcassets */,
-				R004 /* GoogleService-Info.plist */,
 				R002 /* Info.plist */,
 				R003 /* Models */,
 			);
@@ -462,11 +456,8 @@
 			name = VoiceNotesOndevice;
 			packageProductDependencies = (
 				WHISPERKIT_REF /* WhisperKit */,
-<<<<<<< HEAD
 				REVENUECAT_REF /* RevenueCat */,
-=======
-				FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */,
->>>>>>> 7c8c0bf ([improvement] Add Firebase Analytics)
+				FACEBOOK_SDK_REF /* FacebookCore */,
 			);
 			productName = VoiceNotesOndevice;
 			productReference = PRODUCT /* VoiceNotesOndevice.app */;
@@ -518,11 +509,8 @@
 			mainGroup = ROOT_GROUP;
 			packageReferences = (
 				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
-<<<<<<< HEAD
 				REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */,
-=======
-				FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
->>>>>>> 7c8c0bf ([improvement] Add Firebase Analytics)
+				FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = PRODUCTS_GROUP /* Products */;
 			projectDirPath = "";
@@ -541,7 +529,6 @@
 			files = (
 				F100 /* Assets.xcassets in Resources */,
 				F101 /* Models in Resources */,
-				F102 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -678,6 +665,8 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_PREVIEWS = YES;
+				FACEBOOK_APP_ID = "YOUR_FACEBOOK_APP_ID";
+				FACEBOOK_CLIENT_TOKEN = "YOUR_FACEBOOK_CLIENT_TOKEN";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -759,6 +748,8 @@
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_PREVIEWS = YES;
+				FACEBOOK_APP_ID = "YOUR_FACEBOOK_APP_ID";
+				FACEBOOK_CLIENT_TOKEN = "YOUR_FACEBOOK_CLIENT_TOKEN";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -917,21 +908,20 @@
 				minimumVersion = 0.9.0;
 			};
 		};
-<<<<<<< HEAD
 		REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
-=======
-		FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			};
+		};
+		FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.0.0;
->>>>>>> 7c8c0bf ([improvement] Add Firebase Analytics)
+				minimumVersion = 17.0.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -942,17 +932,15 @@
 			package = WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */;
 			productName = WhisperKit;
 		};
-<<<<<<< HEAD
 		REVENUECAT_REF /* RevenueCat */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */;
 			productName = RevenueCat;
-=======
-		FIREBASE_ANALYTICS_REF /* FirebaseAnalytics */ = {
+		};
+		FACEBOOK_SDK_REF /* FacebookCore */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FIREBASE_PACKAGE /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
->>>>>>> 7c8c0bf ([improvement] Add Firebase Analytics)
+			package = FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

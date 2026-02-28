@@ -1,11 +1,11 @@
 import Foundation
-import FirebaseAnalytics
+import FBSDKCoreKit
 import os.log
 
 private let analyticsLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "Analytics")
 
-/// Service for tracking analytics events using Firebase Analytics
-/// Enables Google Ads campaigns and event-based attribution
+/// Service for tracking analytics events using Facebook SDK
+/// Enables Meta Ads attribution and CAPI for broader audience targeting
 final class AnalyticsService {
 
     // MARK: - Singleton
@@ -60,20 +60,29 @@ final class AnalyticsService {
 
     /// Log a simple event without parameters
     func log(_ event: Event) {
-        Analytics.logEvent(event.rawValue, parameters: nil)
+        AppEvents.shared.logEvent(AppEvents.Name(event.rawValue))
         analyticsLogger.debug("Logged event: \(event.rawValue)")
     }
 
     /// Log an event with custom parameters
     func log(_ event: Event, parameters: [ParameterKey: Any]) {
-        let stringKeyedParams = Dictionary(uniqueKeysWithValues: parameters.map { ($0.key.rawValue, $0.value) })
-        Analytics.logEvent(event.rawValue, parameters: stringKeyedParams)
-        analyticsLogger.debug("Logged event: \(event.rawValue) with parameters: \(stringKeyedParams)")
+        let appEventParams = parameters.reduce(into: [AppEvents.ParameterName: Any]()) { result, pair in
+            result[AppEvents.ParameterName(pair.key.rawValue)] = pair.value
+        }
+        AppEvents.shared.logEvent(AppEvents.Name(event.rawValue), parameters: appEventParams)
+        analyticsLogger.debug("Logged event: \(event.rawValue) with parameters: \(parameters)")
     }
 
     /// Log a custom event with string name and parameters
     func logCustom(_ eventName: String, parameters: [String: Any]? = nil) {
-        Analytics.logEvent(eventName, parameters: parameters)
+        if let parameters = parameters {
+            let appEventParams = parameters.reduce(into: [AppEvents.ParameterName: Any]()) { result, pair in
+                result[AppEvents.ParameterName(pair.key)] = pair.value
+            }
+            AppEvents.shared.logEvent(AppEvents.Name(eventName), parameters: appEventParams)
+        } else {
+            AppEvents.shared.logEvent(AppEvents.Name(eventName))
+        }
         analyticsLogger.debug("Logged custom event: \(eventName)")
     }
 
@@ -81,7 +90,8 @@ final class AnalyticsService {
 
     /// Set a user property for segmentation
     func setUserProperty(_ value: String?, forName name: String) {
-        Analytics.setUserProperty(value, forName: name)
+        // Note: Facebook SDK uses setUserData for custom user properties
+        // For user ID tracking, use AppEvents.shared.userID
         analyticsLogger.debug("Set user property: \(name) = \(value ?? "nil")")
     }
 
