@@ -182,6 +182,20 @@ enum AppConstants {
         static let apiKey = "appl_cJUmneGzmLtpjACvTZvQcRzCPNg"
     }
 
+    // MARK: - Facebook SDK
+
+    enum Facebook {
+        /// Facebook App ID - configured in Info.plist via build settings
+        /// Replace YOUR_FACEBOOK_APP_ID in Xcode build settings with your actual Facebook App ID
+        /// Get it from: https://developers.facebook.com/apps
+        static let appIDPlaceholder = "YOUR_FACEBOOK_APP_ID"
+
+        /// Facebook Client Token - configured in Info.plist via build settings
+        /// Replace YOUR_FACEBOOK_CLIENT_TOKEN in Xcode build settings with your actual client token
+        /// Get it from: Facebook Developer Portal > App Settings > Advanced > Client Token
+        static let clientTokenPlaceholder = "YOUR_FACEBOOK_CLIENT_TOKEN"
+    }
+
     // MARK: - Rating Prompt Configuration
 
     enum RatingPrompt {
