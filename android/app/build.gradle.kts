@@ -14,8 +14,8 @@ android {
         applicationId = "com.securevox.app"
         minSdk = 26
         targetSdk = 35
-        versionCode = 9
-        versionName = "1.1.0"
+        versionCode = 13
+        versionName = "1.2.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -120,9 +120,6 @@ dependencies {
 
     // Work Manager for background transcription
     implementation("androidx.work:work-runtime-ktx:2.9.0")
-
-    // Facebook SDK
-    implementation("com.facebook.android:facebook-android-sdk:17.0.1")
 
     // Testing
     testImplementation("junit:junit:4.13.2")
