@@ -5,7 +5,7 @@
   "health_score": 0,
   "health_tier": "unknown",
   "marketing_readiness": 0,
-  "last_updated": "2026-02-21",
+  "last_updated": "2026-03-05",
   "metrics": {
     "impressions_7d": 0,
     "units_7d": 0,
@@ -18,7 +18,16 @@
     "rating_count": 0
   },
   "suggested_actions": {
-    "coding": [],
-    "marketing": []
+    "coding": [
+      "Implement AI Transcription",
+      "Multi-format Export",
+      "Add RevenueCat",
+      "Add Firebase Analytics",
+      "Add Facebook SDK"
+    ],
+    "marketing": [
+      "Launch Influencer Campaigns",
+      "Improve App Store Optimization"
+    ]
   }
 }
