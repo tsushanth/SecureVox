@@ -1,0 +1,34 @@
+{
+  "app_name": "SecureVox",
+  "bundle_id": "com.voicenotes.ondevice",
+  "platform": "ios",
+  "health_score": 0,
+  "health_tier": "unknown",
+  "marketing_readiness": 0,
+  "last_updated": "2026-03-07",
+  "metrics": {
+    "impressions_7d": 0,
+    "units_7d": 0,
+    "revenue_7d": 0,
+    "sessions_7d": 0,
+    "ad_spend_7d": 0,
+    "active_subscribers": 0,
+    "roas": 0,
+    "rating": 0,
+    "rating_count": 0
+  },
+  "suggested_actions": {
+    "coding": [
+      "Implement Human-like Voices",
+      "Multi-language and Accent Support",
+      "Add Offline Functionality",
+      "Add RevenueCat",
+      "Add Firebase Analytics"
+    ],
+    "marketing": [
+      "Launch App Store Campaign",
+      "Engage with Influencers",
+      "Incentivize User Reviews"
+    ]
+  }
+}
