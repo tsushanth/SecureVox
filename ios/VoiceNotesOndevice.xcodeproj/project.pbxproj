@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		PSV000000000003 /* PaywallKit in Frameworks */ = {isa = PBXBuildFile; productRef = PSV000000000002 /* PaywallKit */; };
 		F001 /* VoiceNotesOndeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = S001 /* VoiceNotesOndeviceApp.swift */; };
 		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
 		F003 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S003 /* ContentView.swift */; };
@@ -79,8 +78,6 @@
 		REVENUECAT_BUILD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = REVENUECAT_REF /* RevenueCat */; };
 		FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FACEBOOK_SDK_REF /* FacebookCore */; };
 		WIDGET_EMBED /* SecureVoxWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F062 /* PaywallCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = S062 /* PaywallCoordinator.swift */; };
-		F063 /* WinbackOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S063 /* WinbackOfferView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -173,8 +170,6 @@
 		S059 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
 		S060 /* RecycleBinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinService.swift; sourceTree = "<group>"; };
 		S061 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
-		S062 /* PaywallCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCoordinator.swift; sourceTree = "<group>"; };
-		S063 /* WinbackOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinbackOfferView.swift; sourceTree = "<group>"; };
 		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
@@ -191,7 +186,6 @@
 				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
 				REVENUECAT_BUILD /* RevenueCat in Frameworks */,
 				FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */,
-				PSV000000000003 /* PaywallKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +294,6 @@
 				S022 /* TranscriptExporter.swift */,
 				S056 /* CustomDictionaryService.swift */,
 				S054 /* FeedbackService.swift */,
-				S062 /* PaywallCoordinator.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -331,7 +324,6 @@
 			isa = PBXGroup;
 			children = (
 				S053 /* RatingPromptView.swift */,
-				S063 /* WinbackOfferView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -466,7 +458,6 @@
 				WHISPERKIT_REF /* WhisperKit */,
 				REVENUECAT_REF /* RevenueCat */,
 				FACEBOOK_SDK_REF /* FacebookCore */,
-				PSV000000000002 /* PaywallKit */,
 			);
 			productName = VoiceNotesOndevice;
 			productReference = PRODUCT /* VoiceNotesOndevice.app */;
@@ -520,7 +511,6 @@
 				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
 				REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */,
 				FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
-				PSV000000000001 /* XCLocalSwiftPackageReference "PaywallKit" */,
 			);
 			productRefGroup = PRODUCTS_GROUP /* Products */;
 			projectDirPath = "";
@@ -618,8 +608,6 @@
 				F059 /* AppIntents.swift in Sources */,
 				F060 /* RecycleBinService.swift in Sources */,
 				F061 /* AnalyticsService.swift in Sources */,
-				F062 /* PaywallCoordinator.swift in Sources */,
-				F063 /* WinbackOfferView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -673,7 +661,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_PREVIEWS = YES;
@@ -707,7 +695,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 99.2;
+				MARKETING_VERSION = 7.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -755,7 +743,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -788,7 +776,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 99.2;
+				MARKETING_VERSION = 7.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice;
@@ -813,7 +801,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -826,7 +814,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 99.2;
+				MARKETING_VERSION = 7.2.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -850,7 +838,7 @@
 				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 101;
+				CURRENT_PROJECT_VERSION = 14;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -863,7 +851,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 99.2;
+				MARKETING_VERSION = 7.2.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice.widget;
@@ -938,13 +926,6 @@
 		};
 /* End XCRemoteSwiftPackageReference section */
 
-/* Begin XCLocalSwiftPackageReference section */
-		PSV000000000001 /* XCLocalSwiftPackageReference "PaywallKit" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../../PaywallKit;
-		};
-/* End XCLocalSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
 		WHISPERKIT_REF /* WhisperKit */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -960,11 +941,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
 			productName = FacebookCore;
-		};
-		PSV000000000002 /* PaywallKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = PSV000000000001 /* XCLocalSwiftPackageReference "PaywallKit" */;
-			productName = PaywallKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
