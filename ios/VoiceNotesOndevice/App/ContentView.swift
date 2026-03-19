@@ -6,8 +6,6 @@ struct ContentView: View {
     // MARK: - State
 
     @State private var selectedTab: Tab = .recordings
-    @StateObject private var paywallCoordinator = PaywallCoordinator.shared
-    @Environment(\.scenePhase) private var scenePhase
 
     // MARK: - Body
 
@@ -24,14 +22,6 @@ struct ContentView: View {
                     Label("Settings", systemImage: "gear")
                 }
                 .tag(Tab.settings)
-        }
-        .sheet(isPresented: $paywallCoordinator.showWinbackOffer) {
-            WinbackOfferView()
-        }
-        .onChange(of: scenePhase) { _, newPhase in
-            if newPhase == .active {
-                paywallCoordinator.checkWinbackEligibility()
-            }
         }
     }
 
