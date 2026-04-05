@@ -21,8 +21,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.securevox.app.R
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.ExportFormat
@@ -76,36 +78,36 @@ fun RecordingDetailScreen(
             TopAppBar(
                 title = {
                     Text(
-                        text = recording?.title ?: "Recording",
+                        text = recording?.title ?: stringResource(R.string.recording_label),
                         maxLines = 1
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { showMenu = true }) {
-                        Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                        Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options))
                     }
                     DropdownMenu(
                         expanded = showMenu,
                         onDismissRequest = { showMenu = false }
                     ) {
                         DropdownMenuItem(
-                            text = { Text("Copy Transcript") },
+                            text = { Text(stringResource(R.string.copy_transcript)) },
                             leadingIcon = { Icon(Icons.Default.ContentCopy, null) },
                             onClick = {
                                 showMenu = false
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 val clip = ClipData.newPlainText("Transcript", viewModel.getFullTranscript())
                                 clipboard.setPrimaryClip(clip)
-                                Toast.makeText(context, "Copied to clipboard", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, context.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Export") },
+                            text = { Text(stringResource(R.string.export)) },
                             leadingIcon = { Icon(Icons.Default.Share, null) },
                             onClick = {
                                 showMenu = false
@@ -113,7 +115,7 @@ fun RecordingDetailScreen(
                             }
                         )
                         DropdownMenuItem(
-                            text = { Text("Delete") },
+                            text = { Text(stringResource(R.string.delete)) },
                             leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) },
                             onClick = {
                                 showMenu = false
@@ -134,9 +136,9 @@ fun RecordingDetailScreen(
                                     showExportMenu = false
                                     val intent = viewModel.exportTranscript(format)
                                     if (intent != null) {
-                                        context.startActivity(Intent.createChooser(intent, "Export transcript"))
+                                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.export_transcript)))
                                     } else {
-                                        Toast.makeText(context, "Export failed", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(context, context.getString(R.string.export_failed), Toast.LENGTH_SHORT).show()
                                     }
                                 }
                             )
@@ -205,8 +207,8 @@ fun RecordingDetailScreen(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Recording") },
-            text = { Text("Are you sure you want to delete this recording? This action cannot be undone.") },
+            title = { Text(stringResource(R.string.delete_recording_title)) },
+            text = { Text(stringResource(R.string.delete_recording_message)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -215,12 +217,12 @@ fun RecordingDetailScreen(
                         onNavigateBack()
                     }
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -349,7 +351,7 @@ private fun PlaybackControls(
                                     if (speed == playbackSpeed) {
                                         Icon(
                                             Icons.Default.Check,
-                                            contentDescription = "Selected",
+                                            contentDescription = stringResource(R.string.selected),
                                             tint = MaterialTheme.colorScheme.primary
                                         )
                                     }
@@ -362,7 +364,7 @@ private fun PlaybackControls(
                 IconButton(onClick = onSkipBack) {
                     Icon(
                         Icons.Default.Replay10,
-                        contentDescription = "Skip back 10 seconds",
+                        contentDescription = stringResource(R.string.skip_back_10),
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -373,7 +375,7 @@ private fun PlaybackControls(
                 ) {
                     Icon(
                         if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
-                        contentDescription = if (isPlaying) "Pause" else "Play",
+                        contentDescription = if (isPlaying) stringResource(R.string.pause) else stringResource(R.string.play),
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -381,7 +383,7 @@ private fun PlaybackControls(
                 IconButton(onClick = onSkipForward) {
                     Icon(
                         Icons.Default.Forward10,
-                        contentDescription = "Skip forward 10 seconds",
+                        contentDescription = stringResource(R.string.skip_forward_10),
                         modifier = Modifier.size(32.dp)
                     )
                 }
@@ -405,11 +407,11 @@ private fun TranscriptionProgress() {
         ) {
             CircularProgressIndicator()
             Text(
-                text = "Transcribing...",
+                text = stringResource(R.string.transcribing),
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "This may take a few minutes",
+                text = stringResource(R.string.transcription_may_take_minutes),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
@@ -434,7 +436,7 @@ private fun TranscriptionPending() {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
             )
             Text(
-                text = "Transcription pending",
+                text = stringResource(R.string.transcription_pending),
                 style = MaterialTheme.typography.titleMedium
             )
         }
@@ -458,11 +460,11 @@ private fun TranscriptionFailed() {
                 tint = MaterialTheme.colorScheme.error
             )
             Text(
-                text = "Transcription failed",
+                text = stringResource(R.string.transcription_failed),
                 style = MaterialTheme.typography.titleMedium
             )
             Text(
-                text = "Please try again",
+                text = stringResource(R.string.please_try_again),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">رجوع</string>
+    <string name="cancel">إلغاء</string>
+    <string name="delete">حذف</string>
+    <string name="ok">موافق</string>
+    <string name="search">بحث</string>
+    <string name="clear">مسح</string>
+    <string name="settings">الإعدادات</string>
+    <string name="recording_label">تسجيل</string>
+    <string name="export">تصدير</string>
+    <string name="retry">إعادة المحاولة</string>
+    <string name="add">إضافة</string>
+    <string name="import_label">استيراد</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">البحث في التسجيلات</string>
+    <string name="close_search">إغلاق البحث</string>
+    <string name="import_media">استيراد وسائط</string>
+    <string name="stop_recording">إيقاف التسجيل</string>
+    <string name="start_recording">بدء التسجيل</string>
+    <string name="importing_media">جارٍ استيراد الوسائط\u2026</string>
+    <string name="filter_all">الكل</string>
+    <string name="filter_favorites">المفضلة</string>
+    <string name="favorite">مفضل</string>
+    <string name="remove_from_favorites">إزالة من المفضلة</string>
+    <string name="add_to_favorites">إضافة إلى المفضلة</string>
+    <string name="import_failed_title">فشل الاستيراد</string>
+    <string name="delete_recording_title">حذف التسجيل</string>
+    <string name="delete_recording_message">هل أنت متأكد أنك تريد حذف هذا التسجيل؟ لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="no_recordings_found">لم يتم العثور على تسجيلات</string>
+    <string name="no_favorites_yet">لا توجد مفضلة بعد</string>
+    <string name="no_recordings_yet">لا توجد تسجيلات بعد</string>
+    <string name="try_different_search">جرّب مصطلح بحث مختلف</string>
+    <string name="swipe_to_favorite">اسحب لليمين على تسجيل لإضافته للمفضلة</string>
+    <string name="tap_mic_to_start">اضغط على زر الميكروفون للبدء</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">قيد الانتظار</string>
+    <string name="status_processing">قيد المعالجة</string>
+    <string name="status_done">تم</string>
+    <string name="status_failed">فشل</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">خيارات إضافية</string>
+    <string name="copy_transcript">نسخ النص</string>
+    <string name="copied_to_clipboard">تم النسخ إلى الحافظة</string>
+    <string name="export_transcript">تصدير النص</string>
+    <string name="export_failed">فشل التصدير</string>
+    <string name="transcribing">جارٍ النسخ\u2026</string>
+    <string name="transcription_may_take_minutes">قد يستغرق هذا بضع دقائق</string>
+    <string name="transcription_pending">النسخ قيد الانتظار</string>
+    <string name="transcription_failed">فشل النسخ</string>
+    <string name="please_try_again">يرجى المحاولة مرة أخرى</string>
+    <string name="skip_back_10">تخطي 10 ثوانٍ للخلف</string>
+    <string name="skip_forward_10">تخطي 10 ثوانٍ للأمام</string>
+    <string name="pause">إيقاف مؤقت</string>
+    <string name="play">تشغيل</string>
+    <string name="selected">محدد</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">نموذج النسخ</string>
+    <string name="section_language">اللغة</string>
+    <string name="section_transcription">النسخ</string>
+    <string name="section_recording">التسجيل</string>
+    <string name="section_data_management">إدارة البيانات</string>
+    <string name="section_appearance">المظهر</string>
+    <string name="section_storage">التخزين</string>
+    <string name="section_about">حول</string>
+    <string name="transcription_language">لغة النسخ</string>
+    <string name="auto_punctuation">علامات الترقيم التلقائية</string>
+    <string name="auto_punctuation_subtitle">إضافة علامات الترقيم تلقائيًا إلى النصوص</string>
+    <string name="smart_capitalization">الأحرف الكبيرة الذكية</string>
+    <string name="smart_capitalization_subtitle">تكبير الجمل والأسماء الصحيحة</string>
+    <string name="custom_dictionary">القاموس المخصص</string>
+    <string name="custom_dictionary_subtitle">أضف كلمات لتحسين دقة النسخ</string>
+    <string name="sound_effects">المؤثرات الصوتية</string>
+    <string name="sound_effects_subtitle">تشغيل أصوات عند بدء/إيقاف التسجيل</string>
+    <string name="haptic_feedback">الاهتزاز اللمسي</string>
+    <string name="haptic_feedback_subtitle">اهتزاز عند بدء/إيقاف التسجيل</string>
+    <string name="recycle_bin">سلة المحذوفات</string>
+    <string name="recycle_bin_deleted_immediately">يتم حذف التسجيلات فورًا</string>
+    <string name="recycle_bin_keep_for">الاحتفاظ بالتسجيلات المحذوفة لمدة %1$s</string>
+    <string name="auto_delete_audio">حذف الصوت تلقائيًا</string>
+    <string name="auto_delete_audio_subtitle">حذف ملفات الصوت بعد اكتمال النسخ</string>
+    <string name="auto_copy_clipboard">النسخ التلقائي إلى الحافظة</string>
+    <string name="auto_copy_clipboard_subtitle">نسخ النص إلى الحافظة بعد النسخ</string>
+    <string name="theme">المظهر</string>
+    <string name="models_storage">تخزين النماذج</string>
+    <string name="faq_and_help">الأسئلة الشائعة والمساعدة</string>
+    <string name="faq_subtitle">أسئلة شائعة واستكشاف الأخطاء وإصلاحها</string>
+    <string name="about_version">الإصدار 1.0.0</string>
+    <string name="about_description">نسخ صوتي يضع الخصوصية أولاً مدعوم بتقنية Whisper AI. تتم جميع المعالجة على جهازك - لا يغادر صوتك هاتفك أبدًا.</string>
+    <string name="select_language">اختر اللغة</string>
+    <string name="select_theme">اختر المظهر</string>
+    <string name="recycle_bin_retention">مدة الاحتفاظ بسلة المحذوفات</string>
+    <string name="theme_follow_system">اتباع إعدادات النظام</string>
+    <string name="theme_always_light">استخدام المظهر الفاتح دائمًا</string>
+    <string name="theme_always_dark">استخدام المظهر الداكن دائمًا</string>
+    <string name="retention_disabled_desc">يتم حذف التسجيلات نهائيًا فورًا</string>
+    <string name="retention_7_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 7 أيام</string>
+    <string name="retention_14_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 14 يومًا</string>
+    <string name="retention_30_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 30 يومًا</string>
+
+    <!-- Model Card -->
+    <string name="active">نشط</string>
+    <string name="cancel_download">إلغاء التنزيل</string>
+    <string name="delete_model">حذف النموذج</string>
+    <string name="downloaded">تم التنزيل</string>
+    <string name="download">تنزيل</string>
+    <string name="model_stat_size">الحجم</string>
+    <string name="model_stat_accuracy">الدقة</string>
+    <string name="model_stat_speed">السرعة</string>
+    <string name="download_failed_prefix">فشل التنزيل: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">مرحبًا بك في SecureVox</string>
+    <string name="welcome_subtitle">نسخ صوتي يضع الخصوصية أولاً</string>
+    <string name="download_ai_model">تنزيل نموذج الذكاء الاصطناعي</string>
+    <string name="download_model_description">يحتاج SecureVox إلى تنزيل نموذج Whisper AI (~75 ميغابايت) لنسخ تسجيلاتك الصوتية على الجهاز.</string>
+    <string name="download_with_size">تنزيل (%1$d ميغابايت)</string>
+    <string name="downloading_progress">جارٍ التنزيل\u2026 %1$d%%</string>
+    <string name="download_complete">اكتمل التنزيل!</string>
+    <string name="download_failed_message">فشل التنزيل: %1$s</string>
+    <string name="privacy_note">تتم جميع عمليات النسخ على جهازك</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">البحث في الأسئلة الشائعة\u2026</string>
+    <string name="no_results_found">لم يتم العثور على نتائج</string>
+    <string name="try_different_search_term">جرّب مصطلح بحث مختلف</string>
+    <string name="still_have_questions">لا تزال لديك أسئلة؟</string>
+    <string name="contact_support">تواصل معنا على support@securevox.app</string>
+    <string name="collapse">طي</string>
+    <string name="expand">توسيع</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d كلمة</string>
+    <string name="add_word">إضافة كلمة</string>
+    <string name="import_from_clipboard">استيراد من الحافظة</string>
+    <string name="export_to_clipboard">تصدير إلى الحافظة</string>
+    <string name="delete_all">حذف الكل</string>
+    <string name="search_words">البحث في الكلمات\u2026</string>
+    <string name="no_custom_words_yet">لا توجد كلمات مخصصة بعد</string>
+    <string name="custom_words_empty_hint">أضف كلمات يتم التعرف عليها بشكل خاطئ عادةً، مثل الأسماء أو المصطلحات التقنية أو الاختصارات.</string>
+    <string name="add_word_button">إضافة كلمة</string>
+    <string name="no_words_found">لم يتم العثور على كلمات</string>
+    <string name="delete_word_title">حذف الكلمة؟</string>
+    <string name="delete_word_message">إزالة \"%1$s\" من قاموسك المخصص؟</string>
+    <string name="add_word_title">إضافة كلمة</string>
+    <string name="add_word_description">أدخل كلمة لإضافتها إلى قاموسك المخصص.</string>
+    <string name="word_label">كلمة</string>
+    <string name="import_words_title">استيراد كلمات</string>
+    <string name="import_words_description">الصق كلمات للاستيراد (كلمة واحدة في كل سطر).</string>
+    <string name="words_label">كلمات</string>
+    <string name="delete_all_words_title">حذف جميع الكلمات؟</string>
+    <string name="delete_all_words_message">سيؤدي هذا إلى إزالة جميع الكلمات %1$d من قاموسك المخصص. لا يمكن التراجع عن هذا الإجراء.</string>
+    <string name="delete_all_button">حذف الكل</string>
+    <string name="dictionary_copied">تم نسخ القاموس إلى الحافظة</string>
+    <string name="dictionary_empty">القاموس فارغ</string>
+    <string name="word_added">تمت إضافة الكلمة</string>
+    <string name="word_already_exists">الكلمة موجودة بالفعل</string>
+    <string name="words_imported">تم استيراد %1$d كلمة</string>
+    <string name="no_new_words">لا توجد كلمات جديدة للاستيراد</string>
+    <string name="dictionary_cleared">تم مسح القاموس</string>
+</resources>
