@@ -10,8 +10,10 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.securevox.app.R
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelManager
 import com.securevox.app.whisper.WhisperModel
@@ -67,7 +69,7 @@ fun SetupScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "Welcome to SecureVox",
+                text = stringResource(R.string.welcome_title),
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center
             )
@@ -75,7 +77,7 @@ fun SetupScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Privacy-first voice transcription",
+                text = stringResource(R.string.welcome_subtitle),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 textAlign = TextAlign.Center
@@ -103,14 +105,14 @@ fun SetupScreen(
                     Spacer(modifier = Modifier.height(16.dp))
 
                     Text(
-                        text = "Download AI Model",
+                        text = stringResource(R.string.download_ai_model),
                         style = MaterialTheme.typography.titleMedium
                     )
 
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = "SecureVox needs to download the Whisper AI model (~75MB) to transcribe your voice recordings on-device.",
+                        text = stringResource(R.string.download_model_description),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -136,7 +138,7 @@ fun SetupScreen(
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text("Download (${WhisperModel.TINY.sizeMB}MB)")
+                                    Text(stringResource(R.string.download_with_size, WhisperModel.TINY.sizeMB))
                                 }
                             }
                         }
@@ -152,7 +154,7 @@ fun SetupScreen(
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
                                 Text(
-                                    text = "Downloading... ${state.progressPercent}%",
+                                    text = stringResource(R.string.downloading_progress, state.progressPercent),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
@@ -174,7 +176,7 @@ fun SetupScreen(
                                     tint = MaterialTheme.colorScheme.primary
                                 )
                                 Text(
-                                    text = "Download complete!",
+                                    text = stringResource(R.string.download_complete),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                             }
@@ -186,7 +188,7 @@ fun SetupScreen(
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Text(
-                                    text = "Download failed: ${state.message}",
+                                    text = stringResource(R.string.download_failed_message, state.message),
                                     style = MaterialTheme.typography.bodyMedium,
                                     color = MaterialTheme.colorScheme.error,
                                     textAlign = TextAlign.Center
@@ -199,7 +201,7 @@ fun SetupScreen(
                                         }
                                     }
                                 ) {
-                                    Text("Retry")
+                                    Text(stringResource(R.string.retry))
                                 }
                             }
                         }
@@ -223,7 +225,7 @@ fun SetupScreen(
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(
-                    text = "All transcription happens on your device",
+                    text = stringResource(R.string.privacy_note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

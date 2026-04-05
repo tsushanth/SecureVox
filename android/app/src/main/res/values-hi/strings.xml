@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">वापस</string>
+    <string name="cancel">रद्द करें</string>
+    <string name="delete">हटाएँ</string>
+    <string name="ok">ठीक है</string>
+    <string name="search">खोजें</string>
+    <string name="clear">साफ़ करें</string>
+    <string name="settings">सेटिंग्स</string>
+    <string name="recording_label">रिकॉर्डिंग</string>
+    <string name="export">निर्यात करें</string>
+    <string name="retry">पुनः प्रयास करें</string>
+    <string name="add">जोड़ें</string>
+    <string name="import_label">आयात करें</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">रिकॉर्डिंग खोजें</string>
+    <string name="close_search">खोज बंद करें</string>
+    <string name="import_media">मीडिया आयात करें</string>
+    <string name="stop_recording">रिकॉर्डिंग रोकें</string>
+    <string name="start_recording">रिकॉर्डिंग शुरू करें</string>
+    <string name="importing_media">मीडिया आयात हो रहा है\u2026</string>
+    <string name="filter_all">सभी</string>
+    <string name="filter_favorites">पसंदीदा</string>
+    <string name="favorite">पसंदीदा</string>
+    <string name="remove_from_favorites">पसंदीदा से हटाएँ</string>
+    <string name="add_to_favorites">पसंदीदा में जोड़ें</string>
+    <string name="import_failed_title">आयात विफल</string>
+    <string name="delete_recording_title">रिकॉर्डिंग हटाएँ</string>
+    <string name="delete_recording_message">क्या आप वाकई इस रिकॉर्डिंग को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।</string>
+    <string name="no_recordings_found">कोई रिकॉर्डिंग नहीं मिली</string>
+    <string name="no_favorites_yet">अभी तक कोई पसंदीदा नहीं</string>
+    <string name="no_recordings_yet">अभी तक कोई रिकॉर्डिंग नहीं</string>
+    <string name="try_different_search">कोई अलग खोज शब्द आज़माएँ</string>
+    <string name="swipe_to_favorite">पसंदीदा में जोड़ने के लिए रिकॉर्डिंग पर दाएँ स्वाइप करें</string>
+    <string name="tap_mic_to_start">शुरू करने के लिए माइक्रोफ़ोन बटन टैप करें</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">लंबित</string>
+    <string name="status_processing">प्रसंस्करण हो रहा है</string>
+    <string name="status_done">पूर्ण</string>
+    <string name="status_failed">विफल</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">और विकल्प</string>
+    <string name="copy_transcript">ट्रांसक्रिप्ट कॉपी करें</string>
+    <string name="copied_to_clipboard">क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="export_transcript">ट्रांसक्रिप्ट निर्यात करें</string>
+    <string name="export_failed">निर्यात विफल</string>
+    <string name="transcribing">ट्रांसक्रिप्शन हो रहा है\u2026</string>
+    <string name="transcription_may_take_minutes">इसमें कुछ मिनट लग सकते हैं</string>
+    <string name="transcription_pending">ट्रांसक्रिप्शन लंबित</string>
+    <string name="transcription_failed">ट्रांसक्रिप्शन विफल</string>
+    <string name="please_try_again">कृपया पुनः प्रयास करें</string>
+    <string name="skip_back_10">10 सेकंड पीछे जाएँ</string>
+    <string name="skip_forward_10">10 सेकंड आगे जाएँ</string>
+    <string name="pause">रोकें</string>
+    <string name="play">चलाएँ</string>
+    <string name="selected">चयनित</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">ट्रांसक्रिप्शन मॉडल</string>
+    <string name="section_language">भाषा</string>
+    <string name="section_transcription">ट्रांसक्रिप्शन</string>
+    <string name="section_recording">रिकॉर्डिंग</string>
+    <string name="section_data_management">डेटा प्रबंधन</string>
+    <string name="section_appearance">दिखावट</string>
+    <string name="section_storage">स्टोरेज</string>
+    <string name="section_about">ऐप के बारे में</string>
+    <string name="transcription_language">ट्रांसक्रिप्शन भाषा</string>
+    <string name="auto_punctuation">स्वचालित विराम चिह्न</string>
+    <string name="auto_punctuation_subtitle">ट्रांसक्रिप्ट में स्वचालित रूप से विराम चिह्न जोड़ें</string>
+    <string name="smart_capitalization">स्मार्ट कैपिटलाइज़ेशन</string>
+    <string name="smart_capitalization_subtitle">वाक्यों और व्यक्तिवाचक संज्ञाओं को बड़े अक्षरों में लिखें</string>
+    <string name="custom_dictionary">कस्टम शब्दकोश</string>
+    <string name="custom_dictionary_subtitle">ट्रांसक्रिप्शन सटीकता बेहतर करने के लिए शब्द जोड़ें</string>
+    <string name="sound_effects">ध्वनि प्रभाव</string>
+    <string name="sound_effects_subtitle">रिकॉर्डिंग शुरू/बंद करते समय ध्वनि बजाएँ</string>
+    <string name="haptic_feedback">हैप्टिक फ़ीडबैक</string>
+    <string name="haptic_feedback_subtitle">रिकॉर्डिंग शुरू/बंद करते समय कंपन करें</string>
+    <string name="recycle_bin">रीसायकल बिन</string>
+    <string name="recycle_bin_deleted_immediately">रिकॉर्डिंग तुरंत हटा दी जाती हैं</string>
+    <string name="recycle_bin_keep_for">हटाई गई रिकॉर्डिंग %1$s तक रखें</string>
+    <string name="auto_delete_audio">ऑडियो स्वचालित हटाएँ</string>
+    <string name="auto_delete_audio_subtitle">ट्रांसक्रिप्शन पूरा होने के बाद ऑडियो फ़ाइलें हटाएँ</string>
+    <string name="auto_copy_clipboard">क्लिपबोर्ड पर स्वचालित कॉपी करें</string>
+    <string name="auto_copy_clipboard_subtitle">ट्रांसक्रिप्शन के बाद ट्रांसक्रिप्ट क्लिपबोर्ड पर कॉपी करें</string>
+    <string name="theme">थीम</string>
+    <string name="models_storage">मॉडल स्टोरेज</string>
+    <string name="faq_and_help">FAQ &amp; सहायता</string>
+    <string name="faq_subtitle">सामान्य प्रश्न और समस्या निवारण</string>
+    <string name="about_version">संस्करण 1.0.0</string>
+    <string name="about_description">Whisper AI द्वारा संचालित गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन। सारी प्रोसेसिंग आपके डिवाइस पर होती है \u2013 आपका ऑडियो कभी भी आपके फ़ोन से बाहर नहीं जाता।</string>
+    <string name="select_language">भाषा चुनें</string>
+    <string name="select_theme">थीम चुनें</string>
+    <string name="recycle_bin_retention">रीसायकल बिन अवधारण</string>
+    <string name="theme_follow_system">सिस्टम सेटिंग्स का पालन करें</string>
+    <string name="theme_always_light">हमेशा लाइट थीम उपयोग करें</string>
+    <string name="theme_always_dark">हमेशा डार्क थीम उपयोग करें</string>
+    <string name="retention_disabled_desc">रिकॉर्डिंग तुरंत स्थायी रूप से हटा दी जाती हैं</string>
+    <string name="retention_7_days_desc">हटाई गई रिकॉर्डिंग 7 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
+    <string name="retention_14_days_desc">हटाई गई रिकॉर्डिंग 14 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
+    <string name="retention_30_days_desc">हटाई गई रिकॉर्डिंग 30 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
+
+    <!-- Model Card -->
+    <string name="active">सक्रिय</string>
+    <string name="cancel_download">डाउनलोड रद्द करें</string>
+    <string name="delete_model">मॉडल हटाएँ</string>
+    <string name="downloaded">डाउनलोड हो गया</string>
+    <string name="download">डाउनलोड करें</string>
+    <string name="model_stat_size">आकार</string>
+    <string name="model_stat_accuracy">सटीकता</string>
+    <string name="model_stat_speed">गति</string>
+    <string name="download_failed_prefix">डाउनलोड विफल: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">SecureVox में आपका स्वागत है</string>
+    <string name="welcome_subtitle">गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन</string>
+    <string name="download_ai_model">AI मॉडल डाउनलोड करें</string>
+    <string name="download_model_description">SecureVox को आपकी वॉइस रिकॉर्डिंग को डिवाइस पर ट्रांसक्राइब करने के लिए Whisper AI मॉडल (~75MB) डाउनलोड करना होगा।</string>
+    <string name="download_with_size">डाउनलोड करें (%1$dMB)</string>
+    <string name="downloading_progress">डाउनलोड हो रहा है\u2026 %1$d%%</string>
+    <string name="download_complete">डाउनलोड पूर्ण!</string>
+    <string name="download_failed_message">डाउनलोड विफल: %1$s</string>
+    <string name="privacy_note">सारा ट्रांसक्रिप्शन आपके डिवाइस पर होता है</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">FAQ खोजें\u2026</string>
+    <string name="no_results_found">कोई परिणाम नहीं मिला</string>
+    <string name="try_different_search_term">कोई अलग खोज शब्द आज़माएँ</string>
+    <string name="still_have_questions">अभी भी प्रश्न हैं?</string>
+    <string name="contact_support">हमसे संपर्क करें support@securevox.app पर</string>
+    <string name="collapse">संक्षिप्त करें</string>
+    <string name="expand">विस्तृत करें</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d शब्द</string>
+    <string name="add_word">शब्द जोड़ें</string>
+    <string name="import_from_clipboard">क्लिपबोर्ड से आयात करें</string>
+    <string name="export_to_clipboard">क्लिपबोर्ड पर निर्यात करें</string>
+    <string name="delete_all">सभी हटाएँ</string>
+    <string name="search_words">शब्द खोजें\u2026</string>
+    <string name="no_custom_words_yet">अभी तक कोई कस्टम शब्द नहीं</string>
+    <string name="custom_words_empty_hint">अक्सर गलत पहचाने जाने वाले शब्द जोड़ें, जैसे नाम, तकनीकी शब्द या संक्षिप्त रूप।</string>
+    <string name="add_word_button">शब्द जोड़ें</string>
+    <string name="no_words_found">कोई शब्द नहीं मिला</string>
+    <string name="delete_word_title">शब्द हटाएँ?</string>
+    <string name="delete_word_message">अपने कस्टम शब्दकोश से \"%1$s\" हटाएँ?</string>
+    <string name="add_word_title">शब्द जोड़ें</string>
+    <string name="add_word_description">अपने कस्टम शब्दकोश में जोड़ने के लिए एक शब्द दर्ज करें।</string>
+    <string name="word_label">शब्द</string>
+    <string name="import_words_title">शब्द आयात करें</string>
+    <string name="import_words_description">आयात करने के लिए शब्द चिपकाएँ (प्रति पंक्ति एक)।</string>
+    <string name="words_label">शब्द</string>
+    <string name="delete_all_words_title">सभी शब्द हटाएँ?</string>
+    <string name="delete_all_words_message">यह आपके कस्टम शब्दकोश से सभी %1$d शब्द हटा देगा। यह क्रिया पूर्ववत नहीं की जा सकती।</string>
+    <string name="delete_all_button">सभी हटाएँ</string>
+    <string name="dictionary_copied">शब्दकोश क्लिपबोर्ड पर कॉपी किया गया</string>
+    <string name="dictionary_empty">शब्दकोश खाली है</string>
+    <string name="word_added">शब्द जोड़ा गया</string>
+    <string name="word_already_exists">शब्द पहले से मौजूद है</string>
+    <string name="words_imported">%1$d शब्द आयात किए गए</string>
+    <string name="no_new_words">आयात करने के लिए कोई नया शब्द नहीं</string>
+    <string name="dictionary_cleared">शब्दकोश साफ़ किया गया</string>
+</resources>

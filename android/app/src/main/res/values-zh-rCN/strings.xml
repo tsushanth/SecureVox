@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">返回</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="ok">确定</string>
+    <string name="search">搜索</string>
+    <string name="clear">清除</string>
+    <string name="settings">设置</string>
+    <string name="recording_label">录音</string>
+    <string name="export">导出</string>
+    <string name="retry">重试</string>
+    <string name="add">添加</string>
+    <string name="import_label">导入</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">搜索录音</string>
+    <string name="close_search">关闭搜索</string>
+    <string name="import_media">导入媒体</string>
+    <string name="stop_recording">停止录音</string>
+    <string name="start_recording">开始录音</string>
+    <string name="importing_media">正在导入媒体\u2026</string>
+    <string name="filter_all">全部</string>
+    <string name="filter_favorites">收藏</string>
+    <string name="favorite">收藏</string>
+    <string name="remove_from_favorites">取消收藏</string>
+    <string name="add_to_favorites">添加到收藏</string>
+    <string name="import_failed_title">导入失败</string>
+    <string name="delete_recording_title">删除录音</string>
+    <string name="delete_recording_message">确定要删除此录音吗？此操作无法撤销。</string>
+    <string name="no_recordings_found">未找到录音</string>
+    <string name="no_favorites_yet">还没有收藏</string>
+    <string name="no_recordings_yet">还没有录音</string>
+    <string name="try_different_search">请尝试其他搜索词</string>
+    <string name="swipe_to_favorite">向右滑动录音即可收藏</string>
+    <string name="tap_mic_to_start">点击麦克风按钮开始录音</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">待处理</string>
+    <string name="status_processing">处理中</string>
+    <string name="status_done">完成</string>
+    <string name="status_failed">失败</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">更多选项</string>
+    <string name="copy_transcript">复制转录文本</string>
+    <string name="copied_to_clipboard">已复制到剪贴板</string>
+    <string name="export_transcript">导出转录文本</string>
+    <string name="export_failed">导出失败</string>
+    <string name="transcribing">正在转录\u2026</string>
+    <string name="transcription_may_take_minutes">这可能需要几分钟</string>
+    <string name="transcription_pending">转录待处理</string>
+    <string name="transcription_failed">转录失败</string>
+    <string name="please_try_again">请重试</string>
+    <string name="skip_back_10">后退10秒</string>
+    <string name="skip_forward_10">前进10秒</string>
+    <string name="pause">暂停</string>
+    <string name="play">播放</string>
+    <string name="selected">已选择</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">转录模型</string>
+    <string name="section_language">语言</string>
+    <string name="section_transcription">转录</string>
+    <string name="section_recording">录音</string>
+    <string name="section_data_management">数据管理</string>
+    <string name="section_appearance">外观</string>
+    <string name="section_storage">存储</string>
+    <string name="section_about">关于</string>
+    <string name="transcription_language">转录语言</string>
+    <string name="auto_punctuation">自动标点</string>
+    <string name="auto_punctuation_subtitle">自动为转录文本添加标点符号</string>
+    <string name="smart_capitalization">智能大写</string>
+    <string name="smart_capitalization_subtitle">自动大写句首和专有名词</string>
+    <string name="custom_dictionary">自定义词典</string>
+    <string name="custom_dictionary_subtitle">添加词汇以提高转录准确性</string>
+    <string name="sound_effects">音效</string>
+    <string name="sound_effects_subtitle">开始/停止录音时播放声音</string>
+    <string name="haptic_feedback">触觉反馈</string>
+    <string name="haptic_feedback_subtitle">开始/停止录音时振动</string>
+    <string name="recycle_bin">回收站</string>
+    <string name="recycle_bin_deleted_immediately">录音将立即删除</string>
+    <string name="recycle_bin_keep_for">保留已删除的录音 %1$s</string>
+    <string name="auto_delete_audio">自动删除音频</string>
+    <string name="auto_delete_audio_subtitle">转录完成后删除音频文件</string>
+    <string name="auto_copy_clipboard">自动复制到剪贴板</string>
+    <string name="auto_copy_clipboard_subtitle">转录完成后将文本复制到剪贴板</string>
+    <string name="theme">主题</string>
+    <string name="models_storage">模型存储</string>
+    <string name="faq_and_help">常见问题 &amp; 帮助</string>
+    <string name="faq_subtitle">常见问题和故障排除</string>
+    <string name="about_version">版本 1.0.0</string>
+    <string name="about_description">由 Whisper AI 驱动的隐私优先语音转录。所有处理均在您的设备上完成 \u2013 您的音频永远不会离开您的手机。</string>
+    <string name="select_language">选择语言</string>
+    <string name="select_theme">选择主题</string>
+    <string name="recycle_bin_retention">回收站保留期</string>
+    <string name="theme_follow_system">跟随系统设置</string>
+    <string name="theme_always_light">始终使用浅色主题</string>
+    <string name="theme_always_dark">始终使用深色主题</string>
+    <string name="retention_disabled_desc">录音将被立即永久删除</string>
+    <string name="retention_7_days_desc">已删除的录音可在7天内恢复</string>
+    <string name="retention_14_days_desc">已删除的录音可在14天内恢复</string>
+    <string name="retention_30_days_desc">已删除的录音可在30天内恢复</string>
+
+    <!-- Model Card -->
+    <string name="active">活跃</string>
+    <string name="cancel_download">取消下载</string>
+    <string name="delete_model">删除模型</string>
+    <string name="downloaded">已下载</string>
+    <string name="download">下载</string>
+    <string name="model_stat_size">大小</string>
+    <string name="model_stat_accuracy">准确度</string>
+    <string name="model_stat_speed">速度</string>
+    <string name="download_failed_prefix">下载失败: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">欢迎使用 SecureVox</string>
+    <string name="welcome_subtitle">隐私优先的语音转录</string>
+    <string name="download_ai_model">下载 AI 模型</string>
+    <string name="download_model_description">SecureVox 需要下载 Whisper AI 模型（约75MB）以在设备上转录您的语音录音。</string>
+    <string name="download_with_size">下载 (%1$dMB)</string>
+    <string name="downloading_progress">正在下载\u2026 %1$d%%</string>
+    <string name="download_complete">下载完成！</string>
+    <string name="download_failed_message">下载失败: %1$s</string>
+    <string name="privacy_note">所有转录均在您的设备上完成</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">搜索常见问题\u2026</string>
+    <string name="no_results_found">未找到结果</string>
+    <string name="try_different_search_term">请尝试其他搜索词</string>
+    <string name="still_have_questions">还有其他问题？</string>
+    <string name="contact_support">请联系我们：support@securevox.app</string>
+    <string name="collapse">折叠</string>
+    <string name="expand">展开</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d 个词</string>
+    <string name="add_word">添加词汇</string>
+    <string name="import_from_clipboard">从剪贴板导入</string>
+    <string name="export_to_clipboard">导出到剪贴板</string>
+    <string name="delete_all">全部删除</string>
+    <string name="search_words">搜索词汇\u2026</string>
+    <string name="no_custom_words_yet">还没有自定义词汇</string>
+    <string name="custom_words_empty_hint">添加经常被错误识别的词汇，如姓名、专业术语或缩写。</string>
+    <string name="add_word_button">添加词汇</string>
+    <string name="no_words_found">未找到词汇</string>
+    <string name="delete_word_title">删除词汇？</string>
+    <string name="delete_word_message">从自定义词典中删除「%1$s」？</string>
+    <string name="add_word_title">添加词汇</string>
+    <string name="add_word_description">输入要添加到自定义词典的词汇。</string>
+    <string name="word_label">词汇</string>
+    <string name="import_words_title">导入词汇</string>
+    <string name="import_words_description">粘贴要导入的词汇（每行一个）。</string>
+    <string name="words_label">词汇</string>
+    <string name="delete_all_words_title">删除所有词汇？</string>
+    <string name="delete_all_words_message">这将从自定义词典中删除全部 %1$d 个词汇。此操作无法撤销。</string>
+    <string name="delete_all_button">全部删除</string>
+    <string name="dictionary_copied">词典已复制到剪贴板</string>
+    <string name="dictionary_empty">词典为空</string>
+    <string name="word_added">词汇已添加</string>
+    <string name="word_already_exists">词汇已存在</string>
+    <string name="words_imported">已导入 %1$d 个词汇</string>
+    <string name="no_new_words">没有新词汇可导入</string>
+    <string name="dictionary_cleared">词典已清空</string>
+</resources>

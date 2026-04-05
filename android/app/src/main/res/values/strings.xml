@@ -1,4 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Back</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="ok">OK</string>
+    <string name="search">Search</string>
+    <string name="clear">Clear</string>
+    <string name="settings">Settings</string>
+    <string name="recording_label">Recording</string>
+    <string name="export">Export</string>
+    <string name="retry">Retry</string>
+    <string name="add">Add</string>
+    <string name="import_label">Import</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Search recordings</string>
+    <string name="close_search">Close search</string>
+    <string name="import_media">Import media</string>
+    <string name="stop_recording">Stop recording</string>
+    <string name="start_recording">Start recording</string>
+    <string name="importing_media">Importing media\u2026</string>
+    <string name="filter_all">All</string>
+    <string name="filter_favorites">Favorites</string>
+    <string name="favorite">Favorite</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="import_failed_title">Import Failed</string>
+    <string name="delete_recording_title">Delete Recording</string>
+    <string name="delete_recording_message">Are you sure you want to delete this recording? This action cannot be undone.</string>
+    <string name="no_recordings_found">No recordings found</string>
+    <string name="no_favorites_yet">No favorites yet</string>
+    <string name="no_recordings_yet">No recordings yet</string>
+    <string name="try_different_search">Try a different search term</string>
+    <string name="swipe_to_favorite">Swipe right on a recording to favorite it</string>
+    <string name="tap_mic_to_start">Tap the microphone button to start</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Pending</string>
+    <string name="status_processing">Processing</string>
+    <string name="status_done">Done</string>
+    <string name="status_failed">Failed</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">More options</string>
+    <string name="copy_transcript">Copy Transcript</string>
+    <string name="copied_to_clipboard">Copied to clipboard</string>
+    <string name="export_transcript">Export transcript</string>
+    <string name="export_failed">Export failed</string>
+    <string name="transcribing">Transcribing\u2026</string>
+    <string name="transcription_may_take_minutes">This may take a few minutes</string>
+    <string name="transcription_pending">Transcription pending</string>
+    <string name="transcription_failed">Transcription failed</string>
+    <string name="please_try_again">Please try again</string>
+    <string name="skip_back_10">Skip back 10 seconds</string>
+    <string name="skip_forward_10">Skip forward 10 seconds</string>
+    <string name="pause">Pause</string>
+    <string name="play">Play</string>
+    <string name="selected">Selected</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Transcription Model</string>
+    <string name="section_language">Language</string>
+    <string name="section_transcription">Transcription</string>
+    <string name="section_recording">Recording</string>
+    <string name="section_data_management">Data Management</string>
+    <string name="section_appearance">Appearance</string>
+    <string name="section_storage">Storage</string>
+    <string name="section_about">About</string>
+    <string name="transcription_language">Transcription Language</string>
+    <string name="auto_punctuation">Auto-Punctuation</string>
+    <string name="auto_punctuation_subtitle">Automatically add punctuation to transcripts</string>
+    <string name="smart_capitalization">Smart Capitalization</string>
+    <string name="smart_capitalization_subtitle">Capitalize sentences and proper nouns</string>
+    <string name="custom_dictionary">Custom Dictionary</string>
+    <string name="custom_dictionary_subtitle">Add words to improve transcription accuracy</string>
+    <string name="sound_effects">Sound Effects</string>
+    <string name="sound_effects_subtitle">Play sounds when starting/stopping recording</string>
+    <string name="haptic_feedback">Haptic Feedback</string>
+    <string name="haptic_feedback_subtitle">Vibrate when starting/stopping recording</string>
+    <string name="recycle_bin">Recycle Bin</string>
+    <string name="recycle_bin_deleted_immediately">Recordings deleted immediately</string>
+    <string name="recycle_bin_keep_for">Keep deleted recordings for %1$s</string>
+    <string name="auto_delete_audio">Auto-Delete Audio</string>
+    <string name="auto_delete_audio_subtitle">Delete audio files after transcription completes</string>
+    <string name="auto_copy_clipboard">Auto-Copy to Clipboard</string>
+    <string name="auto_copy_clipboard_subtitle">Copy transcript to clipboard after transcription</string>
+    <string name="theme">Theme</string>
+    <string name="models_storage">Models Storage</string>
+    <string name="faq_and_help">FAQ &amp; Help</string>
+    <string name="faq_subtitle">Common questions and troubleshooting</string>
+    <string name="about_version">Version 1.0.0</string>
+    <string name="about_description">Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.</string>
+    <string name="select_language">Select Language</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="recycle_bin_retention">Recycle Bin Retention</string>
+    <string name="theme_follow_system">Follow system settings</string>
+    <string name="theme_always_light">Always use light theme</string>
+    <string name="theme_always_dark">Always use dark theme</string>
+    <string name="retention_disabled_desc">Recordings are permanently deleted immediately</string>
+    <string name="retention_7_days_desc">Deleted recordings can be restored within 7 days</string>
+    <string name="retention_14_days_desc">Deleted recordings can be restored within 14 days</string>
+    <string name="retention_30_days_desc">Deleted recordings can be restored within 30 days</string>
+
+    <!-- Model Card -->
+    <string name="active">Active</string>
+    <string name="cancel_download">Cancel download</string>
+    <string name="delete_model">Delete model</string>
+    <string name="downloaded">Downloaded</string>
+    <string name="download">Download</string>
+    <string name="model_stat_size">Size</string>
+    <string name="model_stat_accuracy">Accuracy</string>
+    <string name="model_stat_speed">Speed</string>
+    <string name="download_failed_prefix">Download failed: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Welcome to SecureVox</string>
+    <string name="welcome_subtitle">Privacy-first voice transcription</string>
+    <string name="download_ai_model">Download AI Model</string>
+    <string name="download_model_description">SecureVox needs to download the Whisper AI model (~75MB) to transcribe your voice recordings on-device.</string>
+    <string name="download_with_size">Download (%1$dMB)</string>
+    <string name="downloading_progress">Downloading\u2026 %1$d%%</string>
+    <string name="download_complete">Download complete!</string>
+    <string name="download_failed_message">Download failed: %1$s</string>
+    <string name="privacy_note">All transcription happens on your device</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">Search FAQ\u2026</string>
+    <string name="no_results_found">No results found</string>
+    <string name="try_different_search_term">Try a different search term</string>
+    <string name="still_have_questions">Still have questions?</string>
+    <string name="contact_support">Contact us at support@securevox.app</string>
+    <string name="collapse">Collapse</string>
+    <string name="expand">Expand</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d words</string>
+    <string name="add_word">Add word</string>
+    <string name="import_from_clipboard">Import from clipboard</string>
+    <string name="export_to_clipboard">Export to clipboard</string>
+    <string name="delete_all">Delete all</string>
+    <string name="search_words">Search words\u2026</string>
+    <string name="no_custom_words_yet">No custom words yet</string>
+    <string name="custom_words_empty_hint">Add words that are commonly misrecognized, like names, technical terms, or abbreviations.</string>
+    <string name="add_word_button">Add Word</string>
+    <string name="no_words_found">No words found</string>
+    <string name="delete_word_title">Delete Word?</string>
+    <string name="delete_word_message">Remove \"%1$s\" from your custom dictionary?</string>
+    <string name="add_word_title">Add Word</string>
+    <string name="add_word_description">Enter a word to add to your custom dictionary.</string>
+    <string name="word_label">Word</string>
+    <string name="import_words_title">Import Words</string>
+    <string name="import_words_description">Paste words to import (one per line).</string>
+    <string name="words_label">Words</string>
+    <string name="delete_all_words_title">Delete All Words?</string>
+    <string name="delete_all_words_message">This will remove all %1$d words from your custom dictionary. This action cannot be undone.</string>
+    <string name="delete_all_button">Delete All</string>
+    <string name="dictionary_copied">Dictionary copied to clipboard</string>
+    <string name="dictionary_empty">Dictionary is empty</string>
+    <string name="word_added">Word added</string>
+    <string name="word_already_exists">Word already exists</string>
+    <string name="words_imported">%1$d words imported</string>
+    <string name="no_new_words">No new words to import</string>
+    <string name="dictionary_cleared">Dictionary cleared</string>
 </resources>

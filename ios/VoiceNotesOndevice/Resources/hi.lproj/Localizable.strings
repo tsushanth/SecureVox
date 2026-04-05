@@ -1,0 +1,350 @@
+/*
+  Localizable.strings (Hindi)
+  SecureVox
+*/
+
+// MARK: - Tabs (ContentView)
+"Recordings" = "रिकॉर्डिंग";
+"Settings" = "सेटिंग्स";
+
+// MARK: - Recordings List
+"Search recordings" = "रिकॉर्डिंग खोजें";
+"No Recordings" = "कोई रिकॉर्डिंग नहीं";
+"Tap the record button to create a new recording, or import audio/video files." = "नई रिकॉर्डिंग बनाने के लिए रिकॉर्ड बटन पर टैप करें, या ऑडियो/वीडियो फ़ाइलें आयात करें।";
+"Record audio or import media to get started with offline transcription." = "ऑफ़लाइन ट्रांसक्रिप्शन शुरू करने के लिए ऑडियो रिकॉर्ड करें या मीडिया आयात करें।";
+"Record Audio" = "ऑडियो रिकॉर्ड करें";
+"Import Media" = "मीडिया आयात करें";
+"Delete" = "हटाएं";
+"Favorite" = "पसंदीदा";
+"Unfavorite" = "पसंदीदा हटाएं";
+"Add to Favorites" = "पसंदीदा में जोड़ें";
+"Remove from Favorites" = "पसंदीदा से हटाएं";
+"Copy Transcript" = "ट्रांसक्रिप्ट कॉपी करें";
+"Delete Recording" = "रिकॉर्डिंग हटाएं";
+"Cancel" = "रद्द करें";
+"Are you sure you want to delete this recording? This cannot be undone." = "क्या आप वाकई इस रिकॉर्डिंग को हटाना चाहते हैं? यह पूर्ववत नहीं किया जा सकता।";
+"Error" = "त्रुटि";
+"OK" = "ठीक";
+
+// MARK: - Recording Row Status
+"Waiting" = "प्रतीक्षा में";
+"Transcribing" = "ट्रांसक्राइब हो रहा है";
+"Done" = "पूर्ण";
+"Failed" = "विफल";
+"Tap to transcribe" = "ट्रांसक्राइब करने के लिए टैप करें";
+"Transcription failed" = "ट्रांसक्रिप्शन विफल";
+"Today, %@" = "आज, %@";
+"Yesterday, %@" = "कल, %@";
+
+// MARK: - Recorder Sheet
+"Recording" = "रिकॉर्डिंग";
+"Cancel Recording?" = "रिकॉर्डिंग रद्द करें?";
+"Discard Recording" = "रिकॉर्डिंग हटाएं";
+"Keep Recording" = "रिकॉर्डिंग रखें";
+"Your recording will be lost." = "आपकी रिकॉर्डिंग खो जाएगी।";
+"Tap to start recording" = "रिकॉर्डिंग शुरू करने के लिए टैप करें";
+"Microphone permission required" = "माइक्रोफ़ोन की अनुमति आवश्यक है";
+"Saving..." = "सहेज रहा है...";
+
+// MARK: - Recording Detail View
+"Rename Recording" = "रिकॉर्डिंग का नाम बदलें";
+"Title" = "शीर्षक";
+"Save" = "सहेजें";
+"Delete this recording?" = "इस रिकॉर्डिंग को हटाएं?";
+"Cancel transcription?" = "ट्रांसक्रिप्शन रद्द करें?";
+"Cancel Transcription" = "ट्रांसक्रिप्शन रद्द करें";
+"Continue" = "जारी रखें";
+"Rename" = "नाम बदलें";
+"Start Transcription" = "ट्रांसक्रिप्शन शुरू करें";
+"Export Transcript" = "ट्रांसक्रिप्ट निर्यात करें";
+"Export TXT" = "TXT निर्यात करें";
+"Export SRT" = "SRT निर्यात करें";
+"Export VTT" = "VTT निर्यात करें";
+
+// MARK: - Pending View
+"Ready to Transcribe" = "ट्रांसक्राइब करने के लिए तैयार";
+"Tap the button below to start offline transcription using Whisper." = "Whisper का उपयोग करके ऑफ़लाइन ट्रांसक्रिप्शन शुरू करने के लिए नीचे दिए गए बटन पर टैप करें।";
+
+// MARK: - Processing View
+"Loading Transcription Model" = "ट्रांसक्रिप्शन मॉडल लोड हो रहा है";
+"This may take a moment on first use..." = "पहली बार उपयोग करने पर इसमें कुछ समय लग सकता है...";
+"(Fallback)" = "(वैकल्पिक)";
+"Live Preview" = "लाइव प्रीव्यू";
+
+// MARK: - Transcript View
+"No Transcript" = "कोई ट्रांसक्रिप्ट नहीं";
+"The transcript will appear here after processing." = "प्रोसेसिंग के बाद ट्रांसक्रिप्ट यहां दिखाई देगा।";
+"View Mode" = "दृश्य मोड";
+
+// MARK: - Apple Speech Fallback Banner
+"Transcribed with Apple Speech" = "Apple Speech से ट्रांसक्राइब किया गया";
+"Whisper AI provides better accuracy on iPhone 12 and newer devices." = "Whisper AI, iPhone 12 और नए उपकरणों पर बेहतर सटीकता प्रदान करता है।";
+
+// MARK: - Re-transcribe
+"Re-transcribe" = "पुनः ट्रांसक्राइब करें";
+"Currently: %@ model" = "वर्तमान: %@ मॉडल";
+"Try a different model" = "कोई अन्य मॉडल आज़माएं";
+"Choose quality level for re-transcription. Higher accuracy takes longer but produces better results." = "पुनः ट्रांसक्रिप्शन के लिए गुणवत्ता स्तर चुनें। उच्च सटीकता में अधिक समय लगता है लेकिन बेहतर परिणाम देता है।";
+"Choose quality level. Fast is recommended for this device. Higher quality options may be slow without GPU acceleration." = "गुणवत्ता स्तर चुनें। इस उपकरण के लिए तेज़ अनुशंसित है। GPU त्वरण के बिना उच्च गुणवत्ता विकल्प धीमे हो सकते हैं।";
+"Choose Quality" = "गुणवत्ता चुनें";
+"This will replace the current transcription." = "यह वर्तमान ट्रांसक्रिप्शन को बदल देगा।";
+"Current" = "वर्तमान";
+
+// MARK: - Failed View
+"Transcription Failed" = "ट्रांसक्रिप्शन विफल";
+"An error occurred during transcription." = "ट्रांसक्रिप्शन के दौरान एक त्रुटि हुई।";
+"Retry" = "पुनः प्रयास करें";
+
+// MARK: - Transcription Progress
+"Complete" = "पूर्ण";
+"Transcribing..." = "ट्रांसक्राइब हो रहा है...";
+"About %@ remaining" = "लगभग %@ शेष";
+"Processing entirely on your device" = "पूरी तरह से आपके उपकरण पर प्रोसेसिंग";
+"less than a minute" = "एक मिनट से कम";
+
+// MARK: - Export Sheet
+"Export Format" = "निर्यात प्रारूप";
+"Preview" = "प्रीव्यू";
+"Export" = "निर्यात करें";
+"Exporting..." = "निर्यात हो रहा है...";
+"Export Error" = "निर्यात त्रुटि";
+"Choose Format" = "प्रारूप चुनें";
+"The transcript will be exported and ready to share." = "ट्रांसक्रिप्ट निर्यात किया जाएगा और साझा करने के लिए तैयार होगा।";
+
+// MARK: - Export Formats
+"Plain Text (.txt)" = "सादा टेक्स्ट (.txt)";
+"SubRip Subtitle (.srt)" = "SubRip उपशीर्षक (.srt)";
+"WebVTT (.vtt)" = "WebVTT (.vtt)";
+"Simple text without timestamps. Best for reading and editing." = "टाइमस्टैम्प के बिना सरल टेक्स्ट। पढ़ने और संपादन के लिए सर्वश्रेष्ठ।";
+"Industry-standard subtitle format. Compatible with most video editors." = "उद्योग-मानक उपशीर्षक प्रारूप। अधिकांश वीडियो संपादकों के साथ संगत।";
+"Web-compatible subtitle format. Works with HTML5 video players." = "वेब-संगत उपशीर्षक प्रारूप। HTML5 वीडियो प्लेयर्स के साथ काम करता है।";
+
+// MARK: - Import Menu
+"Import Media" = "मीडिया आयात करें";
+"Choose Source" = "स्रोत चुनें";
+"Audio will be extracted from videos. Supported formats: MP4, MOV, MP3, M4A, WAV, and more." = "वीडियो से ऑडियो निकाला जाएगा। समर्थित प्रारूप: MP4, MOV, MP3, M4A, WAV और अन्य।";
+"Photo Library" = "फ़ोटो लाइब्रेरी";
+"Import videos from Camera Roll" = "कैमरा रोल से वीडियो आयात करें";
+"Files" = "फ़ाइलें";
+"Import audio or video files" = "ऑडियो या वीडियो फ़ाइलें आयात करें";
+"Supported Formats" = "समर्थित प्रारूप";
+"Video" = "वीडियो";
+"Audio" = "ऑडियो";
+"Maximum file size: 2 GB" = "अधिकतम फ़ाइल आकार: 2 GB";
+"Importing..." = "आयात हो रहा है...";
+"Import Error" = "आयात त्रुटि";
+"An unknown error occurred" = "एक अज्ञात त्रुटि हुई";
+"Imported Recording" = "आयातित रिकॉर्डिंग";
+"Loading video..." = "वीडियो लोड हो रहा है...";
+"Loading file..." = "फ़ाइल लोड हो रहा है...";
+
+// MARK: - Settings View
+"Transcription Quality" = "ट्रांसक्रिप्शन गुणवत्ता";
+"Higher quality options produce better results but take longer. Your device supports GPU acceleration for optimal performance." = "उच्च गुणवत्ता विकल्प बेहतर परिणाम देते हैं लेकिन अधिक समय लेते हैं। आपका उपकरण इष्टतम प्रदर्शन के लिए GPU त्वरण का समर्थन करता है।";
+"Higher quality options may be slow on this device. Fast is recommended. iPhone 12 or newer recommended for Balanced and Accurate." = "उच्च गुणवत्ता विकल्प इस उपकरण पर धीमे हो सकते हैं। तेज़ अनुशंसित है। संतुलित और सटीक के लिए iPhone 12 या नया अनुशंसित है।";
+"Default Language" = "डिफ़ॉल्ट भाषा";
+"Language" = "भाषा";
+"Whisper supports 99 languages. Auto-detect works well for most content, but selecting a specific language can improve accuracy." = "Whisper 99 भाषाओं का समर्थन करता है। स्वतः-पहचान अधिकांश सामग्री के लिए अच्छी तरह काम करती है, लेकिन एक विशिष्ट भाषा चुनने से सटीकता में सुधार हो सकता है।";
+"Auto-Punctuation" = "स्वतः-विराम चिह्न";
+"Smart Capitalization" = "स्मार्ट कैपिटलाइज़ेशन";
+"Custom Dictionary" = "कस्टम शब्दकोश";
+"%lld words" = "%lld शब्द";
+"Transcription" = "ट्रांसक्रिप्शन";
+"Customize how transcription results are formatted. Add custom words to fix common misrecognitions." = "ट्रांसक्रिप्शन परिणामों का प्रारूप अनुकूलित करें। सामान्य गलत पहचान को ठीक करने के लिए कस्टम शब्द जोड़ें।";
+"Sound Effects" = "ध्वनि प्रभाव";
+"Haptic Feedback" = "हैप्टिक फ़ीडबैक";
+"Play sounds and provide haptic feedback when starting and stopping recordings." = "रिकॉर्डिंग शुरू और बंद करते समय ध्वनि चलाएं और हैप्टिक फ़ीडबैक प्रदान करें।";
+"Recording Quality" = "रिकॉर्डिंग गुणवत्ता";
+"Input Gain" = "इनपुट गेन";
+"Normal" = "सामान्य";
+"Higher quality produces larger files. Adjust input gain if recordings are too quiet or loud." = "उच्च गुणवत्ता बड़ी फ़ाइलें बनाती है। यदि रिकॉर्डिंग बहुत धीमी या तेज़ है तो इनपुट गेन समायोजित करें।";
+"Theme" = "थीम";
+"Appearance" = "दिखावट";
+"Recycle Bin" = "रीसायकल बिन";
+"Disabled" = "अक्षम";
+"7 Days" = "7 दिन";
+"14 Days" = "14 दिन";
+"30 Days" = "30 दिन";
+"Recently Deleted" = "हाल ही में हटाया गया";
+"Data Management" = "डेटा प्रबंधन";
+"Deleted recordings are kept for %lld days before permanent deletion." = "हटाई गई रिकॉर्डिंग स्थायी रूप से हटाने से पहले %lld दिनों तक रखी जाती हैं।";
+"Recordings are permanently deleted immediately." = "रिकॉर्डिंग तुरंत स्थायी रूप से हटा दी जाती हैं।";
+"Loading..." = "लोड हो रहा है...";
+"Recordings" = "रिकॉर्डिंग";
+"Audio Files" = "ऑडियो फ़ाइलें";
+"Total Duration" = "कुल अवधि";
+"Available Space" = "उपलब्ध स्थान";
+"Auto-Delete Audio" = "ऑडियो स्वतः-हटाएं";
+"Auto-Copy to Clipboard" = "क्लिपबोर्ड पर स्वतः कॉपी";
+"Delete All Audio Files" = "सभी ऑडियो फ़ाइलें हटाएं";
+"Delete All Recordings" = "सभी रिकॉर्डिंग हटाएं";
+"Storage" = "स्टोरेज";
+"After transcription: audio files will be deleted and transcript will be copied to clipboard." = "ट्रांसक्रिप्शन के बाद: ऑडियो फ़ाइलें हटा दी जाएंगी और ट्रांसक्रिप्ट क्लिपबोर्ड पर कॉपी किया जाएगा।";
+"Audio files will be automatically deleted after transcription completes. Transcripts are preserved." = "ट्रांसक्रिप्शन पूरा होने के बाद ऑडियो फ़ाइलें स्वचालित रूप से हटा दी जाएंगी। ट्रांसक्रिप्ट संरक्षित रहेंगे।";
+"Transcript will be automatically copied to clipboard after transcription completes." = "ट्रांसक्रिप्शन पूरा होने के बाद ट्रांसक्रिप्ट स्वचालित रूप से क्लिपबोर्ड पर कॉपी किया जाएगा।";
+"Privacy" = "गोपनीयता";
+"FAQ & Help" = "FAQ और सहायता";
+"Contact Support" = "सहायता से संपर्क करें";
+"Rate on App Store" = "App Store पर रेट करें";
+"Share with Friends" = "दोस्तों के साथ साझा करें";
+"Privacy Policy" = "गोपनीयता नीति";
+"Version" = "संस्करण";
+"About" = "परिचय";
+"Delete All Audio Files?" = "सभी ऑडियो फ़ाइलें हटाएं?";
+"Delete All Audio" = "सभी ऑडियो हटाएं";
+"Transcripts will be preserved. This cannot be undone." = "ट्रांसक्रिप्ट संरक्षित रहेंगे। यह पूर्ववत नहीं किया जा सकता।";
+"Delete All Recordings?" = "सभी रिकॉर्डिंग हटाएं?";
+"Delete Everything" = "सब कुछ हटाएं";
+"All recordings and transcripts will be permanently deleted. This cannot be undone." = "सभी रिकॉर्डिंग और ट्रांसक्रिप्ट स्थायी रूप से हटा दिए जाएंगे। यह पूर्ववत नहीं किया जा सकता।";
+"Unable to Open Mail" = "मेल खोलने में असमर्थ";
+"Please email us at %@" = "कृपया हमें %@ पर ईमेल करें";
+"Get" = "प्राप्त करें";
+
+// MARK: - Settings - Recording Quality Options
+"Standard" = "मानक";
+"High" = "उच्च";
+"Maximum" = "अधिकतम";
+"16-bit, smaller files" = "16-बिट, छोटी फ़ाइलें";
+"24-bit, better quality" = "24-बिट, बेहतर गुणवत्ता";
+"32-bit, best quality" = "32-बिट, सर्वश्रेष्ठ गुणवत्ता";
+
+// MARK: - Settings - Theme Options
+"System" = "सिस्टम";
+"Light" = "लाइट";
+"Dark" = "डार्क";
+
+// MARK: - Settings - Whisper Model Options
+"Fast" = "तेज़";
+"Balanced" = "संतुलित";
+"Accurate" = "सटीक";
+"Quick results" = "त्वरित परिणाम";
+"2x slower" = "2x धीमा";
+"5x slower" = "5x धीमा";
+"Fastest" = "सबसे तेज़";
+"Moderate" = "मध्यम";
+"Slower" = "धीमा";
+
+// MARK: - Settings - Privacy Section
+"%@ works completely offline. Your recordings never leave your device, and we never request network access. This means no iCloud sync, but your privacy is absolutely protected." = "%@ पूरी तरह से ऑफ़लाइन काम करता है। आपकी रिकॉर्डिंग कभी भी आपके उपकरण से बाहर नहीं जाती और हम कभी नेटवर्क एक्सेस का अनुरोध नहीं करते। इसका मतलब है कोई iCloud सिंक नहीं, लेकिन आपकी गोपनीयता पूरी तरह से सुरक्षित है।";
+
+// MARK: - Language Picker
+"Select Language" = "भाषा चुनें";
+"Search languages" = "भाषाएं खोजें";
+"Common" = "सामान्य";
+"All Languages" = "सभी भाषाएं";
+"Auto-Detect" = "स्वतः-पहचान";
+
+// MARK: - Custom Dictionary
+"Add word..." = "शब्द जोड़ें...";
+"Words to Import" = "आयात करने के लिए शब्द";
+"Enter one word or phrase per line." = "प्रति पंक्ति एक शब्द या वाक्यांश दर्ज करें।";
+"Import Words" = "शब्द आयात करें";
+"Export Words" = "शब्द निर्यात करें";
+"Clear All" = "सब साफ़ करें";
+"Import" = "आयात करें";
+"Words (%lld)" = "शब्द (%lld)";
+"Add names, technical terms, or specialized vocabulary to improve accuracy—like 'Steve Wozniak', 'CRISPR-Cas9', or 'Llama-2'." = "सटीकता में सुधार के लिए नाम, तकनीकी शब्द या विशेष शब्दावली जोड़ें — जैसे 'Steve Wozniak', 'CRISPR-Cas9', या 'Llama-2'।";
+"Too many terms can reduce transcription quality. If accuracy suffers, try using fewer dictionary words." = "बहुत अधिक शब्द ट्रांसक्रिप्शन गुणवत्ता को कम कर सकते हैं। यदि सटीकता प्रभावित होती है, तो कम शब्दकोश शब्दों का उपयोग करने का प्रयास करें।";
+"Imported %lld word(s)" = "%lld शब्द आयात किए गए";
+
+// MARK: - Recycle Bin
+"Empty" = "खाली करें";
+"Empty Recycle Bin?" = "रीसायकल बिन खाली करें?";
+"Delete All Permanently" = "सभी को स्थायी रूप से हटाएं";
+"This will permanently delete %lld recording(s). This cannot be undone." = "यह %lld रिकॉर्डिंग को स्थायी रूप से हटा देगा। यह पूर्ववत नहीं किया जा सकता।";
+"Delete Permanently?" = "स्थायी रूप से हटाएं?";
+"Delete Permanently" = "स्थायी रूप से हटाएं";
+"This recording will be permanently deleted. This cannot be undone." = "यह रिकॉर्डिंग स्थायी रूप से हटा दी जाएगी। यह पूर्ववत नहीं किया जा सकता।";
+"No Deleted Recordings" = "कोई हटाई गई रिकॉर्डिंग नहीं";
+"Recordings you delete will appear here and can be restored." = "आपके द्वारा हटाई गई रिकॉर्डिंग यहां दिखाई देंगी और पुनर्स्थापित की जा सकती हैं।";
+"Restore" = "पुनर्स्थापित करें";
+"Expires today" = "आज समाप्त होती है";
+"1 day left" = "1 दिन शेष";
+"%lld days left" = "%lld दिन शेष";
+"Deleted today at %@" = "आज %@ पर हटाया गया";
+"Deleted yesterday" = "कल हटाया गया";
+"Deleted %@" = "%@ को हटाया गया";
+
+// MARK: - Storage Usage View
+"Storage Usage" = "स्टोरेज उपयोग";
+"Audio Recordings" = "ऑडियो रिकॉर्डिंग";
+"Total Audio Size" = "कुल ऑडियो आकार";
+"Device Storage" = "डिवाइस स्टोरेज";
+"Tips to free up space:" = "स्थान खाली करने के सुझाव:";
+"Delete audio files after transcription" = "ट्रांसक्रिप्शन के बाद ऑडियो फ़ाइलें हटाएं";
+"Remove old recordings you no longer need" = "पुरानी रिकॉर्डिंग हटाएं जिनकी अब आवश्यकता नहीं है";
+"Enable auto-delete in Settings" = "सेटिंग्स में स्वतः-हटाना सक्षम करें";
+"Tips" = "सुझाव";
+"Usage" = "उपयोग";
+
+// MARK: - Rating Prompt
+"Enjoying %@?" = "क्या आप %@ का आनंद ले रहे हैं?";
+"Your feedback helps us improve the app for everyone." = "आपकी प्रतिक्रिया सभी के लिए ऐप को बेहतर बनाने में मदद करती है।";
+"Yes, I love it!" = "हां, मुझे बहुत पसंद है!";
+"Not Really" = "नहीं";
+"Not Now" = "अभी नहीं";
+
+// MARK: - Loading Overlay
+"Loading..." = "लोड हो रहा है...";
+
+// MARK: - Confirmation Dialogs
+"Delete Recording?" = "रिकॉर्डिंग हटाएं?";
+"This will permanently delete the recording and its transcript." = "यह रिकॉर्डिंग और उसका ट्रांसक्रिप्ट स्थायी रूप से हटा देगा।";
+"Delete Audio File?" = "ऑडियो फ़ाइल हटाएं?";
+"The transcript will be preserved. This cannot be undone." = "ट्रांसक्रिप्ट संरक्षित रहेगा। यह पूर्ववत नहीं किया जा सकता।";
+"Delete Audio" = "ऑडियो हटाएं";
+"Discard" = "त्यागें";
+
+// MARK: - Share Sheet (macOS)
+"Share" = "साझा करें";
+"Show in Finder" = "Finder में दिखाएं";
+"Copy Path" = "पथ कॉपी करें";
+"Share..." = "साझा करें...";
+
+// MARK: - FAQ View
+"Search help topics" = "सहायता विषय खोजें";
+"Getting Started" = "शुरू करना";
+"How do I record audio?" = "मैं ऑडियो कैसे रिकॉर्ड करूं?";
+"Tap the + button in the top right corner and select \"Record\". Grant microphone permission when prompted. Tap the red record button to start, and tap stop when finished. Your recording will appear in the library." = "ऊपरी दाएं कोने में + बटन पर टैप करें और \"रिकॉर्ड\" चुनें। संकेत मिलने पर माइक्रोफ़ोन अनुमति दें। शुरू करने के लिए लाल रिकॉर्ड बटन पर टैप करें और समाप्त होने पर स्टॉप पर टैप करें। आपकी रिकॉर्डिंग लाइब्रेरी में दिखाई देगी।";
+"How do I import a video from my Camera Roll?" = "मैं अपने कैमरा रोल से वीडियो कैसे आयात करूं?";
+"Tap the + button and select \"Import\". Choose \"Photo Library\" to select videos from your Camera Roll. The app will extract the audio track for transcription." = "+ बटन पर टैप करें और \"आयात\" चुनें। अपने कैमरा रोल से वीडियो चुनने के लिए \"फ़ोटो लाइब्रेरी\" चुनें। ऐप ट्रांसक्रिप्शन के लिए ऑडियो ट्रैक निकालेगा।";
+"Can I import audio files?" = "क्या मैं ऑडियो फ़ाइलें आयात कर सकता हूं?";
+"Yes! Tap the + button, select \"Import\", then \"Files\". You can import MP3, M4A, WAV, and most common audio formats from the Files app, iCloud Drive, or other sources." = "हां! + बटन पर टैप करें, \"आयात\" चुनें, फिर \"फ़ाइलें\"। आप Files ऐप, iCloud Drive या अन्य स्रोतों से MP3, M4A, WAV और अधिकांश सामान्य ऑडियो प्रारूप आयात कर सकते हैं।";
+"How long does transcription take?" = "ट्रांसक्रिप्शन में कितना समय लगता है?";
+"With the Tiny model, transcription runs about 10x faster than realtime (a 10-minute recording takes ~1 minute). The Small model is more accurate but slower at about 2x realtime. Processing happens entirely on your device." = "Tiny मॉडल के साथ, ट्रांसक्रिप्शन रियलटाइम से लगभग 10 गुना तेज चलता है (10 मिनट की रिकॉर्डिंग में ~1 मिनट लगता है)। Small मॉडल अधिक सटीक है लेकिन लगभग 2x रियलटाइम पर धीमा है। प्रोसेसिंग पूरी तरह से आपके उपकरण पर होती है।";
+"What languages are supported?" = "कौन सी भाषाएं समर्थित हैं?";
+"Whisper supports 99 languages including English, Spanish, French, German, Chinese, Japanese, Korean, Arabic, and many more. Auto-detect works for most content, or you can manually select a language in Settings for better accuracy." = "Whisper अंग्रेजी, स्पेनिश, फ्रेंच, जर्मन, चीनी, जापानी, कोरियाई, अरबी और कई अन्य सहित 99 भाषाओं का समर्थन करता है। स्वतः-पहचान अधिकांश सामग्री के लिए काम करती है, या बेहतर सटीकता के लिए आप सेटिंग्स में मैन्युअल रूप से भाषा चुन सकते हैं।";
+"How accurate is the transcription?" = "ट्रांसक्रिप्शन कितना सटीक है?";
+"Accuracy depends on audio quality, background noise, accents, and the model used. The Small model provides the best accuracy. Clear audio with minimal background noise produces the best results. You can edit transcripts after processing." = "सटीकता ऑडियो गुणवत्ता, पृष्ठभूमि शोर, उच्चारण और उपयोग किए गए मॉडल पर निर्भर करती है। Small मॉडल सबसे अच्छी सटीकता प्रदान करता है। न्यूनतम पृष्ठभूमि शोर के साथ स्पष्ट ऑडियो सबसे अच्छे परिणाम देता है। आप प्रोसेसिंग के बाद ट्रांसक्रिप्ट संपादित कर सकते हैं।";
+"Does this work offline?" = "क्या यह ऑफ़लाइन काम करता है?";
+"Yes! All transcription happens on your device using Apple's Neural Engine. No internet connection is required, and your audio never leaves your device." = "हां! सभी ट्रांसक्रिप्शन Apple के Neural Engine का उपयोग करके आपके उपकरण पर होती है। इंटरनेट कनेक्शन की आवश्यकता नहीं है और आपका ऑडियो कभी भी आपके उपकरण से बाहर नहीं जाता।";
+"Export & Sharing" = "निर्यात और साझाकरण";
+"What export formats are available?" = "कौन से निर्यात प्रारूप उपलब्ध हैं?";
+"How do I share a transcript?" = "मैं ट्रांसक्रिप्ट कैसे साझा करूं?";
+"Open a recording, tap the menu button (...), and select \"Export Transcript\". Choose your format and use the share sheet to send via Messages, Mail, AirDrop, or save to Files." = "एक रिकॉर्डिंग खोलें, मेनू बटन (...) पर टैप करें और \"ट्रांसक्रिप्ट निर्यात करें\" चुनें। अपना प्रारूप चुनें और Messages, Mail, AirDrop के माध्यम से भेजने या Files में सहेजने के लिए शेयर शीट का उपयोग करें।";
+"Storage & Privacy" = "स्टोरेज और गोपनीयता";
+"How much storage do recordings use?" = "रिकॉर्डिंग कितना स्टोरेज उपयोग करती हैं?";
+"Audio recordings use about 1 MB per minute. The Whisper models use 75-500 MB depending on which you select. You can delete audio files after transcription to save space while keeping your transcripts." = "ऑडियो रिकॉर्डिंग प्रति मिनट लगभग 1 MB उपयोग करती हैं। Whisper मॉडल आपके चयन के आधार पर 75-500 MB उपयोग करते हैं। आप ट्रांसक्रिप्ट रखते हुए स्थान बचाने के लिए ट्रांसक्रिप्शन के बाद ऑडियो फ़ाइलें हटा सकते हैं।";
+"Is my data private?" = "क्या मेरा डेटा निजी है?";
+"Absolutely. All processing happens on-device. Your audio and transcripts never leave your iPhone. We don't collect any usage data or analytics. Your recordings are stored only in the app's private container." = "बिल्कुल। सभी प्रोसेसिंग उपकरण पर होती है। आपका ऑडियो और ट्रांसक्रिप्ट कभी भी आपके iPhone से बाहर नहीं जाता। हम कोई उपयोग डेटा या एनालिटिक्स एकत्र नहीं करते। आपकी रिकॉर्डिंग केवल ऐप के निजी कंटेनर में संग्रहीत होती हैं।";
+"Can I delete the audio but keep the transcript?" = "क्या मैं ऑडियो हटा सकता हूं लेकिन ट्रांसक्रिप्ट रख सकता हूं?";
+"Yes! Open a recording, tap the menu (...), and select \"Delete Audio File\". The transcript remains. You can also enable \"Auto-Delete Audio\" in Settings to automatically remove audio after transcription." = "हां! एक रिकॉर्डिंग खोलें, मेनू (...) पर टैप करें और \"ऑडियो फ़ाइल हटाएं\" चुनें। ट्रांसक्रिप्ट बना रहता है। आप ट्रांसक्रिप्शन के बाद ऑडियो को स्वचालित रूप से हटाने के लिए सेटिंग्स में \"ऑडियो स्वतः-हटाएं\" भी सक्षम कर सकते हैं।";
+"Troubleshooting" = "समस्या निवारण";
+"Why did my transcription fail?" = "मेरा ट्रांसक्रिप्शन क्यों विफल हुआ?";
+"The transcription quality is poor. What can I do?" = "ट्रांसक्रिप्शन गुणवत्ता खराब है। मैं क्या कर सकता हूं?";
+"The app crashes during transcription" = "ट्रांसक्रिप्शन के दौरान ऐप क्रैश हो जाता है";
+
+// MARK: - Widget
+"Recording..." = "रिकॉर्डिंग...";
+"recordings" = "रिकॉर्डिंग";
+"Tap to record" = "रिकॉर्ड करने के लिए टैप करें";
+"total time" = "कुल समय";
+"Recent" = "हाल का";
+"No recordings yet" = "अभी तक कोई रिकॉर्डिंग नहीं";
+"Most Recent" = "सबसे हालिया";
+"No recordings yet. Tap to start!" = "अभी तक कोई रिकॉर्डिंग नहीं। शुरू करने के लिए टैप करें!";
+"Tap to start recording" = "रिकॉर्डिंग शुरू करने के लिए टैप करें";
+"Tap to start recording instantly" = "तुरंत रिकॉर्डिंग शुरू करने के लिए टैप करें";
+
+// MARK: - Widget Stats
+"Total Time" = "कुल समय";

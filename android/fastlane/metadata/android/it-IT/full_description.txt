@@ -1,0 +1,50 @@
+SecureVox - La Tua App Privata per Registrazione Vocale e Trascrizione
+
+Registra memo vocali e ottieni trascrizioni accurate senza mai inviare i tuoi dati al cloud. SecureVox utilizza l'IA sul dispositivo, basata sul modello Whisper di OpenAI, per trascrivere le tue registrazioni completamente offline.
+
+Perché SecureVox?
+
+Le tue registrazioni vocali contengono informazioni sensibili: appunti di riunioni, pensieri personali, conversazioni riservate. A differenza di altre app di trascrizione che caricano il tuo audio su server remoti, SecureVox elabora tutto localmente sul tuo dispositivo. Le tue registrazioni non lasciano mai il tuo telefono.
+
+Funzionalità Principali:
+
+• Trascrizione 100% Offline - Tutta l'elaborazione da voce a testo avviene sul tuo dispositivo grazie all'IA avanzata. Nessuna connessione internet necessaria.
+• Privacy Completa - Le tue registrazioni e trascrizioni sono salvate esclusivamente sul tuo dispositivo. Nessun caricamento nel cloud, nessun account, nessuna raccolta dati.
+• Registrazione di Alta Qualità - Cattura audio cristallina ottimizzata per memo vocali e riunioni.
+• Veloce e Preciso - Alimentato dall'IA Whisper, la stessa tecnologia utilizzata dai principali servizi di trascrizione, eseguita interamente sul tuo dispositivo.
+• Cerca le Tue Trascrizioni - Trova rapidamente qualsiasi registrazione cercando tra le tue trascrizioni.
+• Opzioni di Esportazione - Esporta le trascrizioni come file di testo o condividile con altre app.
+• Importa Audio - Importa file audio esistenti (MP3, WAV, M4A) per la trascrizione.
+• Organizza con i Preferiti - Segna le registrazioni importanti per un accesso rapido.
+• Velocità di Riproduzione Variabile - Ascolta da 0,5x a 2x di velocità.
+• Design Moderno - Interfaccia pulita e intuitiva realizzata con Material Design 3.
+
+Perfetto Per:
+• Giornalisti che proteggono la riservatezza delle fonti
+• Professionisti sanitari che gestiscono informazioni sui pazienti
+• Professionisti legali con comunicazioni privilegiate
+• Riunioni aziendali con discussioni riservate
+• Studenti che registrano le lezioni
+• Chiunque tenga alla propria privacy
+
+Come Funziona:
+Tocca per registrare il tuo memo vocale
+SecureVox trascrive automaticamente usando l'IA sul dispositivo
+Visualizza, cerca ed esporta le tue trascrizioni
+Tutti i dati rimangono al sicuro sul tuo dispositivo
+
+Dettagli Tecnici:
+• Utilizza il modello Whisper di OpenAI ottimizzato per dispositivi mobili
+• Supporta Android 8.0 (Oreo) e versioni successive
+• Richiede circa 50MB per il modello IA (scaricato al primo utilizzo)
+• Nessun account o registrazione necessari
+
+Acquisto Una Tantum:
+SecureVox è un'app a pagamento senza abbonamenti, senza pubblicità e senza acquisti in-app. Paga una volta e usala per sempre.
+
+Scopri di più su https://securevox.app
+
+La Privacy Prima di Tutto:
+Crediamo che le tue registrazioni vocali siano profondamente personali. Ecco perché abbiamo costruito SecureVox dalle fondamenta con la privacy come pilastro — non come un ripensamento. Nessuna analisi, nessun tracciamento, nessuna elaborazione nel cloud. Solo tu e le tue registrazioni.
+
+Scarica SecureVox oggi e riprendi il controllo dei tuoi dati vocali.

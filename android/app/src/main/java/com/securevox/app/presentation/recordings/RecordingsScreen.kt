@@ -20,9 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.securevox.app.R
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.MediaImportService
@@ -67,10 +69,10 @@ fun RecordingsScreen(
                 )
             } else {
                 TopAppBar(
-                    title = { Text("SecureVox") },
+                    title = { Text(stringResource(R.string.app_name)) },
                     actions = {
                         IconButton(onClick = { showSearch = true }) {
-                            Icon(Icons.Default.Search, contentDescription = "Search")
+                            Icon(Icons.Default.Search, contentDescription = stringResource(R.string.search))
                         }
                         IconButton(
                             onClick = {
@@ -78,10 +80,10 @@ fun RecordingsScreen(
                             },
                             enabled = !isImporting
                         ) {
-                            Icon(Icons.Default.FileOpen, contentDescription = "Import media")
+                            Icon(Icons.Default.FileOpen, contentDescription = stringResource(R.string.import_media))
                         }
                         IconButton(onClick = onSettingsClick) {
-                            Icon(Icons.Default.Settings, contentDescription = "Settings")
+                            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.settings))
                         }
                     }
                 )
@@ -160,11 +162,11 @@ fun RecordingsScreen(
     importError?.let { error ->
         AlertDialog(
             onDismissRequest = { viewModel.clearImportError() },
-            title = { Text("Import Failed") },
+            title = { Text(stringResource(R.string.import_failed_title)) },
             text = { Text(error) },
             confirmButton = {
                 TextButton(onClick = { viewModel.clearImportError() }) {
-                    Text("OK")
+                    Text(stringResource(R.string.ok))
                 }
             }
         )
@@ -193,7 +195,7 @@ private fun ImportingIndicator() {
                 strokeWidth = 2.dp
             )
             Text(
-                text = "Importing media...",
+                text = stringResource(R.string.importing_media),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
@@ -233,7 +235,7 @@ private fun RecordButton(
     ) {
         Icon(
             imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
-            contentDescription = if (isRecording) "Stop recording" else "Start recording",
+            contentDescription = if (isRecording) stringResource(R.string.stop_recording) else stringResource(R.string.start_recording),
             modifier = Modifier.size(32.dp)
         )
     }
@@ -280,7 +282,7 @@ private fun RecordingIndicator(
                         .background(Color.Red.copy(alpha = alpha))
                 )
                 Text(
-                    text = "Recording",
+                    text = stringResource(R.string.recording_label),
                     style = MaterialTheme.typography.titleMedium,
                     color = MaterialTheme.colorScheme.onErrorContainer
                 )
@@ -316,10 +318,10 @@ private fun RecordingIndicator(
 @Composable
 private fun TranscriptionStatusChip(status: TranscriptionStatus) {
     val (text, color) = when (status) {
-        TranscriptionStatus.PENDING -> "Pending" to MaterialTheme.colorScheme.secondary
-        TranscriptionStatus.IN_PROGRESS -> "Processing" to MaterialTheme.colorScheme.tertiary
-        TranscriptionStatus.COMPLETED -> "Done" to MaterialTheme.colorScheme.primary
-        TranscriptionStatus.FAILED -> "Failed" to MaterialTheme.colorScheme.error
+        TranscriptionStatus.PENDING -> stringResource(R.string.status_pending) to MaterialTheme.colorScheme.secondary
+        TranscriptionStatus.IN_PROGRESS -> stringResource(R.string.status_processing) to MaterialTheme.colorScheme.tertiary
+        TranscriptionStatus.COMPLETED -> stringResource(R.string.status_done) to MaterialTheme.colorScheme.primary
+        TranscriptionStatus.FAILED -> stringResource(R.string.status_failed) to MaterialTheme.colorScheme.error
     }
 
     Surface(
@@ -347,7 +349,7 @@ private fun SearchBar(
             TextField(
                 value = query,
                 onValueChange = onQueryChange,
-                placeholder = { Text("Search recordings") },
+                placeholder = { Text(stringResource(R.string.search_recordings)) },
                 singleLine = true,
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.Transparent,
@@ -360,13 +362,13 @@ private fun SearchBar(
         },
         navigationIcon = {
             IconButton(onClick = onClose) {
-                Icon(Icons.Default.ArrowBack, contentDescription = "Close search")
+                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.close_search))
             }
         },
         actions = {
             if (query.isNotEmpty()) {
                 IconButton(onClick = { onQueryChange("") }) {
-                    Icon(Icons.Default.Clear, contentDescription = "Clear")
+                    Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear))
                 }
             }
         }
@@ -388,7 +390,7 @@ private fun FilterTabs(
         FilterChip(
             selected = currentFilter == RecordingsFilter.ALL,
             onClick = { onFilterSelected(RecordingsFilter.ALL) },
-            label = { Text("All") },
+            label = { Text(stringResource(R.string.filter_all)) },
             leadingIcon = if (currentFilter == RecordingsFilter.ALL) {
                 { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp)) }
             } else null
@@ -396,7 +398,7 @@ private fun FilterTabs(
         FilterChip(
             selected = currentFilter == RecordingsFilter.FAVORITES,
             onClick = { onFilterSelected(RecordingsFilter.FAVORITES) },
-            label = { Text("Favorites") },
+            label = { Text(stringResource(R.string.filter_favorites)) },
             leadingIcon = {
                 Icon(
                     if (currentFilter == RecordingsFilter.FAVORITES) Icons.Default.Star else Icons.Default.StarBorder,
@@ -445,7 +447,7 @@ private fun SwipeableRecordingItem(
                     if (recording.isFavorite) {
                         Icon(
                             Icons.Default.Star,
-                            contentDescription = "Favorite",
+                            contentDescription = stringResource(R.string.favorite),
                             tint = Color(0xFFFFD700),
                             modifier = Modifier.size(18.dp)
                         )
@@ -484,7 +486,7 @@ private fun SwipeableRecordingItem(
                 IconButton(onClick = onToggleFavorite) {
                     Icon(
                         if (recording.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
-                        contentDescription = if (recording.isFavorite) "Remove from favorites" else "Add to favorites",
+                        contentDescription = if (recording.isFavorite) stringResource(R.string.remove_from_favorites) else stringResource(R.string.add_to_favorites),
                         tint = if (recording.isFavorite) Color(0xFFFFD700) else MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
@@ -493,7 +495,7 @@ private fun SwipeableRecordingItem(
                 IconButton(onClick = { showDeleteDialog = true }) {
                     Icon(
                         Icons.Default.Delete,
-                        contentDescription = "Delete",
+                        contentDescription = stringResource(R.string.delete),
                         tint = MaterialTheme.colorScheme.error
                     )
                 }
@@ -504,8 +506,8 @@ private fun SwipeableRecordingItem(
     if (showDeleteDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteDialog = false },
-            title = { Text("Delete Recording") },
-            text = { Text("Are you sure you want to delete this recording? This action cannot be undone.") },
+            title = { Text(stringResource(R.string.delete_recording_title)) },
+            text = { Text(stringResource(R.string.delete_recording_message)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -513,12 +515,12 @@ private fun SwipeableRecordingItem(
                         showDeleteDialog = false
                     }
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -550,18 +552,18 @@ private fun EmptyState(
             )
             Text(
                 text = when {
-                    hasSearchQuery -> "No recordings found"
-                    isFavoritesFilter -> "No favorites yet"
-                    else -> "No recordings yet"
+                    hasSearchQuery -> stringResource(R.string.no_recordings_found)
+                    isFavoritesFilter -> stringResource(R.string.no_favorites_yet)
+                    else -> stringResource(R.string.no_recordings_yet)
                 },
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
             Text(
                 text = when {
-                    hasSearchQuery -> "Try a different search term"
-                    isFavoritesFilter -> "Swipe right on a recording to favorite it"
-                    else -> "Tap the microphone button to start"
+                    hasSearchQuery -> stringResource(R.string.try_different_search)
+                    isFavoritesFilter -> stringResource(R.string.swipe_to_favorite)
+                    else -> stringResource(R.string.tap_mic_to_start)
                 },
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)

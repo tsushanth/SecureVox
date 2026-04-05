@@ -1,0 +1,64 @@
+SecureVox - Tu App Privada de Grabación de Voz y Transcripción
+
+Graba notas de voz y obtén transcripciones precisas sin enviar tus datos a la nube. SecureVox utiliza IA en el dispositivo impulsada por el modelo Whisper de OpenAI para transcribir tus grabaciones completamente sin conexión.
+
+¿Por qué SecureVox?
+
+Tus grabaciones de voz contienen información sensible: notas de reuniones, pensamientos personales, conversaciones confidenciales. A diferencia de otras apps de transcripción que suben tu audio a servidores remotos, SecureVox procesa todo localmente en tu dispositivo. Tus grabaciones nunca salen de tu teléfono.
+
+Características Principales:
+
+• Transcripción 100% Sin Conexión - Todo el procesamiento de voz a texto se realiza en tu dispositivo con IA avanzada. No se requiere conexión a internet.
+
+• Privacidad Total - Tus grabaciones y transcripciones se almacenan únicamente en tu dispositivo. Sin subidas a la nube, sin cuentas, sin recopilación de datos.
+
+• Grabación de Alta Calidad - Captura de audio nítida optimizada para notas de voz y reuniones.
+
+• Rápido y Preciso - Impulsado por Whisper IA, la misma tecnología utilizada por los servicios de transcripción líderes, ejecutándose completamente en tu dispositivo.
+
+• Busca en tus Transcripciones - Encuentra rápidamente cualquier grabación buscando en tus transcripciones.
+
+• Opciones de Exportación - Exporta transcripciones como archivos de texto o compártelas con otras apps.
+
+• Importa Audio - Importa archivos de audio existentes (MP3, WAV, M4A) para transcripción.
+
+• Organiza con Favoritos - Marca grabaciones importantes para acceso rápido.
+
+• Velocidad de Reproducción Variable - Escucha a velocidad de 0.5x a 2x.
+
+• Diseño Moderno - Interfaz limpia e intuitiva construida con Material Design 3.
+
+Perfecto Para:
+
+• Periodistas que protegen la confidencialidad de sus fuentes
+• Profesionales médicos que manejan información de pacientes
+• Profesionales legales con comunicaciones privilegiadas
+• Reuniones de negocios con discusiones sensibles
+• Estudiantes grabando clases
+• Cualquiera que valore su privacidad
+
+Cómo Funciona:
+
+Toca para grabar tu nota de voz
+SecureVox transcribe automáticamente usando IA en el dispositivo
+Visualiza, busca y exporta tus transcripciones
+Todos los datos permanecen seguros en tu dispositivo
+
+Detalles Técnicos:
+
+• Utiliza el modelo Whisper de OpenAI optimizado para móviles
+• Compatible con Android 8.0 (Oreo) y superior
+• Requiere aproximadamente 50MB para el modelo de IA (se descarga en el primer uso)
+• No se requiere cuenta ni registro
+
+Compra Única:
+
+SecureVox es una app de pago sin suscripciones, sin anuncios y sin compras dentro de la app. Paga una vez y es tuya para siempre.
+
+Más información en https://securevox.app
+
+Privacidad Ante Todo:
+
+Creemos que tus grabaciones de voz son profundamente personales. Por eso construimos SecureVox desde cero con la privacidad como base, no como un añadido. Sin analíticas, sin rastreo, sin procesamiento en la nube. Solo tú y tus grabaciones.
+
+Descarga SecureVox hoy y toma el control de tus datos de voz.

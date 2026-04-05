@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Назад</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
+    <string name="ok">ОК</string>
+    <string name="search">Поиск</string>
+    <string name="clear">Очистить</string>
+    <string name="settings">Настройки</string>
+    <string name="recording_label">Запись</string>
+    <string name="export">Экспорт</string>
+    <string name="retry">Повторить</string>
+    <string name="add">Добавить</string>
+    <string name="import_label">Импорт</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Поиск записей</string>
+    <string name="close_search">Закрыть поиск</string>
+    <string name="import_media">Импорт медиа</string>
+    <string name="stop_recording">Остановить запись</string>
+    <string name="start_recording">Начать запись</string>
+    <string name="importing_media">Импорт медиа\u2026</string>
+    <string name="filter_all">Все</string>
+    <string name="filter_favorites">Избранное</string>
+    <string name="favorite">Избранное</string>
+    <string name="remove_from_favorites">Удалить из избранного</string>
+    <string name="add_to_favorites">Добавить в избранное</string>
+    <string name="import_failed_title">Импорт не удался</string>
+    <string name="delete_recording_title">Удалить запись</string>
+    <string name="delete_recording_message">Вы уверены, что хотите удалить эту запись? Это действие нельзя отменить.</string>
+    <string name="no_recordings_found">Записи не найдены</string>
+    <string name="no_favorites_yet">Избранного пока нет</string>
+    <string name="no_recordings_yet">Записей пока нет</string>
+    <string name="try_different_search">Попробуйте другой поисковый запрос</string>
+    <string name="swipe_to_favorite">Проведите вправо по записи, чтобы добавить в избранное</string>
+    <string name="tap_mic_to_start">Нажмите кнопку микрофона, чтобы начать</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Ожидание</string>
+    <string name="status_processing">Обработка</string>
+    <string name="status_done">Готово</string>
+    <string name="status_failed">Ошибка</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Дополнительные параметры</string>
+    <string name="copy_transcript">Копировать транскрипт</string>
+    <string name="copied_to_clipboard">Скопировано в буфер обмена</string>
+    <string name="export_transcript">Экспорт транскрипта</string>
+    <string name="export_failed">Экспорт не удался</string>
+    <string name="transcribing">Транскрибирование\u2026</string>
+    <string name="transcription_may_take_minutes">Это может занять несколько минут</string>
+    <string name="transcription_pending">Транскрибирование ожидает</string>
+    <string name="transcription_failed">Транскрибирование не удалось</string>
+    <string name="please_try_again">Попробуйте снова</string>
+    <string name="skip_back_10">Перемотать на 10 секунд назад</string>
+    <string name="skip_forward_10">Перемотать на 10 секунд вперёд</string>
+    <string name="pause">Пауза</string>
+    <string name="play">Воспроизвести</string>
+    <string name="selected">Выбрано</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Модель транскрибирования</string>
+    <string name="section_language">Язык</string>
+    <string name="section_transcription">Транскрибирование</string>
+    <string name="section_recording">Запись</string>
+    <string name="section_data_management">Управление данными</string>
+    <string name="section_appearance">Оформление</string>
+    <string name="section_storage">Хранилище</string>
+    <string name="section_about">О приложении</string>
+    <string name="transcription_language">Язык транскрибирования</string>
+    <string name="auto_punctuation">Автопунктуация</string>
+    <string name="auto_punctuation_subtitle">Автоматическое добавление знаков препинания в транскрипты</string>
+    <string name="smart_capitalization">Умные заглавные буквы</string>
+    <string name="smart_capitalization_subtitle">Использование заглавных букв в начале предложений и именах</string>
+    <string name="custom_dictionary">Пользовательский словарь</string>
+    <string name="custom_dictionary_subtitle">Добавьте слова для улучшения точности транскрибирования</string>
+    <string name="sound_effects">Звуковые эффекты</string>
+    <string name="sound_effects_subtitle">Воспроизведение звуков при начале/остановке записи</string>
+    <string name="haptic_feedback">Тактильная обратная связь</string>
+    <string name="haptic_feedback_subtitle">Вибрация при начале/остановке записи</string>
+    <string name="recycle_bin">Корзина</string>
+    <string name="recycle_bin_deleted_immediately">Записи удаляются немедленно</string>
+    <string name="recycle_bin_keep_for">Хранить удалённые записи %1$s</string>
+    <string name="auto_delete_audio">Автоудаление аудио</string>
+    <string name="auto_delete_audio_subtitle">Удалять аудиофайлы после завершения транскрибирования</string>
+    <string name="auto_copy_clipboard">Автокопирование в буфер</string>
+    <string name="auto_copy_clipboard_subtitle">Копировать транскрипт в буфер обмена после транскрибирования</string>
+    <string name="theme">Тема</string>
+    <string name="models_storage">Хранилище моделей</string>
+    <string name="faq_and_help">Вопросы и помощь</string>
+    <string name="faq_subtitle">Частые вопросы и устранение неполадок</string>
+    <string name="about_version">Версия 1.0.0</string>
+    <string name="about_description">Конфиденциальное голосовое транскрибирование на базе Whisper AI. Вся обработка происходит на вашем устройстве — аудио никогда не покидает ваш телефон.</string>
+    <string name="select_language">Выберите язык</string>
+    <string name="select_theme">Выберите тему</string>
+    <string name="recycle_bin_retention">Срок хранения в корзине</string>
+    <string name="theme_follow_system">Следовать настройкам системы</string>
+    <string name="theme_always_light">Всегда светлая тема</string>
+    <string name="theme_always_dark">Всегда тёмная тема</string>
+    <string name="retention_disabled_desc">Записи удаляются безвозвратно сразу</string>
+    <string name="retention_7_days_desc">Удалённые записи можно восстановить в течение 7 дней</string>
+    <string name="retention_14_days_desc">Удалённые записи можно восстановить в течение 14 дней</string>
+    <string name="retention_30_days_desc">Удалённые записи можно восстановить в течение 30 дней</string>
+
+    <!-- Model Card -->
+    <string name="active">Активна</string>
+    <string name="cancel_download">Отменить загрузку</string>
+    <string name="delete_model">Удалить модель</string>
+    <string name="downloaded">Загружено</string>
+    <string name="download">Загрузить</string>
+    <string name="model_stat_size">Размер</string>
+    <string name="model_stat_accuracy">Точность</string>
+    <string name="model_stat_speed">Скорость</string>
+    <string name="download_failed_prefix">Загрузка не удалась: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Добро пожаловать в SecureVox</string>
+    <string name="welcome_subtitle">Конфиденциальное голосовое транскрибирование</string>
+    <string name="download_ai_model">Загрузить модель ИИ</string>
+    <string name="download_model_description">SecureVox необходимо загрузить модель Whisper AI (~75 МБ) для транскрибирования голосовых записей на устройстве.</string>
+    <string name="download_with_size">Загрузить (%1$d МБ)</string>
+    <string name="downloading_progress">Загрузка\u2026 %1$d%%</string>
+    <string name="download_complete">Загрузка завершена!</string>
+    <string name="download_failed_message">Загрузка не удалась: %1$s</string>
+    <string name="privacy_note">Вся транскрибирование происходит на вашем устройстве</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">Поиск по FAQ\u2026</string>
+    <string name="no_results_found">Результаты не найдены</string>
+    <string name="try_different_search_term">Попробуйте другой поисковый запрос</string>
+    <string name="still_have_questions">Остались вопросы?</string>
+    <string name="contact_support">Свяжитесь с нами: support@securevox.app</string>
+    <string name="collapse">Свернуть</string>
+    <string name="expand">Развернуть</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d слов</string>
+    <string name="add_word">Добавить слово</string>
+    <string name="import_from_clipboard">Импорт из буфера обмена</string>
+    <string name="export_to_clipboard">Экспорт в буфер обмена</string>
+    <string name="delete_all">Удалить все</string>
+    <string name="search_words">Поиск слов\u2026</string>
+    <string name="no_custom_words_yet">Пользовательских слов пока нет</string>
+    <string name="custom_words_empty_hint">Добавьте слова, которые часто распознаются неправильно, например имена, технические термины или аббревиатуры.</string>
+    <string name="add_word_button">Добавить слово</string>
+    <string name="no_words_found">Слова не найдены</string>
+    <string name="delete_word_title">Удалить слово?</string>
+    <string name="delete_word_message">Удалить \"%1$s\" из пользовательского словаря?</string>
+    <string name="add_word_title">Добавить слово</string>
+    <string name="add_word_description">Введите слово для добавления в пользовательский словарь.</string>
+    <string name="word_label">Слово</string>
+    <string name="import_words_title">Импорт слов</string>
+    <string name="import_words_description">Вставьте слова для импорта (по одному в строке).</string>
+    <string name="words_label">Слова</string>
+    <string name="delete_all_words_title">Удалить все слова?</string>
+    <string name="delete_all_words_message">Это удалит все %1$d слов из пользовательского словаря. Это действие нельзя отменить.</string>
+    <string name="delete_all_button">Удалить все</string>
+    <string name="dictionary_copied">Словарь скопирован в буфер обмена</string>
+    <string name="dictionary_empty">Словарь пуст</string>
+    <string name="word_added">Слово добавлено</string>
+    <string name="word_already_exists">Слово уже существует</string>
+    <string name="words_imported">Импортировано слов: %1$d</string>
+    <string name="no_new_words">Нет новых слов для импорта</string>
+    <string name="dictionary_cleared">Словарь очищен</string>
+</resources>

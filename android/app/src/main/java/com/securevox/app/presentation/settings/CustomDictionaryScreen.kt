@@ -12,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
+import com.securevox.app.R
 import com.securevox.app.data.CustomDictionaryService
 import kotlinx.coroutines.launch
 
@@ -51,9 +53,9 @@ fun CustomDictionaryScreen(
             TopAppBar(
                 title = {
                     Column {
-                        Text("Custom Dictionary")
+                        Text(stringResource(R.string.custom_dictionary))
                         Text(
-                            text = "${words.size} words",
+                            text = stringResource(R.string.words_count, words.size),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -61,23 +63,23 @@ fun CustomDictionaryScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     IconButton(onClick = { showAddDialog = true }) {
-                        Icon(Icons.Default.Add, contentDescription = "Add word")
+                        Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_word))
                     }
                     Box {
                         IconButton(onClick = { showMoreMenu = true }) {
-                            Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                            Icon(Icons.Default.MoreVert, contentDescription = stringResource(R.string.more_options))
                         }
                         DropdownMenu(
                             expanded = showMoreMenu,
                             onDismissRequest = { showMoreMenu = false }
                         ) {
                             DropdownMenuItem(
-                                text = { Text("Import from clipboard") },
+                                text = { Text(stringResource(R.string.import_from_clipboard)) },
                                 onClick = {
                                     showMoreMenu = false
                                     showImportDialog = true
@@ -87,7 +89,7 @@ fun CustomDictionaryScreen(
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Export to clipboard") },
+                                text = { Text(stringResource(R.string.export_to_clipboard)) },
                                 onClick = {
                                     showMoreMenu = false
                                     scope.launch {
@@ -96,13 +98,13 @@ fun CustomDictionaryScreen(
                                             clipboardManager.setText(AnnotatedString(exportText))
                                             Toast.makeText(
                                                 context,
-                                                "Dictionary copied to clipboard",
+                                                context.getString(R.string.dictionary_copied),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         } else {
                                             Toast.makeText(
                                                 context,
-                                                "Dictionary is empty",
+                                                context.getString(R.string.dictionary_empty),
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -114,7 +116,7 @@ fun CustomDictionaryScreen(
                             )
                             Divider()
                             DropdownMenuItem(
-                                text = { Text("Delete all", color = MaterialTheme.colorScheme.error) },
+                                text = { Text(stringResource(R.string.delete_all), color = MaterialTheme.colorScheme.error) },
                                 onClick = {
                                     showMoreMenu = false
                                     showDeleteAllDialog = true
@@ -134,7 +136,7 @@ fun CustomDictionaryScreen(
         },
         floatingActionButton = {
             FloatingActionButton(onClick = { showAddDialog = true }) {
-                Icon(Icons.Default.Add, contentDescription = "Add word")
+                Icon(Icons.Default.Add, contentDescription = stringResource(R.string.add_word))
             }
         }
     ) { padding ->
@@ -151,14 +153,14 @@ fun CustomDictionaryScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp, vertical = 8.dp),
-                    placeholder = { Text("Search words...") },
+                    placeholder = { Text(stringResource(R.string.search_words)) },
                     leadingIcon = {
                         Icon(Icons.Default.Search, contentDescription = null)
                     },
                     trailingIcon = {
                         if (searchQuery.isNotEmpty()) {
                             IconButton(onClick = { searchQuery = "" }) {
-                                Icon(Icons.Default.Clear, contentDescription = "Clear")
+                                Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.clear))
                             }
                         }
                     },
@@ -184,12 +186,12 @@ fun CustomDictionaryScreen(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
                         )
                         Text(
-                            text = "No custom words yet",
+                            text = stringResource(R.string.no_custom_words_yet),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "Add words that are commonly misrecognized, like names, technical terms, or abbreviations.",
+                            text = stringResource(R.string.custom_words_empty_hint),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                             modifier = Modifier.padding(horizontal = 16.dp)
@@ -197,7 +199,7 @@ fun CustomDictionaryScreen(
                         OutlinedButton(onClick = { showAddDialog = true }) {
                             Icon(Icons.Default.Add, contentDescription = null)
                             Spacer(modifier = Modifier.width(8.dp))
-                            Text("Add Word")
+                            Text(stringResource(R.string.add_word_button))
                         }
                     }
                 }
@@ -218,7 +220,7 @@ fun CustomDictionaryScreen(
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Text(
-                            text = "No words found",
+                            text = stringResource(R.string.no_words_found),
                             style = MaterialTheme.typography.titleMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -258,9 +260,9 @@ fun CustomDictionaryScreen(
                 scope.launch {
                     val added = dictionaryService.addWord(word)
                     if (added) {
-                        Toast.makeText(context, "Word added", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.word_added), Toast.LENGTH_SHORT).show()
                     } else {
-                        Toast.makeText(context, "Word already exists", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, context.getString(R.string.word_already_exists), Toast.LENGTH_SHORT).show()
                     }
                 }
                 showAddDialog = false
@@ -277,7 +279,7 @@ fun CustomDictionaryScreen(
                     val count = dictionaryService.importFromString(text)
                     Toast.makeText(
                         context,
-                        if (count > 0) "$count words imported" else "No new words to import",
+                        if (count > 0) context.getString(R.string.words_imported, count) else context.getString(R.string.no_new_words),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -290,24 +292,24 @@ fun CustomDictionaryScreen(
     if (showDeleteAllDialog) {
         AlertDialog(
             onDismissRequest = { showDeleteAllDialog = false },
-            title = { Text("Delete All Words?") },
-            text = { Text("This will remove all ${words.size} words from your custom dictionary. This action cannot be undone.") },
+            title = { Text(stringResource(R.string.delete_all_words_title)) },
+            text = { Text(stringResource(R.string.delete_all_words_message, words.size)) },
             confirmButton = {
                 TextButton(
                     onClick = {
                         scope.launch {
                             dictionaryService.clearAll()
-                            Toast.makeText(context, "Dictionary cleared", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(context, context.getString(R.string.dictionary_cleared), Toast.LENGTH_SHORT).show()
                         }
                         showDeleteAllDialog = false
                     }
                 ) {
-                    Text("Delete All", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.delete_all_button), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteAllDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -337,7 +339,7 @@ private fun WordCard(
             IconButton(onClick = { showDeleteConfirm = true }) {
                 Icon(
                     Icons.Default.Delete,
-                    contentDescription = "Delete",
+                    contentDescription = stringResource(R.string.delete),
                     tint = MaterialTheme.colorScheme.error
                 )
             }
@@ -347,8 +349,8 @@ private fun WordCard(
     if (showDeleteConfirm) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirm = false },
-            title = { Text("Delete Word?") },
-            text = { Text("Remove \"$word\" from your custom dictionary?") },
+            title = { Text(stringResource(R.string.delete_word_title)) },
+            text = { Text(stringResource(R.string.delete_word_message, word)) },
             confirmButton = {
                 TextButton(
                     onClick = {
@@ -356,12 +358,12 @@ private fun WordCard(
                         showDeleteConfirm = false
                     }
                 ) {
-                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDeleteConfirm = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -377,11 +379,11 @@ private fun AddWordDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Add Word") },
+        title = { Text(stringResource(R.string.add_word_title)) },
         text = {
             Column {
                 Text(
-                    text = "Enter a word to add to your custom dictionary.",
+                    text = stringResource(R.string.add_word_description),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -389,7 +391,7 @@ private fun AddWordDialog(
                 OutlinedTextField(
                     value = word,
                     onValueChange = { word = it },
-                    label = { Text("Word") },
+                    label = { Text(stringResource(R.string.word_label)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -400,12 +402,12 @@ private fun AddWordDialog(
                 onClick = { onAdd(word) },
                 enabled = word.isNotBlank()
             ) {
-                Text("Add")
+                Text(stringResource(R.string.add))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )
@@ -428,11 +430,11 @@ private fun ImportDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("Import Words") },
+        title = { Text(stringResource(R.string.import_words_title)) },
         text = {
             Column {
                 Text(
-                    text = "Paste words to import (one per line).",
+                    text = stringResource(R.string.import_words_description),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -440,7 +442,7 @@ private fun ImportDialog(
                 OutlinedTextField(
                     value = text,
                     onValueChange = { text = it },
-                    label = { Text("Words") },
+                    label = { Text(stringResource(R.string.words_label)) },
                     minLines = 5,
                     maxLines = 10,
                     modifier = Modifier.fillMaxWidth()
@@ -452,12 +454,12 @@ private fun ImportDialog(
                 onClick = { onImport(text) },
                 enabled = text.isNotBlank()
             ) {
-                Text("Import")
+                Text(stringResource(R.string.import_label))
             }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Kembali</string>
+    <string name="cancel">Batal</string>
+    <string name="delete">Hapus</string>
+    <string name="ok">OK</string>
+    <string name="search">Cari</string>
+    <string name="clear">Hapus</string>
+    <string name="settings">Pengaturan</string>
+    <string name="recording_label">Rekaman</string>
+    <string name="export">Ekspor</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="add">Tambah</string>
+    <string name="import_label">Impor</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Cari rekaman</string>
+    <string name="close_search">Tutup pencarian</string>
+    <string name="import_media">Impor media</string>
+    <string name="stop_recording">Hentikan rekaman</string>
+    <string name="start_recording">Mulai merekam</string>
+    <string name="importing_media">Mengimpor media\u2026</string>
+    <string name="filter_all">Semua</string>
+    <string name="filter_favorites">Favorit</string>
+    <string name="favorite">Favorit</string>
+    <string name="remove_from_favorites">Hapus dari favorit</string>
+    <string name="add_to_favorites">Tambah ke favorit</string>
+    <string name="import_failed_title">Impor Gagal</string>
+    <string name="delete_recording_title">Hapus Rekaman</string>
+    <string name="delete_recording_message">Apakah Anda yakin ingin menghapus rekaman ini? Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="no_recordings_found">Tidak ada rekaman ditemukan</string>
+    <string name="no_favorites_yet">Belum ada favorit</string>
+    <string name="no_recordings_yet">Belum ada rekaman</string>
+    <string name="try_different_search">Coba istilah pencarian yang berbeda</string>
+    <string name="swipe_to_favorite">Geser ke kanan pada rekaman untuk menambahkan ke favorit</string>
+    <string name="tap_mic_to_start">Ketuk tombol mikrofon untuk memulai</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Menunggu</string>
+    <string name="status_processing">Memproses</string>
+    <string name="status_done">Selesai</string>
+    <string name="status_failed">Gagal</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Opsi lainnya</string>
+    <string name="copy_transcript">Salin Transkrip</string>
+    <string name="copied_to_clipboard">Disalin ke papan klip</string>
+    <string name="export_transcript">Ekspor transkrip</string>
+    <string name="export_failed">Ekspor gagal</string>
+    <string name="transcribing">Mentranskrip\u2026</string>
+    <string name="transcription_may_take_minutes">Ini mungkin memakan waktu beberapa menit</string>
+    <string name="transcription_pending">Transkripsi menunggu</string>
+    <string name="transcription_failed">Transkripsi gagal</string>
+    <string name="please_try_again">Silakan coba lagi</string>
+    <string name="skip_back_10">Mundur 10 detik</string>
+    <string name="skip_forward_10">Maju 10 detik</string>
+    <string name="pause">Jeda</string>
+    <string name="play">Putar</string>
+    <string name="selected">Dipilih</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Model Transkripsi</string>
+    <string name="section_language">Bahasa</string>
+    <string name="section_transcription">Transkripsi</string>
+    <string name="section_recording">Rekaman</string>
+    <string name="section_data_management">Manajemen Data</string>
+    <string name="section_appearance">Tampilan</string>
+    <string name="section_storage">Penyimpanan</string>
+    <string name="section_about">Tentang</string>
+    <string name="transcription_language">Bahasa Transkripsi</string>
+    <string name="auto_punctuation">Tanda Baca Otomatis</string>
+    <string name="auto_punctuation_subtitle">Otomatis menambahkan tanda baca ke transkrip</string>
+    <string name="smart_capitalization">Kapitalisasi Cerdas</string>
+    <string name="smart_capitalization_subtitle">Mengkapitalkan kalimat dan kata benda khusus</string>
+    <string name="custom_dictionary">Kamus Kustom</string>
+    <string name="custom_dictionary_subtitle">Tambahkan kata untuk meningkatkan akurasi transkripsi</string>
+    <string name="sound_effects">Efek Suara</string>
+    <string name="sound_effects_subtitle">Putar suara saat memulai/menghentikan rekaman</string>
+    <string name="haptic_feedback">Umpan Balik Haptik</string>
+    <string name="haptic_feedback_subtitle">Bergetar saat memulai/menghentikan rekaman</string>
+    <string name="recycle_bin">Tempat Sampah</string>
+    <string name="recycle_bin_deleted_immediately">Rekaman langsung dihapus</string>
+    <string name="recycle_bin_keep_for">Simpan rekaman yang dihapus selama %1$s</string>
+    <string name="auto_delete_audio">Hapus Audio Otomatis</string>
+    <string name="auto_delete_audio_subtitle">Hapus file audio setelah transkripsi selesai</string>
+    <string name="auto_copy_clipboard">Salin Otomatis ke Papan Klip</string>
+    <string name="auto_copy_clipboard_subtitle">Salin transkrip ke papan klip setelah transkripsi</string>
+    <string name="theme">Tema</string>
+    <string name="models_storage">Penyimpanan Model</string>
+    <string name="faq_and_help">FAQ &amp; Bantuan</string>
+    <string name="faq_subtitle">Pertanyaan umum dan pemecahan masalah</string>
+    <string name="about_version">Versi 1.0.0</string>
+    <string name="about_description">Transkripsi suara yang mengutamakan privasi didukung oleh Whisper AI. Semua pemrosesan terjadi di perangkat Anda - audio Anda tidak pernah meninggalkan ponsel Anda.</string>
+    <string name="select_language">Pilih Bahasa</string>
+    <string name="select_theme">Pilih Tema</string>
+    <string name="recycle_bin_retention">Retensi Tempat Sampah</string>
+    <string name="theme_follow_system">Ikuti pengaturan sistem</string>
+    <string name="theme_always_light">Selalu gunakan tema terang</string>
+    <string name="theme_always_dark">Selalu gunakan tema gelap</string>
+    <string name="retention_disabled_desc">Rekaman langsung dihapus secara permanen</string>
+    <string name="retention_7_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 7 hari</string>
+    <string name="retention_14_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 14 hari</string>
+    <string name="retention_30_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 30 hari</string>
+
+    <!-- Model Card -->
+    <string name="active">Aktif</string>
+    <string name="cancel_download">Batalkan unduhan</string>
+    <string name="delete_model">Hapus model</string>
+    <string name="downloaded">Terunduh</string>
+    <string name="download">Unduh</string>
+    <string name="model_stat_size">Ukuran</string>
+    <string name="model_stat_accuracy">Akurasi</string>
+    <string name="model_stat_speed">Kecepatan</string>
+    <string name="download_failed_prefix">Unduhan gagal: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Selamat Datang di SecureVox</string>
+    <string name="welcome_subtitle">Transkripsi suara yang mengutamakan privasi</string>
+    <string name="download_ai_model">Unduh Model AI</string>
+    <string name="download_model_description">SecureVox perlu mengunduh model Whisper AI (~75MB) untuk mentranskrip rekaman suara Anda di perangkat.</string>
+    <string name="download_with_size">Unduh (%1$dMB)</string>
+    <string name="downloading_progress">Mengunduh\u2026 %1$d%%</string>
+    <string name="download_complete">Unduhan selesai!</string>
+    <string name="download_failed_message">Unduhan gagal: %1$s</string>
+    <string name="privacy_note">Semua transkripsi terjadi di perangkat Anda</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">Cari FAQ\u2026</string>
+    <string name="no_results_found">Tidak ada hasil ditemukan</string>
+    <string name="try_different_search_term">Coba istilah pencarian yang berbeda</string>
+    <string name="still_have_questions">Masih ada pertanyaan?</string>
+    <string name="contact_support">Hubungi kami di support@securevox.app</string>
+    <string name="collapse">Tutup</string>
+    <string name="expand">Buka</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d kata</string>
+    <string name="add_word">Tambah kata</string>
+    <string name="import_from_clipboard">Impor dari papan klip</string>
+    <string name="export_to_clipboard">Ekspor ke papan klip</string>
+    <string name="delete_all">Hapus semua</string>
+    <string name="search_words">Cari kata\u2026</string>
+    <string name="no_custom_words_yet">Belum ada kata kustom</string>
+    <string name="custom_words_empty_hint">Tambahkan kata yang sering salah dikenali, seperti nama, istilah teknis, atau singkatan.</string>
+    <string name="add_word_button">Tambah Kata</string>
+    <string name="no_words_found">Tidak ada kata ditemukan</string>
+    <string name="delete_word_title">Hapus Kata?</string>
+    <string name="delete_word_message">Hapus \"%1$s\" dari kamus kustom Anda?</string>
+    <string name="add_word_title">Tambah Kata</string>
+    <string name="add_word_description">Masukkan kata untuk ditambahkan ke kamus kustom Anda.</string>
+    <string name="word_label">Kata</string>
+    <string name="import_words_title">Impor Kata</string>
+    <string name="import_words_description">Tempel kata untuk diimpor (satu per baris).</string>
+    <string name="words_label">Kata-kata</string>
+    <string name="delete_all_words_title">Hapus Semua Kata?</string>
+    <string name="delete_all_words_message">Ini akan menghapus semua %1$d kata dari kamus kustom Anda. Tindakan ini tidak dapat dibatalkan.</string>
+    <string name="delete_all_button">Hapus Semua</string>
+    <string name="dictionary_copied">Kamus disalin ke papan klip</string>
+    <string name="dictionary_empty">Kamus kosong</string>
+    <string name="word_added">Kata ditambahkan</string>
+    <string name="word_already_exists">Kata sudah ada</string>
+    <string name="words_imported">%1$d kata diimpor</string>
+    <string name="no_new_words">Tidak ada kata baru untuk diimpor</string>
+    <string name="dictionary_cleared">Kamus dihapus</string>
+</resources>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Zurück</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="delete">Löschen</string>
+    <string name="ok">OK</string>
+    <string name="search">Suchen</string>
+    <string name="clear">Löschen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="recording_label">Aufnahme</string>
+    <string name="export">Exportieren</string>
+    <string name="retry">Erneut versuchen</string>
+    <string name="add">Hinzufügen</string>
+    <string name="import_label">Importieren</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Aufnahmen suchen</string>
+    <string name="close_search">Suche schließen</string>
+    <string name="import_media">Medien importieren</string>
+    <string name="stop_recording">Aufnahme stoppen</string>
+    <string name="start_recording">Aufnahme starten</string>
+    <string name="importing_media">Medien werden importiert\u2026</string>
+    <string name="filter_all">Alle</string>
+    <string name="filter_favorites">Favoriten</string>
+    <string name="favorite">Favorit</string>
+    <string name="remove_from_favorites">Aus Favoriten entfernen</string>
+    <string name="add_to_favorites">Zu Favoriten hinzufügen</string>
+    <string name="import_failed_title">Import fehlgeschlagen</string>
+    <string name="delete_recording_title">Aufnahme löschen</string>
+    <string name="delete_recording_message">Möchten Sie diese Aufnahme wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="no_recordings_found">Keine Aufnahmen gefunden</string>
+    <string name="no_favorites_yet">Noch keine Favoriten</string>
+    <string name="no_recordings_yet">Noch keine Aufnahmen</string>
+    <string name="try_different_search">Versuchen Sie einen anderen Suchbegriff</string>
+    <string name="swipe_to_favorite">Wischen Sie nach rechts auf einer Aufnahme, um sie als Favorit zu markieren</string>
+    <string name="tap_mic_to_start">Tippen Sie auf die Mikrofontaste, um zu beginnen</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Ausstehend</string>
+    <string name="status_processing">Verarbeitung</string>
+    <string name="status_done">Fertig</string>
+    <string name="status_failed">Fehlgeschlagen</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Weitere Optionen</string>
+    <string name="copy_transcript">Transkript kopieren</string>
+    <string name="copied_to_clipboard">In die Zwischenablage kopiert</string>
+    <string name="export_transcript">Transkript exportieren</string>
+    <string name="export_failed">Export fehlgeschlagen</string>
+    <string name="transcribing">Transkribierung\u2026</string>
+    <string name="transcription_may_take_minutes">Dies kann einige Minuten dauern</string>
+    <string name="transcription_pending">Transkription ausstehend</string>
+    <string name="transcription_failed">Transkription fehlgeschlagen</string>
+    <string name="please_try_again">Bitte versuchen Sie es erneut</string>
+    <string name="skip_back_10">10 Sekunden zurückspulen</string>
+    <string name="skip_forward_10">10 Sekunden vorspulen</string>
+    <string name="pause">Pause</string>
+    <string name="play">Wiedergabe</string>
+    <string name="selected">Ausgewählt</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Transkriptionsmodell</string>
+    <string name="section_language">Sprache</string>
+    <string name="section_transcription">Transkription</string>
+    <string name="section_recording">Aufnahme</string>
+    <string name="section_data_management">Datenverwaltung</string>
+    <string name="section_appearance">Erscheinungsbild</string>
+    <string name="section_storage">Speicher</string>
+    <string name="section_about">Über</string>
+    <string name="transcription_language">Transkriptionssprache</string>
+    <string name="auto_punctuation">Automatische Zeichensetzung</string>
+    <string name="auto_punctuation_subtitle">Automatisch Satzzeichen zu Transkripten hinzufügen</string>
+    <string name="smart_capitalization">Intelligente Großschreibung</string>
+    <string name="smart_capitalization_subtitle">Satzanfänge und Eigennamen großschreiben</string>
+    <string name="custom_dictionary">Benutzerwörterbuch</string>
+    <string name="custom_dictionary_subtitle">Wörter hinzufügen, um die Transkriptionsgenauigkeit zu verbessern</string>
+    <string name="sound_effects">Soundeffekte</string>
+    <string name="sound_effects_subtitle">Töne beim Starten/Stoppen der Aufnahme abspielen</string>
+    <string name="haptic_feedback">Haptisches Feedback</string>
+    <string name="haptic_feedback_subtitle">Beim Starten/Stoppen der Aufnahme vibrieren</string>
+    <string name="recycle_bin">Papierkorb</string>
+    <string name="recycle_bin_deleted_immediately">Aufnahmen werden sofort gelöscht</string>
+    <string name="recycle_bin_keep_for">Gelöschte Aufnahmen %1$s aufbewahren</string>
+    <string name="auto_delete_audio">Audio automatisch löschen</string>
+    <string name="auto_delete_audio_subtitle">Audiodateien nach Abschluss der Transkription löschen</string>
+    <string name="auto_copy_clipboard">Automatisch in die Zwischenablage kopieren</string>
+    <string name="auto_copy_clipboard_subtitle">Transkript nach der Transkription in die Zwischenablage kopieren</string>
+    <string name="theme">Design</string>
+    <string name="models_storage">Modellspeicher</string>
+    <string name="faq_and_help">FAQ &amp; Hilfe</string>
+    <string name="faq_subtitle">Häufige Fragen und Fehlerbehebung</string>
+    <string name="about_version">Version 1.0.0</string>
+    <string name="about_description">Datenschutzorientierte Sprachtranskription mit Whisper AI. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät \u2013 Ihre Audiodaten verlassen nie Ihr Telefon.</string>
+    <string name="select_language">Sprache auswählen</string>
+    <string name="select_theme">Design auswählen</string>
+    <string name="recycle_bin_retention">Papierkorb-Aufbewahrung</string>
+    <string name="theme_follow_system">Systemeinstellungen folgen</string>
+    <string name="theme_always_light">Immer helles Design verwenden</string>
+    <string name="theme_always_dark">Immer dunkles Design verwenden</string>
+    <string name="retention_disabled_desc">Aufnahmen werden sofort dauerhaft gelöscht</string>
+    <string name="retention_7_days_desc">Gelöschte Aufnahmen können innerhalb von 7 Tagen wiederhergestellt werden</string>
+    <string name="retention_14_days_desc">Gelöschte Aufnahmen können innerhalb von 14 Tagen wiederhergestellt werden</string>
+    <string name="retention_30_days_desc">Gelöschte Aufnahmen können innerhalb von 30 Tagen wiederhergestellt werden</string>
+
+    <!-- Model Card -->
+    <string name="active">Aktiv</string>
+    <string name="cancel_download">Download abbrechen</string>
+    <string name="delete_model">Modell löschen</string>
+    <string name="downloaded">Heruntergeladen</string>
+    <string name="download">Herunterladen</string>
+    <string name="model_stat_size">Größe</string>
+    <string name="model_stat_accuracy">Genauigkeit</string>
+    <string name="model_stat_speed">Geschwindigkeit</string>
+    <string name="download_failed_prefix">Download fehlgeschlagen: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Willkommen bei SecureVox</string>
+    <string name="welcome_subtitle">Datenschutzorientierte Sprachtranskription</string>
+    <string name="download_ai_model">KI-Modell herunterladen</string>
+    <string name="download_model_description">SecureVox muss das Whisper-AI-Modell (~75 MB) herunterladen, um Ihre Sprachaufnahmen auf dem Gerät zu transkribieren.</string>
+    <string name="download_with_size">Herunterladen (%1$dMB)</string>
+    <string name="downloading_progress">Herunterladen\u2026 %1$d%%</string>
+    <string name="download_complete">Download abgeschlossen!</string>
+    <string name="download_failed_message">Download fehlgeschlagen: %1$s</string>
+    <string name="privacy_note">Die gesamte Transkription erfolgt auf Ihrem Gerät</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">FAQ durchsuchen\u2026</string>
+    <string name="no_results_found">Keine Ergebnisse gefunden</string>
+    <string name="try_different_search_term">Versuchen Sie einen anderen Suchbegriff</string>
+    <string name="still_have_questions">Haben Sie noch Fragen?</string>
+    <string name="contact_support">Kontaktieren Sie uns unter support@securevox.app</string>
+    <string name="collapse">Einklappen</string>
+    <string name="expand">Ausklappen</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d Wörter</string>
+    <string name="add_word">Wort hinzufügen</string>
+    <string name="import_from_clipboard">Aus der Zwischenablage importieren</string>
+    <string name="export_to_clipboard">In die Zwischenablage exportieren</string>
+    <string name="delete_all">Alle löschen</string>
+    <string name="search_words">Wörter suchen\u2026</string>
+    <string name="no_custom_words_yet">Noch keine benutzerdefinierten Wörter</string>
+    <string name="custom_words_empty_hint">Fügen Sie häufig falsch erkannte Wörter hinzu, wie Namen, Fachbegriffe oder Abkürzungen.</string>
+    <string name="add_word_button">Wort hinzufügen</string>
+    <string name="no_words_found">Keine Wörter gefunden</string>
+    <string name="delete_word_title">Wort löschen?</string>
+    <string name="delete_word_message">\"%1$s\" aus Ihrem Benutzerwörterbuch entfernen?</string>
+    <string name="add_word_title">Wort hinzufügen</string>
+    <string name="add_word_description">Geben Sie ein Wort ein, das Sie Ihrem Benutzerwörterbuch hinzufügen möchten.</string>
+    <string name="word_label">Wort</string>
+    <string name="import_words_title">Wörter importieren</string>
+    <string name="import_words_description">Fügen Sie die zu importierenden Wörter ein (eines pro Zeile).</string>
+    <string name="words_label">Wörter</string>
+    <string name="delete_all_words_title">Alle Wörter löschen?</string>
+    <string name="delete_all_words_message">Dadurch werden alle %1$d Wörter aus Ihrem Benutzerwörterbuch entfernt. Diese Aktion kann nicht rückgängig gemacht werden.</string>
+    <string name="delete_all_button">Alle löschen</string>
+    <string name="dictionary_copied">Wörterbuch in die Zwischenablage kopiert</string>
+    <string name="dictionary_empty">Wörterbuch ist leer</string>
+    <string name="word_added">Wort hinzugefügt</string>
+    <string name="word_already_exists">Wort existiert bereits</string>
+    <string name="words_imported">%1$d Wörter importiert</string>
+    <string name="no_new_words">Keine neuen Wörter zu importieren</string>
+    <string name="dictionary_cleared">Wörterbuch geleert</string>
+</resources>

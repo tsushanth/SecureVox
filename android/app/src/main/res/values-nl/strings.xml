@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Terug</string>
+    <string name="cancel">Annuleren</string>
+    <string name="delete">Verwijderen</string>
+    <string name="ok">OK</string>
+    <string name="search">Zoeken</string>
+    <string name="clear">Wissen</string>
+    <string name="settings">Instellingen</string>
+    <string name="recording_label">Opname</string>
+    <string name="export">Exporteren</string>
+    <string name="retry">Opnieuw proberen</string>
+    <string name="add">Toevoegen</string>
+    <string name="import_label">Importeren</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Opnames zoeken</string>
+    <string name="close_search">Zoekopdracht sluiten</string>
+    <string name="import_media">Media importeren</string>
+    <string name="stop_recording">Opname stoppen</string>
+    <string name="start_recording">Opname starten</string>
+    <string name="importing_media">Media importeren\u2026</string>
+    <string name="filter_all">Alle</string>
+    <string name="filter_favorites">Favorieten</string>
+    <string name="favorite">Favoriet</string>
+    <string name="remove_from_favorites">Verwijderen uit favorieten</string>
+    <string name="add_to_favorites">Toevoegen aan favorieten</string>
+    <string name="import_failed_title">Import mislukt</string>
+    <string name="delete_recording_title">Opname verwijderen</string>
+    <string name="delete_recording_message">Weet je zeker dat je deze opname wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="no_recordings_found">Geen opnames gevonden</string>
+    <string name="no_favorites_yet">Nog geen favorieten</string>
+    <string name="no_recordings_yet">Nog geen opnames</string>
+    <string name="try_different_search">Probeer een andere zoekterm</string>
+    <string name="swipe_to_favorite">Veeg naar rechts op een opname om als favoriet te markeren</string>
+    <string name="tap_mic_to_start">Tik op de microfoonknop om te beginnen</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Wachtend</string>
+    <string name="status_processing">Verwerken</string>
+    <string name="status_done">Klaar</string>
+    <string name="status_failed">Mislukt</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Meer opties</string>
+    <string name="copy_transcript">Transcript kopiëren</string>
+    <string name="copied_to_clipboard">Gekopieerd naar klembord</string>
+    <string name="export_transcript">Transcript exporteren</string>
+    <string name="export_failed">Export mislukt</string>
+    <string name="transcribing">Transcriberen\u2026</string>
+    <string name="transcription_may_take_minutes">Dit kan een paar minuten duren</string>
+    <string name="transcription_pending">Transcriptie wachtend</string>
+    <string name="transcription_failed">Transcriptie mislukt</string>
+    <string name="please_try_again">Probeer het opnieuw</string>
+    <string name="skip_back_10">10 seconden terug</string>
+    <string name="skip_forward_10">10 seconden vooruit</string>
+    <string name="pause">Pauze</string>
+    <string name="play">Afspelen</string>
+    <string name="selected">Geselecteerd</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Transcriptiemodel</string>
+    <string name="section_language">Taal</string>
+    <string name="section_transcription">Transcriptie</string>
+    <string name="section_recording">Opname</string>
+    <string name="section_data_management">Gegevensbeheer</string>
+    <string name="section_appearance">Weergave</string>
+    <string name="section_storage">Opslag</string>
+    <string name="section_about">Over</string>
+    <string name="transcription_language">Transcriptietaal</string>
+    <string name="auto_punctuation">Automatische interpunctie</string>
+    <string name="auto_punctuation_subtitle">Automatisch interpunctie toevoegen aan transcripties</string>
+    <string name="smart_capitalization">Slimme hoofdletters</string>
+    <string name="smart_capitalization_subtitle">Hoofdletters voor zinnen en eigennamen</string>
+    <string name="custom_dictionary">Aangepast woordenboek</string>
+    <string name="custom_dictionary_subtitle">Voeg woorden toe om de transcriptienauwkeurigheid te verbeteren</string>
+    <string name="sound_effects">Geluidseffecten</string>
+    <string name="sound_effects_subtitle">Geluiden afspelen bij starten/stoppen van opname</string>
+    <string name="haptic_feedback">Haptische feedback</string>
+    <string name="haptic_feedback_subtitle">Trillen bij starten/stoppen van opname</string>
+    <string name="recycle_bin">Prullenbak</string>
+    <string name="recycle_bin_deleted_immediately">Opnames worden direct verwijderd</string>
+    <string name="recycle_bin_keep_for">Verwijderde opnames bewaren voor %1$s</string>
+    <string name="auto_delete_audio">Audio automatisch verwijderen</string>
+    <string name="auto_delete_audio_subtitle">Audiobestanden verwijderen na voltooiing van transcriptie</string>
+    <string name="auto_copy_clipboard">Automatisch kopiëren naar klembord</string>
+    <string name="auto_copy_clipboard_subtitle">Transcript naar klembord kopiëren na transcriptie</string>
+    <string name="theme">Thema</string>
+    <string name="models_storage">Modelopslag</string>
+    <string name="faq_and_help">FAQ &amp; Help</string>
+    <string name="faq_subtitle">Veelgestelde vragen en probleemoplossing</string>
+    <string name="about_version">Versie 1.0.0</string>
+    <string name="about_description">Privacy-first spraaktranscriptie aangedreven door Whisper AI. Alle verwerking gebeurt op je apparaat - je audio verlaat nooit je telefoon.</string>
+    <string name="select_language">Selecteer taal</string>
+    <string name="select_theme">Selecteer thema</string>
+    <string name="recycle_bin_retention">Bewaartermijn prullenbak</string>
+    <string name="theme_follow_system">Systeeminstellingen volgen</string>
+    <string name="theme_always_light">Altijd licht thema gebruiken</string>
+    <string name="theme_always_dark">Altijd donker thema gebruiken</string>
+    <string name="retention_disabled_desc">Opnames worden direct permanent verwijderd</string>
+    <string name="retention_7_days_desc">Verwijderde opnames kunnen binnen 7 dagen worden hersteld</string>
+    <string name="retention_14_days_desc">Verwijderde opnames kunnen binnen 14 dagen worden hersteld</string>
+    <string name="retention_30_days_desc">Verwijderde opnames kunnen binnen 30 dagen worden hersteld</string>
+
+    <!-- Model Card -->
+    <string name="active">Actief</string>
+    <string name="cancel_download">Download annuleren</string>
+    <string name="delete_model">Model verwijderen</string>
+    <string name="downloaded">Gedownload</string>
+    <string name="download">Downloaden</string>
+    <string name="model_stat_size">Grootte</string>
+    <string name="model_stat_accuracy">Nauwkeurigheid</string>
+    <string name="model_stat_speed">Snelheid</string>
+    <string name="download_failed_prefix">Download mislukt: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Welkom bij SecureVox</string>
+    <string name="welcome_subtitle">Privacy-first spraaktranscriptie</string>
+    <string name="download_ai_model">AI-model downloaden</string>
+    <string name="download_model_description">SecureVox moet het Whisper AI-model (~75MB) downloaden om je spraakopnames op het apparaat te transcriberen.</string>
+    <string name="download_with_size">Downloaden (%1$dMB)</string>
+    <string name="downloading_progress">Downloaden\u2026 %1$d%%</string>
+    <string name="download_complete">Download voltooid!</string>
+    <string name="download_failed_message">Download mislukt: %1$s</string>
+    <string name="privacy_note">Alle transcriptie gebeurt op je apparaat</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">FAQ doorzoeken\u2026</string>
+    <string name="no_results_found">Geen resultaten gevonden</string>
+    <string name="try_different_search_term">Probeer een andere zoekterm</string>
+    <string name="still_have_questions">Nog vragen?</string>
+    <string name="contact_support">Neem contact met ons op via support@securevox.app</string>
+    <string name="collapse">Inklappen</string>
+    <string name="expand">Uitklappen</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d woorden</string>
+    <string name="add_word">Woord toevoegen</string>
+    <string name="import_from_clipboard">Importeren vanuit klembord</string>
+    <string name="export_to_clipboard">Exporteren naar klembord</string>
+    <string name="delete_all">Alles verwijderen</string>
+    <string name="search_words">Woorden zoeken\u2026</string>
+    <string name="no_custom_words_yet">Nog geen aangepaste woorden</string>
+    <string name="custom_words_empty_hint">Voeg woorden toe die vaak verkeerd worden herkend, zoals namen, technische termen of afkortingen.</string>
+    <string name="add_word_button">Woord toevoegen</string>
+    <string name="no_words_found">Geen woorden gevonden</string>
+    <string name="delete_word_title">Woord verwijderen?</string>
+    <string name="delete_word_message">\"%1$s\" verwijderen uit je aangepast woordenboek?</string>
+    <string name="add_word_title">Woord toevoegen</string>
+    <string name="add_word_description">Voer een woord in om toe te voegen aan je aangepast woordenboek.</string>
+    <string name="word_label">Woord</string>
+    <string name="import_words_title">Woorden importeren</string>
+    <string name="import_words_description">Plak woorden om te importeren (één per regel).</string>
+    <string name="words_label">Woorden</string>
+    <string name="delete_all_words_title">Alle woorden verwijderen?</string>
+    <string name="delete_all_words_message">Dit verwijdert alle %1$d woorden uit je aangepast woordenboek. Deze actie kan niet ongedaan worden gemaakt.</string>
+    <string name="delete_all_button">Alles verwijderen</string>
+    <string name="dictionary_copied">Woordenboek gekopieerd naar klembord</string>
+    <string name="dictionary_empty">Woordenboek is leeg</string>
+    <string name="word_added">Woord toegevoegd</string>
+    <string name="word_already_exists">Woord bestaat al</string>
+    <string name="words_imported">%1$d woorden geïmporteerd</string>
+    <string name="no_new_words">Geen nieuwe woorden om te importeren</string>
+    <string name="dictionary_cleared">Woordenboek gewist</string>
+</resources>
