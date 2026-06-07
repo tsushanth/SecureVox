@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		806762BD1E0541F3AC265DAD /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7101FF8FD9E957BFD42E9FE /* AdServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		910EA15B4B3216AF9E73995A /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4814EEEBB61F59ABDFA1EC /* SnapshotHelper.swift */; };
 		C07A44A3E7001C77B89B9CCA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5BDDFEA7103AEB9E598A287 /* Foundation.framework */; };
+		D597C7927FA91ABAB3554CB0 /* AttributionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3981B9EC1889B69BC7C29D /* AttributionService.swift */; };
 		DF258B37EE14AEA2D469ADF4 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED14EA2EBE691A901883A92C /* ScreenshotTests.swift */; };
 		F001 /* VoiceNotesOndeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = S001 /* VoiceNotesOndeviceApp.swift */; };
 		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
@@ -119,9 +121,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0C3981B9EC1889B69BC7C29D /* AttributionService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AttributionService.swift; sourceTree = "<group>"; };
 		2CBC4061EA28E163CB0705B1 /* VoiceNotesOndeviceUITests */ = {isa = PBXFileReference; includeInIndex = 0; path = VoiceNotesOndeviceUITests; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C4814EEEBB61F59ABDFA1EC /* SnapshotHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		A5BDDFEA7103AEB9E598A287 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		E7101FF8FD9E957BFD42E9FE /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
 		ED14EA2EBE691A901883A92C /* ScreenshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
 		PRODUCT /* VoiceNotesOndevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceNotesOndevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		R001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -216,6 +220,7 @@
 				REVENUECAT_BUILD /* RevenueCat in Frameworks */,
 				FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */,
 				PAYWALLKIT_BUILD /* PaywallKit in Frameworks */,
+				806762BD1E0541F3AC265DAD /* AdServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				36EA2AB2603C6BEB0A4990FE /* iOS */,
+				E7101FF8FD9E957BFD42E9FE /* AdServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -354,6 +360,7 @@
 				S056 /* CustomDictionaryService.swift */,
 				S054 /* FeedbackService.swift */,
 				S062 /* PaywallCoordinator.swift */,
+				0C3981B9EC1889B69BC7C29D /* AttributionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -710,6 +717,7 @@
 				F062 /* PaywallCoordinator.swift in Sources */,
 				F063 /* WinbackOfferView.swift in Sources */,
 				F064 /* RemotePaywallView.swift in Sources */,
+				D597C7927FA91ABAB3554CB0 /* AttributionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

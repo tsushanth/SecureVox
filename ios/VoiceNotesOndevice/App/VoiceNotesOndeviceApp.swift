@@ -64,6 +64,9 @@ struct VoiceNotesOndeviceApp: App {
         } catch {
             modelContainerResult = .failure(error)
         }
+
+        // Apple Search Ads attribution (iOS 14.3+). Fires once per install.
+        AttributionService.shared.trackAttribution()
     }
 
     // MARK: - Body
