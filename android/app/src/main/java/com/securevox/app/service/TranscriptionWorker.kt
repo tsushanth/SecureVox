@@ -1,8 +1,14 @@
 package com.securevox.app.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.work.*
+import com.securevox.app.R
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
@@ -35,6 +41,9 @@ class TranscriptionWorker(
         const val KEY_PROGRESS = "progress"
         const val TAG_TRANSCRIPTION = "transcription"
         const val TAG_RECORDING_PREFIX = "recording:"
+
+        private const val NOTIFICATION_CHANNEL_ID = "transcription"
+        private const val NOTIFICATION_ID = 9101
 
         // Whisper processes 30-second windows; chunk to this size to avoid OOM on large files.
         // 30s × 16000 samples/s = 480,000 samples ≈ 1.8 MB as FloatArray.
@@ -74,6 +83,19 @@ class TranscriptionWorker(
         val language = inputData.getString(KEY_LANGUAGE) ?: "en"
 
         Log.i(TAG, "Starting transcription for recording: $recordingId")
+
+        // Confirmed root cause of "won't complete a transcript for meetings": this worker ran as
+        // a plain background CoroutineWorker, which Android's WorkManager kills after roughly 10
+        // minutes of execution. On-device whisper.cpp transcription of a real meeting-length
+        // recording (45-90+ min, chunked at 30s each) routinely exceeds that on a mid-range
+        // device. Promoting to a foreground service removes that background time limit — long
+        // recordings now run for as long as they actually take, with a visible progress
+        // notification instead of silently dying partway through.
+        try {
+            setForeground(createForegroundInfo(0))
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not promote to foreground service, continuing in background", e)
+        }
 
         try {
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.IN_PROGRESS, 0)
@@ -164,6 +186,11 @@ class TranscriptionWorker(
 
                 val progress = ((chunkIdx + 1) * 100 / totalChunks).coerceIn(0, 99)
                 setProgressAsync(workDataOf(KEY_PROGRESS to progress))
+                try {
+                    setForeground(createForegroundInfo(progress))
+                } catch (e: Exception) {
+                    Log.w(TAG, "Could not update foreground notification", e)
+                }
                 Log.i(TAG, "Chunk $chunkIdx/$totalChunks done, ${newSegments.size} segments, progress=$progress%")
             }
 
@@ -181,6 +208,32 @@ class TranscriptionWorker(
             Log.e(TAG, "Transcription failed", e)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
             Result.failure()
+        }
+    }
+
+    private fun createForegroundInfo(progress: Int): ForegroundInfo {
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "Transcription",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply { description = "Shows progress while transcribing a recording" }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+            .setContentTitle("Transcribing recording")
+            .setContentText("$progress% complete")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setOngoing(true)
+            .setProgress(100, progress, false)
+            .build()
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ForegroundInfo(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            ForegroundInfo(NOTIFICATION_ID, notification)
         }
     }
 
