@@ -31,6 +31,8 @@
     <string name="import_failed_title">Import Failed</string>
     <string name="delete_recording_title">Delete Recording</string>
     <string name="delete_recording_message">Are you sure you want to delete this recording? This action cannot be undone.</string>
+    <string name="stop_recording_before_leaving_title">Recording in progress</string>
+    <string name="stop_recording_before_leaving_message">Leaving now will exit before this recording is saved and transcribed. Stop the recording first?</string>
     <string name="no_recordings_found">No recordings found</string>
     <string name="no_favorites_yet">No favorites yet</string>
     <string name="no_recordings_yet">No recordings yet</string>
@@ -126,6 +128,17 @@
     <string name="download_complete">Download complete!</string>
     <string name="download_failed_message">Download failed: %1$s</string>
     <string name="privacy_note">All transcription happens on your device</string>
+
+    <!-- Feedback -->
+    <string name="send_feedback">Send Feedback</string>
+    <string name="send_feedback_subtitle">Share suggestions or report an issue</string>
+
+    <!-- Re-transcribe & Export Audio -->
+    <string name="retranscribe">Re-transcribe</string>
+    <string name="retranscribe_description">Choose a model to re-run transcription. A larger model may produce a better quality transcript.</string>
+    <string name="retranscribe_confirm">Re-transcribe</string>
+    <string name="export_audio">Export Audio</string>
+    <string name="audio_file_not_found">Audio file not found</string>
 
     <!-- FAQ Screen -->
     <string name="search_faq">Search FAQ\u2026</string>
