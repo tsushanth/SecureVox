@@ -29,9 +29,6 @@ final class RecorderViewModel: ObservableObject {
     /// Whether to show the settings prompt for permission denied
     @Published var showPermissionDeniedAlert: Bool = false
 
-    /// Whether the free recording time limit was reached
-    @Published var didHitFreeLimit: Bool = false
-
     // MARK: - Recording State
 
     enum RecordingState: Equatable {
@@ -39,11 +36,6 @@ final class RecorderViewModel: ObservableObject {
         case recording
         case saving
     }
-
-    // MARK: - Constants
-
-    /// Free users are limited to 3 minutes per recording
-    static let freeRecordingLimitSeconds: TimeInterval = 180
 
     // MARK: - Private Properties
 
@@ -70,17 +62,6 @@ final class RecorderViewModel: ObservableObject {
 
     var canStop: Bool {
         state == .recording
-    }
-
-    /// Whether the current user is premium (no recording limit)
-    var isPremium: Bool {
-        PaywallCoordinator.shared.isPremium
-    }
-
-    /// Remaining time for free users, nil if premium
-    var remainingFreeTime: TimeInterval? {
-        guard !isPremium else { return nil }
-        return max(0, Self.freeRecordingLimitSeconds - duration)
     }
 
     // MARK: - Initialization
@@ -144,9 +125,6 @@ final class RecorderViewModel: ObservableObject {
         }
 
         guard state == .idle else { return }
-
-        // Reset the free limit flag
-        didHitFreeLimit = false
 
         do {
             _ = try audioRecorder.startRecording()
@@ -215,13 +193,6 @@ final class RecorderViewModel: ObservableObject {
             .sink { [weak self] duration in
                 guard let self = self else { return }
                 self.duration = duration
-
-                // Check free user recording limit
-                if !self.isPremium,
-                   self.state == .recording,
-                   duration >= Self.freeRecordingLimitSeconds {
-                    self.didHitFreeLimit = true
-                }
             }
             .store(in: &cancellables)
 

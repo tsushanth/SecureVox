@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		806762BD1E0541F3AC265DAD /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7101FF8FD9E957BFD42E9FE /* AdServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		4E5242CA28F2E2AAD6E64E95 /* AttributionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFBEF7664EAB176D82666CCA /* AttributionService.swift */; };
 		910EA15B4B3216AF9E73995A /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4814EEEBB61F59ABDFA1EC /* SnapshotHelper.swift */; };
+		9ECDF3F7EBD76BB5D913DEF7 /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1849B91894BDD992403E35C7 /* AdServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		C07A44A3E7001C77B89B9CCA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5BDDFEA7103AEB9E598A287 /* Foundation.framework */; };
-		D597C7927FA91ABAB3554CB0 /* AttributionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C3981B9EC1889B69BC7C29D /* AttributionService.swift */; };
 		DF258B37EE14AEA2D469ADF4 /* ScreenshotTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED14EA2EBE691A901883A92C /* ScreenshotTests.swift */; };
 		F001 /* VoiceNotesOndeviceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = S001 /* VoiceNotesOndeviceApp.swift */; };
 		F002 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = S002 /* AppConstants.swift */; };
@@ -64,7 +64,6 @@
 		F050 /* LanguagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S050 /* LanguagePickerView.swift */; };
 		F051 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S051 /* SettingsView.swift */; };
 		F052 /* StorageUsageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S052 /* StorageUsageView.swift */; };
-		F053 /* RatingPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S053 /* RatingPromptView.swift */; };
 		F054 /* FeedbackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S054 /* FeedbackService.swift */; };
 		F055 /* RecycleBinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S055 /* RecycleBinView.swift */; };
 		F056 /* CustomDictionaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S056 /* CustomDictionaryService.swift */; };
@@ -72,15 +71,13 @@
 		F058 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = S058 /* AppGroupManager.swift */; };
 		F059 /* AppIntents.swift in Sources */ = {isa = PBXBuildFile; fileRef = S059 /* AppIntents.swift */; };
 		F060 /* RecycleBinService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S060 /* RecycleBinService.swift */; };
-		F061 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S061 /* AnalyticsService.swift */; };
-		F062 /* PaywallCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = S062 /* PaywallCoordinator.swift */; };
-		F063 /* WinbackOfferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S063 /* WinbackOfferView.swift */; };
-		F064 /* RemotePaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = S064 /* RemotePaywallView.swift */; };
 		F100 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = R001 /* Assets.xcassets */; };
 		F101 /* Models in Resources */ = {isa = PBXBuildFile; fileRef = R003 /* Models */; };
-		FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = FACEBOOK_SDK_REF /* FacebookCore */; };
+		F200 /* KokoroTTSService.swift in Sources */ = {isa = PBXBuildFile; fileRef = S200 /* KokoroTTSService.swift */; };
+		F201 /* ReadAloudSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = S201 /* ReadAloudSheet.swift */; };
+		FAD0000000000000000003 /* FluidAudio in Frameworks */ = {isa = PBXBuildFile; productRef = FAD0000000000000000002 /* FluidAudio */; };
 		PAYWALLKIT_BUILD /* PaywallKit in Frameworks */ = {isa = PBXBuildFile; productRef = PAYWALLKIT_REF /* PaywallKit */; };
-		REVENUECAT_BUILD /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = REVENUECAT_REF /* RevenueCat */; };
+		RK_BUILD1 /* RatingKit in Frameworks */ = {isa = PBXBuildFile; productRef = RK_PROD_REF1 /* RatingKit */; };
 		WF001 /* SecureVoxWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS001 /* SecureVoxWidgetBundle.swift */; };
 		WF002 /* SecureVoxWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS002 /* SecureVoxWidget.swift */; };
 		WF003 /* AppGroupManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = WS003 /* AppGroupManager.swift */; };
@@ -121,12 +118,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0C3981B9EC1889B69BC7C29D /* AttributionService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AttributionService.swift; sourceTree = "<group>"; };
+		1849B91894BDD992403E35C7 /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
 		2CBC4061EA28E163CB0705B1 /* VoiceNotesOndeviceUITests */ = {isa = PBXFileReference; includeInIndex = 0; path = VoiceNotesOndeviceUITests; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C4814EEEBB61F59ABDFA1EC /* SnapshotHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		A5BDDFEA7103AEB9E598A287 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		E7101FF8FD9E957BFD42E9FE /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
 		ED14EA2EBE691A901883A92C /* ScreenshotTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ScreenshotTests.swift; sourceTree = "<group>"; };
+		EFBEF7664EAB176D82666CCA /* AttributionService.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AttributionService.swift; sourceTree = "<group>"; };
 		PRODUCT /* VoiceNotesOndevice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceNotesOndevice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		R001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		R002 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -183,7 +180,6 @@
 		S050 /* LanguagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePickerView.swift; sourceTree = "<group>"; };
 		S051 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		S052 /* StorageUsageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageUsageView.swift; sourceTree = "<group>"; };
-		S053 /* RatingPromptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatingPromptView.swift; sourceTree = "<group>"; };
 		S054 /* FeedbackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackService.swift; sourceTree = "<group>"; };
 		S055 /* RecycleBinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinView.swift; sourceTree = "<group>"; };
 		S056 /* CustomDictionaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDictionaryService.swift; sourceTree = "<group>"; };
@@ -191,10 +187,8 @@
 		S058 /* AppGroupManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppGroupManager.swift; sourceTree = "<group>"; };
 		S059 /* AppIntents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntents.swift; sourceTree = "<group>"; };
 		S060 /* RecycleBinService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecycleBinService.swift; sourceTree = "<group>"; };
-		S061 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
-		S062 /* PaywallCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallCoordinator.swift; sourceTree = "<group>"; };
-		S063 /* WinbackOfferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WinbackOfferView.swift; sourceTree = "<group>"; };
-		S064 /* RemotePaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemotePaywallView.swift; sourceTree = "<group>"; };
+		S200 /* KokoroTTSService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroTTSService.swift; sourceTree = "<group>"; };
+		S201 /* ReadAloudSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadAloudSheet.swift; sourceTree = "<group>"; };
 		WIDGET_PRODUCT /* SecureVoxWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SecureVoxWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		WR001 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		WR002 /* SecureVoxWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SecureVoxWidget.entitlements; sourceTree = "<group>"; };
@@ -208,6 +202,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				RK_BUILD1 /* RatingKit in Frameworks */,
 				C07A44A3E7001C77B89B9CCA /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,10 +212,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				WHISPERKIT_BUILD /* WhisperKit in Frameworks */,
-				REVENUECAT_BUILD /* RevenueCat in Frameworks */,
-				FACEBOOK_SDK_BUILD /* FacebookCore in Frameworks */,
 				PAYWALLKIT_BUILD /* PaywallKit in Frameworks */,
-				806762BD1E0541F3AC265DAD /* AdServices.framework in Frameworks */,
+				FAD0000000000000000003 /* FluidAudio in Frameworks */,
+				9ECDF3F7EBD76BB5D913DEF7 /* AdServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,7 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				36EA2AB2603C6BEB0A4990FE /* iOS */,
-				E7101FF8FD9E957BFD42E9FE /* AdServices.framework */,
+				1849B91894BDD992403E35C7 /* AdServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -346,7 +340,6 @@
 		SERVICES_GROUP /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				S061 /* AnalyticsService.swift */,
 				S014 /* AudioPlayerService.swift */,
 				S015 /* AudioRecorderService.swift */,
 				S016 /* BatchTranscriptionManager.swift */,
@@ -359,8 +352,8 @@
 				S022 /* TranscriptExporter.swift */,
 				S056 /* CustomDictionaryService.swift */,
 				S054 /* FeedbackService.swift */,
-				S062 /* PaywallCoordinator.swift */,
-				0C3981B9EC1889B69BC7C29D /* AttributionService.swift */,
+				S200 /* KokoroTTSService.swift */,
+				EFBEF7664EAB176D82666CCA /* AttributionService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -390,9 +383,6 @@
 		VIEWS_COMMON_GROUP /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				S053 /* RatingPromptView.swift */,
-				S063 /* WinbackOfferView.swift */,
-				S064 /* RemotePaywallView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -403,6 +393,7 @@
 				S031 /* ConfirmationDialog.swift */,
 				S032 /* ErrorBanner.swift */,
 				S033 /* LoadingOverlay.swift */,
+				S201 /* ReadAloudSheet.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -542,10 +533,10 @@
 			);
 			name = VoiceNotesOndevice;
 			packageProductDependencies = (
+				RK_PROD_REF1 /* RatingKit */,
 				WHISPERKIT_REF /* WhisperKit */,
-				REVENUECAT_REF /* RevenueCat */,
-				FACEBOOK_SDK_REF /* FacebookCore */,
 				PAYWALLKIT_REF /* PaywallKit */,
+				FAD0000000000000000002 /* FluidAudio */,
 			);
 			productName = VoiceNotesOndevice;
 			productReference = PRODUCT /* VoiceNotesOndevice.app */;
@@ -596,10 +587,10 @@
 			);
 			mainGroup = ROOT_GROUP;
 			packageReferences = (
+				RK_PKG_REF1 /* XCRemoteSwiftPackageReference "RatingKit" */,
 				WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */,
-				REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */,
-				FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				PAYWALLKIT_PACKAGE /* XCLocalSwiftPackageReference "PaywallKit" */,
+				FAD0000000000000000001 /* XCRemoteSwiftPackageReference "FluidAudio" */,
 			);
 			productRefGroup = PRODUCTS_GROUP /* Products */;
 			projectDirPath = "";
@@ -706,18 +697,15 @@
 				F050 /* LanguagePickerView.swift in Sources */,
 				F051 /* SettingsView.swift in Sources */,
 				F052 /* StorageUsageView.swift in Sources */,
-				F053 /* RatingPromptView.swift in Sources */,
 				F055 /* RecycleBinView.swift in Sources */,
 				F056 /* CustomDictionaryService.swift in Sources */,
 				F057 /* CustomDictionaryView.swift in Sources */,
 				F058 /* AppGroupManager.swift in Sources */,
 				F059 /* AppIntents.swift in Sources */,
 				F060 /* RecycleBinService.swift in Sources */,
-				F061 /* AnalyticsService.swift in Sources */,
-				F062 /* PaywallCoordinator.swift in Sources */,
-				F063 /* WinbackOfferView.swift in Sources */,
-				F064 /* RemotePaywallView.swift in Sources */,
-				D597C7927FA91ABAB3554CB0 /* AttributionService.swift in Sources */,
+				F200 /* KokoroTTSService.swift in Sources */,
+				F201 /* ReadAloudSheet.swift in Sources */,
+				4E5242CA28F2E2AAD6E64E95 /* AttributionService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -791,7 +779,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 102;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_PREVIEWS = YES;
@@ -825,7 +813,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.2.0;
+				MARKETING_VERSION = 100.3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -888,7 +876,7 @@
 				CODE_SIGN_ENTITLEMENTS = VoiceNotesOndevice/VoiceNotesOndevice.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 102;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -921,7 +909,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 7.2.0;
+				MARKETING_VERSION = 100.3.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice;
@@ -946,7 +934,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 102;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -959,7 +947,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.2.0;
+				MARKETING_VERSION = 100.3.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -983,7 +971,7 @@
 				CODE_SIGN_ENTITLEMENTS = SecureVoxWidget/SecureVoxWidget.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 14;
+				CURRENT_PROJECT_VERSION = 102;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 7RS696YC75;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -996,7 +984,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 7.2.0;
+				MARKETING_VERSION = 100.3.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.voicenotes.ondevice.widget;
@@ -1061,20 +1049,20 @@
 /* End XCLocalSwiftPackageReference section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+		FAD0000000000000000001 /* XCRemoteSwiftPackageReference "FluidAudio" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/facebook/facebook-ios-sdk.git";
+			repositoryURL = "https://github.com/FluidInference/FluidAudio";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 17.0.0;
+				minimumVersion = 0.14.4;
 			};
 		};
-		REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */ = {
+		RK_PKG_REF1 /* XCRemoteSwiftPackageReference "RatingKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/RevenueCat/purchases-ios.git";
+			repositoryURL = "https://github.com/tsushanth/RatingKit.git";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 		WHISPERKIT_PACKAGE /* XCRemoteSwiftPackageReference "WhisperKit" */ = {
@@ -1088,19 +1076,19 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		FACEBOOK_SDK_REF /* FacebookCore */ = {
+		FAD0000000000000000002 /* FluidAudio */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = FACEBOOK_SDK_PACKAGE /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
-			productName = FacebookCore;
+			package = FAD0000000000000000001 /* XCRemoteSwiftPackageReference "FluidAudio" */;
+			productName = FluidAudio;
 		};
 		PAYWALLKIT_REF /* PaywallKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = PaywallKit;
 		};
-		REVENUECAT_REF /* RevenueCat */ = {
+		RK_PROD_REF1 /* RatingKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = REVENUECAT_PACKAGE /* XCRemoteSwiftPackageReference "purchases-ios" */;
-			productName = RevenueCat;
+			package = RK_PKG_REF1 /* XCRemoteSwiftPackageReference "RatingKit" */;
+			productName = RatingKit;
 		};
 		WHISPERKIT_REF /* WhisperKit */ = {
 			isa = XCSwiftPackageProductDependency;

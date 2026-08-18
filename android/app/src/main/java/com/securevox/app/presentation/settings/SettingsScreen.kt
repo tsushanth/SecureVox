@@ -1,5 +1,7 @@
 package com.securevox.app.presentation.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.text.format.Formatter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
@@ -113,6 +115,37 @@ fun SettingsScreen(
                     icon = Icons.Default.Language,
                     onClick = { showLanguageDialog = true }
                 )
+            }
+
+            if (selectedLanguage.requiresBetterModel) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(
+                                Icons.Default.Info,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Text(
+                                text = "${selectedLanguage.displayName} uses a non-Latin script. For accurate transcription in ${selectedLanguage.displayName}, the Base or Small model is recommended. The Tiny model may produce English or romanized output.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        }
+                    }
+                }
             }
 
             // Transcription Section
@@ -312,6 +345,22 @@ fun SettingsScreen(
                     subtitle = stringResource(R.string.faq_subtitle),
                     icon = Icons.Default.HelpOutline,
                     onClick = onNavigateToFAQ
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = stringResource(R.string.send_feedback),
+                    subtitle = stringResource(R.string.send_feedback_subtitle),
+                    icon = Icons.Default.Feedback,
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse("mailto:")
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("support@securevox.app"))
+                            putExtra(Intent.EXTRA_SUBJECT, "SecureVox Feedback")
+                        }
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_feedback)))
+                    }
                 )
             }
 

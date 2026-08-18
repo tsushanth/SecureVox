@@ -74,6 +74,7 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
 
     // Get language
     const char* lang = env->GetStringUTFChars(language, nullptr);
+    LOGI("Transcribing with language: %s", lang);
 
     // Configure whisper parameters
     whisper_full_params params = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);

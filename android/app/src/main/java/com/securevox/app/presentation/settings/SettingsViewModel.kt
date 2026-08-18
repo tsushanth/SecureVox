@@ -88,9 +88,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
 
     val selectedLanguage: StateFlow<WhisperLanguage> = dataStore.data
         .map { prefs ->
-            prefs[KEY_SELECTED_LANGUAGE]?.let { WhisperLanguage.fromCode(it) } ?: WhisperLanguage.DEFAULT
+            prefs[KEY_SELECTED_LANGUAGE]?.let { WhisperLanguage.fromCode(it) } ?: WhisperLanguage.fromDeviceLocale()
         }
-        .stateIn(viewModelScope, SharingStarted.Eagerly, WhisperLanguage.DEFAULT)
+        .stateIn(viewModelScope, SharingStarted.Eagerly, WhisperLanguage.fromDeviceLocale())
 
     val themeMode: StateFlow<ThemeMode> = dataStore.data
         .map { prefs ->
@@ -148,6 +148,16 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             dataStore.edit { prefs ->
                 prefs[KEY_SELECTED_LANGUAGE] = language.code
+            }
+            // Auto-upgrade model for non-Latin scripts if a better model is available
+            if (language.requiresBetterModel && selectedModel.value == WhisperModel.TINY) {
+                val upgrade = listOf(WhisperModel.BASE, WhisperModel.SMALL)
+                    .firstOrNull { modelManager.isModelDownloaded(it) }
+                if (upgrade != null) {
+                    dataStore.edit { prefs ->
+                        prefs[KEY_SELECTED_MODEL] = upgrade.fileName
+                    }
+                }
             }
         }
     }

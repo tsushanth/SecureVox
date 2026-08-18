@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import os.log
+import RatingKit
 #if os(iOS)
 import UIKit
 #elseif os(macOS)
@@ -86,7 +87,9 @@ struct RecordingsListView: View {
             }
             .sheet(isPresented: $showingRecordingSheet) {
                 RecorderSheet { _ in
-                    // Recording saved via SwiftData, list updates automatically
+                    // Recording saved via SwiftData, list updates automatically.
+                    // Rating prompt fires after first successful transcription
+                    // in RecordingDetailViewModel — that's the actual value moment.
                 }
             }
             .sheet(isPresented: $showingImportSheet) {

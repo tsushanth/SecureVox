@@ -12,6 +12,9 @@ final class AudioRecorderService: NSObject, ObservableObject {
     /// Whether recording is currently in progress
     @Published private(set) var isRecording: Bool = false
 
+    /// Whether recording is currently paused
+    @Published private(set) var isPaused: Bool = false
+
     /// Current recording duration in seconds
     @Published private(set) var duration: TimeInterval = 0
 
@@ -106,6 +109,9 @@ final class AudioRecorderService: NSObject, ObservableObject {
     private var isInterrupted: Bool = false
     private var wasRecordingBeforeInterruption: Bool = false
 
+    private var pausedDuration: TimeInterval = 0
+    private var pauseStartTime: Date?
+
     // MARK: - Initialization
 
     override init() {
@@ -195,6 +201,8 @@ final class AudioRecorderService: NSObject, ObservableObject {
         isRecording = true
         isInterrupted = false
         errorMessage = nil
+        pausedDuration = 0
+        pauseStartTime = nil
 
         // Start duration timer and disk space monitoring
         startDurationTimer()
@@ -221,6 +229,37 @@ final class AudioRecorderService: NSObject, ObservableObject {
     /// Cancel recording and delete the partial file
     func cancelRecording() {
         stopRecordingInternal(cancelled: true)
+    }
+
+    /// Pause an active recording
+    func pauseRecording() {
+        guard isRecording && !isPaused else { return }
+        pauseStartTime = Date()
+        audioEngine?.pause()
+        durationTimer?.invalidate()
+        durationTimer = nil
+        isPaused = true
+        audioLevel = 0
+    }
+
+    /// Resume a paused recording
+    func resumeRecording() {
+        guard isRecording && isPaused else { return }
+        if let t = pauseStartTime {
+            pausedDuration += Date().timeIntervalSince(t)
+        }
+        pauseStartTime = nil
+        do {
+            #if os(iOS)
+            try AVAudioSession.sharedInstance().setActive(true)
+            #endif
+            try audioEngine?.start()
+        } catch {
+            errorMessage = "Could not resume recording: \(error.localizedDescription)"
+            return
+        }
+        startDurationTimer()
+        isPaused = false
     }
 
     // MARK: - Private Methods
@@ -433,7 +472,7 @@ final class AudioRecorderService: NSObject, ObservableObject {
         // Calculate final duration
         let finalDuration: TimeInterval
         if let startTime = recordingStartTime {
-            finalDuration = Date().timeIntervalSince(startTime)
+            finalDuration = Date().timeIntervalSince(startTime) - pausedDuration
         } else {
             finalDuration = duration
         }
@@ -462,9 +501,12 @@ final class AudioRecorderService: NSObject, ObservableObject {
         currentRecordingURL = nil
         recordingStartTime = nil
         isRecording = false
+        isPaused = false
         duration = 0
         audioLevel = 0
         isInterrupted = false
+        pausedDuration = 0
+        pauseStartTime = nil
 
         // Deactivate audio session
         #if os(iOS)
@@ -478,7 +520,7 @@ final class AudioRecorderService: NSObject, ObservableObject {
         durationTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
             guard let self = self, let startTime = self.recordingStartTime else { return }
             DispatchQueue.main.async {
-                self.duration = Date().timeIntervalSince(startTime)
+                self.duration = Date().timeIntervalSince(startTime) - self.pausedDuration
             }
         }
     }
