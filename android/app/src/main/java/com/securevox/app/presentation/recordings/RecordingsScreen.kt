@@ -1,6 +1,8 @@
 package com.securevox.app.presentation.recordings
 
+import android.app.Activity
 import android.net.Uri
+import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.*
@@ -22,8 +24,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.google.android.play.core.review.ReviewManagerFactory
+import com.kreativekoala.ratingkit.RatingKit
 import com.securevox.app.R
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
@@ -40,12 +45,37 @@ fun RecordingsScreen(
 ) {
     val recordings by viewModel.recordings.collectAsState()
     val isRecording by viewModel.isRecording.collectAsState()
+    val isPaused by viewModel.isPaused.collectAsState()
     val audioLevel by viewModel.audioLevel.collectAsState()
     val recordingDuration by viewModel.recordingDuration.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val filter by viewModel.filter.collectAsState()
     val isImporting by viewModel.isImporting.collectAsState()
     val importError by viewModel.importError.collectAsState()
+    val transcriptionProgressMap by viewModel.transcriptionProgress.collectAsState()
+
+    // Recording state lives in AudioRecorderService, independent of this screen's
+    // lifecycle — but backing out of the app while recording (this is the start
+    // destination, so back = exit) skips the ViewModel-level bookkeeping in
+    // stopRecording() (duration/fileSize update + kicking off transcription).
+    // Intercept back while actively recording so the user explicitly stops first.
+    var showBackDuringRecordingDialog by remember { mutableStateOf(false) }
+    BackHandler(enabled = isRecording) {
+        showBackDuringRecordingDialog = true
+    }
+
+    val context = LocalContext.current
+    LaunchedEffect(Unit) {
+        viewModel.triggerReview.collect {
+            val activity = context as? Activity ?: return@collect
+            val manager = ReviewManagerFactory.create(context)
+            manager.requestReviewFlow().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    manager.launchReviewFlow(activity, task.result)
+                }
+            }
+        }
+    }
 
     var showSearch by remember { mutableStateOf(false) }
 
@@ -90,17 +120,12 @@ fun RecordingsScreen(
             }
         },
         floatingActionButton = {
-            RecordButton(
-                isRecording = isRecording,
-                audioLevel = audioLevel,
-                onClick = {
-                    if (isRecording) {
-                        viewModel.stopRecording()
-                    } else {
-                        viewModel.startRecording()
-                    }
-                }
-            )
+            if (!isRecording) {
+                RecordButton(
+                    audioLevel = audioLevel,
+                    onClick = { viewModel.startRecording() }
+                )
+            }
         },
         floatingActionButtonPosition = FabPosition.Center
     ) { padding ->
@@ -113,13 +138,21 @@ fun RecordingsScreen(
             if (isRecording) {
                 RecordingIndicator(
                     duration = recordingDuration,
-                    audioLevel = audioLevel
+                    audioLevel = audioLevel,
+                    isPaused = isPaused,
+                    onPause = { viewModel.pauseRecording() },
+                    onResume = { viewModel.resumeRecording() },
+                    onStop = {
+                        viewModel.stopRecording()
+                        (context as? Activity)?.let { RatingKit.trackAction(it) }
+                    }
                 )
             }
 
             // Importing indicator
             if (isImporting) {
-                ImportingIndicator()
+                val importProgress by viewModel.importProgress.collectAsState()
+                ImportingIndicator(progress = importProgress)
             }
 
             // Filter tabs
@@ -148,9 +181,11 @@ fun RecordingsScreen(
                     items(recordings, key = { it.id }) { recording ->
                         SwipeableRecordingItem(
                             recording = recording,
+                            transcriptionProgress = transcriptionProgressMap[recording.id],
                             onClick = { onRecordingClick(recording.id) },
                             onDelete = { viewModel.deleteRecording(recording) },
-                            onToggleFavorite = { viewModel.toggleFavorite(recording) }
+                            onToggleFavorite = { viewModel.toggleFavorite(recording) },
+                            onRetryTranscription = { viewModel.retryTranscription(recording) }
                         )
                     }
                 }
@@ -171,10 +206,34 @@ fun RecordingsScreen(
             }
         )
     }
+
+    // Back-while-recording confirmation
+    if (showBackDuringRecordingDialog) {
+        AlertDialog(
+            onDismissRequest = { showBackDuringRecordingDialog = false },
+            title = { Text(stringResource(R.string.stop_recording_before_leaving_title)) },
+            text = { Text(stringResource(R.string.stop_recording_before_leaving_message)) },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.stopRecording()
+                        showBackDuringRecordingDialog = false
+                    }
+                ) {
+                    Text(stringResource(R.string.stop_recording))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showBackDuringRecordingDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
 }
 
 @Composable
-private fun ImportingIndicator() {
+private fun ImportingIndicator(progress: Float) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -183,59 +242,60 @@ private fun ImportingIndicator() {
             containerColor = MaterialTheme.colorScheme.primaryContainer
         )
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier.size(24.dp),
-                strokeWidth = 2.dp
-            )
-            Text(
-                text = stringResource(R.string.importing_media),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.importing_media),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+                Text(
+                    text = if (progress > 0f) "${(progress * 100).toInt()}%" else "",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            if (progress > 0f) {
+                LinearProgressIndicator(
+                    progress = progress,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f)
+                )
+            } else {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.primary,
+                    trackColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.2f)
+                )
+            }
         }
     }
 }
 
 @Composable
 private fun RecordButton(
-    isRecording: Boolean,
     audioLevel: Float,
     onClick: () -> Unit
 ) {
-    val scale by animateFloatAsState(
-        targetValue = if (isRecording) 1f + (audioLevel * 0.2f) else 1f,
-        animationSpec = spring(dampingRatio = 0.5f),
-        label = "scale"
-    )
-
-    val pulseAnimation = rememberInfiniteTransition(label = "pulse")
-    val pulse by pulseAnimation.animateFloat(
-        initialValue = 1f,
-        targetValue = 1.1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(500),
-            repeatMode = RepeatMode.Reverse
-        ),
-        label = "pulse"
-    )
-
     LargeFloatingActionButton(
         onClick = onClick,
-        modifier = Modifier.scale(if (isRecording) scale * pulse else 1f),
         shape = CircleShape,
-        containerColor = if (isRecording) Color.Red else MaterialTheme.colorScheme.primary,
+        containerColor = MaterialTheme.colorScheme.primary,
         contentColor = Color.White
     ) {
         Icon(
-            imageVector = if (isRecording) Icons.Default.Stop else Icons.Default.Mic,
-            contentDescription = if (isRecording) stringResource(R.string.stop_recording) else stringResource(R.string.start_recording),
+            imageVector = Icons.Default.Mic,
+            contentDescription = stringResource(R.string.start_recording),
             modifier = Modifier.size(32.dp)
         )
     }
@@ -244,7 +304,11 @@ private fun RecordButton(
 @Composable
 private fun RecordingIndicator(
     duration: Long,
-    audioLevel: Float
+    audioLevel: Float,
+    isPaused: Boolean,
+    onPause: () -> Unit,
+    onResume: () -> Unit,
+    onStop: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -254,64 +318,94 @@ private fun RecordingIndicator(
             containerColor = MaterialTheme.colorScheme.errorContainer
         )
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Column {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                // Pulsing red dot
-                val alpha by rememberInfiniteTransition(label = "dot").animateFloat(
-                    initialValue = 1f,
-                    targetValue = 0.3f,
-                    animationSpec = infiniteRepeatable(
-                        animation = tween(500),
-                        repeatMode = RepeatMode.Reverse
-                    ),
-                    label = "dot"
-                )
-                Box(
-                    modifier = Modifier
-                        .size(12.dp)
-                        .clip(CircleShape)
-                        .background(Color.Red.copy(alpha = alpha))
-                )
-                Text(
-                    text = stringResource(R.string.recording_label),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onErrorContainer
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    if (!isPaused) {
+                        val alpha by rememberInfiniteTransition(label = "dot").animateFloat(
+                            initialValue = 1f,
+                            targetValue = 0.3f,
+                            animationSpec = infiniteRepeatable(
+                                animation = tween(500),
+                                repeatMode = RepeatMode.Reverse
+                            ),
+                            label = "dot"
+                        )
+                        Box(
+                            modifier = Modifier
+                                .size(12.dp)
+                                .clip(CircleShape)
+                                .background(Color.Red.copy(alpha = alpha))
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier
+                                .size(12.dp)
+                                .clip(CircleShape)
+                                .background(MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.4f))
+                        )
+                    }
+                    Text(
+                        text = if (isPaused) "Paused" else stringResource(R.string.recording_label),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                }
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = formatDuration(duration),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onErrorContainer
+                    )
+                    // Pause / Resume
+                    IconButton(onClick = if (isPaused) onResume else onPause) {
+                        Icon(
+                            imageVector = if (isPaused) Icons.Default.PlayArrow else Icons.Default.Pause,
+                            contentDescription = if (isPaused) "Resume" else "Pause",
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                    // Stop
+                    IconButton(onClick = onStop) {
+                        Icon(
+                            imageVector = Icons.Default.Stop,
+                            contentDescription = stringResource(R.string.stop_recording),
+                            tint = MaterialTheme.colorScheme.onErrorContainer
+                        )
+                    }
+                }
             }
 
-            Text(
-                text = formatDuration(duration),
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onErrorContainer
-            )
+            // Audio level bar (hidden while paused)
+            if (!isPaused) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(4.dp)
+                        .padding(horizontal = 16.dp)
+                        .clip(RoundedCornerShape(2.dp))
+                        .background(MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.2f))
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth(audioLevel)
+                            .fillMaxHeight()
+                            .background(Color.Red)
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(12.dp))
         }
-
-        // Audio level bar
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(4.dp)
-                .padding(horizontal = 16.dp)
-                .clip(RoundedCornerShape(2.dp))
-                .background(MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.2f))
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth(audioLevel)
-                    .fillMaxHeight()
-                    .background(Color.Red)
-            )
-        }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 
@@ -413,9 +507,11 @@ private fun FilterTabs(
 @Composable
 private fun SwipeableRecordingItem(
     recording: Recording,
+    transcriptionProgress: Int?,
     onClick: () -> Unit,
     onDelete: () -> Unit,
-    onToggleFavorite: () -> Unit
+    onToggleFavorite: () -> Unit,
+    onRetryTranscription: () -> Unit = {}
 ) {
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showActions by remember { mutableStateOf(false) }
@@ -425,80 +521,147 @@ private fun SwipeableRecordingItem(
             .fillMaxWidth()
             .clickable(onClick = onClick)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = recording.title,
-                        style = MaterialTheme.typography.titleMedium,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f, fill = false)
-                    )
-                    if (recording.isFavorite) {
-                        Icon(
-                            Icons.Default.Star,
-                            contentDescription = stringResource(R.string.favorite),
-                            tint = Color(0xFFFFD700),
-                            modifier = Modifier.size(18.dp)
+        Column {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = recording.title,
+                            style = MaterialTheme.typography.titleMedium,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f, fill = false)
+                        )
+                        if (recording.isFavorite) {
+                            Icon(
+                                Icons.Default.Star,
+                                contentDescription = stringResource(R.string.favorite),
+                                tint = Color(0xFFFFD700),
+                                modifier = Modifier.size(18.dp)
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = formatDuration(recording.duration),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = "•",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Text(
+                            text = formatDate(recording.createdAt),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(
-                        text = formatDuration(recording.duration),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = "•",
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    Text(
-                        text = formatDate(recording.createdAt),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                    TranscriptionStatusChip(recording.transcriptionStatus)
+
+                    // Retry button for failed or stuck-in-progress transcriptions
+                    val canRetry = recording.transcriptionStatus == TranscriptionStatus.FAILED ||
+                        (recording.transcriptionStatus == TranscriptionStatus.IN_PROGRESS && transcriptionProgress == null)
+                    if (canRetry) {
+                        IconButton(onClick = onRetryTranscription) {
+                            Icon(
+                                Icons.Default.Refresh,
+                                contentDescription = "Retry transcription",
+                                tint = MaterialTheme.colorScheme.primary
+                            )
+                        }
+                    }
+
+                    // Favorite button
+                    IconButton(onClick = onToggleFavorite) {
+                        Icon(
+                            if (recording.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
+                            contentDescription = if (recording.isFavorite) stringResource(R.string.remove_from_favorites) else stringResource(R.string.add_to_favorites),
+                            tint = if (recording.isFavorite) Color(0xFFFFD700) else MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+
+                    // Delete button
+                    IconButton(onClick = { showDeleteDialog = true }) {
+                        Icon(
+                            Icons.Default.Delete,
+                            contentDescription = stringResource(R.string.delete),
+                            tint = MaterialTheme.colorScheme.error
+                        )
+                    }
                 }
             }
 
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                TranscriptionStatusChip(recording.transcriptionStatus)
+            // Transcription progress bar
+            if (recording.transcriptionStatus == TranscriptionStatus.IN_PROGRESS) {
+                val progress = transcriptionProgress
 
-                // Favorite button
-                IconButton(onClick = onToggleFavorite) {
-                    Icon(
-                        if (recording.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
-                        contentDescription = if (recording.isFavorite) stringResource(R.string.remove_from_favorites) else stringResource(R.string.add_to_favorites),
-                        tint = if (recording.isFavorite) Color(0xFFFFD700) else MaterialTheme.colorScheme.onSurfaceVariant
-                    )
+                // Tick every 30s to keep ETA fresh
+                var tickMs by remember { mutableStateOf(System.currentTimeMillis()) }
+                val startMs = remember { System.currentTimeMillis() }
+                LaunchedEffect(recording.id) {
+                    while (true) {
+                        kotlinx.coroutines.delay(30_000)
+                        tickMs = System.currentTimeMillis()
+                    }
                 }
 
-                // Delete button
-                IconButton(onClick = { showDeleteDialog = true }) {
-                    Icon(
-                        Icons.Default.Delete,
-                        contentDescription = stringResource(R.string.delete),
-                        tint = MaterialTheme.colorScheme.error
+                // Whisper tiny ≈ 4× real-time on device; use as fallback estimate
+                val durationMs = recording.duration.coerceAtLeast(1L)
+                val estimatedTotalMs = durationMs * 4
+
+                val statusText = if (progress != null && progress > 0) {
+                    val elapsedMs = tickMs - startMs
+                    val remainingMs = (elapsedMs.toFloat() / progress * (100 - progress)).toLong()
+                    val remainingMin = (remainingMs / 60_000).coerceAtLeast(1)
+                    "Transcribing… $progress% · ~$remainingMin min left"
+                } else {
+                    val estMin = (estimatedTotalMs / 60_000).coerceAtLeast(1)
+                    "Transcribing… · Est. ~$estMin min total"
+                }
+
+                if (progress != null && progress > 0) {
+                    LinearProgressIndicator(
+                        progress = progress / 100f,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                        color = MaterialTheme.colorScheme.tertiary
+                    )
+                } else {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp),
+                        color = MaterialTheme.colorScheme.tertiary
                     )
                 }
+                Text(
+                    text = statusText,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 16.dp, bottom = 12.dp)
+                )
             }
         }
     }

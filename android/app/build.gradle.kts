@@ -7,15 +7,15 @@ plugins {
 
 android {
     namespace = "com.securevox.app"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.securevox.app"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 15
-        versionName = "1.2.3"
+        targetSdk = 36
+        versionCode = 28
+        versionName = "1.3.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -51,8 +51,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -121,6 +121,13 @@ dependencies {
 
     // Work Manager for background transcription
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+
+    // In-App Review
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
+
+    // RatingKit
+    implementation(project(":ratingkit"))
 
     // Testing
     testImplementation("junit:junit:4.13.2")
