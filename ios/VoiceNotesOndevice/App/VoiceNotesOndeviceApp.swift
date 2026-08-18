@@ -1,8 +1,7 @@
 import SwiftUI
+import RatingKit
 import SwiftData
 import os.log
-import RevenueCat
-import FBSDKCoreKit
 
 private let appLogger = os.Logger(subsystem: "com.voicenotes.ondevice", category: "App")
 
@@ -38,20 +37,6 @@ struct VoiceNotesOndeviceApp: App {
     }
 
     init() {
-        // Configure RevenueCat
-        Purchases.logLevel = .debug
-        Purchases.configure(withAPIKey: AppConstants.RevenueCat.apiKey)
-        appLogger.info("RevenueCat configured for subscription tracking")
-
-        // Configure Facebook SDK for attribution
-        ApplicationDelegate.shared.application(
-            UIApplication.shared,
-            didFinishLaunchingWithOptions: nil
-        )
-        Settings.shared.isAdvertiserTrackingEnabled = true
-        Settings.shared.isAutoLogAppEventsEnabled = true
-        appLogger.info("Facebook SDK configured for attribution")
-
         let schema = Schema([
             Recording.self,
             TranscriptSegment.self
@@ -64,6 +49,11 @@ struct VoiceNotesOndeviceApp: App {
         } catch {
             modelContainerResult = .failure(error)
         }
+    
+        // Server-driven rating prompts (variant testing + analytics).
+        // Currently in simple mode — uses native SKStoreReviewController, no UI overlay.
+        RatingKit.configure(appId: "securevox", apiUrl: "https://paywallkit-api.fly.dev")
+        RatingKit.shared.trackAppOpen()
 
         // Apple Search Ads attribution (iOS 14.3+). Fires once per install.
         AttributionService.shared.trackAttribution()
@@ -75,6 +65,7 @@ struct VoiceNotesOndeviceApp: App {
         WindowGroup {
             if let container = sharedModelContainer {
                 ContentView()
+                    .ratingPrompt()
                     .preferredColorScheme(colorScheme)
                     .environmentObject(deepLinkHandler)
                     .onOpenURL { url in

@@ -10,6 +10,7 @@ import android.provider.OpenableColumns
 import android.util.Log
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.RandomAccessFile
@@ -107,7 +108,7 @@ class MediaImportService(private val context: Context) {
      * @param uri Content URI of the media file
      * @return ImportResult indicating success or failure
      */
-    suspend fun importMedia(uri: Uri): ImportResult = withContext(Dispatchers.IO) {
+    suspend fun importMedia(uri: Uri, onProgress: (Float) -> Unit = {}): ImportResult = withContext(Dispatchers.IO) {
         try {
             val mimeType = context.contentResolver.getType(uri)
             val fileName = getFileName(uri) ?: "imported_media"
@@ -124,10 +125,10 @@ class MediaImportService(private val context: Context) {
                     ImportResult.Error("Could not determine file type")
                 }
                 isAudioType(mimeType) -> {
-                    importAndConvertMedia(uri, fileName)
+                    importAndConvertMedia(uri, fileName, onProgress)
                 }
                 isVideoType(mimeType) -> {
-                    importAndConvertMedia(uri, fileName)
+                    importAndConvertMedia(uri, fileName, onProgress)
                 }
                 else -> {
                     ImportResult.Error("Unsupported file type: $mimeType")
@@ -142,8 +143,9 @@ class MediaImportService(private val context: Context) {
     /**
      * Import and convert any audio/video file to WAV 16kHz mono 16-bit PCM.
      * Uses MediaExtractor to find the audio track and MediaCodec to decode it.
+     * PCM data is streamed directly to disk to avoid OOM on large files.
      */
-    private suspend fun importAndConvertMedia(uri: Uri, originalFileName: String): ImportResult =
+    private suspend fun importAndConvertMedia(uri: Uri, originalFileName: String, onProgress: (Float) -> Unit): ImportResult =
         withContext(Dispatchers.IO) {
             val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
             val outputFileName = "import_${timestamp}.wav"
@@ -182,19 +184,20 @@ class MediaImportService(private val context: Context) {
                 val sourceMime = audioFormat.getString(MediaFormat.KEY_MIME) ?: "audio/mp4"
                 val sourceSampleRate = audioFormat.getInteger(MediaFormat.KEY_SAMPLE_RATE)
                 val sourceChannels = audioFormat.getInteger(MediaFormat.KEY_CHANNEL_COUNT)
-                Log.i(TAG, "Source audio: $sourceMime, ${sourceSampleRate}Hz, ${sourceChannels}ch")
+                val totalDurationUs = if (audioFormat.containsKey(MediaFormat.KEY_DURATION))
+                    audioFormat.getLong(MediaFormat.KEY_DURATION) else 0L
+                Log.i(TAG, "Source audio: $sourceMime, ${sourceSampleRate}Hz, ${sourceChannels}ch, duration=${totalDurationUs}us")
 
                 // Configure decoder
                 codec = MediaCodec.createDecoderByType(sourceMime)
                 codec.configure(audioFormat, null, null, 0)
                 codec.start()
 
-                // Decode all audio to raw PCM samples
-                val pcmSamples = decodeAudioToPcm(extractor, codec, sourceSampleRate, sourceChannels)
-                Log.i(TAG, "Decoded ${pcmSamples.size} samples at ${TARGET_SAMPLE_RATE}Hz mono")
-
-                // Write as WAV file
-                writeWavFile(outputFile, pcmSamples, TARGET_SAMPLE_RATE)
+                // Stream PCM directly to file — no in-memory accumulation
+                val totalSamples = streamDecodeToPcmFile(
+                    extractor, codec, sourceSampleRate, sourceChannels, outputFile, totalDurationUs, onProgress
+                )
+                Log.i(TAG, "Streamed $totalSamples samples at ${TARGET_SAMPLE_RATE}Hz mono")
 
                 // Get duration
                 val duration = getMediaDuration(uri)
@@ -219,79 +222,137 @@ class MediaImportService(private val context: Context) {
         }
 
     /**
-     * Decode audio using MediaCodec, resample to 16kHz mono, return as ShortArray.
+     * Decode audio with MediaCodec and write 16kHz mono 16-bit PCM directly to [outputFile].
+     * Writes a placeholder WAV header first, then fills in the real sizes at the end.
+     * Returns the total number of samples written.
      */
-    private fun decodeAudioToPcm(
+    private fun streamDecodeToPcmFile(
         extractor: MediaExtractor,
         codec: MediaCodec,
         sourceSampleRate: Int,
-        sourceChannels: Int
-    ): ShortArray {
-        val allSamples = mutableListOf<Short>()
+        sourceChannels: Int,
+        outputFile: File,
+        totalDurationUs: Long = 0L,
+        onProgress: (Float) -> Unit = {}
+    ): Long {
+        var totalSamples = 0L
+        var lastReportedProgress = -1
+
+        // Resampler state for linear interpolation
+        var resamplerPos = 0.0   // fractional source position
+
+        // Write placeholder WAV header — 44 bytes
+        val fos = BufferedOutputStream(FileOutputStream(outputFile), 256 * 1024)
+        fos.write(ByteArray(44))
+
+        val writeBuffer = ByteBuffer.allocate(64 * 1024).order(ByteOrder.LITTLE_ENDIAN)
         val bufferInfo = MediaCodec.BufferInfo()
         var isEos = false
         var inputDone = false
 
-        while (!isEos) {
-            // Feed input buffers
-            if (!inputDone) {
-                val inputIndex = codec.dequeueInputBuffer(CODEC_TIMEOUT_US)
-                if (inputIndex >= 0) {
-                    val inputBuffer = codec.getInputBuffer(inputIndex)!!
-                    val sampleSize = extractor.readSampleData(inputBuffer, 0)
-
-                    if (sampleSize < 0) {
-                        codec.queueInputBuffer(inputIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
-                        inputDone = true
-                    } else {
-                        val presentationTimeUs = extractor.sampleTime
-                        codec.queueInputBuffer(inputIndex, 0, sampleSize, presentationTimeUs, 0)
-                        extractor.advance()
+        try {
+            while (!isEos) {
+                if (!inputDone) {
+                    val inputIndex = codec.dequeueInputBuffer(CODEC_TIMEOUT_US)
+                    if (inputIndex >= 0) {
+                        val inputBuffer = codec.getInputBuffer(inputIndex)!!
+                        val sampleSize = extractor.readSampleData(inputBuffer, 0)
+                        if (sampleSize < 0) {
+                            codec.queueInputBuffer(inputIndex, 0, 0, 0, MediaCodec.BUFFER_FLAG_END_OF_STREAM)
+                            inputDone = true
+                        } else {
+                            val sampleTimeUs = extractor.sampleTime
+                            codec.queueInputBuffer(inputIndex, 0, sampleSize, sampleTimeUs, 0)
+                            extractor.advance()
+                            // Report progress based on timeline position
+                            if (totalDurationUs > 0) {
+                                val pct = ((sampleTimeUs.toFloat() / totalDurationUs) * 100).toInt().coerceIn(0, 99)
+                                if (pct != lastReportedProgress) {
+                                    lastReportedProgress = pct
+                                    onProgress(pct / 100f)
+                                }
+                            }
+                        }
                     }
+                }
+
+                val outputIndex = codec.dequeueOutputBuffer(bufferInfo, CODEC_TIMEOUT_US)
+                if (outputIndex >= 0) {
+                    if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
+                        isEos = true
+                    }
+
+                    val outputBuffer = codec.getOutputBuffer(outputIndex)
+                    if (outputBuffer != null && bufferInfo.size > 0) {
+                        outputBuffer.position(bufferInfo.offset)
+                        outputBuffer.limit(bufferInfo.offset + bufferInfo.size)
+
+                        val shortBuf = outputBuffer.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer()
+                        val decoded = ShortArray(shortBuf.remaining())
+                        shortBuf.get(decoded)
+
+                        // Mix to mono
+                        val mono = if (sourceChannels > 1) mixToMono(decoded, sourceChannels) else decoded
+
+                        // Resample and write in chunks
+                        val ratio = sourceSampleRate.toDouble() / TARGET_SAMPLE_RATE.toDouble()
+                        val outputLength = ((mono.size - resamplerPos) / ratio).toInt()
+
+                        var outIdx = 0
+                        while (outIdx < outputLength) {
+                            val srcPos = resamplerPos + outIdx * ratio
+                            val srcIndex = srcPos.toInt()
+                            val fraction = srcPos - srcIndex
+                            val s1 = mono[srcIndex]
+                            val s2 = if (srcIndex + 1 < mono.size) mono[srcIndex + 1] else s1
+                            val sample = (s1 + fraction * (s2 - s1)).toInt()
+                                .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+
+                            if (!writeBuffer.hasRemaining()) {
+                                fos.write(writeBuffer.array(), 0, writeBuffer.position())
+                                writeBuffer.clear()
+                            }
+                            writeBuffer.putShort(sample)
+                            totalSamples++
+                            outIdx++
+                        }
+                        // Advance fractional position
+                        resamplerPos = resamplerPos + outputLength * ratio - mono.size
+                        if (resamplerPos < 0) resamplerPos = 0.0
+                    }
+
+                    codec.releaseOutputBuffer(outputIndex, false)
                 }
             }
 
-            // Drain output buffers
-            val outputIndex = codec.dequeueOutputBuffer(bufferInfo, CODEC_TIMEOUT_US)
-            if (outputIndex >= 0) {
-                if (bufferInfo.flags and MediaCodec.BUFFER_FLAG_END_OF_STREAM != 0) {
-                    isEos = true
-                }
-
-                val outputBuffer = codec.getOutputBuffer(outputIndex)
-                if (outputBuffer != null && bufferInfo.size > 0) {
-                    outputBuffer.position(bufferInfo.offset)
-                    outputBuffer.limit(bufferInfo.offset + bufferInfo.size)
-
-                    // Read decoded PCM samples (16-bit)
-                    val shortBuffer = outputBuffer.order(ByteOrder.LITTLE_ENDIAN).asShortBuffer()
-                    val samples = ShortArray(shortBuffer.remaining())
-                    shortBuffer.get(samples)
-
-                    // Mix down to mono if stereo/multi-channel
-                    val monoSamples = if (sourceChannels > 1) {
-                        mixToMono(samples, sourceChannels)
-                    } else {
-                        samples
-                    }
-
-                    // Resample to target rate if needed
-                    val resampled = if (sourceSampleRate != TARGET_SAMPLE_RATE) {
-                        resample(monoSamples, sourceSampleRate, TARGET_SAMPLE_RATE)
-                    } else {
-                        monoSamples
-                    }
-
-                    for (s in resampled) {
-                        allSamples.add(s)
-                    }
-                }
-
-                codec.releaseOutputBuffer(outputIndex, false)
+            // Flush remaining write buffer
+            if (writeBuffer.position() > 0) {
+                fos.write(writeBuffer.array(), 0, writeBuffer.position())
             }
+        } finally {
+            fos.close()
         }
 
-        return allSamples.toShortArray()
+        // Patch WAV header with correct sizes
+        val dataSize = (totalSamples * 2).toInt() // 16-bit = 2 bytes
+        RandomAccessFile(outputFile, "rw").use { raf ->
+            raf.seek(0)
+            raf.writeBytes("RIFF")
+            raf.writeIntLE(dataSize + 36)
+            raf.writeBytes("WAVE")
+            raf.writeBytes("fmt ")
+            raf.writeIntLE(16)
+            raf.writeShortLE(1)                          // PCM
+            raf.writeShortLE(1)                          // mono
+            raf.writeIntLE(TARGET_SAMPLE_RATE)
+            raf.writeIntLE(TARGET_SAMPLE_RATE * 2)       // byte rate
+            raf.writeShortLE(2)                          // block align
+            raf.writeShortLE(16)                         // bits per sample
+            raf.writeBytes("data")
+            raf.writeIntLE(dataSize)
+        }
+
+        return totalSamples
     }
 
     /**
@@ -334,46 +395,6 @@ class MediaImportService(private val context: Context) {
         }
 
         return output
-    }
-
-    /**
-     * Write PCM samples as a WAV file with proper RIFF header.
-     */
-    private fun writeWavFile(file: File, samples: ShortArray, sampleRate: Int) {
-        val dataSize = samples.size * 2 // 16-bit = 2 bytes per sample
-
-        FileOutputStream(file).use { fos ->
-            // Write placeholder header
-            fos.write(ByteArray(44))
-
-            // Write PCM data
-            val buffer = ByteBuffer.allocate(samples.size * 2)
-            buffer.order(ByteOrder.LITTLE_ENDIAN)
-            for (sample in samples) {
-                buffer.putShort(sample)
-            }
-            fos.write(buffer.array())
-        }
-
-        // Update WAV header
-        RandomAccessFile(file, "rw").use { raf ->
-            val totalSize = dataSize + 36
-
-            raf.seek(0)
-            raf.writeBytes("RIFF")
-            raf.writeIntLE(totalSize)
-            raf.writeBytes("WAVE")
-            raf.writeBytes("fmt ")
-            raf.writeIntLE(16)          // Subchunk1Size
-            raf.writeShortLE(1)         // AudioFormat (PCM)
-            raf.writeShortLE(1)         // NumChannels (mono)
-            raf.writeIntLE(sampleRate)  // SampleRate
-            raf.writeIntLE(sampleRate * 2) // ByteRate (sampleRate * channels * bytesPerSample)
-            raf.writeShortLE(2)         // BlockAlign (channels * bytesPerSample)
-            raf.writeShortLE(16)        // BitsPerSample
-            raf.writeBytes("data")
-            raf.writeIntLE(dataSize)
-        }
     }
 
     private fun RandomAccessFile.writeIntLE(value: Int) {

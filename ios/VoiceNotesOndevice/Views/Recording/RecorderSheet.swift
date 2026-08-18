@@ -1,4 +1,5 @@
 import SwiftUI
+import RatingKit
 
 /// Sheet view for recording audio
 struct RecorderSheet: View {
@@ -16,7 +17,6 @@ struct RecorderSheet: View {
 
     @StateObject private var viewModel = RecorderViewModel()
     @State private var showingCancelConfirmation = false
-    @State private var showingPaywall = false
 
     // MARK: - Body
 
@@ -31,20 +31,7 @@ struct RecorderSheet: View {
                         .font(.system(size: 64, weight: .light, design: .monospaced))
                         .foregroundStyle(viewModel.state == .recording ? .primary : .secondary)
 
-                    // Free limit warning
-                    if !viewModel.isPremium, viewModel.state == .recording {
-                        if let remaining = viewModel.remainingFreeTime, remaining <= 30 {
-                            Text("Free limit: \(Int(remaining))s remaining")
-                                .font(.caption)
-                                .foregroundStyle(.orange)
-                                .fontWeight(.medium)
-                        } else if !viewModel.isPremium {
-                            Text("Free: 3 min limit")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
                     }
-                }
 
                 // Waveform visualization
                 WaveformView(level: viewModel.audioLevel, isActive: viewModel.state == .recording)
@@ -93,16 +80,6 @@ struct RecorderSheet: View {
                 Button("OK") { viewModel.errorMessage = nil }
             } message: {
                 Text(viewModel.errorMessage ?? "")
-            }
-            .onChange(of: viewModel.didHitFreeLimit) { _, hitLimit in
-                if hitLimit {
-                    // Auto-stop and save the recording, then show paywall
-                    stopAndSave()
-                    showingPaywall = true
-                }
-            }
-            .fullScreenCover(isPresented: $showingPaywall) {
-                RemotePaywallView(triggerSource: "recording_limit")
             }
         }
         .interactiveDismissDisabled(viewModel.state != .idle)
@@ -264,11 +241,15 @@ struct RecorderSheet: View {
 
         do {
             try modelContext.save()
-            onComplete(recording)
-            // Only dismiss if we're not about to show the paywall
-            if !viewModel.didHitFreeLimit {
-                dismiss()
+
+            // Rating signal: only count meaningful recordings (≥30s) as a success
+            // peak. RatingKit handles thresholds + gateway routing server-side.
+            if result.duration >= 30 {
+                RatingKit.shared.trackAction()
             }
+
+            onComplete(recording)
+            dismiss()
         } catch {
             viewModel.errorMessage = "Failed to save recording: \(error.localizedDescription)"
         }

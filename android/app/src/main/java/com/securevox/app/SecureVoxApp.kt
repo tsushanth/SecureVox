@@ -1,7 +1,9 @@
 package com.securevox.app
 
 import android.app.Application
+import com.kreativekoala.ratingkit.RatingKit
 import com.securevox.app.data.local.SecureVoxDatabase
+import com.securevox.app.tts.ReadAloudManager
 import com.securevox.app.whisper.ModelManager
 
 class SecureVoxApp : Application() {
@@ -14,9 +16,14 @@ class SecureVoxApp : Application() {
         ModelManager(this)
     }
 
+    val readAloudManager: ReadAloudManager by lazy {
+        ReadAloudManager.get(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
         instance = this
+        RatingKit.init(this, appId = "securevox")
     }
 
     companion object {

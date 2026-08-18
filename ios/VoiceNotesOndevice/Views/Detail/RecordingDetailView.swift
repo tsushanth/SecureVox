@@ -24,6 +24,7 @@ struct RecordingDetailView: View {
     @State private var showingCancelConfirmation = false
     @State private var showingExportSheet = false
     @State private var showingImproveSheet = false
+    @State private var showingReadAloudSheet = false
     @State private var newTitle = ""
     @AppStorage("transcriptViewMode") private var showParagraphView = false
 
@@ -94,6 +95,9 @@ struct RecordingDetailView: View {
             }
             Button("Continue", role: .cancel) { }
         }
+        .sheet(isPresented: $showingReadAloudSheet) {
+            ReadAloudSheet(text: viewModel.transcriptText)
+        }
         .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
             Button("OK") {
                 viewModel.errorMessage = nil
@@ -113,10 +117,6 @@ struct RecordingDetailView: View {
             ShareSheet(items: [url], onDismiss: {
                 viewModel.clearShareURL()
             })
-        }
-        .sheet(isPresented: $viewModel.showRatingPrompt) {
-            RatingPromptView(isPresented: $viewModel.showRatingPrompt)
-                .presentationDetents([.height(340)])
         }
         .onDisappear {
             viewModel.stopPlayback()
@@ -359,6 +359,17 @@ struct RecordingDetailView: View {
 
     private var viewModeToggle: some View {
         HStack {
+            if KokoroModelManager.isDeviceEligible {
+                Button {
+                    showingReadAloudSheet = true
+                } label: {
+                    Label("Read Aloud", systemImage: "speaker.wave.2")
+                        .labelStyle(.iconOnly)
+                        .imageScale(.large)
+                        .padding(.leading)
+                }
+                .accessibilityLabel("Read transcript aloud")
+            }
             Spacer()
             Picker("View Mode", selection: $showParagraphView) {
                 Image(systemName: "list.bullet")
@@ -549,6 +560,14 @@ struct RecordingDetailView: View {
                     showingRenameAlert = true
                 } label: {
                     Label("Rename", systemImage: "character.cursor.ibeam")
+                }
+
+                if KokoroModelManager.isDeviceEligible && !viewModel.transcriptText.isEmpty {
+                    Button {
+                        showingReadAloudSheet = true
+                    } label: {
+                        Label("Read Aloud", systemImage: "speaker.wave.2")
+                    }
                 }
 
                 if viewModel.canStartTranscription {

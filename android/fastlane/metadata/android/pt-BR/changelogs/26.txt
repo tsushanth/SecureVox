@@ -1,0 +1,1 @@
+On-device Read Aloud: tap a recording's ⋮ menu and choose Read Aloud to hear your transcript spoken back. Voices run entirely on your phone with no internet required, and the picker now defaults to a voice matching your device language.

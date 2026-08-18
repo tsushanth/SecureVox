@@ -1,0 +1,1 @@
+Fixed a crash that occurred when importing large audio files (40MB+). Audio import now streams data directly to disk instead of loading everything into memory, so even very large M4A and MP3 files import reliably.

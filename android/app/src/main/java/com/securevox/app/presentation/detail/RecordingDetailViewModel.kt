@@ -1,17 +1,22 @@
 package com.securevox.app.presentation.detail
 
 import android.app.Application
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.repository.RecordingRepository
+import com.securevox.app.SecureVoxApp
 import com.securevox.app.service.AudioPlayerService
 import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
-import android.content.Intent
+import com.securevox.app.service.TranscriptionWorker
+import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -33,6 +38,16 @@ class RecordingDetailViewModel(
 
     val segments: StateFlow<List<TranscriptSegment>> = repository.getSegmentsForRecording(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    // Live transcription progress (0-100) from WorkManager, null if not actively running
+    val transcriptionProgress: StateFlow<Int?> =
+        WorkManager.getInstance(application)
+            .getWorkInfosByTagFlow("${TranscriptionWorker.TAG_RECORDING_PREFIX}$recordingId")
+            .map { infos ->
+                infos.firstOrNull { it.state == WorkInfo.State.RUNNING }
+                    ?.progress?.getInt(TranscriptionWorker.KEY_PROGRESS, 0)
+            }
+            .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val isPlaying: StateFlow<Boolean> = audioPlayer.isPlaying
     val currentPosition: StateFlow<Long> = audioPlayer.currentPosition
@@ -83,6 +98,30 @@ class RecordingDetailViewModel(
 
     fun cyclePlaybackSpeed() {
         audioPlayer.cyclePlaybackSpeed()
+    }
+
+    /** Returns all WhisperModels that are currently downloaded on device. */
+    fun getDownloadedModels(): List<WhisperModel> {
+        val modelManager = SecureVoxApp.instance.modelManager
+        return WhisperModel.entries.filter { modelManager.isModelDownloaded(it) }
+    }
+
+    /**
+     * Re-run transcription with a specific model.
+     * Clears existing segments so the UI reflects fresh results.
+     */
+    fun retryTranscription(model: WhisperModel) {
+        viewModelScope.launch {
+            val rec = recording.value ?: return@launch
+            repository.updateTranscriptionStatus(rec.id, com.securevox.app.data.model.TranscriptionStatus.PENDING, 0)
+            repository.deleteSegmentsForRecording(rec.id)
+            val workRequest = TranscriptionWorker.createWorkRequest(
+                recordingId = rec.id,
+                modelName = model.fileName,
+                language = rec.language
+            )
+            WorkManager.getInstance(getApplication()).enqueue(workRequest)
+        }
     }
 
     fun deleteRecording() {

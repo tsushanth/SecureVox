@@ -31,7 +31,7 @@ class MediaImportService {
 
     // MARK: - Import
 
-    func importFile(url: URL) async throws -> ImportResult {
+    func importFile(url: URL, onProgress: ((Float) -> Void)? = nil) async throws -> ImportResult {
         // Check file size
         let fileSize = try getFileSize(url: url)
         guard fileSize <= AppConstants.Whisper.maxImportFileSize else {
@@ -53,8 +53,15 @@ class MediaImportService {
             throw ImportError.durationTooShort
         }
 
+        onProgress?(0.1)
+
         // Convert to 16kHz mono WAV for Whisper compatibility
-        let audioURL = try await convertToWhisperFormat(asset: asset)
+        let audioURL = try await convertToWhisperFormat(asset: asset, onProgress: { p in
+            // Map conversion progress (0-1) to overall range 0.1-0.9
+            onProgress?(0.1 + p * 0.8)
+        })
+
+        onProgress?(1.0)
 
         // Get final file size
         let finalSize = try getFileSize(url: audioURL)
@@ -71,7 +78,7 @@ class MediaImportService {
     // MARK: - Audio Conversion
 
     /// Convert any audio/video file to 16kHz mono 16-bit PCM WAV using AVAssetReader/Writer
-    private func convertToWhisperFormat(asset: AVURLAsset) async throws -> URL {
+    private func convertToWhisperFormat(asset: AVURLAsset, onProgress: ((Float) -> Void)? = nil) async throws -> URL {
         // Get audio track
         let audioTracks = try await asset.loadTracks(withMediaType: .audio)
         guard let audioTrack = audioTracks.first else {
@@ -155,6 +162,11 @@ class MediaImportService {
 
         writer.startSession(atSourceTime: .zero)
 
+        // Estimate total samples for progress reporting
+        let totalDurationSeconds = try await asset.load(.duration).seconds
+        let totalSamplesEstimate = max(1.0, totalDurationSeconds * AppConstants.Audio.whisperSampleRate)
+        var samplesProcessed: Int64 = 0
+
         // Process samples
         return try await withCheckedThrowingContinuation { continuation in
             let queue = DispatchQueue(label: "com.securevox.macos.audioconversion")
@@ -162,7 +174,10 @@ class MediaImportService {
             writerInput.requestMediaDataWhenReady(on: queue) {
                 while writerInput.isReadyForMoreMediaData {
                     if let sampleBuffer = readerOutput.copyNextSampleBuffer() {
+                        samplesProcessed += CMSampleBufferGetNumSamples(sampleBuffer)
                         writerInput.append(sampleBuffer)
+                        let progress = Float(min(Double(samplesProcessed) / totalSamplesEstimate, 0.99))
+                        DispatchQueue.main.async { onProgress?(progress) }
                     } else {
                         // No more samples
                         writerInput.markAsFinished()

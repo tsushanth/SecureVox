@@ -1,0 +1,2 @@
+- Transcription progress now shows inside the recording detail screen — see live % as each chunk completes
+- Partial transcript appears as text is being processed, even before transcription finishes

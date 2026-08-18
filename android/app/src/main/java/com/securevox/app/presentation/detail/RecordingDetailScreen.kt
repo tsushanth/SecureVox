@@ -4,7 +4,10 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
+import androidx.core.content.FileProvider
+import java.io.File
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -29,6 +32,7 @@ import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.PlaybackSpeed
+import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -54,11 +58,16 @@ fun RecordingDetailScreen(
     val duration by viewModel.duration.collectAsState()
     val activeSegment by viewModel.activeSegment.collectAsState()
     val playbackSpeed by viewModel.playbackSpeed.collectAsState()
+    val transcriptionProgress by viewModel.transcriptionProgress.collectAsState()
 
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showSpeedMenu by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showExportMenu by remember { mutableStateOf(false) }
+    var showRetranscribeDialog by remember { mutableStateOf(false) }
+    var selectedRetranscribeModel by remember { mutableStateOf<WhisperModel?>(null) }
+    var showReadAloud by remember { mutableStateOf(false) }
+    val downloadedModels = remember { viewModel.getDownloadedModels() }
 
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
@@ -106,6 +115,16 @@ fun RecordingDetailScreen(
                                 Toast.makeText(context, context.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
                             }
                         )
+                        if (viewModel.getFullTranscript().isNotBlank()) {
+                            DropdownMenuItem(
+                                text = { Text("Read Aloud") },
+                                leadingIcon = { Icon(Icons.Default.VolumeUp, null) },
+                                onClick = {
+                                    showMenu = false
+                                    showReadAloud = true
+                                }
+                            )
+                        }
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.export)) },
                             leadingIcon = { Icon(Icons.Default.Share, null) },
@@ -114,6 +133,46 @@ fun RecordingDetailScreen(
                                 showExportMenu = true
                             }
                         )
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.export_audio)) },
+                            leadingIcon = { Icon(Icons.Default.AudioFile, null) },
+                            onClick = {
+                                showMenu = false
+                                val filePath = recording?.audioFilePath ?: return@DropdownMenuItem
+                                val file = File(filePath)
+                                if (!file.exists()) {
+                                    Toast.makeText(context, context.getString(R.string.audio_file_not_found), Toast.LENGTH_SHORT).show()
+                                    return@DropdownMenuItem
+                                }
+                                try {
+                                    val uri: Uri = FileProvider.getUriForFile(
+                                        context,
+                                        "${context.packageName}.provider",
+                                        file
+                                    )
+                                    val shareIntent = Intent(Intent.ACTION_SEND).apply {
+                                        type = "audio/wav"
+                                        putExtra(Intent.EXTRA_STREAM, uri)
+                                        addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                    }
+                                    context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.export_audio)))
+                                } catch (e: Exception) {
+                                    Toast.makeText(context, context.getString(R.string.export_failed), Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        )
+                        if (downloadedModels.size >= 1 &&
+                            recording?.transcriptionStatus != TranscriptionStatus.IN_PROGRESS) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.retranscribe)) },
+                                leadingIcon = { Icon(Icons.Default.Refresh, null) },
+                                onClick = {
+                                    showMenu = false
+                                    selectedRetranscribeModel = downloadedModels.first()
+                                    showRetranscribeDialog = true
+                                }
+                            )
+                        }
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.delete)) },
                             leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) },
@@ -159,30 +218,37 @@ fun RecordingDetailScreen(
                     .weight(1f)
                     .fillMaxWidth()
             ) {
+                val isInProgress = recording?.transcriptionStatus == TranscriptionStatus.IN_PROGRESS
                 when {
-                    recording?.transcriptionStatus == TranscriptionStatus.IN_PROGRESS -> {
-                        TranscriptionProgress()
-                    }
                     recording?.transcriptionStatus == TranscriptionStatus.FAILED -> {
                         TranscriptionFailed()
+                    }
+                    segments.isEmpty() && isInProgress -> {
+                        TranscriptionProgress(progress = transcriptionProgress)
                     }
                     segments.isEmpty() -> {
                         TranscriptionPending()
                     }
                     else -> {
-                        LazyColumn(
-                            state = listState,
-                            modifier = Modifier.fillMaxSize(),
-                            contentPadding = PaddingValues(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            items(segments, key = { it.id }) { segment ->
-                                SegmentRow(
-                                    segment = segment,
-                                    isActive = segment.id == activeSegment?.id,
-                                    currentTime = currentPosition,
-                                    onClick = { viewModel.seekToSegment(segment) }
-                                )
+                        Column(modifier = Modifier.fillMaxSize()) {
+                            // Progress banner while still transcribing (segments arriving live)
+                            if (isInProgress) {
+                                TranscriptionProgressBanner(progress = transcriptionProgress)
+                            }
+                            LazyColumn(
+                                state = listState,
+                                modifier = Modifier.weight(1f),
+                                contentPadding = PaddingValues(16.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                items(segments, key = { it.id }) { segment ->
+                                    SegmentRow(
+                                        segment = segment,
+                                        isActive = segment.id == activeSegment?.id,
+                                        currentTime = currentPosition,
+                                        onClick = { viewModel.seekToSegment(segment) }
+                                    )
+                                }
                             }
                         }
                     }
@@ -225,6 +291,73 @@ fun RecordingDetailScreen(
                     Text(stringResource(R.string.cancel))
                 }
             }
+        )
+    }
+
+    if (showRetranscribeDialog) {
+        AlertDialog(
+            onDismissRequest = { showRetranscribeDialog = false },
+            title = { Text(stringResource(R.string.retranscribe)) },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text(
+                        text = stringResource(R.string.retranscribe_description),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    downloadedModels.forEach { model ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { selectedRetranscribeModel = model }
+                                .padding(vertical = 4.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            RadioButton(
+                                selected = selectedRetranscribeModel == model,
+                                onClick = { selectedRetranscribeModel = model }
+                            )
+                            Column {
+                                Text(
+                                    text = model.displayName,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    fontWeight = FontWeight.Medium
+                                )
+                                Text(
+                                    text = "${model.accuracy} accuracy · ${model.speed}",
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        selectedRetranscribeModel?.let { viewModel.retryTranscription(it) }
+                        showRetranscribeDialog = false
+                    },
+                    enabled = selectedRetranscribeModel != null
+                ) {
+                    Text(stringResource(R.string.retranscribe_confirm))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRetranscribeDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            }
+        )
+    }
+
+    if (showReadAloud) {
+        com.securevox.app.tts.ReadAloudSheet(
+            text = viewModel.getFullTranscript(),
+            onDismiss = { showReadAloud = false },
         )
     }
 }
@@ -396,25 +529,81 @@ private fun PlaybackControls(
 }
 
 @Composable
-private fun TranscriptionProgress() {
+private fun TranscriptionProgress(progress: Int?) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.padding(32.dp)
         ) {
-            CircularProgressIndicator()
+            if (progress != null && progress > 0) {
+                CircularProgressIndicator(progress = progress / 100f)
+            } else {
+                CircularProgressIndicator()
+            }
             Text(
-                text = stringResource(R.string.transcribing),
+                text = if (progress != null && progress > 0) "Transcribing… $progress%" else stringResource(R.string.transcribing),
                 style = MaterialTheme.typography.titleMedium
             )
+            if (progress != null && progress > 0) {
+                LinearProgressIndicator(
+                    progress = progress / 100f,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            }
             Text(
                 text = stringResource(R.string.transcription_may_take_minutes),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )
+        }
+    }
+}
+
+@Composable
+private fun TranscriptionProgressBanner(progress: Int?) {
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        color = MaterialTheme.colorScheme.secondaryContainer
+    ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = if (progress != null && progress > 0) "Transcribing… $progress%" else "Transcribing…",
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+                if (progress != null && progress > 0) {
+                    Text(
+                        text = "${100 - progress}% remaining",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                    )
+                }
+            }
+            if (progress != null && progress > 0) {
+                LinearProgressIndicator(
+                    progress = progress / 100f,
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.2f)
+                )
+            } else {
+                LinearProgressIndicator(
+                    modifier = Modifier.fillMaxWidth(),
+                    color = MaterialTheme.colorScheme.secondary,
+                    trackColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.2f)
+                )
+            }
         }
     }
 }

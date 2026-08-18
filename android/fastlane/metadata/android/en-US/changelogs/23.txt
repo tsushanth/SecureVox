@@ -1,0 +1,5 @@
+- Fixed transcription failing on large audio files (49MB+) — now processes in 30-second chunks so any file size works without running out of memory
+- Added pause and resume during recording
+- Added retry button for failed transcriptions
+- Fixed imported audio files not transcribing (WAV format parsing fix)
+- Improved compatibility across more Android devices

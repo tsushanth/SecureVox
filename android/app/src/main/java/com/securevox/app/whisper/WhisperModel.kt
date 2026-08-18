@@ -53,7 +53,8 @@ enum class WhisperModel(
  */
 enum class WhisperLanguage(
     val code: String,
-    val displayName: String
+    val displayName: String,
+    val requiresBetterModel: Boolean = false
 ) {
     AUTO("auto", "Auto-detect"),
     ENGLISH("en", "English"),
@@ -64,18 +65,26 @@ enum class WhisperLanguage(
     PORTUGUESE("pt", "Portuguese"),
     DUTCH("nl", "Dutch"),
     POLISH("pl", "Polish"),
-    RUSSIAN("ru", "Russian"),
-    CHINESE("zh", "Chinese"),
-    JAPANESE("ja", "Japanese"),
-    KOREAN("ko", "Korean"),
-    ARABIC("ar", "Arabic"),
-    HINDI("hi", "Hindi");
+    RUSSIAN("ru", "Russian", requiresBetterModel = true),
+    CHINESE("zh", "Chinese", requiresBetterModel = true),
+    JAPANESE("ja", "Japanese", requiresBetterModel = true),
+    KOREAN("ko", "Korean", requiresBetterModel = true),
+    ARABIC("ar", "Arabic", requiresBetterModel = true),
+    HINDI("hi", "Hindi", requiresBetterModel = true);
 
     companion object {
         val DEFAULT = ENGLISH
 
         fun fromCode(code: String): WhisperLanguage {
             return entries.find { it.code == code } ?: DEFAULT
+        }
+
+        /**
+         * Returns the WhisperLanguage matching the device locale, or ENGLISH if unsupported.
+         */
+        fun fromDeviceLocale(): WhisperLanguage {
+            val deviceLanguage = java.util.Locale.getDefault().language
+            return entries.find { it.code == deviceLanguage } ?: DEFAULT
         }
     }
 }

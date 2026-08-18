@@ -16,6 +16,7 @@ import com.securevox.app.presentation.settings.ThemeMode
 import com.securevox.app.presentation.settings.dataStore
 import com.securevox.app.presentation.theme.SecureVoxTheme
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.kreativekoala.ratingkit.RatingKit
 import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +29,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        RatingKit.trackAppOpen(this)
 
         // Request microphone permission
         permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)

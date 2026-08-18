@@ -4,6 +4,9 @@ import Foundation
 struct WhisperLanguage: Identifiable, Hashable, Codable {
     let code: String
     let name: String
+    /// Whether this language requires a better-than-tiny model for acceptable accuracy.
+    /// CJK scripts, Arabic, Hindi, Russian, etc. need at least the Small or Base model.
+    var requiresBetterModel: Bool = false
 
     var id: String { code }
 
@@ -29,23 +32,23 @@ extension WhisperLanguage {
     static let allLanguages: [WhisperLanguage] = [
         autoDetect,
         WhisperLanguage(code: "en", name: "English"),
-        WhisperLanguage(code: "zh", name: "Chinese"),
+        WhisperLanguage(code: "zh", name: "Chinese", requiresBetterModel: true),
         WhisperLanguage(code: "de", name: "German"),
         WhisperLanguage(code: "es", name: "Spanish"),
-        WhisperLanguage(code: "ru", name: "Russian"),
-        WhisperLanguage(code: "ko", name: "Korean"),
+        WhisperLanguage(code: "ru", name: "Russian", requiresBetterModel: true),
+        WhisperLanguage(code: "ko", name: "Korean", requiresBetterModel: true),
         WhisperLanguage(code: "fr", name: "French"),
-        WhisperLanguage(code: "ja", name: "Japanese"),
+        WhisperLanguage(code: "ja", name: "Japanese", requiresBetterModel: true),
         WhisperLanguage(code: "pt", name: "Portuguese"),
         WhisperLanguage(code: "tr", name: "Turkish"),
         WhisperLanguage(code: "pl", name: "Polish"),
         WhisperLanguage(code: "ca", name: "Catalan"),
         WhisperLanguage(code: "nl", name: "Dutch"),
-        WhisperLanguage(code: "ar", name: "Arabic"),
+        WhisperLanguage(code: "ar", name: "Arabic", requiresBetterModel: true),
         WhisperLanguage(code: "sv", name: "Swedish"),
         WhisperLanguage(code: "it", name: "Italian"),
         WhisperLanguage(code: "id", name: "Indonesian"),
-        WhisperLanguage(code: "hi", name: "Hindi"),
+        WhisperLanguage(code: "hi", name: "Hindi", requiresBetterModel: true),
         WhisperLanguage(code: "fi", name: "Finnish"),
         WhisperLanguage(code: "vi", name: "Vietnamese"),
         WhisperLanguage(code: "he", name: "Hebrew"),
@@ -134,6 +137,12 @@ extension WhisperLanguage {
         allLanguages.first { $0.code == code }
     }
 
+    /// Returns the language matching the device locale, or autoDetect if unsupported.
+    static func fromDeviceLocale() -> WhisperLanguage {
+        let deviceCode = Locale.current.language.languageCode?.identifier ?? "en"
+        return find(byCode: deviceCode) ?? autoDetect
+    }
+
     /// Common languages (shown at top of picker for quick access)
     static let commonLanguages: [WhisperLanguage] = [
         autoDetect,
@@ -179,11 +188,12 @@ extension WhisperLanguage {
         UserDefaults.standard.set(code, forKey: Self.defaultsKey)
     }
 
-    /// Load selected language from UserDefaults
+    /// Load selected language from UserDefaults.
+    /// Falls back to the device locale language (if supported), then autoDetect.
     static func loadSaved() -> WhisperLanguage {
         guard let code = UserDefaults.standard.string(forKey: defaultsKey),
               let language = find(byCode: code) else {
-            return autoDetect
+            return fromDeviceLocale()
         }
         return language
     }
