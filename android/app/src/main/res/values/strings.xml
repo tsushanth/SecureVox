@@ -132,6 +132,9 @@
     <!-- Feedback -->
     <string name="send_feedback">Send Feedback</string>
     <string name="send_feedback_subtitle">Share suggestions or report an issue</string>
+    <string name="report_a_problem">Report a Problem</string>
+    <string name="report_a_problem_subtitle">Send a diagnostic log to help us fix a failed recording or transcription</string>
+    <string name="report_a_problem_no_log">No diagnostic log yet — nothing has gone wrong on this device.</string>
 
     <!-- Re-transcribe & Export Audio -->
     <string name="retranscribe">Re-transcribe</string>

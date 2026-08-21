@@ -17,6 +17,7 @@ import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
+import com.securevox.app.util.CrashLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -84,6 +85,13 @@ class TranscriptionWorker(
 
         Log.i(TAG, "Starting transcription for recording: $recordingId")
 
+        // Tracked so a FAILED entry in the local log has real context (how far it got, how long
+        // it ran) instead of just an exception message — Logcat's ring buffer can't be relied on
+        // to still hold this by the time a user reports a problem.
+        val transcriptionStartedAtMs = System.currentTimeMillis()
+        var lastChunkIndexReached = -1
+        var lastTotalChunks = -1
+
         // Confirmed root cause of "won't complete a transcript for meetings": this worker ran as
         // a plain background CoroutineWorker, which Android's WorkManager kills after roughly 10
         // minutes of execution. On-device whisper.cpp transcription of a real meeting-length
@@ -135,6 +143,7 @@ class TranscriptionWorker(
 
             val totalAudioSamples = wavInfo.totalMonoSamples
             val totalChunks = (((totalAudioSamples + CHUNK_SAMPLES - 1) / CHUNK_SAMPLES).coerceAtLeast(1)).toInt()
+            lastTotalChunks = totalChunks
             Log.i(TAG, "Audio: ${totalAudioSamples} samples, processing in $totalChunks chunks")
 
             val allSegments = mutableListOf<TranscriptSegment>()
@@ -143,6 +152,7 @@ class TranscriptionWorker(
             repository.deleteSegmentsForRecording(recordingId)
 
             for (chunkIdx in 0 until totalChunks) {
+                lastChunkIndexReached = chunkIdx
                 val chunkStartSample = (chunkIdx * CHUNK_SAMPLES - if (chunkIdx > 0) OVERLAP_SAMPLES else 0).coerceAtLeast(0)
                 val chunkEndSample = minOf(chunkStartSample + CHUNK_SAMPLES + OVERLAP_SAMPLES, totalAudioSamples.toInt())
 
@@ -203,12 +213,47 @@ class TranscriptionWorker(
         } catch (e: OutOfMemoryError) {
             Log.e(TAG, "OOM during transcription — device RAM too low", e)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
+            logFailureToDisk(
+                recordingId, "OutOfMemoryError", e.message,
+                transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
+            )
             Result.failure()
         } catch (e: Exception) {
             Log.e(TAG, "Transcription failed", e)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
+            logFailureToDisk(
+                recordingId, e.javaClass.simpleName, e.message,
+                transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
+            )
             Result.failure()
         }
+    }
+
+    /**
+     * Appends a diagnostic entry to the local on-device failure log for a FAILED transcription.
+     * This covers the case that actually bit us in production: a stall with no exception thrown
+     * still hits one of these catch blocks via the coroutine's cancellation/failure path, but even
+     * when it doesn't, having duration + chunk progress on disk for the exception cases we DO see
+     * is what lets a "Report a Problem" email actually be diagnosable instead of just "it failed".
+     */
+    private fun logFailureToDisk(
+        recordingId: String,
+        exceptionType: String,
+        exceptionMessage: String?,
+        startedAtMs: Long,
+        lastChunkIndexReached: Int,
+        totalChunks: Int
+    ) {
+        val durationSeconds = (System.currentTimeMillis() - startedAtMs) / 1000
+        CrashLogger.appendEntry(
+            applicationContext,
+            "TRANSCRIPTION FAILED\n" +
+                "recordingId=$recordingId\n" +
+                "exception=$exceptionType: ${exceptionMessage ?: "(no message)"}\n" +
+                "durationSeconds=$durationSeconds\n" +
+                "chunkReached=${if (lastChunkIndexReached >= 0) lastChunkIndexReached else "n/a"}" +
+                "/${if (totalChunks > 0) totalChunks else "n/a"}"
+        )
     }
 
     private fun createForegroundInfo(progress: Int): ForegroundInfo {
