@@ -3,6 +3,8 @@ package com.securevox.app.presentation.settings
 import android.content.Intent
 import android.net.Uri
 import android.text.format.Formatter
+import androidx.core.content.FileProvider
+import com.securevox.app.util.CrashLogger
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -360,6 +362,38 @@ fun SettingsScreen(
                             putExtra(Intent.EXTRA_SUBJECT, "SecureVox Feedback")
                         }
                         context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_feedback)))
+                    }
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = stringResource(R.string.report_a_problem),
+                    subtitle = stringResource(R.string.report_a_problem_subtitle),
+                    icon = Icons.Default.BugReport,
+                    onClick = {
+                        val logFile = CrashLogger.logFile(context)
+                        val logText = if (logFile.exists()) logFile.readText() else ""
+
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("support@securevox.app"))
+                            putExtra(Intent.EXTRA_SUBJECT, "SecureVox Problem Report")
+
+                            // Small logs go straight in the body; larger ones are attached via the
+                            // app's existing FileProvider so the intent doesn't hit a TransactionTooLargeException.
+                            if (logText.isNotBlank() && logText.length <= 20_000) {
+                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.\n\n---\nDiagnostic log:\n\n$logText")
+                            } else {
+                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.")
+                                if (logFile.exists()) {
+                                    val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", logFile)
+                                    putExtra(Intent.EXTRA_STREAM, uri)
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                }
+                            }
+                        }
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.report_a_problem)))
                     }
                 )
             }
