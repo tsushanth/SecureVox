@@ -17,7 +17,11 @@ import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.WhisperModel
+import com.securevox.app.whisper.WhisperLanguage
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.securevox.app.presentation.settings.dataStore
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class RecordingDetailViewModel(
@@ -109,16 +113,30 @@ class RecordingDetailViewModel(
     /**
      * Re-run transcription with a specific model.
      * Clears existing segments so the UI reflects fresh results.
+     *
+     * Uses the user's *currently selected* language preference (Settings), not the
+     * recording's saved `language` field. Previously this passed `rec.language`, which
+     * is stale the moment the user changes their language selection and doesn't
+     * override it back to their new choice - and if `rec.language` was ever null,
+     * TranscriptionWorker's `?: "en"` default silently forced English regardless of
+     * what the user had picked. Confirmed via a real user report: switching from
+     * Tiny to Base/Small flipped Japanese transcripts to English with no way back.
      */
     fun retryTranscription(model: WhisperModel) {
         viewModelScope.launch {
             val rec = recording.value ?: return@launch
             repository.updateTranscriptionStatus(rec.id, com.securevox.app.data.model.TranscriptionStatus.PENDING, 0)
             repository.deleteSegmentsForRecording(rec.id)
+            val selectedLanguageKey = stringPreferencesKey("selected_language")
+            val currentLanguageCode = getApplication<Application>().dataStore.data.first()[selectedLanguageKey]
+                ?.let { WhisperLanguage.fromCode(it) }
+                ?.takeIf { it != WhisperLanguage.AUTO }
+                ?.code
+                ?: rec.language
             val workRequest = TranscriptionWorker.createWorkRequest(
                 recordingId = rec.id,
                 modelName = model.fileName,
-                language = rec.language
+                language = currentLanguageCode
             )
             WorkManager.getInstance(getApplication()).enqueue(workRequest)
         }
