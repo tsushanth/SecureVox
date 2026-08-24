@@ -362,11 +362,23 @@ final class RecordingDetailViewModel: ObservableObject {
         let engineName = transcriptionEngine.displayName
         statusMessage = "Transcribing with \(engineName)..."
 
-        // Perform transcription
+        // Perform transcription.
+        //
+        // Uses the user's *currently selected* language preference (Settings), not the
+        // recording's saved `language` field. Previously this passed `recording.language`
+        // unconditionally, which is stale the moment the user changes their language
+        // selection - re-picking a language in Settings had no effect on a later
+        // "improve with model" retry since it always read the old per-recording value.
+        // Reported by a user: switching from Tiny to Base/Small flipped Japanese
+        // transcripts to English with no way back. Android has the same fix
+        // (RecordingDetailViewModel.kt's retryTranscription).
         do {
+            let preferredLanguage = UserDefaults.standard.string(forKey: AppConstants.UserDefaultsKeys.defaultLanguage)
+            let languageCode = (preferredLanguage != nil && preferredLanguage != "auto") ? preferredLanguage : recording.language
+
             let segments = try await transcriber.transcribe(
                 audioURL: audioURL,
-                languageCode: recording.language,
+                languageCode: languageCode,
                 onPartial: { [weak self] progressValue, partialText in
                     Task { @MainActor [weak self] in
                         self?.handlePartialResult(progress: progressValue, text: partialText)
