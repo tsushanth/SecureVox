@@ -13,15 +13,18 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 import com.securevox.app.presentation.settings.ThemeMode
 
+// Light scheme kept for ThemeMode.LIGHT, restyled to the same warm-neutral-on-ink
+// logic inverted — Recorder itself has no light mode to match against, so this
+// stays close to the prior Material baseline rather than inventing one.
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1976D2),
+    primary = Color(0xFF6B5FC7),
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFBBDEFB),
-    onPrimaryContainer = Color(0xFF0D47A1),
-    secondary = Color(0xFF26A69A),
+    primaryContainer = Color(0xFFE3E0FB),
+    onPrimaryContainer = Color(0xFF2B2470),
+    secondary = Color(0xFFD9776C),
     onSecondary = Color.White,
-    secondaryContainer = Color(0xFFB2DFDB),
-    onSecondaryContainer = Color(0xFF004D40),
+    secondaryContainer = Color(0xFFFBE1DD),
+    onSecondaryContainer = Color(0xFF5C1F1B),
     tertiary = Color(0xFF7E57C2),
     onTertiary = Color.White,
     background = Color(0xFFFAFAFA),
@@ -34,31 +37,38 @@ private val LightColorScheme = lightColorScheme(
     onError = Color.White
 )
 
+// Dark scheme is the actual restyle target: fixed tokens sampled from Google
+// Recorder, not Material You dynamic color. Coral is reserved for
+// record/live/destructive; lavender for playback/resume/positive progress —
+// each used for exactly one meaning throughout the app.
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF64B5F6),
-    onPrimary = Color(0xFF003258),
-    primaryContainer = Color(0xFF004880),
-    onPrimaryContainer = Color(0xFFD1E4FF),
-    secondary = Color(0xFF80CBC4),
-    onSecondary = Color(0xFF003731),
-    secondaryContainer = Color(0xFF005048),
-    onSecondaryContainer = Color(0xFFA7F3ED),
-    tertiary = Color(0xFFB39DDB),
-    onTertiary = Color(0xFF381E72),
-    background = Color(0xFF121212),
-    onBackground = Color(0xFFE6E1E5),
-    surface = Color(0xFF1E1E1E),
-    onSurface = Color(0xFFE6E1E5),
-    surfaceVariant = Color(0xFF2C2C2E),
-    onSurfaceVariant = Color(0xFFCAC4D0),
-    error = Color(0xFFEF5350),
-    onError = Color(0xFF601410)
+    primary = RecorderLavender,
+    onPrimary = Color(0xFF1C1A33),
+    primaryContainer = Color(0xFF383359),
+    onPrimaryContainer = RecorderLavender,
+    secondary = RecorderCoral,
+    onSecondary = Color(0xFF3D0F0B),
+    secondaryContainer = RecorderCoralDim,
+    onSecondaryContainer = RecorderCoral,
+    tertiary = RecorderLavender,
+    onTertiary = Color(0xFF1C1A33),
+    background = RecorderInk,
+    onBackground = RecorderTextPrimary,
+    surface = RecorderSurface,
+    onSurface = RecorderTextPrimary,
+    surfaceVariant = RecorderSurfaceRaised,
+    onSurfaceVariant = RecorderTextSecondary,
+    error = RecorderCoral,
+    onError = Color(0xFF3D0F0B)
 )
 
 @Composable
 fun SecureVoxTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
-    dynamicColor: Boolean = true,
+    // Recorder's identity is fixed regardless of the device's wallpaper, so this
+    // no longer defaults to Material You dynamic color — that made SecureVox only
+    // resemble Recorder by coincidence, on whichever wallpaper happened to be set.
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val systemDarkTheme = isSystemInDarkTheme()
