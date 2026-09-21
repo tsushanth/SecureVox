@@ -32,6 +32,7 @@ import com.kreativekoala.ratingkit.RatingKit
 import com.securevox.app.R
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
+import com.securevox.app.presentation.theme.*
 import com.securevox.app.service.MediaImportService
 import java.text.SimpleDateFormat
 import java.util.*
@@ -101,9 +102,6 @@ fun RecordingsScreen(
                 TopAppBar(
                     title = { Text(stringResource(R.string.app_name)) },
                     actions = {
-                        IconButton(onClick = { showSearch = true }) {
-                            Icon(Icons.Default.Search, contentDescription = stringResource(R.string.search))
-                        }
                         IconButton(
                             onClick = {
                                 filePickerLauncher.launch(MediaImportService.getSupportedMimeTypes())
@@ -134,6 +132,10 @@ fun RecordingsScreen(
                 .fillMaxSize()
                 .padding(padding)
         ) {
+            if (!showSearch) {
+                SearchPill(onClick = { showSearch = true })
+            }
+
             // Recording indicator
             if (isRecording) {
                 RecordingIndicator(
@@ -233,6 +235,36 @@ fun RecordingsScreen(
 }
 
 @Composable
+private fun SearchPill(onClick: () -> Unit) {
+    Surface(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 4.dp),
+        shape = RoundedCornerShape(50),
+        color = RecorderSurface
+    ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                Icons.Default.Search,
+                contentDescription = null,
+                tint = RecorderTextSecondary,
+                modifier = Modifier.size(20.dp)
+            )
+            Spacer(Modifier.width(12.dp))
+            Text(
+                text = stringResource(R.string.search_recordings),
+                color = RecorderTextSecondary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
+    }
+}
+
+@Composable
 private fun ImportingIndicator(progress: Float) {
     Card(
         modifier = Modifier
@@ -287,11 +319,14 @@ private fun RecordButton(
     audioLevel: Float,
     onClick: () -> Unit
 ) {
+    // Coral, not lavender: coral is reserved for "recording is live" throughout
+    // this screen, lavender for playback/resume. Matches Recorder's own record
+    // button, which is never the same color as its Play/Resume controls.
     LargeFloatingActionButton(
         onClick = onClick,
         shape = CircleShape,
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = Color.White
+        containerColor = MaterialTheme.colorScheme.secondary,
+        contentColor = MaterialTheme.colorScheme.onSecondary
     ) {
         Icon(
             imageVector = Icons.Default.Mic,
@@ -310,117 +345,174 @@ private fun RecordingIndicator(
     onResume: () -> Unit,
     onStop: () -> Unit
 ) {
-    Card(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.errorContainer
-        )
+        shape = RoundedCornerShape(28.dp),
+        color = RecorderSurface
     ) {
-        Column {
+        Column(modifier = Modifier.padding(20.dp)) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 8.dp, top = 8.dp, bottom = 4.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    if (!isPaused) {
-                        val alpha by rememberInfiniteTransition(label = "dot").animateFloat(
-                            initialValue = 1f,
-                            targetValue = 0.3f,
-                            animationSpec = infiniteRepeatable(
-                                animation = tween(500),
-                                repeatMode = RepeatMode.Reverse
-                            ),
-                            label = "dot"
-                        )
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .clip(CircleShape)
-                                .background(Color.Red.copy(alpha = alpha))
-                        )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(12.dp)
-                                .clip(CircleShape)
-                                .background(MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.4f))
-                        )
-                    }
-                    Text(
-                        text = if (isPaused) "Paused" else stringResource(R.string.recording_label),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onErrorContainer
+                if (!isPaused) {
+                    val alpha by rememberInfiniteTransition(label = "dot").animateFloat(
+                        initialValue = 1f,
+                        targetValue = 0.3f,
+                        animationSpec = infiniteRepeatable(
+                            animation = tween(500),
+                            repeatMode = RepeatMode.Reverse
+                        ),
+                        label = "dot"
                     )
-                }
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        text = formatDuration(duration),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onErrorContainer
-                    )
-                    // Pause / Resume
-                    IconButton(onClick = if (isPaused) onResume else onPause) {
-                        Icon(
-                            imageVector = if (isPaused) Icons.Default.PlayArrow else Icons.Default.Pause,
-                            contentDescription = if (isPaused) "Resume" else "Pause",
-                            tint = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    }
-                    // Stop
-                    IconButton(onClick = onStop) {
-                        Icon(
-                            imageVector = Icons.Default.Stop,
-                            contentDescription = stringResource(R.string.stop_recording),
-                            tint = MaterialTheme.colorScheme.onErrorContainer
-                        )
-                    }
-                }
-            }
-
-            // Audio level bar (hidden while paused)
-            if (!isPaused) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(4.dp)
-                        .padding(horizontal = 16.dp)
-                        .clip(RoundedCornerShape(2.dp))
-                        .background(MaterialTheme.colorScheme.onErrorContainer.copy(alpha = 0.2f))
-                ) {
                     Box(
                         modifier = Modifier
-                            .fillMaxWidth(audioLevel)
-                            .fillMaxHeight()
-                            .background(Color.Red)
+                            .size(12.dp)
+                            .clip(CircleShape)
+                            .background(RecorderCoral.copy(alpha = alpha))
+                    )
+                } else {
+                    Box(
+                        modifier = Modifier
+                            .size(12.dp)
+                            .clip(CircleShape)
+                            .background(RecorderTextSecondary.copy(alpha = 0.5f))
                     )
                 }
+                Text(
+                    text = if (isPaused) "Paused" else stringResource(R.string.recording_label),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = RecorderTextPrimary,
+                    modifier = Modifier.weight(1f)
+                )
+                Text(
+                    text = formatDuration(duration),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = RecorderTextPrimary
+                )
             }
-            Spacer(modifier = Modifier.height(12.dp))
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Real live amplitude, not decorative: this is the same audioLevel
+            // stream driving the record button's pulse, rendered the way
+            // Recorder renders its own live waveform during active recording.
+            LiveWaveform(audioLevel = audioLevel, isPaused = isPaused)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Surface(
+                    onClick = if (isPaused) onResume else onPause,
+                    shape = RoundedCornerShape(50),
+                    color = RecorderSurfaceRaised,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(vertical = 14.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = if (isPaused) Icons.Default.PlayArrow else Icons.Default.Pause,
+                            contentDescription = null,
+                            tint = RecorderTextPrimary,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = if (isPaused) "Resume" else "Pause",
+                            color = RecorderTextPrimary,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+                Surface(
+                    onClick = onStop,
+                    shape = RoundedCornerShape(50),
+                    color = RecorderCoral,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Row(
+                        modifier = Modifier.padding(vertical = 14.dp),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Stop,
+                            contentDescription = null,
+                            tint = RecorderCoralDim,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(Modifier.width(8.dp))
+                        Text(
+                            text = stringResource(R.string.stop_recording),
+                            color = RecorderCoralDim,
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Live amplitude bars, one new bar appended per composition tick while
+ * recording. Heights come directly from [audioLevel] — the same value already
+ * driving the record button — not a decorative placeholder.
+ */
+@Composable
+private fun LiveWaveform(audioLevel: Float, isPaused: Boolean) {
+    val barCount = 40
+    val levels = remember { mutableStateListOf<Float>().apply { repeat(barCount) { add(0f) } } }
+
+    LaunchedEffect(audioLevel, isPaused) {
+        if (!isPaused) {
+            levels.removeAt(0)
+            levels.add(audioLevel.coerceIn(0f, 1f))
+        }
+    }
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(40.dp),
+        horizontalArrangement = Arrangement.spacedBy(3.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        levels.forEach { level ->
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .heightIn(min = 3.dp)
+                    .fillMaxHeight(fraction = (0.08f + level * 0.92f).coerceIn(0.08f, 1f))
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(if (isPaused) RecorderTextTertiary else RecorderCoral)
+            )
         }
     }
 }
 
 @Composable
 private fun TranscriptionStatusChip(status: TranscriptionStatus) {
+    // PENDING is neutral, not coral — coral means "live/destructive" everywhere
+    // else in this app, and a queued transcription is neither.
     val (text, color) = when (status) {
-        TranscriptionStatus.PENDING -> stringResource(R.string.status_pending) to MaterialTheme.colorScheme.secondary
-        TranscriptionStatus.IN_PROGRESS -> stringResource(R.string.status_processing) to MaterialTheme.colorScheme.tertiary
+        TranscriptionStatus.PENDING -> stringResource(R.string.status_pending) to RecorderTextSecondary
+        TranscriptionStatus.IN_PROGRESS -> stringResource(R.string.status_processing) to MaterialTheme.colorScheme.primary
         TranscriptionStatus.COMPLETED -> stringResource(R.string.status_done) to MaterialTheme.colorScheme.primary
         TranscriptionStatus.FAILED -> stringResource(R.string.status_failed) to MaterialTheme.colorScheme.error
     }
 
     Surface(
-        shape = RoundedCornerShape(16.dp),
-        color = color.copy(alpha = 0.1f)
+        shape = RoundedCornerShape(50),
+        color = color.copy(alpha = 0.16f)
     ) {
         Text(
             text = text,
@@ -481,10 +573,21 @@ private fun FilterTabs(
             .padding(horizontal = 16.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
+        // Selection uses lavender explicitly rather than the default FilterChip
+        // color (which reads colorScheme.secondary — coral here) — coral is
+        // reserved for record/live/destructive, and "this filter is active" is
+        // neither.
+        val selectedChipColors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = RecorderLavender.copy(alpha = 0.22f),
+            selectedLabelColor = RecorderLavender,
+            selectedLeadingIconColor = RecorderLavender
+        )
         FilterChip(
             selected = currentFilter == RecordingsFilter.ALL,
             onClick = { onFilterSelected(RecordingsFilter.ALL) },
             label = { Text(stringResource(R.string.filter_all)) },
+            shape = RoundedCornerShape(50),
+            colors = selectedChipColors,
             leadingIcon = if (currentFilter == RecordingsFilter.ALL) {
                 { Icon(Icons.Default.Check, contentDescription = null, modifier = Modifier.size(18.dp)) }
             } else null
@@ -493,6 +596,8 @@ private fun FilterTabs(
             selected = currentFilter == RecordingsFilter.FAVORITES,
             onClick = { onFilterSelected(RecordingsFilter.FAVORITES) },
             label = { Text(stringResource(R.string.filter_favorites)) },
+            shape = RoundedCornerShape(50),
+            colors = selectedChipColors,
             leadingIcon = {
                 Icon(
                     if (currentFilter == RecordingsFilter.FAVORITES) Icons.Default.Star else Icons.Default.StarBorder,
@@ -516,10 +621,13 @@ private fun SwipeableRecordingItem(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showActions by remember { mutableStateOf(false) }
 
-    Card(
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable(onClick = onClick)
+            .clip(RoundedCornerShape(20.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(20.dp),
+        color = RecorderSurface
     ) {
         Column {
             Row(
