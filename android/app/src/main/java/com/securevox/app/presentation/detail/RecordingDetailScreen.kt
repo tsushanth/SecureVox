@@ -23,11 +23,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.securevox.app.R
+import com.securevox.app.presentation.theme.*
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.ExportFormat
@@ -372,10 +374,10 @@ private fun SegmentRow(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(14.dp))
             .background(
-                if (isActive) MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.5f)
-                else MaterialTheme.colorScheme.surface
+                if (isActive) RecorderLavender.copy(alpha = 0.16f)
+                else Color.Transparent
             )
             .clickable(onClick = onClick)
             .padding(12.dp),
@@ -384,14 +386,14 @@ private fun SegmentRow(
         Text(
             text = formatTime(segment.startTimeMs),
             style = MaterialTheme.typography.bodySmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = RecorderTextSecondary,
             modifier = Modifier.width(48.dp)
         )
         Text(
             text = segment.text,
             style = MaterialTheme.typography.bodyMedium,
             fontWeight = if (isActive) FontWeight.Medium else FontWeight.Normal,
-            color = if (isActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurface,
+            color = if (isActive) RecorderLavender else RecorderTextPrimary,
             modifier = Modifier.weight(1f)
         )
     }
@@ -413,7 +415,7 @@ private fun PlaybackControls(
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        tonalElevation = 8.dp
+        color = RecorderSurface
     ) {
         Column(
             modifier = Modifier
@@ -424,7 +426,12 @@ private fun PlaybackControls(
             Slider(
                 value = if (duration > 0) currentPosition.toFloat() / duration else 0f,
                 onValueChange = { onSeek((it * duration).toLong()) },
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                colors = SliderDefaults.colors(
+                    thumbColor = RecorderLavender,
+                    activeTrackColor = RecorderLavender,
+                    inactiveTrackColor = RecorderTextTertiary
+                )
             )
 
             // Time labels
@@ -435,12 +442,12 @@ private fun PlaybackControls(
                 Text(
                     text = formatTime(currentPosition),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = RecorderTextSecondary
                 )
                 Text(
                     text = formatTime(duration),
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = RecorderTextSecondary
                 )
             }
 
@@ -454,14 +461,18 @@ private fun PlaybackControls(
             ) {
                 // Speed button
                 Box {
-                    FilledTonalButton(
+                    Surface(
                         onClick = { showSpeedMenu = true },
-                        modifier = Modifier.width(64.dp),
-                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 4.dp)
+                        shape = RoundedCornerShape(50),
+                        color = RecorderSurfaceRaised,
+                        modifier = Modifier.width(64.dp)
                     ) {
                         Text(
                             text = playbackSpeed.displayName,
-                            style = MaterialTheme.typography.labelMedium
+                            style = MaterialTheme.typography.labelMedium,
+                            color = RecorderTextPrimary,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth()
                         )
                     }
                     DropdownMenu(
@@ -485,7 +496,7 @@ private fun PlaybackControls(
                                         Icon(
                                             Icons.Default.Check,
                                             contentDescription = stringResource(R.string.selected),
-                                            tint = MaterialTheme.colorScheme.primary
+                                            tint = RecorderLavender
                                         )
                                     }
                                 }
@@ -494,30 +505,52 @@ private fun PlaybackControls(
                     }
                 }
 
-                IconButton(onClick = onSkipBack) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(RecorderSurfaceRaised)
+                        .clickable(onClick = onSkipBack),
+                    contentAlignment = Alignment.Center
+                ) {
                     Icon(
                         Icons.Default.Replay10,
                         contentDescription = stringResource(R.string.skip_back_10),
-                        modifier = Modifier.size(32.dp)
+                        tint = RecorderTextPrimary,
+                        modifier = Modifier.size(26.dp)
                     )
                 }
 
-                FloatingActionButton(
-                    onClick = onPlayPause,
-                    modifier = Modifier.size(64.dp)
+                // Lavender: playback, not recording — coral is reserved for that.
+                Box(
+                    modifier = Modifier
+                        .size(64.dp)
+                        .clip(CircleShape)
+                        .background(RecorderLavender)
+                        .clickable(onClick = onPlayPause),
+                    contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         if (isPlaying) Icons.Default.Pause else Icons.Default.PlayArrow,
                         contentDescription = if (isPlaying) stringResource(R.string.pause) else stringResource(R.string.play),
+                        tint = Color(0xFF1C1A33),
                         modifier = Modifier.size(32.dp)
                     )
                 }
 
-                IconButton(onClick = onSkipForward) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(RecorderSurfaceRaised)
+                        .clickable(onClick = onSkipForward),
+                    contentAlignment = Alignment.Center
+                ) {
                     Icon(
                         Icons.Default.Forward10,
                         contentDescription = stringResource(R.string.skip_forward_10),
-                        modifier = Modifier.size(32.dp)
+                        tint = RecorderTextPrimary,
+                        modifier = Modifier.size(26.dp)
                     )
                 }
 
@@ -540,24 +573,27 @@ private fun TranscriptionProgress(progress: Int?) {
             modifier = Modifier.padding(32.dp)
         ) {
             if (progress != null && progress > 0) {
-                CircularProgressIndicator(progress = progress / 100f)
+                CircularProgressIndicator(progress = progress / 100f, color = RecorderLavender)
             } else {
-                CircularProgressIndicator()
+                CircularProgressIndicator(color = RecorderLavender)
             }
             Text(
                 text = if (progress != null && progress > 0) "Transcribing… $progress%" else stringResource(R.string.transcribing),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = RecorderTextPrimary
             )
             if (progress != null && progress > 0) {
                 LinearProgressIndicator(
                     progress = progress / 100f,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = RecorderLavender,
+                    trackColor = RecorderTextTertiary
                 )
             }
             Text(
                 text = stringResource(R.string.transcription_may_take_minutes),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = RecorderTextSecondary
             )
         }
     }
@@ -567,7 +603,7 @@ private fun TranscriptionProgress(progress: Int?) {
 private fun TranscriptionProgressBanner(progress: Int?) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
-        color = MaterialTheme.colorScheme.secondaryContainer
+        color = RecorderSurfaceRaised
     ) {
         Column(modifier = Modifier.fillMaxWidth()) {
             Row(
@@ -580,13 +616,13 @@ private fun TranscriptionProgressBanner(progress: Int?) {
                 Text(
                     text = if (progress != null && progress > 0) "Transcribing… $progress%" else "Transcribing…",
                     style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = RecorderTextPrimary
                 )
                 if (progress != null && progress > 0) {
                     Text(
                         text = "${100 - progress}% remaining",
                         style = MaterialTheme.typography.labelSmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.7f)
+                        color = RecorderTextSecondary
                     )
                 }
             }
@@ -594,14 +630,14 @@ private fun TranscriptionProgressBanner(progress: Int?) {
                 LinearProgressIndicator(
                     progress = progress / 100f,
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.secondary,
-                    trackColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.2f)
+                    color = RecorderLavender,
+                    trackColor = RecorderTextTertiary
                 )
             } else {
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.secondary,
-                    trackColor = MaterialTheme.colorScheme.onSecondaryContainer.copy(alpha = 0.2f)
+                    color = RecorderLavender,
+                    trackColor = RecorderTextTertiary
                 )
             }
         }
@@ -622,11 +658,12 @@ private fun TranscriptionPending() {
                 Icons.Default.TextSnippet,
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f)
+                tint = RecorderTextTertiary
             )
             Text(
                 text = stringResource(R.string.transcription_pending),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = RecorderTextPrimary
             )
         }
     }
@@ -646,16 +683,17 @@ private fun TranscriptionFailed() {
                 Icons.Default.ErrorOutline,
                 contentDescription = null,
                 modifier = Modifier.size(64.dp),
-                tint = MaterialTheme.colorScheme.error
+                tint = RecorderCoral
             )
             Text(
                 text = stringResource(R.string.transcription_failed),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
+                color = RecorderTextPrimary
             )
             Text(
                 text = stringResource(R.string.please_try_again),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = RecorderTextSecondary
             )
         }
     }
