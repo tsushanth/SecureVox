@@ -29,7 +29,7 @@ platform :android do
 
   desc "Stage a production rollout. Pass rollout: 0.1 for 10%, 0.5 for 50%."
   lane :deploy_staged do
-    rollout = (ENV["ROLLOUT"] || "0.1").to_f
+    rollout = ENV["ROLLOUT"] || "0.1"
 
     upload_to_play_store(
       track: "production",
