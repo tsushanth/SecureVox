@@ -8,6 +8,7 @@ enum class WhisperModel(
     val fileName: String,
     val displayName: String,
     val sizeBytes: Long,
+    val sha256: String,
     val description: String,
     val accuracy: String,
     val speed: String
@@ -15,7 +16,8 @@ enum class WhisperModel(
     TINY(
         fileName = "ggml-tiny.bin",
         displayName = "Tiny",
-        sizeBytes = 75_000_000L,  // ~75MB
+        sizeBytes = 77_691_713L,
+        sha256 = "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
         description = "Fast transcription, good for quick notes",
         accuracy = "Good",
         speed = "~1x realtime"
@@ -23,7 +25,8 @@ enum class WhisperModel(
     BASE(
         fileName = "ggml-base.bin",
         displayName = "Base",
-        sizeBytes = 148_000_000L,  // ~148MB
+        sizeBytes = 147_951_465L,
+        sha256 = "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
         description = "Balanced speed and accuracy",
         accuracy = "Better",
         speed = "~2-3x realtime"
@@ -31,7 +34,8 @@ enum class WhisperModel(
     SMALL(
         fileName = "ggml-small.bin",
         displayName = "Small",
-        sizeBytes = 488_000_000L,  // ~488MB
+        sizeBytes = 487_601_967L,
+        sha256 = "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b",
         description = "Best accuracy for mobile devices",
         accuracy = "Best",
         speed = "~5-8x realtime"
