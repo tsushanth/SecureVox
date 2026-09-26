@@ -1,0 +1,5 @@
+• Correction d'un cas où un fichier de modèle corrompu pouvait passer inaperçu et échouer plus tard lors de la transcription
+• L'intégrité du modèle est revérifiée une fois après chaque mise à jour de l'application
+• Les modèles sont vérifiés par somme de contrôle : un téléchargement endommagé ne peut plus être confondu avec un modèle fonctionnel
+• Les téléchargements interrompus reprennent où ils se sont arrêtés au lieu de recommencer
+• Libellés de taille de modèle légèrement plus précis

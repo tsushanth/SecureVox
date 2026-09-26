@@ -35,6 +35,15 @@ class ModelManager(private val context: Context) {
         File(context.filesDir, MODELS_DIR).also { it.mkdirs() }
     }
 
+    private val appVersion: Long by lazy {
+        try {
+            context.packageManager.getPackageInfo(context.packageName, 0).longVersionCode
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not read app version, assuming 0", e)
+            0L
+        }
+    }
+
     private val _downloadState = MutableStateFlow<DownloadState>(DownloadState.Idle)
     val downloadState: StateFlow<DownloadState> = _downloadState.asStateFlow()
 
@@ -67,8 +76,9 @@ class ModelManager(private val context: Context) {
             val installed = ModelIntegrity.isInstalled(file, model)
 
             if (installed) {
-                // Models installed before digest tracking have no marker yet.
-                ModelIntegrity.verifyInBackground(file, model) { ok ->
+                // Re-hashed once per app version; markers from older builds and
+                // unverified legacy installs are validated here.
+                ModelIntegrity.verifyInBackground(file, model, appVersion) { ok ->
                     if (!ok) refreshModelList()
                 }
             }
@@ -147,7 +157,7 @@ class ModelManager(private val context: Context) {
 
         // A previous attempt may have finished downloading but not been promoted.
         if (resumeFrom == model.sizeBytes) {
-            if (ModelIntegrity.verify(partFile, model) && promote(partFile, file, model)) {
+            if (ModelIntegrity.verify(partFile, model, appVersion) && promote(partFile, file, model)) {
                 return@withContext Result.success(file)
             }
             partFile.delete()
@@ -204,7 +214,7 @@ class ModelManager(private val context: Context) {
                 )
             }
 
-            if (!ModelIntegrity.verify(partFile, model)) {
+            if (!ModelIntegrity.verify(partFile, model, appVersion)) {
                 partFile.delete()
                 throw Exception("Downloaded model failed checksum verification")
             }
@@ -252,7 +262,7 @@ class ModelManager(private val context: Context) {
                 return false
             }
         }
-        ModelIntegrity.verify(target, model)
+        ModelIntegrity.verify(target, model, appVersion)
         return target.exists() && target.length() == model.sizeBytes
     }
 
@@ -261,7 +271,7 @@ class ModelManager(private val context: Context) {
      */
     suspend fun repairModel(model: WhisperModel): Result<File> = withContext(Dispatchers.IO) {
         val file = getModelFile(model)
-        if (ModelIntegrity.verify(file, model)) {
+        if (ModelIntegrity.verify(file, model, appVersion)) {
             refreshModelList()
             return@withContext Result.success(file)
         }
@@ -339,7 +349,7 @@ class ModelManager(private val context: Context) {
                     input.copyTo(output)
                 }
             }
-            if (ModelIntegrity.verify(file, tinyModel)) {
+            if (ModelIntegrity.verify(file, tinyModel, appVersion)) {
                 Log.i(TAG, "Copied bundled model from assets")
                 refreshModelList()
                 return@withContext true

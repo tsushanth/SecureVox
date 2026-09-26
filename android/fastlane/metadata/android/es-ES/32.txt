@@ -1,0 +1,5 @@
+• Se corrigió un caso en el que un archivo de modelo dañado podía pasar desapercibido y fallar más tarde durante la transcripción
+• La integridad del modelo se vuelve a comprobar una vez tras cada actualización de la app
+• Los modelos se verifican con una suma de comprobación, así que una descarga dañada no puede confundirse con un modelo funcional
+• Las descargas interrumpidas se reanudan donde se detuvieron en lugar de empezar de nuevo
+• Etiquetas de tamaño de modelo algo más precisas

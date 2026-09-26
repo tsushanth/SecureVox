@@ -21,7 +21,23 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 [bundle exec] fastlane android deploy
 ```
 
+Upload to the production track and complete the rollout immediately
 
+### android deploy_internal
+
+```sh
+[bundle exec] fastlane android deploy_internal
+```
+
+Upload to the internal track for smoke testing before production
+
+### android deploy_staged
+
+```sh
+[bundle exec] fastlane android deploy_staged
+```
+
+Stage a production rollout. Pass rollout: 0.1 for 10%, 0.5 for 50%.
 
 ----
 

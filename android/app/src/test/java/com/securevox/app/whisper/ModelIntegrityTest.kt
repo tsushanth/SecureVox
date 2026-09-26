@@ -16,6 +16,7 @@ class ModelIntegrityTest {
     private val payload = "abc"
     private val payloadSha = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
     private val payloadSize = 3L
+    private val version = 31L
 
     private fun fileWith(contents: String, name: String = "model.bin"): File =
         temp.newFile(name).apply { writeText(contents) }
@@ -27,63 +28,109 @@ class ModelIntegrityTest {
 
     @Test
     fun `sha256 of empty file matches known digest`() {
-        val empty = temp.newFile("empty.bin")
         assertEquals(
             "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-            ModelIntegrity.sha256(empty)
+            ModelIntegrity.sha256(temp.newFile("empty.bin"))
         )
     }
 
     @Test
     fun `missing file is not installed`() {
-        val absent = File(temp.root, "nope.bin")
-        assertFalse(ModelIntegrity.isInstalledAgainst(absent, payloadSize, payloadSha))
+        assertFalse(
+            ModelIntegrity.isInstalledAgainst(File(temp.root, "nope.bin"), payloadSize, payloadSha)
+        )
     }
 
     @Test
     fun `truncated file is not installed`() {
-        val file = fileWith("ab")
-        assertFalse(ModelIntegrity.isInstalledAgainst(file, payloadSize, payloadSha))
+        assertFalse(ModelIntegrity.isInstalledAgainst(fileWith("ab"), payloadSize, payloadSha))
     }
 
     @Test
     fun `correctly sized file without marker is treated as installed`() {
-        val file = fileWith(payload)
-        assertTrue(ModelIntegrity.isInstalledAgainst(file, payloadSize, payloadSha))
+        assertTrue(ModelIntegrity.isInstalledAgainst(fileWith(payload), payloadSize, payloadSha))
     }
 
     @Test
-    fun `stale marker with wrong digest is not installed`() {
+    fun `marker with wrong digest is not installed`() {
         val file = fileWith(payload)
-        ModelIntegrity.markerFile(file).writeText("0000")
+        ModelIntegrity.markerFile(file).writeText("0000:$version")
         assertFalse(ModelIntegrity.isInstalledAgainst(file, payloadSize, payloadSha))
     }
 
     @Test
-    fun `verify succeeds for matching content and writes marker`() {
+    fun `verify succeeds for matching content and stamps version`() {
         val file = fileWith(payload)
-        assertTrue(ModelIntegrity.verifyAgainst(file, payloadSize, payloadSha))
-        assertEquals(payloadSha, ModelIntegrity.markerFile(file).readText())
+        assertTrue(ModelIntegrity.verifyAgainst(file, payloadSize, payloadSha, version))
+        assertEquals("$payloadSha:$version", ModelIntegrity.markerFile(file).readText())
     }
 
     @Test
     fun `verify fails when content does not match expected digest`() {
         val file = fileWith("abd")
-        assertFalse(ModelIntegrity.verifyAgainst(file, payloadSize, payloadSha))
-        assertFalse("marker must not survive a failed verify", ModelIntegrity.markerFile(file).exists())
+        assertFalse(ModelIntegrity.verifyAgainst(file, payloadSize, payloadSha, version))
+        assertFalse(
+            "marker must not survive a failed verify",
+            ModelIntegrity.markerFile(file).exists()
+        )
     }
 
     @Test
     fun `verify fails on size mismatch and clears an existing marker`() {
         val file = fileWith(payload)
-        ModelIntegrity.markerFile(file).writeText(payloadSha)
-        assertFalse(ModelIntegrity.verifyAgainst(file, payloadSize + 1, payloadSha))
+        ModelIntegrity.markerFile(file).writeText("$payloadSha:$version")
+        assertFalse(ModelIntegrity.verifyAgainst(file, payloadSize + 1, payloadSha, version))
         assertFalse(ModelIntegrity.markerFile(file).exists())
     }
 
     @Test
     fun `verify fails for missing file`() {
-        assertFalse(ModelIntegrity.verifyAgainst(File(temp.root, "nope.bin"), payloadSize, payloadSha))
+        assertFalse(
+            ModelIntegrity.verifyAgainst(File(temp.root, "nope.bin"), payloadSize, payloadSha, version)
+        )
+    }
+
+    // Regression: verifyInBackground used to short-circuit whenever a marker was
+    // present, so a forged or stale marker meant the file was never hashed and
+    // silent corruption went undetected.
+
+    @Test
+    fun `needs verification when marker is absent`() {
+        assertTrue(ModelIntegrity.needsVerification(fileWith(payload), version))
+    }
+
+    @Test
+    fun `needs verification when marker is from a different app version`() {
+        val file = fileWith(payload)
+        ModelIntegrity.markerFile(file).writeText("$payloadSha:30")
+        assertTrue(ModelIntegrity.needsVerification(file, version))
+    }
+
+    @Test
+    fun `needs verification when marker holds only a bare digest`() {
+        val file = fileWith(payload)
+        ModelIntegrity.markerFile(file).writeText(payloadSha)
+        assertTrue(ModelIntegrity.needsVerification(file, version))
+    }
+
+    @Test
+    fun `does not need verification when marker matches app version`() {
+        val file = fileWith(payload)
+        ModelIntegrity.markerFile(file).writeText("$payloadSha:$version")
+        assertFalse(ModelIntegrity.needsVerification(file, version))
+    }
+
+    @Test
+    fun `forged marker does not make corrupt content pass verification`() {
+        val file = fileWith("abd")
+        // A marker that claims the correct digest for the wrong bytes.
+        ModelIntegrity.markerFile(file).writeText("$payloadSha:$version")
+
+        // The cheap check is fooled...
+        assertTrue(ModelIntegrity.isInstalledAgainst(file, payloadSize, payloadSha))
+        // ...but the model is still flagged for re-hashing, which then fails.
+        assertTrue(ModelIntegrity.needsVerification(file, version + 1))
+        assertFalse(ModelIntegrity.verifyAgainst(file, payloadSize, payloadSha, version))
     }
 
     @Test
