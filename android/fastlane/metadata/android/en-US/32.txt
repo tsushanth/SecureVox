@@ -1,0 +1,5 @@
+• Fixed a case where a corrupted model file could go undetected and fail later during transcription
+• Model integrity is now re-checked once after each app update
+• Model downloads are verified against a checksum, so a damaged download can no longer be mistaken for a working model
+• Interrupted model downloads now resume where they stopped instead of starting over
+• Slightly more accurate model size labels

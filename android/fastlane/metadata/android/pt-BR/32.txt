@@ -1,0 +1,5 @@
+• Corrigido um caso em que um arquivo de modelo corrompido podia passar despercebido e falhar depois durante a transcrição
+• A integridade do modelo é verificada novamente uma vez após cada atualização do app
+• Os modelos são verificados por checksum, então um download corrompido não pode mais ser confundido com um modelo funcional
+• Downloads interrompidos agora são retomados de onde pararam, em vez de recomeçarem
+• Rótulos de tamanho de modelo um pouco mais precisos

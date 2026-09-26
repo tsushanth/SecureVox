@@ -1,0 +1,5 @@
+• Behoben: Eine beschädigte Modelldatei konnte unentdeckt bleiben und später bei der Transkription fehlschlagen
+• Die Modellintegrität wird nach jedem App-Update einmal erneut geprüft
+• Modelle werden über eine Prüfsumme verifiziert, sodass ein beschädigter Download nicht mehr als funktionierendes Modell gilt
+• Unterbrochene Modelldownloads werden fortgesetzt, statt neu zu beginnen
+• Etwas genauere Angaben zur Modellgröße
