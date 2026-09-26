@@ -1,6 +1,7 @@
 default_platform(:android)
 
 platform :android do
+  desc "Upload to the production track and complete the rollout immediately"
   lane :deploy do
     upload_to_play_store(
       track: "production",
@@ -10,6 +11,36 @@ platform :android do
       skip_upload_screenshots: true,
       skip_upload_changelogs: false,
       release_status: "completed"
+    )
+  end
+
+  desc "Upload to the internal track for smoke testing before production"
+  lane :deploy_internal do
+    upload_to_play_store(
+      track: "internal",
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      skip_upload_metadata: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: false,
+      release_status: "completed"
+    )
+  end
+
+  desc "Stage a production rollout. Pass rollout: 0.1 for 10%, 0.5 for 50%."
+  lane :deploy_staged do
+    rollout = (ENV["ROLLOUT"] || "0.1").to_f
+
+    upload_to_play_store(
+      track: "production",
+      aab: "app/build/outputs/bundle/release/app-release.aab",
+      # Metadata is uploaded so the changelog in fastlane/metadata reaches Play.
+      skip_upload_metadata: false,
+      skip_upload_images: true,
+      skip_upload_screenshots: true,
+      skip_upload_changelogs: false,
+      release_status: "inProgress",
+      rollout: rollout
     )
   end
 end
