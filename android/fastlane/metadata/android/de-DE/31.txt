@@ -1,0 +1,4 @@
+• Modelle werden jetzt über eine Prüfsumme verifiziert, sodass ein beschädigter Download nicht mehr als funktionierendes Modell gilt
+• Unterbrochene Modelldownloads werden jetzt fortgesetzt, statt neu zu beginnen
+• Behoben: Ein Modelldownload konnte Erfolg melden, obwohl er nicht abgeschlossen war
+• Etwas genauere Angaben zur Modellgröße

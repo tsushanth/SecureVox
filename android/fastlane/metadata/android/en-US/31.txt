@@ -1,0 +1,4 @@
+• Model downloads are now verified against a checksum, so a damaged download can no longer be mistaken for a working model
+• Interrupted model downloads now resume where they stopped instead of starting over
+• Fixed a case where a model download could report success without actually finishing
+• Slightly more accurate model size labels

@@ -1,0 +1,4 @@
+• Les téléchargements de modèles sont désormais vérifiés par somme de contrôle : un téléchargement endommagé ne peut plus être confondu avec un modèle fonctionnel
+• Les téléchargements interrompus reprennent où ils se sont arrêtés au lieu de recommencer
+• Correction d'un cas où le téléchargement d'un modèle pouvait être annoncé comme réussi sans l'avoir été
+• Libellés de taille de modèle légèrement plus précis

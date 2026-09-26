@@ -1,0 +1,4 @@
+• Las descargas de modelos se verifican ahora con una suma de comprobación, por lo que una descarga dañada ya no puede confundirse con un modelo funcional
+• Las descargas interrumpidas se reanudan donde se detuvieron en lugar de empezar de nuevo
+• Se corrigió un caso en el que la descarga de un modelo podía indicar que había terminado sin haberlo hecho
+• Etiquetas de tamaño de modelo algo más precisas
