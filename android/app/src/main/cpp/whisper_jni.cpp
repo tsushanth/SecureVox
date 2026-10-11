@@ -58,7 +58,8 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     jlong contextPtr,
     jfloatArray audioData,
     jstring language,
-    jobject progressCallback) {
+    jobject progressCallback,
+    jboolean fast) {
 
     auto* ctx = reinterpret_cast<whisper_context*>(contextPtr);
     if (ctx == nullptr) {
@@ -88,6 +89,13 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     params.offset_ms = 0;
     params.no_context = true;
     params.single_segment = false;
+
+    if (fast) {
+        // Live captions: a late answer is worthless, so never retry at a higher temperature
+        // (that alone can turn a 2s pass into 20s on noisy audio). Shortening the encoder
+        // window (audio_ctx) and no_timestamps were both tried and returned empty text.
+        params.temperature_inc = 0.0f;
+    }
 
     // Progress callback
     jclass callbackClass = nullptr;

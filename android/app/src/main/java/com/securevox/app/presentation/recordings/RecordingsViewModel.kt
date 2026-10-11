@@ -17,7 +17,12 @@ import com.securevox.app.service.ImportResult
 import com.securevox.app.service.MediaImportService
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.WhisperLanguage
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
+import com.securevox.app.SecureVoxApp
+import com.securevox.app.whisper.LiveCaption
+import com.securevox.app.whisper.LiveTranscriber
+import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.launch
 import androidx.datastore.preferences.core.stringPreferencesKey
 import java.io.File
@@ -155,6 +160,46 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
         File(getApplication<Application>().filesDir, "recordings").also { it.mkdirs() }
     }
 
+    private var liveTranscriber: LiveTranscriber? = null
+    private var liveCaptionJob: Job? = null
+    private val _liveCaption = MutableStateFlow(LiveCaption())
+    val liveCaption: StateFlow<LiveCaption> = _liveCaption.asStateFlow()
+
+    /**
+     * Starts rolling captions for the recording in progress. Uses Base when it is
+     * downloaded, otherwise Tiny; Small is too slow to keep up with speech on most phones.
+     */
+    private fun startLiveCaptions() {
+        viewModelScope.launch {
+            val enabled = dataStore.data.first()[LiveTranscriber.KEY_ENABLED] ?: true
+            if (!enabled || !audioRecorder.isRecording.value) return@launch
+            val models = SecureVoxApp.instance.modelManager
+            val model = listOf(WhisperModel.BASE, WhisperModel.TINY)
+                .firstOrNull { models.isModelDownloaded(it) } ?: return@launch
+
+            val transcriber = LiveTranscriber(
+                context = getApplication(),
+                modelPath = models.getModelPath(model),
+                language = getSelectedLanguageCode(),
+                audio = audioRecorder.liveAudio,
+                scope = viewModelScope
+            )
+            liveTranscriber = transcriber
+            liveCaptionJob = launch { transcriber.caption.collect { _liveCaption.value = it } }
+            transcriber.start()
+        }
+    }
+
+    private fun stopLiveCaptions() {
+        val transcriber = liveTranscriber ?: return
+        liveTranscriber = null
+        liveCaptionJob?.cancel()
+        liveCaptionJob = null
+        _liveCaption.value = LiveCaption()
+        // Freeing the model has to wait for the pass in flight, so keep it off the main thread.
+        viewModelScope.launch { transcriber.stop() }
+    }
+
     fun startRecording() {
         val timestamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val fileName = "recording_$timestamp.wav"
@@ -171,6 +216,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
             viewModelScope.launch {
                 repository.saveRecording(recording)
             }
+            startLiveCaptions()
         }
     }
 
@@ -183,6 +229,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun stopRecording() {
+        stopLiveCaptions()
         val filePath = audioRecorder.stopRecording() ?: return
         val recordingId = _currentRecordingId.value ?: return
 
@@ -290,6 +337,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     override fun onCleared() {
         super.onCleared()
+        stopLiveCaptions()
         audioRecorder.release()
     }
 }

@@ -50,6 +50,11 @@ android {
     }
 
     buildTypes {
+        // Installs next to the Play build instead of failing on its signature, so a debug
+        // install can never touch real recordings.
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
             isMinifyEnabled = false
             isShrinkResources = false
@@ -125,6 +130,7 @@ dependencies {
 
     // Work Manager for background transcription
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.biometric:biometric:1.1.0")
 
     // In-App Review
     implementation("com.google.android.play:review:2.0.1")

@@ -11,7 +11,11 @@ import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
 import kotlinx.coroutines.delay
 import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
@@ -36,6 +40,14 @@ class AudioRecorderService(private val context: Context) {
     private var audioRecord: AudioRecord? = null
     private var recordingJob: Job? = null
     private var outputFile: File? = null
+
+    // Raw 16 kHz PCM as it is captured, for live captions. Dropping the oldest chunk when a
+    // collector falls behind keeps the recording loop from ever waiting on a slow consumer.
+    private val _liveAudio = MutableSharedFlow<ShortArray>(
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val liveAudio: SharedFlow<ShortArray> = _liveAudio.asSharedFlow()
 
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
@@ -213,6 +225,9 @@ class AudioRecorderService(private val context: Context) {
 
                 if (readResult > 0) {
                     updateAudioLevel(buffer, readResult)
+                    if (_liveAudio.subscriptionCount.value > 0) {
+                        _liveAudio.tryEmit(buffer.copyOf(readResult))
+                    }
 
                     val byteBuffer = ByteBuffer.allocate(readResult * 2)
                     byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
