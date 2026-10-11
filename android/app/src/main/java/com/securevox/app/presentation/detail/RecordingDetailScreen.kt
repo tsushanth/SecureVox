@@ -239,6 +239,9 @@ fun RecordingDetailScreen(
                     segments.isEmpty() && isInProgress -> {
                         TranscriptionProgress(progress = transcriptionProgress)
                     }
+                    segments.isEmpty() && recording?.transcriptionStatus == TranscriptionStatus.COMPLETED -> {
+                        NoSpeechDetected()
+                    }
                     segments.isEmpty() -> {
                         TranscriptionPending()
                     }
@@ -679,6 +682,31 @@ private fun TranscriptionPending() {
                 text = stringResource(R.string.transcription_pending),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+    }
+}
+
+@Composable
+private fun NoSpeechDetected() {
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.padding(32.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.no_speech_detected),
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = stringResource(R.string.no_speech_detected_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
