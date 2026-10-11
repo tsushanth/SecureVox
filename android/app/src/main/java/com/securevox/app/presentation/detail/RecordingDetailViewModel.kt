@@ -16,6 +16,7 @@ import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.service.TranscriptionWorker
+import com.securevox.app.whisper.NonSpeech
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.whisper.WhisperLanguage
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -44,7 +45,14 @@ class RecordingDetailViewModel(
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
+    // Older recordings were saved with Whisper's [BLANK_AUDIO]-style markers; hide them here so
+    // the transcript, copy and export all agree, whatever version transcribed the recording.
     val segments: StateFlow<List<TranscriptSegment>> = repository.getSegmentsForRecording(recordingId)
+        .map { list ->
+            list.mapNotNull { segment ->
+                NonSpeech.strip(segment.text).takeIf { it.isNotEmpty() }?.let { segment.copy(text = it) }
+            }
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
     // Live transcription progress (0-100) from WorkManager, null if not actively running

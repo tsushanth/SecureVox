@@ -2,12 +2,19 @@ package com.securevox.app
 
 import android.app.Application
 import com.kreativekoala.ratingkit.RatingKit
+import com.securevox.app.data.DurationRepair
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.tts.ReadAloudManager
 import com.securevox.app.util.CrashLogger
 import com.securevox.app.whisper.ModelManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 class SecureVoxApp : Application() {
+
+    private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     val database: SecureVoxDatabase by lazy {
         SecureVoxDatabase.getInstance(this)
@@ -29,6 +36,7 @@ class SecureVoxApp : Application() {
         // Problem. Chains to the previous default handler so normal OS crash behavior continues.
         CrashLogger.install(this)
         RatingKit.init(this, appId = "securevox")
+        appScope.launch { runCatching { DurationRepair.runOnce(this@SecureVoxApp) } }
     }
 
     companion object {

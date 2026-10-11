@@ -121,6 +121,7 @@ class WhisperLib(private val context: Context) {
                 .replace("\\r", "\r")
                 .replace("\\t", "\t")
                 .trim()
+                .let { NonSpeech.strip(it) }
 
             val startMs = match.groupValues[2].toDoubleOrNull() ?: 0.0
             val endMs = match.groupValues[3].toDoubleOrNull() ?: 0.0

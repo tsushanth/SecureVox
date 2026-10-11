@@ -152,11 +152,7 @@ class LiveTranscriber(
         return sqrt(sum / (to - start)).toFloat()
     }
 
-    /** Drops Whisper's non-speech markers such as [BLANK_AUDIO], (music) and note symbols. */
-    private fun clean(raw: String): String = raw
-        .replace(Regex("""\[[^\]]*]"""), " ")
-        .replace(Regex("""\([^)]*\)"""), " ")
-        .replace(Regex("""[♪♫]+"""), " ")
-        .replace(Regex("""\s+"""), " ")
-        .trim()
+    /** Drops Whisper's non-speech markers, and the note symbols it sometimes emits for music. */
+    private fun clean(raw: String): String =
+        NonSpeech.strip(raw.replace(Regex("""\([^)]*\)"""), " ").replace(Regex("""[♪♫]+"""), " "))
 }

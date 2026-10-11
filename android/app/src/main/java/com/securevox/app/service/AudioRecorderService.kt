@@ -33,6 +33,10 @@ class AudioRecorderService(private val context: Context) {
     companion object {
         private const val TAG = "AudioRecorderService"
         const val SAMPLE_RATE = 16000
+
+        /** Length of a 16 kHz mono 16-bit WAV file with a 44-byte header, in milliseconds. */
+        fun durationMsForWavBytes(fileBytes: Long): Long =
+            (fileBytes - 44).coerceAtLeast(0) * 1000 / (SAMPLE_RATE * 2)
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
     }
@@ -198,6 +202,12 @@ class AudioRecorderService(private val context: Context) {
 
         val file = outputFile
         outputFile = null
+
+        // The recording loop is finished, so this is the last write to the duration. Derive it
+        // from the audio that actually reached the file: until now it was the wall clock, and
+        // the loop's final pass added the last segment a second time, storing every recording
+        // at about twice its real length.
+        file?.let { _recordingDuration.value = durationMsForWavBytes(it.length()) }
 
         Log.i(TAG, "Recording stopped: ${file?.absolutePath}, size: ${file?.length()} bytes")
         return file?.absolutePath

@@ -195,4 +195,6 @@
     <string name="on_device_badge">Transcribed on this device</string>
     <string name="live_captions">Live captions</string>
     <string name="live_captions_subtitle">Show text while you record. Uses more battery; the saved transcript is still made when you stop.</string>
+    <string name="no_speech_detected">No speech detected</string>
+    <string name="no_speech_detected_hint">You can still play the recording, or re-transcribe it with a larger model.</string>
 </resources>
