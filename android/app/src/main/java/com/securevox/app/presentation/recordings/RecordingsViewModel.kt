@@ -24,7 +24,10 @@ import com.securevox.app.whisper.LiveCaption
 import com.securevox.app.whisper.LiveTranscriber
 import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.launch
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.securevox.app.whisper.DownloadState
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -158,6 +161,36 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     private val recordingsDir: File by lazy {
         File(getApplication<Application>().filesDir, "recordings").also { it.mkdirs() }
+    }
+
+    // Offer Base (more accurate than the Tiny model installed at setup) once, to people still on Tiny.
+    private val keyUpgradeDismissed = booleanPreferencesKey("base_upgrade_dismissed")
+    private val modelManager get() = SecureVoxApp.instance.modelManager
+
+    private val _upgradeInstalled = MutableStateFlow(modelManager.isModelDownloaded(WhisperModel.BASE))
+    val downloadState: StateFlow<DownloadState> = modelManager.downloadState
+
+    val showModelUpgrade: StateFlow<Boolean> = combine(
+        dataStore.data.map { it[keyUpgradeDismissed] ?: false },
+        dataStore.data.map { it[keySelectedModel] ?: WhisperModel.TINY.fileName },
+        _upgradeInstalled
+    ) { dismissed, selected, baseInstalled ->
+        !dismissed && !baseInstalled && selected == WhisperModel.TINY.fileName
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun dismissModelUpgrade() {
+        viewModelScope.launch { dataStore.edit { it[keyUpgradeDismissed] = true } }
+    }
+
+    /** Downloads Base and, once it verifies, makes it the model used for new transcriptions. */
+    fun upgradeToBase() {
+        viewModelScope.launch {
+            val result = modelManager.downloadModel(WhisperModel.BASE)
+            if (result.isSuccess && modelManager.isModelDownloaded(WhisperModel.BASE)) {
+                dataStore.edit { it[keySelectedModel] = WhisperModel.BASE.fileName }
+                _upgradeInstalled.value = true
+            }
+        }
     }
 
     private var liveTranscriber: LiveTranscriber? = null

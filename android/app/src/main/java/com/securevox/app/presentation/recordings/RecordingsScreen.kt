@@ -9,7 +9,9 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.sp
+import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.LiveCaption
+import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.IncomingAction
 import com.securevox.app.IncomingActions
 import android.net.Uri
@@ -64,6 +66,8 @@ fun RecordingsScreen(
     val audioLevel by viewModel.audioLevel.collectAsState()
     val recordingDuration by viewModel.recordingDuration.collectAsState()
     val liveCaption by viewModel.liveCaption.collectAsState()
+    val showModelUpgrade by viewModel.showModelUpgrade.collectAsState()
+    val modelDownload by viewModel.downloadState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val filter by viewModel.filter.collectAsState()
     val isImporting by viewModel.isImporting.collectAsState()
@@ -206,6 +210,14 @@ fun RecordingsScreen(
                 )
             }
 
+            if (showModelUpgrade && !isRecording) {
+                ModelUpgradeCard(
+                    downloading = modelDownload as? DownloadState.Downloading,
+                    onUpgrade = { viewModel.upgradeToBase() },
+                    onDismiss = { viewModel.dismissModelUpgrade() }
+                )
+            }
+
             // Importing indicator
             if (isImporting) {
                 val importProgress by viewModel.importProgress.collectAsState()
@@ -315,6 +327,39 @@ private fun SearchPill(onClick: () -> Unit) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyLarge
             )
+        }
+    }
+}
+
+@Composable
+private fun ModelUpgradeCard(
+    downloading: DownloadState.Downloading?,
+    onUpgrade: () -> Unit,
+    onDismiss: () -> Unit
+) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Text(
+            text = stringResource(R.string.upgrade_model_title),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = stringResource(R.string.upgrade_model_body, WhisperModel.BASE.sizeMB),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(8.dp))
+        if (downloading != null) {
+            LinearProgressIndicator(
+                progress = downloading.progress,
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colorScheme.primary
+            )
+        } else {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Button(onClick = onUpgrade) { Text(stringResource(R.string.upgrade_model_action)) }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.upgrade_model_dismiss)) }
+            }
         }
     }
 }
