@@ -181,4 +181,18 @@
     <string name="words_imported">%1$d words imported</string>
     <string name="no_new_words">No new words to import</string>
     <string name="dictionary_cleared">Dictionary cleared</string>
+    <string name="tile_record_label">Record</string>
+    <string name="shortcut_record_short">Record</string>
+    <string name="shortcut_record_long">Start recording</string>
+    <string name="app_lock">App lock</string>
+    <string name="app_lock_subtitle">Require fingerprint, face or screen lock to open SecureVox</string>
+    <string name="app_lock_unavailable">Set up a screen lock or biometric on this device first</string>
+    <string name="lock_title">SecureVox is locked</string>
+    <string name="lock_prompt_title">Unlock SecureVox</string>
+    <string name="lock_prompt_subtitle">Your recordings stay on this device</string>
+    <string name="lock_unlock">Unlock</string>
+    <string name="waveform_scrubber">Recording position. Drag to seek.</string>
+    <string name="on_device_badge">Transcribed on this device</string>
+    <string name="live_captions">Live captions</string>
+    <string name="live_captions_subtitle">Show text while you record. Uses more battery; the saved transcript is still made when you stop.</string>
 </resources>

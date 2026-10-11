@@ -22,7 +22,11 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.securevox.app.presentation.settings.dataStore
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.securevox.app.util.WaveformExtractor
+import java.io.File
 
 class RecordingDetailViewModel(
     application: Application,
@@ -65,10 +69,17 @@ class RecordingDetailViewModel(
         segs.find { position >= it.startTimeMs && position < it.endTimeMs }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
+    private val _waveform = MutableStateFlow(FloatArray(0))
+    val waveform: StateFlow<FloatArray> = _waveform.asStateFlow()
+
     init {
         viewModelScope.launch {
             recording.filterNotNull().first().let { rec ->
                 audioPlayer.load(rec.audioFilePath)
+                _waveform.value = withContext(Dispatchers.IO) {
+                    runCatching { WaveformExtractor.extract(File(rec.audioFilePath)) }
+                        .getOrDefault(FloatArray(0))
+                }
             }
         }
     }

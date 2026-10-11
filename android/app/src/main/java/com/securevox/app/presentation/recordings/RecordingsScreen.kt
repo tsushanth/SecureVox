@@ -1,6 +1,17 @@
 package com.securevox.app.presentation.recordings
 
+import com.securevox.app.presentation.theme.FavoriteAmber
+import android.Manifest
 import android.app.Activity
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.sp
+import com.securevox.app.whisper.LiveCaption
+import com.securevox.app.IncomingAction
+import com.securevox.app.IncomingActions
 import android.net.Uri
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -12,6 +23,9 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -49,6 +63,7 @@ fun RecordingsScreen(
     val isPaused by viewModel.isPaused.collectAsState()
     val audioLevel by viewModel.audioLevel.collectAsState()
     val recordingDuration by viewModel.recordingDuration.collectAsState()
+    val liveCaption by viewModel.liveCaption.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val filter by viewModel.filter.collectAsState()
     val isImporting by viewModel.isImporting.collectAsState()
@@ -78,6 +93,24 @@ fun RecordingsScreen(
         }
     }
 
+    // Files shared into the app and launches from the tile or shortcut. The screen is only
+    // composed once the app lock and first-run setup are out of the way, so this is the
+    // right place to act on them.
+    val incoming by IncomingActions.pending.collectAsState()
+    LaunchedEffect(incoming) {
+        val action = incoming ?: return@LaunchedEffect
+        when (action) {
+            is IncomingAction.ImportMedia -> viewModel.importMedia(action.uri)
+            IncomingAction.StartRecording -> {
+                val hasMic = ContextCompat.checkSelfPermission(
+                    context, Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+                if (hasMic && !isRecording) viewModel.startRecording()
+            }
+        }
+        IncomingActions.consume(action)
+    }
+
     var showSearch by remember { mutableStateOf(false) }
 
     // File picker launcher
@@ -100,7 +133,28 @@ fun RecordingsScreen(
                 )
             } else {
                 TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
+                    title = {
+                        Column {
+                            Text(stringResource(R.string.app_name), style = MaterialTheme.typography.titleLarge)
+                            // The product's promise, stated where it is always visible.
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp)
+                            ) {
+                                Box(
+                                    Modifier
+                                        .size(6.dp)
+                                        .clip(CircleShape)
+                                        .background(MaterialTheme.colorScheme.primary)
+                                )
+                                Text(
+                                    text = stringResource(R.string.on_device_badge),
+                                    style = MaterialTheme.typography.labelSmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    },
                     actions = {
                         IconButton(
                             onClick = {
@@ -142,6 +196,7 @@ fun RecordingsScreen(
                     duration = recordingDuration,
                     audioLevel = audioLevel,
                     isPaused = isPaused,
+                    caption = liveCaption,
                     onPause = { viewModel.pauseRecording() },
                     onResume = { viewModel.resumeRecording() },
                     onStop = {
@@ -178,7 +233,7 @@ fun RecordingsScreen(
                         top = 8.dp,
                         bottom = 100.dp
                     ),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(0.dp)
                 ) {
                     items(recordings, key = { it.id }) { recording ->
                         SwipeableRecordingItem(
@@ -242,7 +297,7 @@ private fun SearchPill(onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 4.dp),
         shape = RoundedCornerShape(50),
-        color = RecorderSurface
+        color = MaterialTheme.colorScheme.surface
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
@@ -251,13 +306,13 @@ private fun SearchPill(onClick: () -> Unit) {
             Icon(
                 Icons.Default.Search,
                 contentDescription = null,
-                tint = RecorderTextSecondary,
+                tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(20.dp)
             )
             Spacer(Modifier.width(12.dp))
             Text(
                 text = stringResource(R.string.search_recordings),
-                color = RecorderTextSecondary,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyLarge
             )
         }
@@ -336,11 +391,35 @@ private fun RecordButton(
     }
 }
 
+/** The last few lines of live text: settled words in full colour, the phrase still forming dimmer. */
+@Composable
+private fun LiveCaptionText(caption: LiveCaption) {
+    val settled = MaterialTheme.colorScheme.onSurface
+    val forming = MaterialTheme.colorScheme.onSurfaceVariant
+    // Clip from the front, at a word boundary, so the newest words are always the ones shown.
+    val full = listOf(caption.committed, caption.partial).filter { it.isNotEmpty() }.joinToString(" ")
+    val dropped = (full.length - 150).coerceAtLeast(0)
+    val start = if (dropped == 0) 0 else full.indexOf(' ', dropped).let { if (it < 0) dropped else it + 1 }
+    val committedEnd = caption.committed.length
+    Text(
+        text = buildAnnotatedString {
+            val visible = full.substring(start)
+            val settledLen = (committedEnd - start).coerceIn(0, visible.length)
+            withStyle(SpanStyle(color = settled)) { append(visible.substring(0, settledLen)) }
+            withStyle(SpanStyle(color = forming)) { append(visible.substring(settledLen)) }
+        },
+        style = TranscriptStyle.copy(fontSize = 17.sp, lineHeight = 26.sp),
+        maxLines = 4,
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
 @Composable
 private fun RecordingIndicator(
     duration: Long,
     audioLevel: Float,
     isPaused: Boolean,
+    caption: LiveCaption,
     onPause: () -> Unit,
     onResume: () -> Unit,
     onStop: () -> Unit
@@ -350,7 +429,7 @@ private fun RecordingIndicator(
             .fillMaxWidth()
             .padding(16.dp),
         shape = RoundedCornerShape(28.dp),
-        color = RecorderSurface
+        color = MaterialTheme.colorScheme.surface
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Row(
@@ -371,26 +450,26 @@ private fun RecordingIndicator(
                         modifier = Modifier
                             .size(12.dp)
                             .clip(CircleShape)
-                            .background(RecorderCoral.copy(alpha = alpha))
+                            .background(MaterialTheme.colorScheme.secondary.copy(alpha = alpha))
                     )
                 } else {
                     Box(
                         modifier = Modifier
                             .size(12.dp)
                             .clip(CircleShape)
-                            .background(RecorderTextSecondary.copy(alpha = 0.5f))
+                            .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
                     )
                 }
                 Text(
                     text = if (isPaused) "Paused" else stringResource(R.string.recording_label),
                     style = MaterialTheme.typography.titleMedium,
-                    color = RecorderTextPrimary,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.weight(1f)
                 )
                 Text(
                     text = formatDuration(duration),
                     style = MaterialTheme.typography.titleMedium,
-                    color = RecorderTextPrimary
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
 
@@ -401,6 +480,11 @@ private fun RecordingIndicator(
             // Recorder renders its own live waveform during active recording.
             LiveWaveform(audioLevel = audioLevel, isPaused = isPaused)
 
+            if (!caption.isEmpty) {
+                Spacer(modifier = Modifier.height(16.dp))
+                LiveCaptionText(caption)
+            }
+
             Spacer(modifier = Modifier.height(16.dp))
 
             Row(
@@ -410,7 +494,7 @@ private fun RecordingIndicator(
                 Surface(
                     onClick = if (isPaused) onResume else onPause,
                     shape = RoundedCornerShape(50),
-                    color = RecorderSurfaceRaised,
+                    color = MaterialTheme.colorScheme.surfaceVariant,
                     modifier = Modifier.weight(1f)
                 ) {
                     Row(
@@ -421,13 +505,13 @@ private fun RecordingIndicator(
                         Icon(
                             imageVector = if (isPaused) Icons.Default.PlayArrow else Icons.Default.Pause,
                             contentDescription = null,
-                            tint = RecorderTextPrimary,
+                            tint = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = if (isPaused) "Resume" else "Pause",
-                            color = RecorderTextPrimary,
+                            color = MaterialTheme.colorScheme.onSurface,
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
@@ -435,7 +519,7 @@ private fun RecordingIndicator(
                 Surface(
                     onClick = onStop,
                     shape = RoundedCornerShape(50),
-                    color = RecorderCoral,
+                    color = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.weight(1f)
                 ) {
                     Row(
@@ -446,13 +530,13 @@ private fun RecordingIndicator(
                         Icon(
                             imageVector = Icons.Default.Stop,
                             contentDescription = null,
-                            tint = RecorderCoralDim,
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
                             modifier = Modifier.size(20.dp)
                         )
                         Spacer(Modifier.width(8.dp))
                         Text(
                             text = stringResource(R.string.stop_recording),
-                            color = RecorderCoralDim,
+                            color = MaterialTheme.colorScheme.secondaryContainer,
                             style = MaterialTheme.typography.titleMedium
                         )
                     }
@@ -493,7 +577,7 @@ private fun LiveWaveform(audioLevel: Float, isPaused: Boolean) {
                     .heightIn(min = 3.dp)
                     .fillMaxHeight(fraction = (0.08f + level * 0.92f).coerceIn(0.08f, 1f))
                     .clip(RoundedCornerShape(2.dp))
-                    .background(if (isPaused) RecorderTextTertiary else RecorderCoral)
+                    .background(if (isPaused) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.secondary)
             )
         }
     }
@@ -504,7 +588,7 @@ private fun TranscriptionStatusChip(status: TranscriptionStatus) {
     // PENDING is neutral, not coral — coral means "live/destructive" everywhere
     // else in this app, and a queued transcription is neither.
     val (text, color) = when (status) {
-        TranscriptionStatus.PENDING -> stringResource(R.string.status_pending) to RecorderTextSecondary
+        TranscriptionStatus.PENDING -> stringResource(R.string.status_pending) to MaterialTheme.colorScheme.onSurfaceVariant
         TranscriptionStatus.IN_PROGRESS -> stringResource(R.string.status_processing) to MaterialTheme.colorScheme.primary
         TranscriptionStatus.COMPLETED -> stringResource(R.string.status_done) to MaterialTheme.colorScheme.primary
         TranscriptionStatus.FAILED -> stringResource(R.string.status_failed) to MaterialTheme.colorScheme.error
@@ -578,9 +662,9 @@ private fun FilterTabs(
         // reserved for record/live/destructive, and "this filter is active" is
         // neither.
         val selectedChipColors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = RecorderLavender.copy(alpha = 0.22f),
-            selectedLabelColor = RecorderLavender,
-            selectedLeadingIconColor = RecorderLavender
+            selectedContainerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.22f),
+            selectedLabelColor = MaterialTheme.colorScheme.primary,
+            selectedLeadingIconColor = MaterialTheme.colorScheme.primary
         )
         FilterChip(
             selected = currentFilter == RecordingsFilter.ALL,
@@ -621,13 +705,21 @@ private fun SwipeableRecordingItem(
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showActions by remember { mutableStateOf(false) }
 
+    val rule = MaterialTheme.colorScheme.outlineVariant
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(20.dp),
-        color = RecorderSurface
+            .clickable(onClick = onClick)
+            .drawBehind {
+                drawLine(
+                    color = rule,
+                    start = Offset(0f, size.height),
+                    end = Offset(size.width, size.height),
+                    strokeWidth = 1.dp.toPx()
+                )
+            },
+        shape = RectangleShape,
+        color = Color.Transparent
     ) {
         Column {
             Row(
@@ -653,23 +745,18 @@ private fun SwipeableRecordingItem(
                             Icon(
                                 Icons.Default.Star,
                                 contentDescription = stringResource(R.string.favorite),
-                                tint = Color(0xFFFFD700),
+                                tint = FavoriteAmber,
                                 modifier = Modifier.size(18.dp)
                             )
                         }
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Row(
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = formatDuration(recording.duration),
-                            style = MaterialTheme.typography.bodySmall,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                        Text(
-                            text = "•",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -705,7 +792,7 @@ private fun SwipeableRecordingItem(
                         Icon(
                             if (recording.isFavorite) Icons.Default.Star else Icons.Default.StarBorder,
                             contentDescription = if (recording.isFavorite) stringResource(R.string.remove_from_favorites) else stringResource(R.string.add_to_favorites),
-                            tint = if (recording.isFavorite) Color(0xFFFFD700) else MaterialTheme.colorScheme.onSurfaceVariant
+                            tint = if (recording.isFavorite) FavoriteAmber else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
 
@@ -714,7 +801,7 @@ private fun SwipeableRecordingItem(
                         Icon(
                             Icons.Default.Delete,
                             contentDescription = stringResource(R.string.delete),
-                            tint = MaterialTheme.colorScheme.error
+                            tint = MaterialTheme.colorScheme.outline
                         )
                     }
                 }

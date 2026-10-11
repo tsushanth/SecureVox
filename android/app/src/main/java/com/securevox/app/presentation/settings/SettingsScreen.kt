@@ -19,6 +19,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import android.widget.Toast
+import com.securevox.app.AppLock
 import com.securevox.app.R
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
@@ -53,6 +55,9 @@ fun SettingsScreen(
     val recycleBinRetention by viewModel.recycleBinRetention.collectAsState()
     val autoDeleteAudio by viewModel.autoDeleteAudio.collectAsState()
     val autoCopyToClipboard by viewModel.autoCopyToClipboard.collectAsState()
+    val appLockEnabled by viewModel.appLockEnabled.collectAsState()
+    val liveCaptionsEnabled by viewModel.liveCaptionsEnabled.collectAsState()
+    val settingsContext = LocalContext.current
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
@@ -203,6 +208,16 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
+                    title = stringResource(R.string.live_captions),
+                    subtitle = stringResource(R.string.live_captions_subtitle),
+                    icon = Icons.Default.ClosedCaption,
+                    checked = liveCaptionsEnabled,
+                    onCheckedChange = { viewModel.setLiveCaptionsEnabled(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
                     title = stringResource(R.string.sound_effects),
                     subtitle = stringResource(R.string.sound_effects_subtitle),
                     icon = Icons.Default.VolumeUp,
@@ -262,6 +277,22 @@ fun SettingsScreen(
                     icon = Icons.Default.ContentCopy,
                     checked = autoCopyToClipboard,
                     onCheckedChange = { viewModel.setAutoCopyToClipboard(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = stringResource(R.string.app_lock),
+                    subtitle = stringResource(R.string.app_lock_subtitle),
+                    icon = Icons.Default.Lock,
+                    checked = appLockEnabled,
+                    onCheckedChange = { wantOn ->
+                        if (wantOn && !AppLock.isAvailable(settingsContext)) {
+                            Toast.makeText(settingsContext, R.string.app_lock_unavailable, Toast.LENGTH_LONG).show()
+                        } else {
+                            viewModel.setAppLockEnabled(wantOn)
+                        }
+                    }
                 )
             }
 

@@ -2,6 +2,7 @@ package com.securevox.app.presentation.settings
 
 import android.app.Application
 import android.content.Context
+import com.securevox.app.AppLock
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -13,6 +14,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
+import com.securevox.app.whisper.LiveTranscriber
 import com.securevox.app.whisper.ModelManager
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
@@ -128,6 +130,26 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     val autoCopyToClipboard: StateFlow<Boolean> = dataStore.data
         .map { prefs -> prefs[KEY_AUTO_COPY_CLIPBOARD] ?: false }
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    val liveCaptionsEnabled: StateFlow<Boolean> = dataStore.data
+        .map { prefs -> prefs[LiveTranscriber.KEY_ENABLED] ?: true }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    fun setLiveCaptionsEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[LiveTranscriber.KEY_ENABLED] = enabled }
+        }
+    }
+
+    val appLockEnabled: StateFlow<Boolean> = dataStore.data
+        .map { prefs -> prefs[AppLock.KEY_ENABLED] ?: false }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun setAppLockEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            dataStore.edit { prefs -> prefs[AppLock.KEY_ENABLED] = enabled }
+        }
+    }
 
     val storageUsed: StateFlow<Long> = availableModels
         .map { modelManager.getTotalStorageUsed() }

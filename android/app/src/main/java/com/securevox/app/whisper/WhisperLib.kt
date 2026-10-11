@@ -64,19 +64,21 @@ class WhisperLib(private val context: Context) {
      * @param audioData PCM audio samples at 16kHz, mono, float32
      * @param language Language code (e.g., "en", "auto" for detection)
      * @param onProgress Progress callback (0-100)
+     * @param fast Trade accuracy for a bounded, short run time (live captions)
      * @return List of transcription segments
      */
     suspend fun transcribe(
         audioData: FloatArray,
         language: String = "en",
-        onProgress: ((Int) -> Unit)? = null
+        onProgress: ((Int) -> Unit)? = null,
+        fast: Boolean = false
     ): List<TranscriptionSegment> = withContext(Dispatchers.Default) {
         if (contextPtr == 0L) {
             throw IllegalStateException("Whisper context not initialized")
         }
 
         val callback = onProgress?.let { ProgressCallback(it) }
-        val jsonResult = transcribeAudio(contextPtr, audioData, language, callback)
+        val jsonResult = transcribeAudio(contextPtr, audioData, language, callback, fast)
 
         parseSegments(jsonResult)
     }
@@ -144,7 +146,8 @@ class WhisperLib(private val context: Context) {
         contextPtr: Long,
         audioData: FloatArray,
         language: String,
-        progressCallback: ProgressCallback?
+        progressCallback: ProgressCallback?,
+        fast: Boolean
     ): String
     private external fun getSystemInfo(): String
     private external fun isMultilingual(contextPtr: Long): Boolean
