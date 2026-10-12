@@ -1,5 +1,9 @@
 package com.securevox.app.whisper
 
+import com.securevox.app.whisper.QualityTier.FAIR
+import com.securevox.app.whisper.QualityTier.GOOD
+import com.securevox.app.whisper.QualityTier.POOR
+
 /**
  * Available Whisper models with their properties.
  * Models are downloaded from HuggingFace whisper.cpp repository.
@@ -52,29 +56,53 @@ enum class WhisperModel(
     }
 }
 
+/** How usable a model is for a language: GOOD at most 15% error, FAIR at most 30%, POOR above that. */
+enum class QualityTier { GOOD, FAIR, POOR }
+
 /**
  * Supported languages for transcription.
  */
 enum class WhisperLanguage(
     val code: String,
     val displayName: String,
-    val requiresBetterModel: Boolean = false
+    /** Measured quality with Tiny, Base and Small (tools/lang-bench/results.md, FLEURS, 25 utterances each). */
+    val tiny: QualityTier,
+    val base: QualityTier,
+    val small: QualityTier
 ) {
-    AUTO("auto", "Auto-detect"),
-    ENGLISH("en", "English"),
-    SPANISH("es", "Spanish"),
-    FRENCH("fr", "French"),
-    GERMAN("de", "German"),
-    ITALIAN("it", "Italian"),
-    PORTUGUESE("pt", "Portuguese"),
-    DUTCH("nl", "Dutch"),
-    POLISH("pl", "Polish"),
-    RUSSIAN("ru", "Russian", requiresBetterModel = true),
-    CHINESE("zh", "Chinese", requiresBetterModel = true),
-    JAPANESE("ja", "Japanese", requiresBetterModel = true),
-    KOREAN("ko", "Korean", requiresBetterModel = true),
-    ARABIC("ar", "Arabic", requiresBetterModel = true),
-    HINDI("hi", "Hindi", requiresBetterModel = true);
+    // Auto-detect: tiers reflect language-ID reliability (Tiny misjudged 5 of 140 clips), not word error rate.
+    AUTO("auto", "Auto-detect", FAIR, GOOD, GOOD),
+    ENGLISH("en", "English", GOOD, GOOD, GOOD),
+    SPANISH("es", "Spanish", FAIR, GOOD, GOOD),
+    FRENCH("fr", "French", POOR, POOR, GOOD),
+    GERMAN("de", "German", FAIR, FAIR, GOOD),
+    ITALIAN("it", "Italian", FAIR, FAIR, GOOD),
+    PORTUGUESE("pt", "Portuguese", FAIR, FAIR, GOOD),
+    DUTCH("nl", "Dutch", POOR, POOR, FAIR),
+    POLISH("pl", "Polish", POOR, POOR, FAIR),
+    RUSSIAN("ru", "Russian", POOR, FAIR, GOOD),
+    CHINESE("zh", "Chinese", POOR, POOR, FAIR),
+    JAPANESE("ja", "Japanese", POOR, FAIR, GOOD),
+    KOREAN("ko", "Korean", FAIR, GOOD, GOOD),
+    ARABIC("ar", "Arabic", POOR, POOR, FAIR),
+    HINDI("hi", "Hindi", POOR, POOR, POOR);
+
+    fun tierFor(model: WhisperModel): QualityTier = when (model) {
+        WhisperModel.TINY -> tiny
+        WhisperModel.BASE -> base
+        WhisperModel.SMALL -> small
+    }
+
+    /**
+     * Smallest model that reaches this language's best tier. If even the best is POOR (Hindi) the tiers do not
+     * separate the models, so recommend Small, which measured clearly best.
+     */
+    val recommendedModel: WhisperModel
+        get() {
+            val best = WhisperModel.entries.minOf { tierFor(it) }
+            if (best == QualityTier.POOR) return WhisperModel.SMALL
+            return WhisperModel.entries.first { tierFor(it) == best }
+        }
 
     companion object {
         val DEFAULT = ENGLISH
