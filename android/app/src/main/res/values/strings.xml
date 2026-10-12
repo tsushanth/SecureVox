@@ -94,7 +94,7 @@
     <string name="models_storage">Models Storage</string>
     <string name="faq_and_help">FAQ &amp; Help</string>
     <string name="faq_subtitle">Common questions and troubleshooting</string>
-    <string name="about_version">Version 1.0.0</string>
+    <string name="about_version">Version %1$s</string>
     <string name="about_description">Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.</string>
     <string name="select_language">Select Language</string>
     <string name="select_theme">Select Theme</string>

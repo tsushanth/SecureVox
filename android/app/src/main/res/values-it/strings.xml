@@ -92,7 +92,7 @@
     <string name="models_storage">Archiviazione modelli</string>
     <string name="faq_and_help">FAQ &amp; Aiuto</string>
     <string name="faq_subtitle">Domande frequenti e risoluzione dei problemi</string>
-    <string name="about_version">Versione 1.0.0</string>
+    <string name="about_version">Versione %1$s</string>
     <string name="about_description">Trascrizione vocale orientata alla privacy, alimentata da Whisper AI. Tutta l\'elaborazione avviene sul tuo dispositivo \u2013 il tuo audio non lascia mai il tuo telefono.</string>
     <string name="select_language">Seleziona lingua</string>
     <string name="select_theme">Seleziona tema</string>

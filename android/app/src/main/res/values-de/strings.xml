@@ -92,7 +92,7 @@
     <string name="models_storage">Modellspeicher</string>
     <string name="faq_and_help">FAQ &amp; Hilfe</string>
     <string name="faq_subtitle">Häufige Fragen und Fehlerbehebung</string>
-    <string name="about_version">Version 1.0.0</string>
+    <string name="about_version">Version %1$s</string>
     <string name="about_description">Datenschutzorientierte Sprachtranskription mit Whisper AI. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät \u2013 Ihre Audiodaten verlassen nie Ihr Telefon.</string>
     <string name="select_language">Sprache auswählen</string>
     <string name="select_theme">Design auswählen</string>

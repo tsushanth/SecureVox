@@ -41,11 +41,20 @@ object WaveformExtractor {
                 remaining -= read
             }
 
-            // Speech peaks are far below full scale; stretch so quiet recordings still show shape.
-            val max = peaks.maxOrNull() ?: 0f
-            if (max > 0f) for (i in peaks.indices) peaks[i] = (peaks[i] / max).coerceIn(0f, 1f)
+            // Speech peaks are far below full scale, so stretch the bars. Scale to a high percentile
+            // rather than the loudest bar: one bang in a quiet 15-minute recording would otherwise
+            // flatten everything else, and the few bars above the percentile just clip at full height.
+            val reference = percentile(peaks, 0.95f)
+            if (reference > 0f) for (i in peaks.indices) peaks[i] = (peaks[i] / reference).coerceIn(0f, 1f)
             return peaks
         }
+    }
+
+    /** The value below which [fraction] of [values] fall. */
+    internal fun percentile(values: FloatArray, fraction: Float): Float {
+        if (values.isEmpty()) return 0f
+        val sorted = values.sortedArray()
+        return sorted[((sorted.size - 1) * fraction).toInt().coerceIn(0, sorted.size - 1)]
     }
 
     /** Offset of the PCM bytes: just past the "data" chunk header, or 44 for a plain header. */

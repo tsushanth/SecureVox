@@ -92,7 +92,7 @@
     <string name="models_storage">模型存储</string>
     <string name="faq_and_help">常见问题 &amp; 帮助</string>
     <string name="faq_subtitle">常见问题和故障排除</string>
-    <string name="about_version">版本 1.0.0</string>
+    <string name="about_version">版本 %1$s</string>
     <string name="about_description">由 Whisper AI 驱动的隐私优先语音转录。所有处理均在您的设备上完成 \u2013 您的音频永远不会离开您的手机。</string>
     <string name="select_language">选择语言</string>
     <string name="select_theme">选择主题</string>
