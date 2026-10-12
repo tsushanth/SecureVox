@@ -1,1 +1,1 @@
-Privater Sprachrekorder mit Offline-KI-Transkription — Daten bleiben lokal
+Aufnehmen und offline transkribieren mit Whisper. Audio bleibt auf dem Handy.
