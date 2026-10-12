@@ -18,7 +18,11 @@ import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.NonSpeech
+import com.securevox.app.speakers.ModelDownloader
+import com.securevox.app.speakers.SpeakerCount
 import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.speakers.SpeakerModels
+import com.securevox.app.service.SpeakerRelabelWorker
 import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.whisper.WhisperLanguage
@@ -50,10 +54,82 @@ class RecordingDetailViewModel(
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
-    /** Why speaker labels were skipped for this recording (memory or length), or null. */
-    val speakerSkip: StateFlow<MemoryPolicy.SpeakerSkip?> = recording
-        .map { SpeakerLabels.skipNote(getApplication(), recordingId) }
-        .stateIn(viewModelScope, SharingStarted.Lazily, null)
+    // ---- Speaker relabel -----------------------------------------------------------------------
+
+    /** State of the user-triggered speaker relabel as WorkManager reports it. */
+    sealed class RelabelState {
+        object Idle : RelabelState()
+        object Running : RelabelState()
+        /** The last run asked for this session did not finish; [message] is shown, not red. */
+        data class Failed(val message: String) : RelabelState()
+    }
+
+    private val relabelRequested = MutableStateFlow(false)
+    private val _chosenCount = MutableStateFlow(SpeakerLabels.chosenCount(application, recordingId))
+    /** The speaker count the user chose (1..8), or null for automatic. */
+    val chosenCount: StateFlow<Int?> = _chosenCount.asStateFlow()
+
+    private val relabelInfos = WorkManager.getInstance(application)
+        .getWorkInfosByTagFlow(SpeakerRelabelWorker.uniqueName(recordingId))
+
+    val relabelState: StateFlow<RelabelState> = combine(relabelInfos, relabelRequested) { infos, requested ->
+        val running = infos.any { it.state == WorkInfo.State.RUNNING || it.state == WorkInfo.State.ENQUEUED }
+        val failed = infos.firstOrNull { it.state == WorkInfo.State.FAILED }
+        when {
+            running -> RelabelState.Running
+            requested && failed != null && failed.outputData.getString(SpeakerRelabelWorker.KEY_RESULT)
+                != SpeakerRelabelWorker.RESULT_MODELS_MISSING ->
+                RelabelState.Failed(failed.outputData.getString(SpeakerRelabelWorker.KEY_ERROR) ?: "Unknown error")
+            else -> RelabelState.Idle
+        }
+    }.stateIn(viewModelScope, SharingStarted.Lazily, RelabelState.Idle)
+
+    /** Why speaker labels were skipped for this recording (memory or length), or null. Re-read after each relabel. */
+    val speakerSkip: StateFlow<MemoryPolicy.SpeakerSkip?> = combine(recording, relabelState) { _, _ ->
+        SpeakerLabels.skipNote(getApplication(), recordingId)
+    }.stateIn(viewModelScope, SharingStarted.Lazily, null)
+
+    private val _modelProgress = MutableStateFlow<Float?>(null)
+    /** 0..1 while the speaker models download, else null. */
+    val modelProgress: StateFlow<Float?> = _modelProgress.asStateFlow()
+    private val _modelError = MutableStateFlow<String?>(null)
+    val modelError: StateFlow<String?> = _modelError.asStateFlow()
+
+    fun speakerModelsReady(): Boolean =
+        ModelDownloader.isReady(SpeakerLabels.modelDir(getApplication()), SpeakerModels.DIARIZATION)
+
+    fun clearModelError() { _modelError.value = null }
+
+    /** Starts the relabel. Returns false (and does nothing) when the speaker models are missing and [count] needs them. */
+    fun startRelabel(count: Int?): Boolean {
+        if (SpeakerCount.normalize(count) != 1 && !speakerModelsReady()) return false
+        relabelRequested.value = true
+        _chosenCount.value = SpeakerCount.normalize(count)
+        SpeakerRelabelWorker.enqueue(getApplication(), recordingId, count)
+        return true
+    }
+
+    /** Downloads the speaker models with the shared downloader, then starts the relabel. */
+    fun downloadModelsAndRelabel(count: Int?) {
+        if (_modelProgress.value != null) return
+        viewModelScope.launch {
+            _modelError.value = null
+            _modelProgress.value = 0f
+            val result = withContext(Dispatchers.IO) {
+                runCatching {
+                    ModelDownloader.ensure(SpeakerLabels.modelDir(getApplication()), SpeakerModels.DIARIZATION) {
+                        _modelProgress.value = it
+                    }
+                }
+            }
+            _modelProgress.value = null
+            if (result.isFailure) {
+                _modelError.value = result.exceptionOrNull()?.message ?: "Download failed"
+            } else {
+                startRelabel(count)
+            }
+        }
+    }
 
     // Older recordings were saved with Whisper's [BLANK_AUDIO]-style markers; hide them here so
     // the transcript, copy and export all agree, whatever version transcribed the recording.
