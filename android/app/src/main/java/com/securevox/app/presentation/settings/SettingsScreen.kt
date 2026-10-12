@@ -1,6 +1,10 @@
 package com.securevox.app.presentation.settings
 
+import android.content.Intent
+import android.net.Uri
 import android.text.format.Formatter
+import androidx.core.content.FileProvider
+import com.securevox.app.util.CrashLogger
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,8 +16,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import android.widget.Toast
+import com.securevox.app.AppLock
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.R
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.WhisperLanguage
@@ -47,6 +56,12 @@ fun SettingsScreen(
     val recycleBinRetention by viewModel.recycleBinRetention.collectAsState()
     val autoDeleteAudio by viewModel.autoDeleteAudio.collectAsState()
     val autoCopyToClipboard by viewModel.autoCopyToClipboard.collectAsState()
+    val appLockEnabled by viewModel.appLockEnabled.collectAsState()
+    val liveCaptionsEnabled by viewModel.liveCaptionsEnabled.collectAsState()
+    val labelSpeakersEnabled by viewModel.labelSpeakersEnabled.collectAsState()
+    val speakerModelProgress by viewModel.speakerModelProgress.collectAsState()
+    val speakerModelError by viewModel.speakerModelError.collectAsState()
+    val settingsContext = LocalContext.current
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
@@ -55,10 +70,10 @@ fun SettingsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Settings") },
+                title = { Text(stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 }
             )
@@ -74,7 +89,7 @@ fun SettingsScreen(
             // Transcription Section
             item {
                 Text(
-                    text = "Transcription Model",
+                    text = stringResource(R.string.section_transcription_model),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -97,7 +112,7 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Language",
+                    text = stringResource(R.string.section_language),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -106,18 +121,49 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
-                    title = "Transcription Language",
+                    title = stringResource(R.string.transcription_language),
                     subtitle = selectedLanguage.displayName,
                     icon = Icons.Default.Language,
                     onClick = { showLanguageDialog = true }
                 )
             }
 
+            if (selectedLanguage.requiresBetterModel) {
+                item {
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = CardDefaults.cardColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer
+                        )
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(12.dp),
+                            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                            verticalAlignment = Alignment.Top
+                        ) {
+                            Icon(
+                                Icons.Default.Info,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                                modifier = Modifier.size(18.dp)
+                            )
+                            Text(
+                                text = "${selectedLanguage.displayName} uses a non-Latin script. For accurate transcription in ${selectedLanguage.displayName}, the Base or Small model is recommended. The Tiny model may produce English or romanized output.",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                            )
+                        }
+                    }
+                }
+            }
+
             // Transcription Section
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Transcription",
+                    text = stringResource(R.string.section_transcription),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -126,8 +172,8 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
-                    title = "Auto-Punctuation",
-                    subtitle = "Automatically add punctuation to transcripts",
+                    title = stringResource(R.string.auto_punctuation),
+                    subtitle = stringResource(R.string.auto_punctuation_subtitle),
                     icon = Icons.Default.FormatQuote,
                     checked = autoPunctuationEnabled,
                     onCheckedChange = { viewModel.setAutoPunctuationEnabled(it) }
@@ -136,8 +182,8 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
-                    title = "Smart Capitalization",
-                    subtitle = "Capitalize sentences and proper nouns",
+                    title = stringResource(R.string.smart_capitalization),
+                    subtitle = stringResource(R.string.smart_capitalization_subtitle),
                     icon = Icons.Default.TextFormat,
                     checked = smartCapitalizationEnabled,
                     onCheckedChange = { viewModel.setSmartCapitalizationEnabled(it) }
@@ -146,8 +192,8 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
-                    title = "Custom Dictionary",
-                    subtitle = "Add words to improve transcription accuracy",
+                    title = stringResource(R.string.custom_dictionary),
+                    subtitle = stringResource(R.string.custom_dictionary_subtitle),
                     icon = Icons.Default.Book,
                     onClick = onNavigateToCustomDictionary
                 )
@@ -157,17 +203,43 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Recording",
+                    text = stringResource(R.string.section_recording),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
                 )
             }
 
+            if (SpeakerLabels.AVAILABLE) item {
+                SettingsToggleCard(
+                    title = stringResource(R.string.label_speakers),
+                    subtitle = when {
+                        speakerModelProgress != null ->
+                            stringResource(R.string.label_speakers_downloading, ((speakerModelProgress ?: 0f) * 100).toInt())
+                        speakerModelError != null ->
+                            stringResource(R.string.label_speakers_failed, speakerModelError ?: "")
+                        else -> stringResource(R.string.label_speakers_subtitle)
+                    },
+                    icon = Icons.Default.RecordVoiceOver,
+                    checked = labelSpeakersEnabled,
+                    onCheckedChange = { if (speakerModelProgress == null) viewModel.setLabelSpeakersEnabled(it) }
+                )
+            }
+
             item {
                 SettingsToggleCard(
-                    title = "Sound Effects",
-                    subtitle = "Play sounds when starting/stopping recording",
+                    title = stringResource(R.string.live_captions),
+                    subtitle = stringResource(R.string.live_captions_subtitle),
+                    icon = Icons.Default.ClosedCaption,
+                    checked = liveCaptionsEnabled,
+                    onCheckedChange = { viewModel.setLiveCaptionsEnabled(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = stringResource(R.string.sound_effects),
+                    subtitle = stringResource(R.string.sound_effects_subtitle),
                     icon = Icons.Default.VolumeUp,
                     checked = soundEffectsEnabled,
                     onCheckedChange = { viewModel.setSoundEffectsEnabled(it) }
@@ -176,8 +248,8 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
-                    title = "Haptic Feedback",
-                    subtitle = "Vibrate when starting/stopping recording",
+                    title = stringResource(R.string.haptic_feedback),
+                    subtitle = stringResource(R.string.haptic_feedback_subtitle),
                     icon = Icons.Default.Vibration,
                     checked = hapticFeedbackEnabled,
                     onCheckedChange = { viewModel.setHapticFeedbackEnabled(it) }
@@ -188,7 +260,7 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Data Management",
+                    text = stringResource(R.string.section_data_management),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -197,11 +269,11 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
-                    title = "Recycle Bin",
+                    title = stringResource(R.string.recycle_bin),
                     subtitle = if (recycleBinRetention == RecycleBinRetention.DISABLED) {
-                        "Recordings deleted immediately"
+                        stringResource(R.string.recycle_bin_deleted_immediately)
                     } else {
-                        "Keep deleted recordings for ${recycleBinRetention.displayName}"
+                        stringResource(R.string.recycle_bin_keep_for, recycleBinRetention.displayName)
                     },
                     icon = Icons.Default.Delete,
                     onClick = { showRecycleBinDialog = true }
@@ -210,8 +282,8 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
-                    title = "Auto-Delete Audio",
-                    subtitle = "Delete audio files after transcription completes",
+                    title = stringResource(R.string.auto_delete_audio),
+                    subtitle = stringResource(R.string.auto_delete_audio_subtitle),
                     icon = Icons.Default.DeleteSweep,
                     checked = autoDeleteAudio,
                     onCheckedChange = { viewModel.setAutoDeleteAudio(it) }
@@ -220,11 +292,27 @@ fun SettingsScreen(
 
             item {
                 SettingsToggleCard(
-                    title = "Auto-Copy to Clipboard",
-                    subtitle = "Copy transcript to clipboard after transcription",
+                    title = stringResource(R.string.auto_copy_clipboard),
+                    subtitle = stringResource(R.string.auto_copy_clipboard_subtitle),
                     icon = Icons.Default.ContentCopy,
                     checked = autoCopyToClipboard,
                     onCheckedChange = { viewModel.setAutoCopyToClipboard(it) }
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = stringResource(R.string.app_lock),
+                    subtitle = stringResource(R.string.app_lock_subtitle),
+                    icon = Icons.Default.Lock,
+                    checked = appLockEnabled,
+                    onCheckedChange = { wantOn ->
+                        if (wantOn && !AppLock.isAvailable(settingsContext)) {
+                            Toast.makeText(settingsContext, R.string.app_lock_unavailable, Toast.LENGTH_LONG).show()
+                        } else {
+                            viewModel.setAppLockEnabled(wantOn)
+                        }
+                    }
                 )
             }
 
@@ -232,7 +320,7 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Appearance",
+                    text = stringResource(R.string.section_appearance),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -241,7 +329,7 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
-                    title = "Theme",
+                    title = stringResource(R.string.theme),
                     subtitle = themeMode.displayName,
                     icon = Icons.Default.Palette,
                     onClick = { showThemeDialog = true }
@@ -252,7 +340,7 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "Storage",
+                    text = stringResource(R.string.section_storage),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -279,7 +367,7 @@ fun SettingsScreen(
                             )
                             Column {
                                 Text(
-                                    text = "Models Storage",
+                                    text = stringResource(R.string.models_storage),
                                     style = MaterialTheme.typography.titleMedium
                                 )
                                 Text(
@@ -297,7 +385,7 @@ fun SettingsScreen(
             item {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "About",
+                    text = stringResource(R.string.section_about),
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
@@ -306,10 +394,58 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
-                    title = "FAQ & Help",
-                    subtitle = "Common questions and troubleshooting",
+                    title = stringResource(R.string.faq_and_help),
+                    subtitle = stringResource(R.string.faq_subtitle),
                     icon = Icons.Default.HelpOutline,
                     onClick = onNavigateToFAQ
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = stringResource(R.string.send_feedback),
+                    subtitle = stringResource(R.string.send_feedback_subtitle),
+                    icon = Icons.Default.Feedback,
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_SENDTO).apply {
+                            data = Uri.parse("mailto:")
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("support@securevox.app"))
+                            putExtra(Intent.EXTRA_SUBJECT, "SecureVox Feedback")
+                        }
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_feedback)))
+                    }
+                )
+            }
+
+            item {
+                SettingsCard(
+                    title = stringResource(R.string.report_a_problem),
+                    subtitle = stringResource(R.string.report_a_problem_subtitle),
+                    icon = Icons.Default.BugReport,
+                    onClick = {
+                        val logFile = CrashLogger.logFile(context)
+                        val logText = if (logFile.exists()) logFile.readText() else ""
+
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "text/plain"
+                            putExtra(Intent.EXTRA_EMAIL, arrayOf("support@securevox.app"))
+                            putExtra(Intent.EXTRA_SUBJECT, "SecureVox Problem Report")
+
+                            // Small logs go straight in the body; larger ones are attached via the
+                            // app's existing FileProvider so the intent doesn't hit a TransactionTooLargeException.
+                            if (logText.isNotBlank() && logText.length <= 20_000) {
+                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.\n\n---\nDiagnostic log:\n\n$logText")
+                            } else {
+                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.")
+                                if (logFile.exists()) {
+                                    val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", logFile)
+                                    putExtra(Intent.EXTRA_STREAM, uri)
+                                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                }
+                            }
+                        }
+                        context.startActivity(Intent.createChooser(intent, context.getString(R.string.report_a_problem)))
+                    }
                 )
             }
 
@@ -321,18 +457,18 @@ fun SettingsScreen(
                             .padding(16.dp)
                     ) {
                         Text(
-                            text = "SecureVox",
+                            text = stringResource(R.string.app_name),
                             style = MaterialTheme.typography.titleMedium
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "Version 1.0.0",
+                            text = stringResource(R.string.about_version),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.",
+                            text = stringResource(R.string.about_description),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -351,7 +487,7 @@ fun SettingsScreen(
     if (showLanguageDialog) {
         AlertDialog(
             onDismissRequest = { showLanguageDialog = false },
-            title = { Text("Select Language") },
+            title = { Text(stringResource(R.string.select_language)) },
             text = {
                 LazyColumn {
                     items(WhisperLanguage.entries.toList()) { language ->
@@ -379,7 +515,7 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showLanguageDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -389,7 +525,7 @@ fun SettingsScreen(
     if (showThemeDialog) {
         AlertDialog(
             onDismissRequest = { showThemeDialog = false },
-            title = { Text("Select Theme") },
+            title = { Text(stringResource(R.string.select_theme)) },
             text = {
                 Column {
                     ThemeMode.entries.forEach { mode ->
@@ -414,9 +550,9 @@ fun SettingsScreen(
                                 )
                                 Text(
                                     text = when (mode) {
-                                        ThemeMode.SYSTEM -> "Follow system settings"
-                                        ThemeMode.LIGHT -> "Always use light theme"
-                                        ThemeMode.DARK -> "Always use dark theme"
+                                        ThemeMode.SYSTEM -> stringResource(R.string.theme_follow_system)
+                                        ThemeMode.LIGHT -> stringResource(R.string.theme_always_light)
+                                        ThemeMode.DARK -> stringResource(R.string.theme_always_dark)
                                     },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -428,7 +564,7 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showThemeDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -438,7 +574,7 @@ fun SettingsScreen(
     if (showRecycleBinDialog) {
         AlertDialog(
             onDismissRequest = { showRecycleBinDialog = false },
-            title = { Text("Recycle Bin Retention") },
+            title = { Text(stringResource(R.string.recycle_bin_retention)) },
             text = {
                 Column {
                     RecycleBinRetention.entries.forEach { retention ->
@@ -463,10 +599,10 @@ fun SettingsScreen(
                                 )
                                 Text(
                                     text = when (retention) {
-                                        RecycleBinRetention.DISABLED -> "Recordings are permanently deleted immediately"
-                                        RecycleBinRetention.DAYS_7 -> "Deleted recordings can be restored within 7 days"
-                                        RecycleBinRetention.DAYS_14 -> "Deleted recordings can be restored within 14 days"
-                                        RecycleBinRetention.DAYS_30 -> "Deleted recordings can be restored within 30 days"
+                                        RecycleBinRetention.DISABLED -> stringResource(R.string.retention_disabled_desc)
+                                        RecycleBinRetention.DAYS_7 -> stringResource(R.string.retention_7_days_desc)
+                                        RecycleBinRetention.DAYS_14 -> stringResource(R.string.retention_14_days_desc)
+                                        RecycleBinRetention.DAYS_30 -> stringResource(R.string.retention_30_days_desc)
                                     },
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -478,7 +614,7 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showRecycleBinDialog = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }
         )
@@ -539,7 +675,7 @@ private fun ModelCard(
                                 color = MaterialTheme.colorScheme.primary
                             ) {
                                 Text(
-                                    text = "Active",
+                                    text = stringResource(R.string.active),
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onPrimary
@@ -557,9 +693,9 @@ private fun ModelCard(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        ModelStat(label = "Size", value = "${model.sizeMB}MB")
-                        ModelStat(label = "Accuracy", value = model.accuracy)
-                        ModelStat(label = "Speed", value = model.speed)
+                        ModelStat(label = stringResource(R.string.model_stat_size), value = "${model.sizeMB}MB")
+                        ModelStat(label = stringResource(R.string.model_stat_accuracy), value = model.accuracy)
+                        ModelStat(label = stringResource(R.string.model_stat_speed), value = model.speed)
                     }
                 }
 
@@ -569,7 +705,7 @@ private fun ModelCard(
                         IconButton(onClick = onCancelDownload) {
                             Icon(
                                 Icons.Default.Close,
-                                contentDescription = "Cancel download",
+                                contentDescription = stringResource(R.string.cancel_download),
                                 tint = MaterialTheme.colorScheme.error
                             )
                         }
@@ -579,14 +715,14 @@ private fun ModelCard(
                             IconButton(onClick = onDelete) {
                                 Icon(
                                     Icons.Default.Delete,
-                                    contentDescription = "Delete model",
+                                    contentDescription = stringResource(R.string.delete_model),
                                     tint = MaterialTheme.colorScheme.error
                                 )
                             }
                         } else {
                             Icon(
                                 Icons.Default.CheckCircle,
-                                contentDescription = "Downloaded",
+                                contentDescription = stringResource(R.string.downloaded),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -599,7 +735,7 @@ private fun ModelCard(
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("Download")
+                            Text(stringResource(R.string.download))
                         }
                     }
                 }
@@ -641,7 +777,7 @@ private fun ModelCard(
             if (downloadState is DownloadState.Error && downloadState.model == model) {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Download failed: ${downloadState.message}",
+                    text = stringResource(R.string.download_failed_prefix, downloadState.message),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.error
                 )

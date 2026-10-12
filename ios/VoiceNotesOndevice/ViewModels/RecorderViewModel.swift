@@ -191,7 +191,8 @@ final class RecorderViewModel: ObservableObject {
         audioRecorder.$duration
             .receive(on: RunLoop.main)
             .sink { [weak self] duration in
-                self?.duration = duration
+                guard let self = self else { return }
+                self.duration = duration
             }
             .store(in: &cancellables)
 

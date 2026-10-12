@@ -16,3 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "SecureVox"
 include(":app")
+include(":ratingkit")
+project(":ratingkit").projectDir = file("/Users/sushanthtiruvaipati/Documents/GitHub/RatingKit-Android/ratingkit")

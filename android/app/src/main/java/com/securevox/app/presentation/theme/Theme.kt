@@ -14,51 +14,56 @@ import androidx.core.view.WindowCompat
 import com.securevox.app.presentation.settings.ThemeMode
 
 private val LightColorScheme = lightColorScheme(
-    primary = Color(0xFF1976D2),
+    primary = VerdigrisDeep,
     onPrimary = Color.White,
-    primaryContainer = Color(0xFFBBDEFB),
-    onPrimaryContainer = Color(0xFF0D47A1),
-    secondary = Color(0xFF26A69A),
+    primaryContainer = Color(0xFFCFE8E3),
+    onPrimaryContainer = Color(0xFF0F3B35),
+    secondary = SignalRedDeep,
     onSecondary = Color.White,
-    secondaryContainer = Color(0xFFB2DFDB),
-    onSecondaryContainer = Color(0xFF004D40),
-    tertiary = Color(0xFF7E57C2),
+    secondaryContainer = Color(0xFFF7D9D4),
+    onSecondaryContainer = Color(0xFF5C1F1B),
+    tertiary = VerdigrisDeep,
     onTertiary = Color.White,
-    background = Color(0xFFFAFAFA),
-    onBackground = Color(0xFF1C1C1E),
-    surface = Color.White,
-    onSurface = Color(0xFF1C1C1E),
-    surfaceVariant = Color(0xFFF5F5F5),
-    onSurfaceVariant = Color(0xFF49454F),
-    error = Color(0xFFD32F2F),
+    background = Paper,
+    onBackground = Ink,
+    surface = PaperRaised,
+    onSurface = Ink,
+    surfaceVariant = PaperSunk,
+    onSurfaceVariant = InkSoft,
+    outline = Color(0xFF8A9096),
+    outlineVariant = Color(0xFFD3D0C8),
+    error = SignalRedDeep,
     onError = Color.White
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Color(0xFF64B5F6),
-    onPrimary = Color(0xFF003258),
-    primaryContainer = Color(0xFF004880),
-    onPrimaryContainer = Color(0xFFD1E4FF),
-    secondary = Color(0xFF80CBC4),
-    onSecondary = Color(0xFF003731),
-    secondaryContainer = Color(0xFF005048),
-    onSecondaryContainer = Color(0xFFA7F3ED),
-    tertiary = Color(0xFFB39DDB),
-    onTertiary = Color(0xFF381E72),
-    background = Color(0xFF121212),
-    onBackground = Color(0xFFE6E1E5),
-    surface = Color(0xFF1E1E1E),
-    onSurface = Color(0xFFE6E1E5),
-    surfaceVariant = Color(0xFF2C2C2E),
-    onSurfaceVariant = Color(0xFFCAC4D0),
-    error = Color(0xFFEF5350),
-    onError = Color(0xFF601410)
+    primary = Verdigris,
+    onPrimary = Color(0xFF0B2B27),
+    primaryContainer = Color(0xFF1F4A44),
+    onPrimaryContainer = Color(0xFFA8E0D8),
+    secondary = SignalRed,
+    onSecondary = Color(0xFF3D0F0B),
+    secondaryContainer = SignalRedDim,
+    onSecondaryContainer = SignalRed,
+    tertiary = Verdigris,
+    onTertiary = Color(0xFF0B2B27),
+    background = Graphite,
+    onBackground = Bone,
+    surface = GraphiteSurface,
+    onSurface = Bone,
+    surfaceVariant = GraphiteRaised,
+    onSurfaceVariant = Slate,
+    outline = SlateDim,
+    outlineVariant = Color(0xFF34393D),
+    error = SignalRed,
+    onError = Color(0xFF3D0F0B)
 )
 
 @Composable
 fun SecureVoxTheme(
     themeMode: ThemeMode = ThemeMode.SYSTEM,
-    dynamicColor: Boolean = true,
+    // The notebook identity is fixed regardless of the device wallpaper.
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val systemDarkTheme = isSystemInDarkTheme()

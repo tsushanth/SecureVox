@@ -60,7 +60,7 @@
                         For support, feature requests, or bug reports:
                     </TextBlock>
                     <HyperlinkButton Content="GitHub Issues" NavigateUri="https://github.com/kreativekoala/SecureVox/issues" />
-                    <HyperlinkButton Content="Email Support" NavigateUri="mailto:support@kreativekoala.com" />
+                    <HyperlinkButton Content="Email Support" NavigateUri="mailto:support@kreativekoala.llc" />
                 </StackPanel>
             </Expander>
         </StackPanel>

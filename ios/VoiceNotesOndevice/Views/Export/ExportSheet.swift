@@ -1,4 +1,5 @@
 import SwiftUI
+import RatingKit
 
 /// Sheet for exporting transcript in various formats
 struct ExportSheet: View {
@@ -223,7 +224,12 @@ struct ShareSheet: UIViewControllerRepresentable {
 
     func makeUIViewController(context: Context) -> UIActivityViewController {
         let controller = UIActivityViewController(activityItems: items, applicationActivities: nil)
-        controller.completionWithItemsHandler = { _, _, _, _ in
+        controller.completionWithItemsHandler = { _, completed, _, _ in
+            // Rating signal: a real share is a clear value moment. Only fire
+            // when the user actually completed the share (not cancel).
+            if completed {
+                RatingKit.shared.trackAction()
+            }
             onDismiss()
         }
         return controller

@@ -1,0 +1,63 @@
+SecureVox - Your Private Voice Recording & Transcription App
+
+Record voice memos and get accurate transcriptions without ever sending your data to the cloud. SecureVox uses on-device AI powered by OpenAI's Whisper model to transcribe your recordings completely offline.
+
+Why SecureVox?
+
+Your voice recordings contain sensitive information - meeting notes, personal thoughts, confidential conversations. Unlike other transcription apps that upload your audio to remote servers, SecureVox processes everything locally on your device. Your recordings never leave your phone.
+
+Key Features:
+
+• 100% Offline Transcription - All speech-to-text processing happens on your device using advanced AI. No internet connection required.
+
+• Complete Privacy - Your recordings and transcriptions are stored only on your device. No cloud uploads, no accounts, no data collection.
+
+• High-Quality Recording - Crystal clear audio capture optimized for voice memos and meetings.
+
+• Fast & Accurate - Powered by Whisper AI, the same technology used by leading transcription services, running entirely on your device.
+
+• Search Your Transcripts - Quickly find any recording by searching through your transcriptions.
+
+• Export Options - Export transcripts as text files or share them with other apps.
+
+• Import Audio - Import existing audio files (MP3, WAV, M4A) for transcription.
+
+• Organize with Favorites - Mark important recordings for quick access.
+
+• Variable Playback Speed - Listen at 0.5x to 2x speed.
+
+• Modern Design - Clean, intuitive interface built with Material Design 3.
+
+Perfect For:
+
+• Journalists protecting source confidentiality
+• Medical professionals handling patient information
+• Legal professionals with privileged communications
+• Business meetings with sensitive discussions
+• Students recording lectures
+• Anyone who values their privacy
+
+How It Works:
+
+Tap to record your voice memo
+SecureVox automatically transcribes using on-device AI
+View, search, and export your transcriptions
+All data stays securely on your device
+Technical Details:
+
+• Uses OpenAI's Whisper model optimized for mobile
+• Supports Android 8.0 (Oreo) and above
+• Requires approximately 50MB for the AI model (downloaded on first use)
+• No account or sign-up required
+
+One-Time Purchase:
+
+SecureVox is a paid app with no subscriptions, no ads, and no in-app purchases. Pay once and own it forever.
+
+Learn more at https://securevox.app
+
+Privacy First:
+
+We believe your voice recordings are deeply personal. That's why we built SecureVox from the ground up with privacy as the foundation - not an afterthought. No analytics, no tracking, no cloud processing. Just you and your recordings.
+
+Download SecureVox today and take control of your voice data.

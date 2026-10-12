@@ -1,0 +1,4 @@
+• I download dei modelli vengono ora verificati tramite checksum, così un download corrotto non può più essere scambiato per un modello funzionante
+• I download interrotti riprendono da dove si sono fermati invece di ricominciare
+• Corretto un caso in cui il download di un modello poteva dichiarare successo senza averlo completato
+• Etichette delle dimensioni dei modelli leggermente più precise

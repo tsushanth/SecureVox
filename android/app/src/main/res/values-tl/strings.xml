@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Bumalik</string>
+    <string name="cancel">Kanselahin</string>
+    <string name="delete">I-delete</string>
+    <string name="ok">OK</string>
+    <string name="search">Maghanap</string>
+    <string name="clear">I-clear</string>
+    <string name="settings">Mga Setting</string>
+    <string name="recording_label">Recording</string>
+    <string name="export">I-export</string>
+    <string name="retry">Subukan Muli</string>
+    <string name="add">Idagdag</string>
+    <string name="import_label">I-import</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Maghanap ng mga recording</string>
+    <string name="close_search">Isara ang paghahanap</string>
+    <string name="import_media">Mag-import ng media</string>
+    <string name="stop_recording">Ihinto ang recording</string>
+    <string name="start_recording">Simulan ang recording</string>
+    <string name="importing_media">Nag-i-import ng media\u2026</string>
+    <string name="filter_all">Lahat</string>
+    <string name="filter_favorites">Mga Paborito</string>
+    <string name="favorite">Paborito</string>
+    <string name="remove_from_favorites">Alisin sa mga paborito</string>
+    <string name="add_to_favorites">Idagdag sa mga paborito</string>
+    <string name="import_failed_title">Nabigo ang Pag-import</string>
+    <string name="delete_recording_title">I-delete ang Recording</string>
+    <string name="delete_recording_message">Sigurado ka bang gusto mong i-delete ang recording na ito? Hindi na ito maibabalik.</string>
+    <string name="no_recordings_found">Walang nahanap na recording</string>
+    <string name="no_favorites_yet">Wala pang mga paborito</string>
+    <string name="no_recordings_yet">Wala pang mga recording</string>
+    <string name="try_different_search">Subukan ang ibang salita sa paghahanap</string>
+    <string name="swipe_to_favorite">I-swipe pakanan sa recording para idagdag sa paborito</string>
+    <string name="tap_mic_to_start">I-tap ang mikropono para magsimula</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Naghihintay</string>
+    <string name="status_processing">Pinoproseso</string>
+    <string name="status_done">Tapos na</string>
+    <string name="status_failed">Nabigo</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Mga karagdagang opsyon</string>
+    <string name="copy_transcript">Kopyahin ang Transcript</string>
+    <string name="copied_to_clipboard">Nakopya sa clipboard</string>
+    <string name="export_transcript">I-export ang transcript</string>
+    <string name="export_failed">Nabigo ang pag-export</string>
+    <string name="transcribing">Tina-transcribe\u2026</string>
+    <string name="transcription_may_take_minutes">Maaaring tumagal ng ilang minuto</string>
+    <string name="transcription_pending">Naghihintay ang transcription</string>
+    <string name="transcription_failed">Nabigo ang transcription</string>
+    <string name="please_try_again">Pakisubukang muli</string>
+    <string name="skip_back_10">Umatras ng 10 segundo</string>
+    <string name="skip_forward_10">Umusad ng 10 segundo</string>
+    <string name="pause">I-pause</string>
+    <string name="play">I-play</string>
+    <string name="selected">Napili</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Model ng Transcription</string>
+    <string name="section_language">Wika</string>
+    <string name="section_transcription">Transcription</string>
+    <string name="section_recording">Recording</string>
+    <string name="section_data_management">Pamamahala ng Data</string>
+    <string name="section_appearance">Hitsura</string>
+    <string name="section_storage">Storage</string>
+    <string name="section_about">Tungkol</string>
+    <string name="transcription_language">Wika ng Transcription</string>
+    <string name="auto_punctuation">Auto-Bantas</string>
+    <string name="auto_punctuation_subtitle">Awtomatikong magdagdag ng bantas sa mga transcript</string>
+    <string name="smart_capitalization">Smart na Capitalization</string>
+    <string name="smart_capitalization_subtitle">I-capitalize ang mga pangungusap at pangngalang pantangi</string>
+    <string name="custom_dictionary">Custom na Diksiyonaryo</string>
+    <string name="custom_dictionary_subtitle">Magdagdag ng mga salita para mapabuti ang katumpakan ng transcription</string>
+    <string name="sound_effects">Mga Sound Effect</string>
+    <string name="sound_effects_subtitle">Mag-play ng tunog kapag nagsisimula/humihinto ang recording</string>
+    <string name="haptic_feedback">Haptic Feedback</string>
+    <string name="haptic_feedback_subtitle">Mag-vibrate kapag nagsisimula/humihinto ang recording</string>
+    <string name="recycle_bin">Recycle Bin</string>
+    <string name="recycle_bin_deleted_immediately">Agad na dine-delete ang mga recording</string>
+    <string name="recycle_bin_keep_for">Itago ang mga na-delete na recording sa loob ng %1$s</string>
+    <string name="auto_delete_audio">Auto-Delete ng Audio</string>
+    <string name="auto_delete_audio_subtitle">I-delete ang mga audio file matapos makumpleto ang transcription</string>
+    <string name="auto_copy_clipboard">Auto-Copy sa Clipboard</string>
+    <string name="auto_copy_clipboard_subtitle">Kopyahin ang transcript sa clipboard pagkatapos ng transcription</string>
+    <string name="theme">Tema</string>
+    <string name="models_storage">Storage ng mga Model</string>
+    <string name="faq_and_help">FAQ &amp; Tulong</string>
+    <string name="faq_subtitle">Mga karaniwang tanong at troubleshooting</string>
+    <string name="about_version">Bersyon 1.0.0</string>
+    <string name="about_description">Privacy-first na voice transcription na pinapagana ng Whisper AI. Lahat ng processing ay nangyayari sa iyong device - hindi kailanman aalis ang iyong audio sa iyong telepono.</string>
+    <string name="select_language">Pumili ng Wika</string>
+    <string name="select_theme">Pumili ng Tema</string>
+    <string name="recycle_bin_retention">Tagal ng Pag-iingat sa Recycle Bin</string>
+    <string name="theme_follow_system">Sundin ang mga setting ng system</string>
+    <string name="theme_always_light">Palaging gamitin ang maliwanag na tema</string>
+    <string name="theme_always_dark">Palaging gamitin ang madilim na tema</string>
+    <string name="retention_disabled_desc">Permanenteng dine-delete ang mga recording agad</string>
+    <string name="retention_7_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 7 araw</string>
+    <string name="retention_14_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 14 na araw</string>
+    <string name="retention_30_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 30 araw</string>
+
+    <!-- Model Card -->
+    <string name="active">Aktibo</string>
+    <string name="cancel_download">Kanselahin ang download</string>
+    <string name="delete_model">I-delete ang model</string>
+    <string name="downloaded">Na-download</string>
+    <string name="download">I-download</string>
+    <string name="model_stat_size">Sukat</string>
+    <string name="model_stat_accuracy">Katumpakan</string>
+    <string name="model_stat_speed">Bilis</string>
+    <string name="download_failed_prefix">Nabigo ang download: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Maligayang Pagdating sa SecureVox</string>
+    <string name="welcome_subtitle">Privacy-first na voice transcription</string>
+    <string name="download_ai_model">I-download ang AI Model</string>
+    <string name="download_model_description">Kailangan ng SecureVox na i-download ang Whisper AI model (~75MB) para ma-transcribe ang iyong mga voice recording sa device.</string>
+    <string name="download_with_size">I-download (%1$dMB)</string>
+    <string name="downloading_progress">Nagda-download\u2026 %1$d%%</string>
+    <string name="download_complete">Kumpleto na ang download!</string>
+    <string name="download_failed_message">Nabigo ang download: %1$s</string>
+    <string name="privacy_note">Lahat ng transcription ay nangyayari sa iyong device</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">Maghanap sa FAQ\u2026</string>
+    <string name="no_results_found">Walang nahanap na resulta</string>
+    <string name="try_different_search_term">Subukan ang ibang salita sa paghahanap</string>
+    <string name="still_have_questions">May tanong pa ba?</string>
+    <string name="contact_support">Makipag-ugnayan sa amin sa support@securevox.app</string>
+    <string name="collapse">I-collapse</string>
+    <string name="expand">I-expand</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d na salita</string>
+    <string name="add_word">Magdagdag ng salita</string>
+    <string name="import_from_clipboard">I-import mula sa clipboard</string>
+    <string name="export_to_clipboard">I-export sa clipboard</string>
+    <string name="delete_all">I-delete lahat</string>
+    <string name="search_words">Maghanap ng mga salita\u2026</string>
+    <string name="no_custom_words_yet">Wala pang mga custom na salita</string>
+    <string name="custom_words_empty_hint">Magdagdag ng mga salitang madalas na mali ang pagkakilala, tulad ng mga pangalan, teknikal na termino, o mga abbreviation.</string>
+    <string name="add_word_button">Magdagdag ng Salita</string>
+    <string name="no_words_found">Walang nahanap na salita</string>
+    <string name="delete_word_title">I-delete ang Salita?</string>
+    <string name="delete_word_message">Alisin ang \"%1$s\" mula sa iyong custom na diksiyonaryo?</string>
+    <string name="add_word_title">Magdagdag ng Salita</string>
+    <string name="add_word_description">Maglagay ng salita para idagdag sa iyong custom na diksiyonaryo.</string>
+    <string name="word_label">Salita</string>
+    <string name="import_words_title">Mag-import ng mga Salita</string>
+    <string name="import_words_description">I-paste ang mga salita para i-import (isa bawat linya).</string>
+    <string name="words_label">Mga Salita</string>
+    <string name="delete_all_words_title">I-delete Lahat ng Salita?</string>
+    <string name="delete_all_words_message">Aalisin nito ang lahat ng %1$d na salita mula sa iyong custom na diksiyonaryo. Hindi na ito maibabalik.</string>
+    <string name="delete_all_button">I-delete Lahat</string>
+    <string name="dictionary_copied">Nakopya ang diksiyonaryo sa clipboard</string>
+    <string name="dictionary_empty">Walang laman ang diksiyonaryo</string>
+    <string name="word_added">Naidagdag ang salita</string>
+    <string name="word_already_exists">Mayroon nang salita</string>
+    <string name="words_imported">%1$d na salita ang na-import</string>
+    <string name="no_new_words">Walang bagong salita na i-import</string>
+    <string name="dictionary_cleared">Na-clear ang diksiyonaryo</string>
+</resources>

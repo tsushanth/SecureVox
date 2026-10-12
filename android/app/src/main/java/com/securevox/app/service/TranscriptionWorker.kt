@@ -1,20 +1,37 @@
 package com.securevox.app.service
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.Context
+import android.content.pm.ServiceInfo
+import android.os.Build
 import android.util.Log
+import androidx.core.app.NotificationCompat
 import androidx.work.*
+import com.securevox.app.R
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
+import com.securevox.app.speakers.ModelDownloader
+import com.securevox.app.speakers.SpeakerDiarizer
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.speakers.SpeakerModels
+import com.securevox.app.speakers.assignSpeakers
+import com.securevox.app.speakers.hasMultipleSpeakers
+import com.securevox.app.presentation.settings.dataStore
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.first
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
+import com.securevox.app.util.CrashLogger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileInputStream
+import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -32,6 +49,17 @@ class TranscriptionWorker(
         const val KEY_MODEL_NAME = "model_name"
         const val KEY_LANGUAGE = "language"
         const val KEY_PROGRESS = "progress"
+        const val TAG_TRANSCRIPTION = "transcription"
+        const val TAG_RECORDING_PREFIX = "recording:"
+
+        private const val NOTIFICATION_CHANNEL_ID = "transcription"
+        private const val NOTIFICATION_ID = 9101
+
+        // Whisper processes 30-second windows; chunk to this size to avoid OOM on large files.
+        // 30s × 16000 samples/s = 480,000 samples ≈ 1.8 MB as FloatArray.
+        private const val CHUNK_SAMPLES = 30 * 16000
+        // 1-second overlap between chunks so words at boundaries aren't cut off.
+        private const val OVERLAP_SAMPLES = 16000
 
         fun createWorkRequest(
             recordingId: String,
@@ -46,11 +74,8 @@ class TranscriptionWorker(
 
             return OneTimeWorkRequestBuilder<TranscriptionWorker>()
                 .setInputData(inputData)
-                .setConstraints(
-                    Constraints.Builder()
-                        .setRequiresBatteryNotLow(true)
-                        .build()
-                )
+                .addTag(TAG_TRANSCRIPTION)
+                .addTag("$TAG_RECORDING_PREFIX$recordingId")
                 .build()
         }
     }
@@ -69,184 +94,439 @@ class TranscriptionWorker(
 
         Log.i(TAG, "Starting transcription for recording: $recordingId")
 
+        // Tracked so a FAILED entry in the local log has real context (how far it got, how long
+        // it ran) instead of just an exception message — Logcat's ring buffer can't be relied on
+        // to still hold this by the time a user reports a problem.
+        val transcriptionStartedAtMs = System.currentTimeMillis()
+        var lastChunkIndexReached = -1
+        var lastTotalChunks = -1
+
+        // Confirmed root cause of "won't complete a transcript for meetings": this worker ran as
+        // a plain background CoroutineWorker, which Android's WorkManager kills after roughly 10
+        // minutes of execution. On-device whisper.cpp transcription of a real meeting-length
+        // recording (45-90+ min, chunked at 30s each) routinely exceeds that on a mid-range
+        // device. Promoting to a foreground service removes that background time limit — long
+        // recordings now run for as long as they actually take, with a visible progress
+        // notification instead of silently dying partway through.
         try {
-            // Update status to in progress
+            setForeground(createForegroundInfo(0))
+        } catch (e: Exception) {
+            Log.w(TAG, "Could not promote to foreground service, continuing in background", e)
+        }
+
+        try {
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.IN_PROGRESS, 0)
 
-            // Get recording
             val recording = repository.getRecordingById(recordingId)
                 ?: return@withContext Result.failure()
 
-            // Initialize Whisper with downloaded model
             val whisperLib = WhisperLib(applicationContext)
             val modelManager = SecureVoxApp.instance.modelManager
 
-            // Find the model by filename, default to TINY
             val whisperModel = WhisperModel.fromFileName(modelName) ?: WhisperModel.TINY
 
-            // Check if model is downloaded
             if (!modelManager.isModelDownloaded(whisperModel)) {
                 Log.e(TAG, "Model not downloaded: ${whisperModel.fileName}")
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
 
-            // Get the model path from ModelManager
             val modelPath = modelManager.getModelPath(whisperModel)
             Log.i(TAG, "Initializing Whisper with model: $modelPath")
 
             val initialized = whisperLib.initialize(modelPath)
-
             if (!initialized) {
-                Log.e(TAG, "Failed to initialize Whisper model from: $modelPath")
+                Log.e(TAG, "Failed to initialize Whisper model")
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
 
-            // Load audio file
-            val audioData = loadAudioFile(recording.audioFilePath)
-            if (audioData == null) {
-                Log.e(TAG, "Failed to load audio file")
+            // Open audio file and get WAV metadata without loading the whole file
+            val wavInfo = readWavInfo(recording.audioFilePath)
+            if (wavInfo == null) {
+                Log.e(TAG, "Failed to parse WAV info")
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 whisperLib.release()
                 return@withContext Result.failure()
             }
 
-            // Transcribe
-            val segments = whisperLib.transcribe(
-                audioData = audioData,
-                language = language,
-                onProgress = { progress ->
-                    setProgressAsync(workDataOf(KEY_PROGRESS to progress))
-                    // Can't call suspend functions here, just log
-                    Log.d(TAG, "Transcription progress: $progress%")
-                }
-            )
+            val totalAudioSamples = wavInfo.totalMonoSamples
+            val totalChunks = (((totalAudioSamples + CHUNK_SAMPLES - 1) / CHUNK_SAMPLES).coerceAtLeast(1)).toInt()
+            lastTotalChunks = totalChunks
+            Log.i(TAG, "Audio: ${totalAudioSamples} samples, processing in $totalChunks chunks")
 
-            // Save segments
-            val transcriptSegments = segments.mapIndexed { index, segment ->
-                TranscriptSegment(
-                    recordingId = recordingId,
-                    text = segment.text,
-                    startTimeMs = segment.startTimeMs,
-                    endTimeMs = segment.endTimeMs,
-                    segmentIndex = index
-                )
-            }
+            val allSegments = mutableListOf<TranscriptSegment>()
+            var segmentIndex = 0
 
             repository.deleteSegmentsForRecording(recordingId)
-            repository.saveSegments(transcriptSegments)
 
-            // Update status to completed
-            repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
+            for (chunkIdx in 0 until totalChunks) {
+                lastChunkIndexReached = chunkIdx
+                val chunkStartSample = (chunkIdx * CHUNK_SAMPLES - if (chunkIdx > 0) OVERLAP_SAMPLES else 0).coerceAtLeast(0)
+                val chunkEndSample = minOf(chunkStartSample + CHUNK_SAMPLES + OVERLAP_SAMPLES, totalAudioSamples.toInt())
 
+                val chunkData = loadAudioChunk(wavInfo, chunkStartSample, chunkEndSample)
+                if (chunkData == null) {
+                    Log.e(TAG, "Failed to load chunk $chunkIdx")
+                    continue
+                }
+
+                val chunkOffsetMs = (chunkStartSample.toLong() * 1000L) / 16000L
+
+                val chunkSegments = whisperLib.transcribe(
+                    audioData = chunkData,
+                    language = language,
+                    onProgress = { chunkProgress ->
+                        val overall = ((chunkIdx * 100 + chunkProgress) / totalChunks).coerceIn(0, 99)
+                        setProgressAsync(workDataOf(KEY_PROGRESS to overall))
+                    }
+                )
+
+                // Adjust timestamps by chunk offset and filter out overlap duplicates
+                val overlapMs = if (chunkIdx > 0) (OVERLAP_SAMPLES.toLong() * 1000L / 16000L) else 0L
+                val newSegments = chunkSegments
+                    .filter { it.startTimeMs >= overlapMs } // skip the overlap region from previous chunk
+                    .map { seg ->
+                        TranscriptSegment(
+                            recordingId = recordingId,
+                            text = seg.text,
+                            startTimeMs = seg.startTimeMs - overlapMs + chunkOffsetMs,
+                            endTimeMs = seg.endTimeMs - overlapMs + chunkOffsetMs,
+                            segmentIndex = segmentIndex++
+                        )
+                    }
+
+                allSegments.addAll(newSegments)
+
+                // Save incrementally so partial results appear in UI during long transcriptions
+                if (newSegments.isNotEmpty()) {
+                    repository.saveSegments(newSegments)
+                }
+
+                val progress = ((chunkIdx + 1) * 100 / totalChunks).coerceIn(0, 99)
+                setProgressAsync(workDataOf(KEY_PROGRESS to progress))
+                try {
+                    setForeground(createForegroundInfo(progress))
+                } catch (e: Exception) {
+                    Log.w(TAG, "Could not update foreground notification", e)
+                }
+                Log.i(TAG, "Chunk $chunkIdx/$totalChunks done, ${newSegments.size} segments, progress=$progress%")
+            }
+
+            // Free the Whisper model before the speaker pass loads its own models.
             whisperLib.release()
-            Log.i(TAG, "Transcription completed: ${segments.size} segments")
+            labelSpeakers(recordingId, wavInfo)
+
+            repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
+            Log.i(TAG, "Transcription completed: ${allSegments.size} total segments")
 
             Result.success()
 
+        } catch (e: OutOfMemoryError) {
+            Log.e(TAG, "OOM during transcription — device RAM too low", e)
+            repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
+            logFailureToDisk(
+                recordingId, "OutOfMemoryError", e.message,
+                transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
+            )
+            Result.failure()
         } catch (e: Exception) {
             Log.e(TAG, "Transcription failed", e)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
+            logFailureToDisk(
+                recordingId, e.javaClass.simpleName, e.message,
+                transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
+            )
             Result.failure()
         }
     }
 
-    private fun loadAudioFile(filePath: String): FloatArray? {
-        val file = File(filePath)
-        if (!file.exists()) {
-            Log.e(TAG, "Audio file not found: $filePath")
-            return null
+    /**
+     * Optional second pass: labels who is speaking. It must never fail the transcription, so
+     * any problem (models missing, too little memory, an error in the native library) just
+     * leaves the transcript unlabelled.
+     */
+    private suspend fun labelSpeakers(recordingId: String, info: WavInfo) {
+        try {
+            val enabled = applicationContext.dataStore.data.first()[SpeakerLabels.KEY_ENABLED] ?: false
+            if (!enabled) return
+            val dir = SpeakerLabels.modelDir(applicationContext)
+            if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) return
+            val total = info.totalMonoSamples
+            if (total > SpeakerLabels.MAX_SAMPLES) {
+                Log.i(TAG, "Recording too long for speaker labels (${total / 16000 / 60} min)")
+                return
+            }
+
+            // A native crash cannot be caught, and WorkManager re-runs a worker whose process died.
+            // Leave a marker for the duration of the pass so a retry skips it instead of crashing
+            // again in a loop.
+            val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
+            val guardKey = "speaker_pass_started_$recordingId"
+            if (guard.getBoolean(guardKey, false)) {
+                Log.w(TAG, "Speaker pass crashed last time for $recordingId; skipping it")
+                guard.edit().remove(guardKey).apply()
+                return
+            }
+            val samples = loadAudioChunk(info, 0, total.toInt()) ?: return
+            guard.edit().putBoolean(guardKey, true).commit()
+            val startedAt = System.nanoTime()
+            val spans = SpeakerDiarizer(dir).diarize(samples)
+            guard.edit().remove(guardKey).apply()
+            Log.i(
+                TAG,
+                "Diarization: ${total / 16000}s audio in ${(System.nanoTime() - startedAt) / 1_000_000}ms, " +
+                    "${spans.size} spans, ${spans.map { it.speaker }.toSet().size} raw speakers"
+            )
+            val segments = repository.getSegmentsForRecordingSync(recordingId)
+            val labelled = assignSpeakers(segments, spans)
+            // One voice means there is nothing to label; keep the transcript clean.
+            if (hasMultipleSpeakers(labelled)) repository.saveSegments(labelled)
+            Log.i(TAG, "Speaker pass done: ${labelled.map { it.speaker }.toSet().size} speakers")
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            Log.w(TAG, "Speaker labelling skipped", e)
         }
+    }
+
+    /**
+     * Appends a diagnostic entry to the local on-device failure log for a FAILED transcription.
+     * This covers the case that actually bit us in production: a stall with no exception thrown
+     * still hits one of these catch blocks via the coroutine's cancellation/failure path, but even
+     * when it doesn't, having duration + chunk progress on disk for the exception cases we DO see
+     * is what lets a "Report a Problem" email actually be diagnosable instead of just "it failed".
+     */
+    private fun logFailureToDisk(
+        recordingId: String,
+        exceptionType: String,
+        exceptionMessage: String?,
+        startedAtMs: Long,
+        lastChunkIndexReached: Int,
+        totalChunks: Int
+    ) {
+        val durationSeconds = (System.currentTimeMillis() - startedAtMs) / 1000
+        CrashLogger.appendEntry(
+            applicationContext,
+            "TRANSCRIPTION FAILED\n" +
+                "recordingId=$recordingId\n" +
+                "exception=$exceptionType: ${exceptionMessage ?: "(no message)"}\n" +
+                "durationSeconds=$durationSeconds\n" +
+                "chunkReached=${if (lastChunkIndexReached >= 0) lastChunkIndexReached else "n/a"}" +
+                "/${if (totalChunks > 0) totalChunks else "n/a"}"
+        )
+    }
+
+    private fun createForegroundInfo(progress: Int): ForegroundInfo {
+        val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                NOTIFICATION_CHANNEL_ID,
+                "Transcription",
+                NotificationManager.IMPORTANCE_LOW
+            ).apply { description = "Shows progress while transcribing a recording" }
+            notificationManager.createNotificationChannel(channel)
+        }
+
+        val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
+            .setContentTitle("Transcribing recording")
+            .setContentText("$progress% complete")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setOngoing(true)
+            .setProgress(100, progress, false)
+            .build()
+
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            ForegroundInfo(NOTIFICATION_ID, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC)
+        } else {
+            ForegroundInfo(NOTIFICATION_ID, notification)
+        }
+    }
+
+    /** Metadata from WAV header needed for chunked reading. */
+    private data class WavInfo(
+        val filePath: String,
+        val channels: Int,
+        val sampleRate: Int,
+        val bitsPerSample: Int,
+        val audioFormat: Int,
+        val dataOffsetBytes: Long,  // byte offset in file where PCM data begins
+        val dataSizeBytes: Long,
+        val totalMonoSamples: Long   // after channel-mixing and resampling to 16kHz
+    )
+
+    /** Parse WAV header and locate the data chunk without reading PCM data. */
+    private fun readWavInfo(filePath: String): WavInfo? {
+        val file = File(filePath)
+        if (!file.exists()) return null
 
         return try {
             FileInputStream(file).use { fis ->
-                val header = ByteArray(44)
-                val headerBytesRead = fis.read(header)
-                if (headerBytesRead < 44) {
-                    Log.e(TAG, "File too small for WAV header: $headerBytesRead bytes")
-                    return null
-                }
+                val riff = ByteArray(12)
+                if (fis.read(riff) < 12) return null
+                if (String(riff, 0, 4) != "RIFF" || String(riff, 8, 4) != "WAVE") return null
 
-                // Validate RIFF/WAVE header
-                val riff = String(header, 0, 4)
-                val wave = String(header, 8, 4)
-                if (riff != "RIFF" || wave != "WAVE") {
-                    Log.e(TAG, "Invalid WAV header: RIFF=$riff, WAVE=$wave")
-                    return null
-                }
+                var audioFormat = 1
+                var channels = 1
+                var sampleRate = 16000
+                var bitsPerSample = 16
+                var dataOffsetBytes = -1L
+                var dataSizeBytes = -1L
+                var bytesRead = 12L
 
-                // Parse WAV format info
-                val headerBuffer = ByteBuffer.wrap(header).order(ByteOrder.LITTLE_ENDIAN)
-                val audioFormat = headerBuffer.getShort(20).toInt()
-                val channels = headerBuffer.getShort(22).toInt()
-                val sampleRate = headerBuffer.getInt(24)
-                val bitsPerSample = headerBuffer.getShort(34).toInt()
+                val idBuf = ByteArray(4)
+                val szBuf = ByteArray(4)
 
-                Log.i(TAG, "WAV format: ${sampleRate}Hz, ${channels}ch, ${bitsPerSample}bit, fmt=$audioFormat")
+                while (true) {
+                    if (fis.read(idBuf) < 4) break
+                    if (fis.read(szBuf) < 4) break
+                    bytesRead += 8
+                    val chunkSize = ByteBuffer.wrap(szBuf).order(ByteOrder.LITTLE_ENDIAN).int.toLong() and 0xFFFFFFFFL
+                    val chunkId = String(idBuf, 0, 4)
 
-                if (audioFormat != 1) { // 1 = PCM
-                    Log.e(TAG, "Unsupported WAV audio format: $audioFormat (expected PCM=1)")
-                    return null
-                }
-
-                if (bitsPerSample != 16) {
-                    Log.e(TAG, "Unsupported bits per sample: $bitsPerSample (expected 16)")
-                    return null
-                }
-
-                // Read PCM data
-                val bytes = fis.readBytes()
-                val shortBuffer = ByteBuffer.wrap(bytes)
-                    .order(ByteOrder.LITTLE_ENDIAN)
-                    .asShortBuffer()
-
-                val samples = ShortArray(shortBuffer.remaining())
-                shortBuffer.get(samples)
-
-                // Mix to mono if multi-channel
-                val monoSamples = if (channels > 1) {
-                    val monoLength = samples.size / channels
-                    ShortArray(monoLength) { i ->
-                        var sum = 0L
-                        for (ch in 0 until channels) {
-                            sum += samples[i * channels + ch]
+                    when (chunkId) {
+                        "fmt " -> {
+                            val fmtData = ByteArray(chunkSize.toInt().coerceAtMost(40))
+                            val n = fis.read(fmtData)
+                            val buf = ByteBuffer.wrap(fmtData, 0, n).order(ByteOrder.LITTLE_ENDIAN)
+                            audioFormat = buf.getShort(0).toInt() and 0xFFFF
+                            channels = buf.getShort(2).toInt() and 0xFFFF
+                            sampleRate = buf.getInt(4)
+                            bitsPerSample = buf.getShort(14).toInt() and 0xFFFF
+                            val skip = chunkSize - n
+                            if (skip > 0) fis.skip(skip)
+                            bytesRead += chunkSize
                         }
-                        (sum / channels).toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                        "data" -> {
+                            dataOffsetBytes = bytesRead + 8 - 8 // position right after chunk header
+                            // Recalculate: bytesRead already includes the 8-byte header we just read
+                            dataOffsetBytes = bytesRead
+                            dataSizeBytes = chunkSize
+                            break
+                        }
+                        else -> {
+                            val skip = chunkSize + (chunkSize and 1)
+                            fis.skip(skip)
+                            bytesRead += skip
+                        }
                     }
-                } else {
-                    samples
                 }
 
-                // Resample to 16kHz if needed
-                val targetRate = 16000
-                val finalSamples = if (sampleRate != targetRate) {
-                    Log.i(TAG, "Resampling from ${sampleRate}Hz to ${targetRate}Hz")
-                    val ratio = sampleRate.toDouble() / targetRate.toDouble()
-                    val outputLength = (monoSamples.size / ratio).toInt()
-                    ShortArray(outputLength) { i ->
-                        val srcPos = i * ratio
-                        val srcIndex = srcPos.toInt()
-                        val fraction = srcPos - srcIndex
-                        val s1 = monoSamples[srcIndex]
-                        val s2 = if (srcIndex + 1 < monoSamples.size) monoSamples[srcIndex + 1] else s1
-                        (s1 + (fraction * (s2 - s1))).toInt()
-                            .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
-                    }
+                if (dataOffsetBytes < 0 || dataSizeBytes < 0) {
+                    Log.e(TAG, "No data chunk in WAV")
+                    return null
+                }
+
+                if (audioFormat != 1 && audioFormat != 3) {
+                    Log.e(TAG, "Unsupported WAV format $audioFormat")
+                    return null
+                }
+
+                val bytesPerSample = bitsPerSample / 8
+                val rawSamples = dataSizeBytes / bytesPerSample
+                val monoSamples = rawSamples / channels
+                // Adjust for resampling to 16kHz
+                val targetSamples = if (sampleRate != 16000) {
+                    (monoSamples * 16000L / sampleRate).toLong()
                 } else {
                     monoSamples
                 }
 
-                Log.i(TAG, "Loaded ${finalSamples.size} samples (${finalSamples.size / targetRate.toFloat()}s)")
+                Log.i(TAG, "WAV info: ${sampleRate}Hz ${channels}ch ${bitsPerSample}bit, dataOffset=$dataOffsetBytes, totalMonoSamples=$targetSamples")
 
-                // Convert to float array normalized to [-1, 1]
-                FloatArray(finalSamples.size) { i ->
-                    finalSamples[i].toFloat() / Short.MAX_VALUE
-                }
+                WavInfo(filePath, channels, sampleRate, bitsPerSample, audioFormat, dataOffsetBytes, dataSizeBytes, targetSamples)
             }
         } catch (e: Exception) {
-            Log.e(TAG, "Error loading audio file", e)
+            Log.e(TAG, "Error reading WAV info", e)
             null
         }
     }
+
+    /**
+     * Load a chunk of audio [startSample, endSample) (in 16kHz mono sample indices)
+     * directly from the WAV file without loading the entire file.
+     */
+    private fun loadAudioChunk(info: WavInfo, startSample: Int, endSample: Int): FloatArray? {
+        if (startSample >= endSample) return FloatArray(0)
+
+        val file = File(info.filePath)
+        val bytesPerRawSample = info.bitsPerSample / 8
+        val bytesPerFrame = bytesPerRawSample * info.channels // one frame = all channels
+
+        return try {
+            // Convert 16kHz target sample indices back to source sample indices
+            val ratio = if (info.sampleRate != 16000) info.sampleRate.toDouble() / 16000.0 else 1.0
+            val srcStartSample = (startSample * ratio).toLong()
+            val srcEndSample = ((endSample * ratio) + 1).toLong()
+                .coerceAtMost(info.dataSizeBytes / bytesPerFrame)
+
+            val frameCount = (srcEndSample - srcStartSample).toInt()
+            val byteOffset = info.dataOffsetBytes + srcStartSample * bytesPerFrame
+            val byteCount = (frameCount * bytesPerFrame).toInt()
+
+            val rawBytes = ByteArray(byteCount)
+            RandomAccessFile(file, "r").use { raf ->
+                raf.seek(byteOffset)
+                var pos = 0
+                while (pos < byteCount) {
+                    val n = raf.read(rawBytes, pos, byteCount - pos)
+                    if (n < 0) break
+                    pos += n
+                }
+            }
+
+            val buf = ByteBuffer.wrap(rawBytes).order(ByteOrder.LITTLE_ENDIAN)
+
+            // Decode samples
+            val rawSamples = ShortArray(frameCount * info.channels)
+            when {
+                info.audioFormat == 1 && info.bitsPerSample == 16 -> {
+                    buf.asShortBuffer().get(rawSamples)
+                }
+                info.audioFormat == 3 && info.bitsPerSample == 32 -> {
+                    val floatBuf = buf.asFloatBuffer()
+                    for (i in rawSamples.indices) {
+                        rawSamples[i] = (floatBuf.get() * Short.MAX_VALUE)
+                            .toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                    }
+                }
+            }
+
+            // Mix to mono
+            val mono = if (info.channels > 1) {
+                ShortArray(frameCount) { i ->
+                    var sum = 0L
+                    for (ch in 0 until info.channels) sum += rawSamples[i * info.channels + ch]
+                    (sum / info.channels).toInt().coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                }
+            } else {
+                rawSamples
+            }
+
+            // Resample to 16kHz if needed
+            val final16k = if (info.sampleRate != 16000) {
+                val outputLen = (mono.size / ratio).toInt()
+                ShortArray(outputLen) { i ->
+                    val srcPos = i * ratio
+                    val srcIdx = srcPos.toInt().coerceAtMost(mono.size - 1)
+                    val frac = srcPos - srcIdx
+                    val s1 = mono[srcIdx]
+                    val s2 = if (srcIdx + 1 < mono.size) mono[srcIdx + 1] else s1
+                    (s1 + frac * (s2 - s1)).toInt()
+                        .coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
+                }
+            } else {
+                mono
+            }
+
+            FloatArray(final16k.size) { i -> final16k[i].toFloat() / Short.MAX_VALUE }
+        } catch (e: OutOfMemoryError) {
+            Log.e(TAG, "OOM loading audio chunk", e)
+            null
+        } catch (e: Exception) {
+            Log.e(TAG, "Error loading audio chunk", e)
+            null
+        }
+    }
+
 }

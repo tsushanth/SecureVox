@@ -1,0 +1,319 @@
+/*
+  Localizable.strings (Japanese)
+  SecureVox
+*/
+
+// MARK: - Tabs
+"Recordings" = "録音";
+"Settings" = "設定";
+
+// MARK: - Recordings List
+"Search recordings" = "録音を検索";
+"No Recordings" = "録音なし";
+"Tap the record button to create a new recording, or import audio/video files." = "録音ボタンをタップして新しい録音を作成するか、音声/動画ファイルをインポートしてください。";
+"Record audio or import media to get started with offline transcription." = "音声を録音またはメディアをインポートしてオフライン文字起こしを始めましょう。";
+"Record Audio" = "録音する";
+"Import Media" = "メディアをインポート";
+"Delete" = "削除";
+"Favorite" = "お気に入り";
+"Unfavorite" = "お気に入り解除";
+"Add to Favorites" = "お気に入りに追加";
+"Remove from Favorites" = "お気に入りから削除";
+"Copy Transcript" = "文字起こしをコピー";
+"Delete Recording" = "録音を削除";
+"Cancel" = "キャンセル";
+"Are you sure you want to delete this recording? This cannot be undone." = "この録音を削除してもよろしいですか？この操作は取り消せません。";
+"Error" = "エラー";
+"OK" = "OK";
+
+// MARK: - Recording Row Status
+"Waiting" = "待機中";
+"Transcribing" = "文字起こし中";
+"Done" = "完了";
+"Failed" = "失敗";
+"Tap to transcribe" = "タップして文字起こし";
+"Transcription failed" = "文字起こしに失敗しました";
+"Today, %@" = "今日 %@";
+"Yesterday, %@" = "昨日 %@";
+
+// MARK: - Recorder Sheet
+"Recording" = "録音中";
+"Cancel Recording?" = "録音をキャンセルしますか？";
+"Discard Recording" = "録音を破棄";
+"Keep Recording" = "録音を保持";
+"Your recording will be lost." = "録音が失われます。";
+"Tap to start recording" = "タップして録音を開始";
+"Microphone permission required" = "マイクの許可が必要です";
+"Saving..." = "保存中...";
+
+// MARK: - Recording Detail View
+"Rename Recording" = "録音の名前を変更";
+"Title" = "タイトル";
+"Save" = "保存";
+"Delete this recording?" = "この録音を削除しますか？";
+"Cancel transcription?" = "文字起こしをキャンセルしますか？";
+"Cancel Transcription" = "文字起こしをキャンセル";
+"Continue" = "続ける";
+"Rename" = "名前を変更";
+"Start Transcription" = "文字起こしを開始";
+"Export Transcript" = "文字起こしをエクスポート";
+"Export TXT" = "TXTをエクスポート";
+"Export SRT" = "SRTをエクスポート";
+"Export VTT" = "VTTをエクスポート";
+
+// MARK: - Pending View
+"Ready to Transcribe" = "文字起こし準備完了";
+"Tap the button below to start offline transcription using Whisper." = "下のボタンをタップしてWhisperによるオフライン文字起こしを開始します。";
+
+// MARK: - Processing View
+"Loading Transcription Model" = "文字起こしモデルを読み込み中";
+"This may take a moment on first use..." = "初回使用時は少し時間がかかる場合があります...";
+"(Fallback)" = "（代替）";
+"Live Preview" = "ライブプレビュー";
+
+// MARK: - Transcript View
+"No Transcript" = "文字起こしなし";
+"The transcript will appear here after processing." = "処理後に文字起こしがここに表示されます。";
+"View Mode" = "表示モード";
+
+// MARK: - Apple Speech Fallback Banner
+"Transcribed with Apple Speech" = "Apple Speechで文字起こし";
+"Whisper AI provides better accuracy on iPhone 12 and newer devices." = "Whisper AIはiPhone 12以降のデバイスでより高い精度を提供します。";
+
+// MARK: - Re-transcribe
+"Re-transcribe" = "再文字起こし";
+"Currently: %@ model" = "現在: %@モデル";
+"Try a different model" = "別のモデルを試す";
+"Choose quality level for re-transcription. Higher accuracy takes longer but produces better results." = "再文字起こしの品質レベルを選択してください。高精度は時間がかかりますが、より良い結果が得られます。";
+"Choose quality level. Fast is recommended for this device. Higher quality options may be slow without GPU acceleration." = "品質レベルを選択してください。このデバイスには高速が推奨されます。GPU加速なしでは高品質オプションは遅くなる場合があります。";
+"Choose Quality" = "品質を選択";
+"This will replace the current transcription." = "現在の文字起こしが置き換えられます。";
+"Current" = "現在";
+
+// MARK: - Failed View
+"Transcription Failed" = "文字起こしに失敗";
+"An error occurred during transcription." = "文字起こし中にエラーが発生しました。";
+"Retry" = "再試行";
+
+// MARK: - Transcription Progress
+"Complete" = "完了";
+"Transcribing..." = "文字起こし中...";
+"About %@ remaining" = "残り約%@";
+"Processing entirely on your device" = "デバイス上で完全に処理";
+"less than a minute" = "1分未満";
+
+// MARK: - Export Sheet
+"Export Format" = "エクスポート形式";
+"Preview" = "プレビュー";
+"Export" = "エクスポート";
+"Exporting..." = "エクスポート中...";
+"Export Error" = "エクスポートエラー";
+"Choose Format" = "形式を選択";
+"The transcript will be exported and ready to share." = "文字起こしがエクスポートされ、共有の準備が整います。";
+
+// MARK: - Export Formats
+"Plain Text (.txt)" = "プレーンテキスト (.txt)";
+"SubRip Subtitle (.srt)" = "SubRip字幕 (.srt)";
+"WebVTT (.vtt)" = "WebVTT (.vtt)";
+"Simple text without timestamps. Best for reading and editing." = "タイムスタンプなしのシンプルなテキスト。読み取りと編集に最適。";
+"Industry-standard subtitle format. Compatible with most video editors." = "業界標準の字幕形式。ほとんどの動画編集ソフトと互換性あり。";
+"Web-compatible subtitle format. Works with HTML5 video players." = "Web互換の字幕形式。HTML5ビデオプレーヤーで動作。";
+
+// MARK: - Import Menu
+"Choose Source" = "ソースを選択";
+"Audio will be extracted from videos. Supported formats: MP4, MOV, MP3, M4A, WAV, and more." = "動画から音声が抽出されます。対応形式: MP4、MOV、MP3、M4A、WAVなど。";
+"Photo Library" = "写真ライブラリ";
+"Import videos from Camera Roll" = "カメラロールから動画をインポート";
+"Files" = "ファイル";
+"Import audio or video files" = "音声または動画ファイルをインポート";
+"Supported Formats" = "対応形式";
+"Video" = "動画";
+"Audio" = "音声";
+"Maximum file size: 2 GB" = "最大ファイルサイズ: 2 GB";
+"Importing..." = "インポート中...";
+"Import Error" = "インポートエラー";
+"An unknown error occurred" = "不明なエラーが発生しました";
+"Imported Recording" = "インポートした録音";
+"Loading video..." = "動画を読み込み中...";
+"Loading file..." = "ファイルを読み込み中...";
+
+// MARK: - Settings View
+"Transcription Quality" = "文字起こし品質";
+"Higher quality options produce better results but take longer. Your device supports GPU acceleration for optimal performance." = "高品質オプションはより良い結果を生みますが時間がかかります。お使いのデバイスは最適なパフォーマンスのためのGPU加速をサポートしています。";
+"Higher quality options may be slow on this device. Fast is recommended. iPhone 12 or newer recommended for Balanced and Accurate." = "高品質オプションはこのデバイスでは遅い場合があります。高速が推奨されます。バランスと高精度にはiPhone 12以降が推奨されます。";
+"Default Language" = "デフォルト言語";
+"Language" = "言語";
+"Whisper supports 99 languages. Auto-detect works well for most content, but selecting a specific language can improve accuracy." = "Whisperは99言語に対応しています。自動検出はほとんどのコンテンツで機能しますが、特定の言語を選択すると精度が向上する場合があります。";
+"Auto-Punctuation" = "自動句読点";
+"Smart Capitalization" = "スマート大文字化";
+"Custom Dictionary" = "カスタム辞書";
+"%lld words" = "%lld語";
+"Transcription" = "文字起こし";
+"Customize how transcription results are formatted. Add custom words to fix common misrecognitions." = "文字起こし結果のフォーマットをカスタマイズします。よくある誤認識を修正するためにカスタム単語を追加してください。";
+"Sound Effects" = "効果音";
+"Haptic Feedback" = "触覚フィードバック";
+"Play sounds and provide haptic feedback when starting and stopping recordings." = "録音の開始と停止時に音と触覚フィードバックを提供します。";
+"Recording Quality" = "録音品質";
+"Input Gain" = "入力ゲイン";
+"Normal" = "標準";
+"Higher quality produces larger files. Adjust input gain if recordings are too quiet or loud." = "高品質はファイルサイズが大きくなります。録音が静かすぎたり大きすぎる場合は入力ゲインを調整してください。";
+"Theme" = "テーマ";
+"Appearance" = "外観";
+"Recycle Bin" = "ゴミ箱";
+"Disabled" = "無効";
+"7 Days" = "7日間";
+"14 Days" = "14日間";
+"30 Days" = "30日間";
+"Recently Deleted" = "最近削除した項目";
+"Data Management" = "データ管理";
+"Deleted recordings are kept for %lld days before permanent deletion." = "削除された録音は完全に削除されるまで%lld日間保持されます。";
+"Recordings are permanently deleted immediately." = "録音は直ちに完全に削除されます。";
+"Loading..." = "読み込み中...";
+"Audio Files" = "音声ファイル";
+"Total Duration" = "合計時間";
+"Available Space" = "使用可能容量";
+"Auto-Delete Audio" = "音声の自動削除";
+"Auto-Copy to Clipboard" = "クリップボードに自動コピー";
+"Delete All Audio Files" = "すべての音声ファイルを削除";
+"Delete All Recordings" = "すべての録音を削除";
+"Storage" = "ストレージ";
+"After transcription: audio files will be deleted and transcript will be copied to clipboard." = "文字起こし後：音声ファイルが削除され、文字起こしがクリップボードにコピーされます。";
+"Audio files will be automatically deleted after transcription completes. Transcripts are preserved." = "文字起こし完了後、音声ファイルは自動的に削除されます。文字起こしは保持されます。";
+"Transcript will be automatically copied to clipboard after transcription completes." = "文字起こし完了後、文字起こしが自動的にクリップボードにコピーされます。";
+"Privacy" = "プライバシー";
+"FAQ & Help" = "よくある質問とヘルプ";
+"Contact Support" = "サポートに連絡";
+"Rate on App Store" = "App Storeで評価";
+"Share with Friends" = "友達と共有";
+"Privacy Policy" = "プライバシーポリシー";
+"Version" = "バージョン";
+"About" = "このアプリについて";
+"Delete All Audio Files?" = "すべての音声ファイルを削除しますか？";
+"Delete All Audio" = "すべての音声を削除";
+"Transcripts will be preserved. This cannot be undone." = "文字起こしは保持されます。この操作は取り消せません。";
+"Delete All Recordings?" = "すべての録音を削除しますか？";
+"Delete Everything" = "すべてを削除";
+"All recordings and transcripts will be permanently deleted. This cannot be undone." = "すべての録音と文字起こしが完全に削除されます。この操作は取り消せません。";
+"Unable to Open Mail" = "メールを開けません";
+"Please email us at %@" = "%@にメールをお送りください";
+"Get" = "入手";
+
+// MARK: - Settings - Recording Quality Options
+"Standard" = "標準";
+"High" = "高品質";
+"Maximum" = "最高品質";
+"16-bit, smaller files" = "16ビット、小さいファイル";
+"24-bit, better quality" = "24ビット、より良い品質";
+"32-bit, best quality" = "32ビット、最高品質";
+
+// MARK: - Settings - Theme Options
+"System" = "システム";
+"Light" = "ライト";
+"Dark" = "ダーク";
+
+// MARK: - Settings - Whisper Model Options
+"Fast" = "高速";
+"Balanced" = "バランス";
+"Accurate" = "高精度";
+"Quick results" = "素早い結果";
+"2x slower" = "2倍遅い";
+"5x slower" = "5倍遅い";
+"Fastest" = "最速";
+"Moderate" = "適度";
+"Slower" = "遅い";
+
+// MARK: - Settings - Privacy Section
+"%@ works completely offline. Your recordings never leave your device, and we never request network access. This means no iCloud sync, but your privacy is absolutely protected." = "%@は完全にオフラインで動作します。録音がデバイスの外に出ることはなく、ネットワークアクセスを要求することもありません。iCloud同期はありませんが、プライバシーは完全に保護されています。";
+
+// MARK: - Language Picker
+"Select Language" = "言語を選択";
+"Search languages" = "言語を検索";
+"Common" = "一般的";
+"All Languages" = "すべての言語";
+"Auto-Detect" = "自動検出";
+
+// MARK: - Custom Dictionary
+"Add word..." = "単語を追加...";
+"Words to Import" = "インポートする単語";
+"Enter one word or phrase per line." = "1行に1つの単語またはフレーズを入力してください。";
+"Import Words" = "単語をインポート";
+"Export Words" = "単語をエクスポート";
+"Clear All" = "すべてクリア";
+"Import" = "インポート";
+"Words (%lld)" = "単語 (%lld)";
+"Add names, technical terms, or specialized vocabulary to improve accuracy—like 'Steve Wozniak', 'CRISPR-Cas9', or 'Llama-2'." = "精度向上のために名前、専門用語、特殊な語彙を追加してください — 'Steve Wozniak'、'CRISPR-Cas9'、'Llama-2'など。";
+"Too many terms can reduce transcription quality. If accuracy suffers, try using fewer dictionary words." = "用語が多すぎると文字起こしの品質が低下する場合があります。精度が低下した場合は、辞書の単語数を減らしてみてください。";
+"Imported %lld word(s)" = "%lld語をインポートしました";
+
+// MARK: - Recycle Bin
+"Empty" = "空にする";
+"Empty Recycle Bin?" = "ゴミ箱を空にしますか？";
+"Delete All Permanently" = "すべて完全に削除";
+"This will permanently delete %lld recording(s). This cannot be undone." = "%lld件の録音を完全に削除します。この操作は取り消せません。";
+"Delete Permanently?" = "完全に削除しますか？";
+"Delete Permanently" = "完全に削除";
+"This recording will be permanently deleted. This cannot be undone." = "この録音は完全に削除されます。この操作は取り消せません。";
+"No Deleted Recordings" = "削除された録音なし";
+"Recordings you delete will appear here and can be restored." = "削除した録音はここに表示され、復元できます。";
+"Restore" = "復元";
+"Expires today" = "本日期限";
+"1 day left" = "残り1日";
+"%lld days left" = "残り%lld日";
+"Deleted today at %@" = "今日 %@に削除";
+"Deleted yesterday" = "昨日削除";
+"Deleted %@" = "%@に削除";
+
+// MARK: - Storage Usage View
+"Storage Usage" = "ストレージ使用状況";
+"Audio Recordings" = "音声録音";
+"Total Audio Size" = "合計音声サイズ";
+"Device Storage" = "デバイスストレージ";
+"Tips to free up space:" = "容量を空けるヒント：";
+"Delete audio files after transcription" = "文字起こし後に音声ファイルを削除";
+"Remove old recordings you no longer need" = "不要になった古い録音を削除";
+"Enable auto-delete in Settings" = "設定で自動削除を有効にする";
+"Tips" = "ヒント";
+"Usage" = "使用状況";
+
+// MARK: - Rating Prompt
+"Enjoying %@?" = "%@をお楽しみですか？";
+"Your feedback helps us improve the app for everyone." = "フィードバックは、すべてのユーザーのためのアプリ改善に役立ちます。";
+"Yes, I love it!" = "はい、大好きです！";
+"Not Really" = "いいえ";
+"Not Now" = "今はしない";
+
+// MARK: - Confirmation Dialogs
+"Delete Recording?" = "録音を削除しますか？";
+"This will permanently delete the recording and its transcript." = "録音とその文字起こしが完全に削除されます。";
+"Delete Audio File?" = "音声ファイルを削除しますか？";
+"The transcript will be preserved. This cannot be undone." = "文字起こしは保持されます。この操作は取り消せません。";
+"Delete Audio" = "音声を削除";
+"Discard" = "破棄";
+
+// MARK: - Share Sheet (macOS)
+"Share" = "共有";
+"Show in Finder" = "Finderで表示";
+"Copy Path" = "パスをコピー";
+"Share..." = "共有...";
+
+// MARK: - FAQ View
+"Search help topics" = "ヘルプトピックを検索";
+"Getting Started" = "はじめに";
+"Export & Sharing" = "エクスポートと共有";
+"Storage & Privacy" = "ストレージとプライバシー";
+"Troubleshooting" = "トラブルシューティング";
+
+// MARK: - Widget
+"Recording..." = "録音中...";
+"recordings" = "録音";
+"Tap to record" = "タップして録音";
+"total time" = "合計時間";
+"Recent" = "最近";
+"No recordings yet" = "録音はまだありません";
+"Most Recent" = "最新";
+"No recordings yet. Tap to start!" = "録音はまだありません。タップして開始！";
+"Tap to start recording" = "タップして録音を開始";
+"Tap to start recording instantly" = "タップして即座に録音開始";
+
+// MARK: - Widget Stats
+"Total Time" = "合計時間";

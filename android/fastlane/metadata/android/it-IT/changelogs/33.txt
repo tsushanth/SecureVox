@@ -1,0 +1,7 @@
+• Nuovo aspetto: colori sobri, carattere con grazie leggibile per le trascrizioni e forma d'onda da trascinare
+• Sottotitoli in tempo reale mentre registri
+• Condividi audio o video da qualsiasi app su SecureVox
+• Avvia la registrazione dalle Impostazioni rapide o dalla scorciatoia dell'icona
+• Blocco app facoltativo (impronta, volto o blocco schermo)
+• Corretto: le registrazioni mostravano il doppio della durata
+• Le registrazioni silenziose lo indicano invece di [BLANK_AUDIO]

@@ -1,0 +1,350 @@
+/*
+  Localizable.strings (Portuguese - Brazil)
+  SecureVox
+*/
+
+// MARK: - Tabs (ContentView)
+"Recordings" = "Gravacoes";
+"Settings" = "Ajustes";
+
+// MARK: - Recordings List
+"Search recordings" = "Buscar gravacoes";
+"No Recordings" = "Sem gravacoes";
+"Tap the record button to create a new recording, or import audio/video files." = "Toque no botao de gravar para criar uma nova gravacao ou importe arquivos de audio/video.";
+"Record audio or import media to get started with offline transcription." = "Grave audio ou importe midia para comecar com a transcricao offline.";
+"Record Audio" = "Gravar audio";
+"Import Media" = "Importar midia";
+"Delete" = "Excluir";
+"Favorite" = "Favorito";
+"Unfavorite" = "Remover favorito";
+"Add to Favorites" = "Adicionar aos favoritos";
+"Remove from Favorites" = "Remover dos favoritos";
+"Copy Transcript" = "Copiar transcricao";
+"Delete Recording" = "Excluir gravacao";
+"Cancel" = "Cancelar";
+"Are you sure you want to delete this recording? This cannot be undone." = "Tem certeza de que deseja excluir esta gravacao? Esta acao nao pode ser desfeita.";
+"Error" = "Erro";
+"OK" = "OK";
+
+// MARK: - Recording Row Status
+"Waiting" = "Aguardando";
+"Transcribing" = "Transcrevendo";
+"Done" = "Concluido";
+"Failed" = "Falhou";
+"Tap to transcribe" = "Toque para transcrever";
+"Transcription failed" = "Falha na transcricao";
+"Today, %@" = "Hoje, %@";
+"Yesterday, %@" = "Ontem, %@";
+
+// MARK: - Recorder Sheet
+"Recording" = "Gravando";
+"Cancel Recording?" = "Cancelar gravacao?";
+"Discard Recording" = "Descartar gravacao";
+"Keep Recording" = "Manter gravacao";
+"Your recording will be lost." = "Sua gravacao sera perdida.";
+"Tap to start recording" = "Toque para comecar a gravar";
+"Microphone permission required" = "Permissao de microfone necessaria";
+"Saving..." = "Salvando...";
+
+// MARK: - Recording Detail View
+"Rename Recording" = "Renomear gravacao";
+"Title" = "Titulo";
+"Save" = "Salvar";
+"Delete this recording?" = "Excluir esta gravacao?";
+"Cancel transcription?" = "Cancelar transcricao?";
+"Cancel Transcription" = "Cancelar transcricao";
+"Continue" = "Continuar";
+"Rename" = "Renomear";
+"Start Transcription" = "Iniciar transcricao";
+"Export Transcript" = "Exportar transcricao";
+"Export TXT" = "Exportar TXT";
+"Export SRT" = "Exportar SRT";
+"Export VTT" = "Exportar VTT";
+
+// MARK: - Pending View
+"Ready to Transcribe" = "Pronto para transcrever";
+"Tap the button below to start offline transcription using Whisper." = "Toque no botao abaixo para iniciar a transcricao offline usando o Whisper.";
+
+// MARK: - Processing View
+"Loading Transcription Model" = "Carregando modelo de transcricao";
+"This may take a moment on first use..." = "Isso pode levar um momento no primeiro uso...";
+"(Fallback)" = "(Alternativo)";
+"Live Preview" = "Pre-visualizacao ao vivo";
+
+// MARK: - Transcript View
+"No Transcript" = "Sem transcricao";
+"The transcript will appear here after processing." = "A transcricao aparecera aqui apos o processamento.";
+"View Mode" = "Modo de visualizacao";
+
+// MARK: - Apple Speech Fallback Banner
+"Transcribed with Apple Speech" = "Transcrito com Apple Speech";
+"Whisper AI provides better accuracy on iPhone 12 and newer devices." = "O Whisper AI oferece melhor precisao no iPhone 12 e dispositivos mais recentes.";
+
+// MARK: - Re-transcribe
+"Re-transcribe" = "Retranscrever";
+"Currently: %@ model" = "Atual: modelo %@";
+"Try a different model" = "Tente um modelo diferente";
+"Choose quality level for re-transcription. Higher accuracy takes longer but produces better results." = "Escolha o nivel de qualidade para a retranscricao. Maior precisao leva mais tempo, mas produz melhores resultados.";
+"Choose quality level. Fast is recommended for this device. Higher quality options may be slow without GPU acceleration." = "Escolha o nivel de qualidade. Rapido e recomendado para este dispositivo. Opcoes de maior qualidade podem ser lentas sem aceleracao GPU.";
+"Choose Quality" = "Escolher qualidade";
+"This will replace the current transcription." = "Isso substituira a transcricao atual.";
+"Current" = "Atual";
+
+// MARK: - Failed View
+"Transcription Failed" = "Falha na transcricao";
+"An error occurred during transcription." = "Ocorreu um erro durante a transcricao.";
+"Retry" = "Tentar novamente";
+
+// MARK: - Transcription Progress
+"Complete" = "Concluido";
+"Transcribing..." = "Transcrevendo...";
+"About %@ remaining" = "Aproximadamente %@ restante";
+"Processing entirely on your device" = "Processando inteiramente no seu dispositivo";
+"less than a minute" = "menos de um minuto";
+
+// MARK: - Export Sheet
+"Export Format" = "Formato de exportacao";
+"Preview" = "Pre-visualizacao";
+"Export" = "Exportar";
+"Exporting..." = "Exportando...";
+"Export Error" = "Erro de exportacao";
+"Choose Format" = "Escolher formato";
+"The transcript will be exported and ready to share." = "A transcricao sera exportada e estara pronta para compartilhar.";
+
+// MARK: - Export Formats
+"Plain Text (.txt)" = "Texto simples (.txt)";
+"SubRip Subtitle (.srt)" = "Legenda SubRip (.srt)";
+"WebVTT (.vtt)" = "WebVTT (.vtt)";
+"Simple text without timestamps. Best for reading and editing." = "Texto simples sem marcas de tempo. Ideal para leitura e edicao.";
+"Industry-standard subtitle format. Compatible with most video editors." = "Formato de legenda padrao da industria. Compativel com a maioria dos editores de video.";
+"Web-compatible subtitle format. Works with HTML5 video players." = "Formato de legenda compativel com a web. Funciona com reprodutores de video HTML5.";
+
+// MARK: - Import Menu
+"Import Media" = "Importar midia";
+"Choose Source" = "Escolher fonte";
+"Audio will be extracted from videos. Supported formats: MP4, MOV, MP3, M4A, WAV, and more." = "O audio sera extraido dos videos. Formatos suportados: MP4, MOV, MP3, M4A, WAV e mais.";
+"Photo Library" = "Biblioteca de fotos";
+"Import videos from Camera Roll" = "Importar videos do Rolo da Camera";
+"Files" = "Arquivos";
+"Import audio or video files" = "Importar arquivos de audio ou video";
+"Supported Formats" = "Formatos suportados";
+"Video" = "Video";
+"Audio" = "Audio";
+"Maximum file size: 2 GB" = "Tamanho maximo do arquivo: 2 GB";
+"Importing..." = "Importando...";
+"Import Error" = "Erro de importacao";
+"An unknown error occurred" = "Ocorreu um erro desconhecido";
+"Imported Recording" = "Gravacao importada";
+"Loading video..." = "Carregando video...";
+"Loading file..." = "Carregando arquivo...";
+
+// MARK: - Settings View
+"Transcription Quality" = "Qualidade da transcricao";
+"Higher quality options produce better results but take longer. Your device supports GPU acceleration for optimal performance." = "Opcoes de maior qualidade produzem melhores resultados, mas levam mais tempo. Seu dispositivo suporta aceleracao GPU para desempenho ideal.";
+"Higher quality options may be slow on this device. Fast is recommended. iPhone 12 or newer recommended for Balanced and Accurate." = "Opcoes de maior qualidade podem ser lentas neste dispositivo. Rapido e recomendado. iPhone 12 ou mais recente recomendado para Equilibrado e Preciso.";
+"Default Language" = "Idioma padrao";
+"Language" = "Idioma";
+"Whisper supports 99 languages. Auto-detect works well for most content, but selecting a specific language can improve accuracy." = "O Whisper suporta 99 idiomas. A deteccao automatica funciona bem para a maioria dos conteudos, mas selecionar um idioma especifico pode melhorar a precisao.";
+"Auto-Punctuation" = "Pontuacao automatica";
+"Smart Capitalization" = "Capitalizacao inteligente";
+"Custom Dictionary" = "Dicionario personalizado";
+"%lld words" = "%lld palavras";
+"Transcription" = "Transcricao";
+"Customize how transcription results are formatted. Add custom words to fix common misrecognitions." = "Personalize como os resultados da transcricao sao formatados. Adicione palavras personalizadas para corrigir erros comuns de reconhecimento.";
+"Sound Effects" = "Efeitos sonoros";
+"Haptic Feedback" = "Feedback haptico";
+"Play sounds and provide haptic feedback when starting and stopping recordings." = "Reproduzir sons e fornecer feedback haptico ao iniciar e parar gravacoes.";
+"Recording Quality" = "Qualidade da gravacao";
+"Input Gain" = "Ganho de entrada";
+"Normal" = "Normal";
+"Higher quality produces larger files. Adjust input gain if recordings are too quiet or loud." = "Maior qualidade produz arquivos maiores. Ajuste o ganho de entrada se as gravacoes estiverem muito baixas ou altas.";
+"Theme" = "Tema";
+"Appearance" = "Aparencia";
+"Recycle Bin" = "Lixeira";
+"Disabled" = "Desativado";
+"7 Days" = "7 dias";
+"14 Days" = "14 dias";
+"30 Days" = "30 dias";
+"Recently Deleted" = "Excluidos recentemente";
+"Data Management" = "Gerenciamento de dados";
+"Deleted recordings are kept for %lld days before permanent deletion." = "Gravacoes excluidas sao mantidas por %lld dias antes da exclusao permanente.";
+"Recordings are permanently deleted immediately." = "Gravacoes sao excluidas permanentemente de imediato.";
+"Loading..." = "Carregando...";
+"Recordings" = "Gravacoes";
+"Audio Files" = "Arquivos de audio";
+"Total Duration" = "Duracao total";
+"Available Space" = "Espaco disponivel";
+"Auto-Delete Audio" = "Exclusao automatica de audio";
+"Auto-Copy to Clipboard" = "Copiar automaticamente para a area de transferencia";
+"Delete All Audio Files" = "Excluir todos os arquivos de audio";
+"Delete All Recordings" = "Excluir todas as gravacoes";
+"Storage" = "Armazenamento";
+"After transcription: audio files will be deleted and transcript will be copied to clipboard." = "Apos a transcricao: os arquivos de audio serao excluidos e a transcricao sera copiada para a area de transferencia.";
+"Audio files will be automatically deleted after transcription completes. Transcripts are preserved." = "Os arquivos de audio serao excluidos automaticamente apos a conclusao da transcricao. As transcricoes sao preservadas.";
+"Transcript will be automatically copied to clipboard after transcription completes." = "A transcricao sera copiada automaticamente para a area de transferencia apos a conclusao.";
+"Privacy" = "Privacidade";
+"FAQ & Help" = "Perguntas frequentes e ajuda";
+"Contact Support" = "Contatar suporte";
+"Rate on App Store" = "Avaliar na App Store";
+"Share with Friends" = "Compartilhar com amigos";
+"Privacy Policy" = "Politica de privacidade";
+"Version" = "Versao";
+"About" = "Sobre";
+"Delete All Audio Files?" = "Excluir todos os arquivos de audio?";
+"Delete All Audio" = "Excluir todo o audio";
+"Transcripts will be preserved. This cannot be undone." = "As transcricoes serao preservadas. Esta acao nao pode ser desfeita.";
+"Delete All Recordings?" = "Excluir todas as gravacoes?";
+"Delete Everything" = "Excluir tudo";
+"All recordings and transcripts will be permanently deleted. This cannot be undone." = "Todas as gravacoes e transcricoes serao excluidas permanentemente. Esta acao nao pode ser desfeita.";
+"Unable to Open Mail" = "Nao foi possivel abrir o email";
+"Please email us at %@" = "Envie um email para %@";
+"Get" = "Obter";
+
+// MARK: - Settings - Recording Quality Options
+"Standard" = "Padrao";
+"High" = "Alta";
+"Maximum" = "Maxima";
+"16-bit, smaller files" = "16 bits, arquivos menores";
+"24-bit, better quality" = "24 bits, melhor qualidade";
+"32-bit, best quality" = "32 bits, melhor qualidade";
+
+// MARK: - Settings - Theme Options
+"System" = "Sistema";
+"Light" = "Claro";
+"Dark" = "Escuro";
+
+// MARK: - Settings - Whisper Model Options
+"Fast" = "Rapido";
+"Balanced" = "Equilibrado";
+"Accurate" = "Preciso";
+"Quick results" = "Resultados rapidos";
+"2x slower" = "2x mais lento";
+"5x slower" = "5x mais lento";
+"Fastest" = "O mais rapido";
+"Moderate" = "Moderado";
+"Slower" = "Mais lento";
+
+// MARK: - Settings - Privacy Section
+"%@ works completely offline. Your recordings never leave your device, and we never request network access. This means no iCloud sync, but your privacy is absolutely protected." = "%@ funciona completamente offline. Suas gravacoes nunca saem do seu dispositivo e nunca solicitamos acesso a rede. Isso significa que nao ha sincronizacao com o iCloud, mas sua privacidade esta absolutamente protegida.";
+
+// MARK: - Language Picker
+"Select Language" = "Selecionar idioma";
+"Search languages" = "Buscar idiomas";
+"Common" = "Comuns";
+"All Languages" = "Todos os idiomas";
+"Auto-Detect" = "Deteccao automatica";
+
+// MARK: - Custom Dictionary
+"Add word..." = "Adicionar palavra...";
+"Words to Import" = "Palavras para importar";
+"Enter one word or phrase per line." = "Digite uma palavra ou frase por linha.";
+"Import Words" = "Importar palavras";
+"Export Words" = "Exportar palavras";
+"Clear All" = "Limpar tudo";
+"Import" = "Importar";
+"Words (%lld)" = "Palavras (%lld)";
+"Add names, technical terms, or specialized vocabulary to improve accuracy—like 'Steve Wozniak', 'CRISPR-Cas9', or 'Llama-2'." = "Adicione nomes, termos tecnicos ou vocabulario especializado para melhorar a precisao — como 'Steve Wozniak', 'CRISPR-Cas9' ou 'Llama-2'.";
+"Too many terms can reduce transcription quality. If accuracy suffers, try using fewer dictionary words." = "Muitos termos podem reduzir a qualidade da transcricao. Se a precisao for prejudicada, tente usar menos palavras do dicionario.";
+"Imported %lld word(s)" = "%lld palavra(s) importada(s)";
+
+// MARK: - Recycle Bin
+"Empty" = "Esvaziar";
+"Empty Recycle Bin?" = "Esvaziar lixeira?";
+"Delete All Permanently" = "Excluir tudo permanentemente";
+"This will permanently delete %lld recording(s). This cannot be undone." = "Isso excluira permanentemente %lld gravacao(oes). Esta acao nao pode ser desfeita.";
+"Delete Permanently?" = "Excluir permanentemente?";
+"Delete Permanently" = "Excluir permanentemente";
+"This recording will be permanently deleted. This cannot be undone." = "Esta gravacao sera excluida permanentemente. Esta acao nao pode ser desfeita.";
+"No Deleted Recordings" = "Sem gravacoes excluidas";
+"Recordings you delete will appear here and can be restored." = "As gravacoes que voce excluir aparecerrao aqui e poderao ser restauradas.";
+"Restore" = "Restaurar";
+"Expires today" = "Expira hoje";
+"1 day left" = "1 dia restante";
+"%lld days left" = "%lld dias restantes";
+"Deleted today at %@" = "Excluido hoje as %@";
+"Deleted yesterday" = "Excluido ontem";
+"Deleted %@" = "Excluido %@";
+
+// MARK: - Storage Usage View
+"Storage Usage" = "Uso de armazenamento";
+"Audio Recordings" = "Gravacoes de audio";
+"Total Audio Size" = "Tamanho total do audio";
+"Device Storage" = "Armazenamento do dispositivo";
+"Tips to free up space:" = "Dicas para liberar espaco:";
+"Delete audio files after transcription" = "Excluir arquivos de audio apos a transcricao";
+"Remove old recordings you no longer need" = "Remover gravacoes antigas que voce nao precisa mais";
+"Enable auto-delete in Settings" = "Ativar exclusao automatica nos Ajustes";
+"Tips" = "Dicas";
+"Usage" = "Uso";
+
+// MARK: - Rating Prompt
+"Enjoying %@?" = "Gostando do %@?";
+"Your feedback helps us improve the app for everyone." = "Seu feedback nos ajuda a melhorar o app para todos.";
+"Yes, I love it!" = "Sim, eu adoro!";
+"Not Really" = "Nao muito";
+"Not Now" = "Agora nao";
+
+// MARK: - Loading Overlay
+"Loading..." = "Carregando...";
+
+// MARK: - Confirmation Dialogs
+"Delete Recording?" = "Excluir gravacao?";
+"This will permanently delete the recording and its transcript." = "Isso excluira permanentemente a gravacao e sua transcricao.";
+"Delete Audio File?" = "Excluir arquivo de audio?";
+"The transcript will be preserved. This cannot be undone." = "A transcricao sera preservada. Esta acao nao pode ser desfeita.";
+"Delete Audio" = "Excluir audio";
+"Discard" = "Descartar";
+
+// MARK: - Share Sheet (macOS)
+"Share" = "Compartilhar";
+"Show in Finder" = "Mostrar no Finder";
+"Copy Path" = "Copiar caminho";
+"Share..." = "Compartilhar...";
+
+// MARK: - FAQ View
+"Search help topics" = "Buscar topicos de ajuda";
+"Getting Started" = "Primeiros passos";
+"How do I record audio?" = "Como gravo audio?";
+"Tap the + button in the top right corner and select \"Record\". Grant microphone permission when prompted. Tap the red record button to start, and tap stop when finished. Your recording will appear in the library." = "Toque no botao + no canto superior direito e selecione \"Gravar\". Conceda permissao de microfone quando solicitado. Toque no botao vermelho para comecar e toque em parar quando terminar. Sua gravacao aparecera na biblioteca.";
+"How do I import a video from my Camera Roll?" = "Como importo um video do meu Rolo da Camera?";
+"Tap the + button and select \"Import\". Choose \"Photo Library\" to select videos from your Camera Roll. The app will extract the audio track for transcription." = "Toque no botao + e selecione \"Importar\". Escolha \"Biblioteca de fotos\" para selecionar videos do Rolo da Camera. O app extraira a faixa de audio para transcricao.";
+"Can I import audio files?" = "Posso importar arquivos de audio?";
+"Yes! Tap the + button, select \"Import\", then \"Files\". You can import MP3, M4A, WAV, and most common audio formats from the Files app, iCloud Drive, or other sources." = "Sim! Toque no botao +, selecione \"Importar\" e depois \"Arquivos\". Voce pode importar MP3, M4A, WAV e a maioria dos formatos de audio comuns do app Arquivos, iCloud Drive ou outras fontes.";
+"How long does transcription take?" = "Quanto tempo leva a transcricao?";
+"With the Tiny model, transcription runs about 10x faster than realtime (a 10-minute recording takes ~1 minute). The Small model is more accurate but slower at about 2x realtime. Processing happens entirely on your device." = "Com o modelo Tiny, a transcricao roda cerca de 10x mais rapido que em tempo real (uma gravacao de 10 minutos leva ~1 minuto). O modelo Small e mais preciso, mas mais lento, cerca de 2x em tempo real. O processamento acontece inteiramente no seu dispositivo.";
+"What languages are supported?" = "Quais idiomas sao suportados?";
+"Whisper supports 99 languages including English, Spanish, French, German, Chinese, Japanese, Korean, Arabic, and many more. Auto-detect works for most content, or you can manually select a language in Settings for better accuracy." = "O Whisper suporta 99 idiomas, incluindo ingles, espanhol, frances, alemao, chines, japones, coreano, arabe e muitos mais. A deteccao automatica funciona para a maioria dos conteudos, ou voce pode selecionar manualmente um idioma nos Ajustes para melhor precisao.";
+"How accurate is the transcription?" = "Qual e a precisao da transcricao?";
+"Accuracy depends on audio quality, background noise, accents, and the model used. The Small model provides the best accuracy. Clear audio with minimal background noise produces the best results. You can edit transcripts after processing." = "A precisao depende da qualidade do audio, ruido de fundo, sotaques e do modelo usado. O modelo Small oferece a melhor precisao. Audio claro com ruido de fundo minimo produz os melhores resultados. Voce pode editar transcricoes apos o processamento.";
+"Does this work offline?" = "Funciona offline?";
+"Yes! All transcription happens on your device using Apple's Neural Engine. No internet connection is required, and your audio never leaves your device." = "Sim! Toda a transcricao acontece no seu dispositivo usando o Neural Engine da Apple. Nenhuma conexao com a internet e necessaria e seu audio nunca sai do dispositivo.";
+"Export & Sharing" = "Exportar e compartilhar";
+"What export formats are available?" = "Quais formatos de exportacao estao disponiveis?";
+"How do I share a transcript?" = "Como compartilho uma transcricao?";
+"Open a recording, tap the menu button (...), and select \"Export Transcript\". Choose your format and use the share sheet to send via Messages, Mail, AirDrop, or save to Files." = "Abra uma gravacao, toque no botao de menu (...) e selecione \"Exportar transcricao\". Escolha o formato e use a folha de compartilhamento para enviar via Mensagens, Mail, AirDrop ou salvar nos Arquivos.";
+"Storage & Privacy" = "Armazenamento e privacidade";
+"How much storage do recordings use?" = "Quanto armazenamento as gravacoes usam?";
+"Audio recordings use about 1 MB per minute. The Whisper models use 75-500 MB depending on which you select. You can delete audio files after transcription to save space while keeping your transcripts." = "Gravacoes de audio usam cerca de 1 MB por minuto. Os modelos Whisper usam 75-500 MB dependendo de qual voce selecionar. Voce pode excluir arquivos de audio apos a transcricao para economizar espaco mantendo suas transcricoes.";
+"Is my data private?" = "Meus dados sao privados?";
+"Absolutely. All processing happens on-device. Your audio and transcripts never leave your iPhone. We don't collect any usage data or analytics. Your recordings are stored only in the app's private container." = "Com certeza. Todo o processamento acontece no dispositivo. Seu audio e transcricoes nunca saem do seu iPhone. Nao coletamos nenhum dado de uso ou analitico. Suas gravacoes sao armazenadas apenas no container privado do app.";
+"Can I delete the audio but keep the transcript?" = "Posso excluir o audio e manter a transcricao?";
+"Yes! Open a recording, tap the menu (...), and select \"Delete Audio File\". The transcript remains. You can also enable \"Auto-Delete Audio\" in Settings to automatically remove audio after transcription." = "Sim! Abra uma gravacao, toque no menu (...) e selecione \"Excluir arquivo de audio\". A transcricao permanece. Voce tambem pode ativar \"Exclusao automatica de audio\" nos Ajustes para remover automaticamente o audio apos a transcricao.";
+"Troubleshooting" = "Solucao de problemas";
+"Why did my transcription fail?" = "Por que minha transcricao falhou?";
+"The transcription quality is poor. What can I do?" = "A qualidade da transcricao e ruim. O que posso fazer?";
+"The app crashes during transcription" = "O app trava durante a transcricao";
+
+// MARK: - Widget
+"Recording..." = "Gravando...";
+"recordings" = "gravacoes";
+"Tap to record" = "Toque para gravar";
+"total time" = "tempo total";
+"Recent" = "Recente";
+"No recordings yet" = "Nenhuma gravacao ainda";
+"Most Recent" = "Mais recente";
+"No recordings yet. Tap to start!" = "Nenhuma gravacao ainda. Toque para comecar!";
+"Tap to start recording" = "Toque para comecar a gravar";
+"Tap to start recording instantly" = "Toque para gravar instantaneamente";
+
+// MARK: - Widget Stats
+"Total Time" = "Tempo total";

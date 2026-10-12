@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">戻る</string>
+    <string name="cancel">キャンセル</string>
+    <string name="delete">削除</string>
+    <string name="ok">OK</string>
+    <string name="search">検索</string>
+    <string name="clear">クリア</string>
+    <string name="settings">設定</string>
+    <string name="recording_label">録音</string>
+    <string name="export">エクスポート</string>
+    <string name="retry">再試行</string>
+    <string name="add">追加</string>
+    <string name="import_label">インポート</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">録音を検索</string>
+    <string name="close_search">検索を閉じる</string>
+    <string name="import_media">メディアをインポート</string>
+    <string name="stop_recording">録音を停止</string>
+    <string name="start_recording">録音を開始</string>
+    <string name="importing_media">メディアをインポート中\u2026</string>
+    <string name="filter_all">すべて</string>
+    <string name="filter_favorites">お気に入り</string>
+    <string name="favorite">お気に入り</string>
+    <string name="remove_from_favorites">お気に入りから削除</string>
+    <string name="add_to_favorites">お気に入りに追加</string>
+    <string name="import_failed_title">インポート失敗</string>
+    <string name="delete_recording_title">録音を削除</string>
+    <string name="delete_recording_message">この録音を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="no_recordings_found">録音が見つかりません</string>
+    <string name="no_favorites_yet">お気に入りはまだありません</string>
+    <string name="no_recordings_yet">録音はまだありません</string>
+    <string name="try_different_search">別の検索語をお試しください</string>
+    <string name="swipe_to_favorite">録音を右にスワイプしてお気に入りに追加</string>
+    <string name="tap_mic_to_start">マイクボタンをタップして開始</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">保留中</string>
+    <string name="status_processing">処理中</string>
+    <string name="status_done">完了</string>
+    <string name="status_failed">失敗</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">その他のオプション</string>
+    <string name="copy_transcript">文字起こしをコピー</string>
+    <string name="copied_to_clipboard">クリップボードにコピーしました</string>
+    <string name="export_transcript">文字起こしをエクスポート</string>
+    <string name="export_failed">エクスポート失敗</string>
+    <string name="transcribing">文字起こし中\u2026</string>
+    <string name="transcription_may_take_minutes">数分かかる場合があります</string>
+    <string name="transcription_pending">文字起こし保留中</string>
+    <string name="transcription_failed">文字起こし失敗</string>
+    <string name="please_try_again">もう一度お試しください</string>
+    <string name="skip_back_10">10秒戻る</string>
+    <string name="skip_forward_10">10秒進む</string>
+    <string name="pause">一時停止</string>
+    <string name="play">再生</string>
+    <string name="selected">選択済み</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">文字起こしモデル</string>
+    <string name="section_language">言語</string>
+    <string name="section_transcription">文字起こし</string>
+    <string name="section_recording">録音</string>
+    <string name="section_data_management">データ管理</string>
+    <string name="section_appearance">外観</string>
+    <string name="section_storage">ストレージ</string>
+    <string name="section_about">このアプリについて</string>
+    <string name="transcription_language">文字起こし言語</string>
+    <string name="auto_punctuation">自動句読点</string>
+    <string name="auto_punctuation_subtitle">文字起こしに自動で句読点を追加</string>
+    <string name="smart_capitalization">スマート大文字化</string>
+    <string name="smart_capitalization_subtitle">文頭や固有名詞を大文字にする</string>
+    <string name="custom_dictionary">カスタム辞書</string>
+    <string name="custom_dictionary_subtitle">文字起こしの精度を向上させる単語を追加</string>
+    <string name="sound_effects">効果音</string>
+    <string name="sound_effects_subtitle">録音の開始/停止時にサウンドを再生</string>
+    <string name="haptic_feedback">触覚フィードバック</string>
+    <string name="haptic_feedback_subtitle">録音の開始/停止時にバイブレーション</string>
+    <string name="recycle_bin">ごみ箱</string>
+    <string name="recycle_bin_deleted_immediately">録音は即座に削除されます</string>
+    <string name="recycle_bin_keep_for">削除した録音を%1$s保持</string>
+    <string name="auto_delete_audio">音声の自動削除</string>
+    <string name="auto_delete_audio_subtitle">文字起こし完了後に音声ファイルを削除</string>
+    <string name="auto_copy_clipboard">クリップボードへ自動コピー</string>
+    <string name="auto_copy_clipboard_subtitle">文字起こし後にクリップボードにコピー</string>
+    <string name="theme">テーマ</string>
+    <string name="models_storage">モデルストレージ</string>
+    <string name="faq_and_help">FAQ &amp; ヘルプ</string>
+    <string name="faq_subtitle">よくある質問とトラブルシューティング</string>
+    <string name="about_version">バージョン 1.0.0</string>
+    <string name="about_description">Whisper AIを搭載したプライバシー重視の音声文字起こし。すべての処理はデバイス上で行われます \u2013 音声がスマートフォンから外に出ることはありません。</string>
+    <string name="select_language">言語を選択</string>
+    <string name="select_theme">テーマを選択</string>
+    <string name="recycle_bin_retention">ごみ箱の保持期間</string>
+    <string name="theme_follow_system">システム設定に従う</string>
+    <string name="theme_always_light">常にライトテーマを使用</string>
+    <string name="theme_always_dark">常にダークテーマを使用</string>
+    <string name="retention_disabled_desc">録音は即座に完全に削除されます</string>
+    <string name="retention_7_days_desc">削除された録音は7日以内に復元できます</string>
+    <string name="retention_14_days_desc">削除された録音は14日以内に復元できます</string>
+    <string name="retention_30_days_desc">削除された録音は30日以内に復元できます</string>
+
+    <!-- Model Card -->
+    <string name="active">アクティブ</string>
+    <string name="cancel_download">ダウンロードをキャンセル</string>
+    <string name="delete_model">モデルを削除</string>
+    <string name="downloaded">ダウンロード済み</string>
+    <string name="download">ダウンロード</string>
+    <string name="model_stat_size">サイズ</string>
+    <string name="model_stat_accuracy">精度</string>
+    <string name="model_stat_speed">速度</string>
+    <string name="download_failed_prefix">ダウンロード失敗: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">SecureVoxへようこそ</string>
+    <string name="welcome_subtitle">プライバシー重視の音声文字起こし</string>
+    <string name="download_ai_model">AIモデルをダウンロード</string>
+    <string name="download_model_description">SecureVoxは音声録音をデバイス上で文字起こしするために、Whisper AIモデル（約75MB）をダウンロードする必要があります。</string>
+    <string name="download_with_size">ダウンロード (%1$dMB)</string>
+    <string name="downloading_progress">ダウンロード中\u2026 %1$d%%</string>
+    <string name="download_complete">ダウンロード完了！</string>
+    <string name="download_failed_message">ダウンロード失敗: %1$s</string>
+    <string name="privacy_note">すべての文字起こしはデバイス上で行われます</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">FAQを検索\u2026</string>
+    <string name="no_results_found">結果が見つかりません</string>
+    <string name="try_different_search_term">別の検索語をお試しください</string>
+    <string name="still_have_questions">まだ質問がありますか？</string>
+    <string name="contact_support">support@securevox.app までお問い合わせください</string>
+    <string name="collapse">折りたたむ</string>
+    <string name="expand">展開する</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d 語</string>
+    <string name="add_word">単語を追加</string>
+    <string name="import_from_clipboard">クリップボードからインポート</string>
+    <string name="export_to_clipboard">クリップボードにエクスポート</string>
+    <string name="delete_all">すべて削除</string>
+    <string name="search_words">単語を検索\u2026</string>
+    <string name="no_custom_words_yet">カスタム単語はまだありません</string>
+    <string name="custom_words_empty_hint">名前、専門用語、略語など、よく誤認識される単語を追加してください。</string>
+    <string name="add_word_button">単語を追加</string>
+    <string name="no_words_found">単語が見つかりません</string>
+    <string name="delete_word_title">単語を削除しますか？</string>
+    <string name="delete_word_message">カスタム辞書から「%1$s」を削除しますか？</string>
+    <string name="add_word_title">単語を追加</string>
+    <string name="add_word_description">カスタム辞書に追加する単語を入力してください。</string>
+    <string name="word_label">単語</string>
+    <string name="import_words_title">単語をインポート</string>
+    <string name="import_words_description">インポートする単語を貼り付けてください（1行に1つ）。</string>
+    <string name="words_label">単語</string>
+    <string name="delete_all_words_title">すべての単語を削除しますか？</string>
+    <string name="delete_all_words_message">カスタム辞書から%1$d語すべてが削除されます。この操作は元に戻せません。</string>
+    <string name="delete_all_button">すべて削除</string>
+    <string name="dictionary_copied">辞書をクリップボードにコピーしました</string>
+    <string name="dictionary_empty">辞書は空です</string>
+    <string name="word_added">単語を追加しました</string>
+    <string name="word_already_exists">単語はすでに存在します</string>
+    <string name="words_imported">%1$d語をインポートしました</string>
+    <string name="no_new_words">インポートする新しい単語はありません</string>
+    <string name="dictionary_cleared">辞書をクリアしました</string>
+</resources>
