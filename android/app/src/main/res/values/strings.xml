@@ -201,4 +201,9 @@
     <string name="upgrade_model_body">Download the Base model (%1$d MB). It makes fewer mistakes with names and fast speech, and still runs entirely on this device.</string>
     <string name="upgrade_model_action">Download</string>
     <string name="upgrade_model_dismiss">Not now</string>
+    <string name="label_speakers">Label speakers</string>
+    <string name="label_speakers_subtitle">Mark who is talking in new transcripts. Downloads about 35 MB once and works offline. Recordings over 30 minutes are skipped.</string>
+    <string name="label_speakers_downloading">Downloading speaker models… %1$d%%</string>
+    <string name="label_speakers_failed">Could not download the speaker models: %1$s</string>
+    <string name="speaker_n">Speaker %1$d</string>
 </resources>

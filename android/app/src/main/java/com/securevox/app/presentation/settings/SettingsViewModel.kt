@@ -3,6 +3,11 @@ package com.securevox.app.presentation.settings
 import android.app.Application
 import android.content.Context
 import com.securevox.app.AppLock
+import com.securevox.app.speakers.ModelDownloader
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.speakers.SpeakerModels
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -138,6 +143,42 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun setLiveCaptionsEnabled(enabled: Boolean) {
         viewModelScope.launch {
             dataStore.edit { prefs -> prefs[LiveTranscriber.KEY_ENABLED] = enabled }
+        }
+    }
+
+    val labelSpeakersEnabled: StateFlow<Boolean> = dataStore.data
+        .map { prefs -> prefs[SpeakerLabels.KEY_ENABLED] ?: false }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    /** null = idle, otherwise download progress 0..1 of the speaker models. */
+    private val _speakerModelProgress = MutableStateFlow<Float?>(null)
+    val speakerModelProgress: StateFlow<Float?> = _speakerModelProgress.asStateFlow()
+    private val _speakerModelError = MutableStateFlow<String?>(null)
+    val speakerModelError: StateFlow<String?> = _speakerModelError.asStateFlow()
+
+    /** Turning labels on downloads the two models first (about 35 MB); if that fails it stays off. */
+    fun setLabelSpeakersEnabled(enabled: Boolean) {
+        viewModelScope.launch {
+            if (!enabled) {
+                dataStore.edit { it[SpeakerLabels.KEY_ENABLED] = false }
+                return@launch
+            }
+            val dir = SpeakerLabels.modelDir(getApplication())
+            if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) {
+                _speakerModelError.value = null
+                _speakerModelProgress.value = 0f
+                val result = withContext(Dispatchers.IO) {
+                    runCatching {
+                        ModelDownloader.ensure(dir, SpeakerModels.DIARIZATION) { _speakerModelProgress.value = it }
+                    }
+                }
+                _speakerModelProgress.value = null
+                if (result.isFailure) {
+                    _speakerModelError.value = result.exceptionOrNull()?.message ?: "Download failed"
+                    return@launch
+                }
+            }
+            dataStore.edit { it[SpeakerLabels.KEY_ENABLED] = true }
         }
     }
 

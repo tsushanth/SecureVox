@@ -57,6 +57,9 @@ fun SettingsScreen(
     val autoCopyToClipboard by viewModel.autoCopyToClipboard.collectAsState()
     val appLockEnabled by viewModel.appLockEnabled.collectAsState()
     val liveCaptionsEnabled by viewModel.liveCaptionsEnabled.collectAsState()
+    val labelSpeakersEnabled by viewModel.labelSpeakersEnabled.collectAsState()
+    val speakerModelProgress by viewModel.speakerModelProgress.collectAsState()
+    val speakerModelError by viewModel.speakerModelError.collectAsState()
     val settingsContext = LocalContext.current
 
     var showLanguageDialog by remember { mutableStateOf(false) }
@@ -203,6 +206,22 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
+                )
+            }
+
+            item {
+                SettingsToggleCard(
+                    title = stringResource(R.string.label_speakers),
+                    subtitle = when {
+                        speakerModelProgress != null ->
+                            stringResource(R.string.label_speakers_downloading, ((speakerModelProgress ?: 0f) * 100).toInt())
+                        speakerModelError != null ->
+                            stringResource(R.string.label_speakers_failed, speakerModelError ?: "")
+                        else -> stringResource(R.string.label_speakers_subtitle)
+                    },
+                    icon = Icons.Default.RecordVoiceOver,
+                    checked = labelSpeakersEnabled,
+                    onCheckedChange = { if (speakerModelProgress == null) viewModel.setLabelSpeakersEnabled(it) }
                 )
             }
 

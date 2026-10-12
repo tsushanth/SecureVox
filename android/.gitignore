@@ -1,0 +1,4 @@
+
+# fetched by app/build.gradle.kts (downloadSherpaOnnx), checksum-pinned
+app/libs/*.aar
+app/libs/*.part

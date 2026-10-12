@@ -11,6 +11,7 @@ import java.io.File
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -257,9 +258,12 @@ fun RecordingDetailScreen(
                                 contentPadding = PaddingValues(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(4.dp)
                             ) {
-                                items(segments, key = { it.id }) { segment ->
+                                itemsIndexed(segments, key = { _, it -> it.id }) { index, segment ->
+                                    val newSpeaker = segment.speaker >= 0 &&
+                                        (index == 0 || segments[index - 1].speaker != segment.speaker)
                                     SegmentRow(
                                         segment = segment,
+                                        showSpeaker = newSpeaker,
                                         isActive = segment.id == activeSegment?.id,
                                         currentTime = currentPosition,
                                         onClick = { viewModel.seekToSegment(segment) }
@@ -382,6 +386,7 @@ fun RecordingDetailScreen(
 @Composable
 private fun SegmentRow(
     segment: TranscriptSegment,
+    showSpeaker: Boolean,
     isActive: Boolean,
     currentTime: Long,
     onClick: () -> Unit
@@ -410,13 +415,22 @@ private fun SegmentRow(
             color = if (isActive) accent else MaterialTheme.colorScheme.outline,
             modifier = Modifier.width(44.dp).padding(top = 5.dp)
         )
-        Text(
-            text = segment.text,
-            style = TranscriptStyle,
-            color = if (isActive) MaterialTheme.colorScheme.onSurface
-            else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.78f),
-            modifier = Modifier.weight(1f)
-        )
+        Column(modifier = Modifier.weight(1f)) {
+            if (showSpeaker) {
+                Text(
+                    text = stringResource(R.string.speaker_n, segment.speaker + 1),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = SpeakerColors[segment.speaker % SpeakerColors.size],
+                    modifier = Modifier.padding(bottom = 2.dp)
+                )
+            }
+            Text(
+                text = segment.text,
+                style = TranscriptStyle,
+                color = if (isActive) MaterialTheme.colorScheme.onSurface
+                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.78f)
+            )
+        }
     }
 }
 
