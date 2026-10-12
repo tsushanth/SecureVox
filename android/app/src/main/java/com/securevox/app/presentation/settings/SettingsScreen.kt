@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import android.widget.Toast
 import com.securevox.app.AppLock
+import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.R
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
@@ -209,7 +210,7 @@ fun SettingsScreen(
                 )
             }
 
-            item {
+            if (SpeakerLabels.AVAILABLE) item {
                 SettingsToggleCard(
                     title = stringResource(R.string.label_speakers),
                     subtitle = when {

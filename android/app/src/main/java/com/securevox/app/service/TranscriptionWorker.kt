@@ -258,8 +258,26 @@ class TranscriptionWorker(
                 return
             }
 
+            // A native crash cannot be caught, and WorkManager re-runs a worker whose process died.
+            // Leave a marker for the duration of the pass so a retry skips it instead of crashing
+            // again in a loop.
+            val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
+            val guardKey = "speaker_pass_started_$recordingId"
+            if (guard.getBoolean(guardKey, false)) {
+                Log.w(TAG, "Speaker pass crashed last time for $recordingId; skipping it")
+                guard.edit().remove(guardKey).apply()
+                return
+            }
             val samples = loadAudioChunk(info, 0, total.toInt()) ?: return
-            val spans = SpeakerDiarizer(dir).diarize(samples) { }
+            guard.edit().putBoolean(guardKey, true).commit()
+            val startedAt = System.nanoTime()
+            val spans = SpeakerDiarizer(dir).diarize(samples)
+            guard.edit().remove(guardKey).apply()
+            Log.i(
+                TAG,
+                "Diarization: ${total / 16000}s audio in ${(System.nanoTime() - startedAt) / 1_000_000}ms, " +
+                    "${spans.size} spans, ${spans.map { it.speaker }.toSet().size} raw speakers"
+            )
             val segments = repository.getSegmentsForRecordingSync(recordingId)
             val labelled = assignSpeakers(segments, spans)
             // One voice means there is nothing to label; keep the transcript clean.

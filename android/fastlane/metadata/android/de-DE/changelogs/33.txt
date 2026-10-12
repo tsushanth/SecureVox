@@ -1,0 +1,7 @@
+• Neues Design: ruhigere Farben, gut lesbare Serifenschrift für Transkripte und eine Wellenform zum Springen
+• Live-Untertitel während der Aufnahme
+• Audio oder Video aus jeder App mit SecureVox teilen
+• Aufnahme per Schnelleinstellungs-Kachel oder Icon-Verknüpfung starten
+• Optionale App-Sperre (Fingerabdruck, Gesicht oder Bildschirmsperre)
+• Behoben: Aufnahmen zeigten die doppelte Länge
+• Stille Aufnahmen werden als solche angezeigt statt [BLANK_AUDIO]
