@@ -62,6 +62,8 @@ fun SettingsScreen(
     val speakerModelProgress by viewModel.speakerModelProgress.collectAsState()
     val speakerModelError by viewModel.speakerModelError.collectAsState()
     val settingsContext = LocalContext.current
+    var showLicenses by remember { mutableStateOf(false) }
+    if (showLicenses) LicensesSheet(onDismiss = { showLicenses = false })
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
@@ -466,6 +468,9 @@ fun SettingsScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        TextButton(onClick = { showLicenses = true }) {
+                            Text(stringResource(R.string.licenses_view))
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = stringResource(R.string.about_description),

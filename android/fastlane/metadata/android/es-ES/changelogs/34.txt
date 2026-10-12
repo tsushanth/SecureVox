@@ -1,0 +1,4 @@
+• Etiquetas de hablantes (opcional, en Ajustes): las transcripciones nuevas muestran quién habla
+• Las licencias de código abierto ahora aparecen en Acerca de
+• Acerca de ahora muestra la versión correcta
+• La onda ya no se aplana en grabaciones largas y silenciosas
