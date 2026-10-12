@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.securevox.app.util.MemoryPolicy
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.securevox.app.R
@@ -66,6 +67,7 @@ fun RecordingDetailScreen(
 
     val recording by viewModel.recording.collectAsState()
     val segments by viewModel.segments.collectAsState()
+    val speakerSkip by viewModel.speakerSkip.collectAsState()
     val waveform by viewModel.waveform.collectAsState()
     val isPlaying by viewModel.isPlaying.collectAsState()
     val currentPosition by viewModel.currentPosition.collectAsState()
@@ -251,6 +253,17 @@ fun RecordingDetailScreen(
                             // Progress banner while still transcribing (segments arriving live)
                             if (isInProgress) {
                                 TranscriptionProgressBanner(progress = transcriptionProgress)
+                            }
+                            speakerSkip?.let { skip ->
+                                Text(
+                                    text = stringResource(
+                                        if (skip == MemoryPolicy.SpeakerSkip.TOO_LONG) R.string.speaker_skipped_long
+                                        else R.string.speaker_skipped_memory
+                                    ),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                                )
                             }
                             LazyColumn(
                                 state = listState,

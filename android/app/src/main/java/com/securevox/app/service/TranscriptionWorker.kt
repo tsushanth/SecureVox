@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.first
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.util.CrashLogger
+import com.securevox.app.util.MemoryPolicy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -247,22 +248,29 @@ class TranscriptionWorker(
      * leaves the transcript unlabelled.
      */
     private suspend fun labelSpeakers(recordingId: String, info: WavInfo) {
+        // Declared outside the try so the catch below can clear the crash marker.
+        val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
+        val guardKey = "speaker_pass_started_$recordingId"
         try {
+            SpeakerLabels.setSkipNote(applicationContext, recordingId, null) // forget a note from an earlier run
             val enabled = applicationContext.dataStore.data.first()[SpeakerLabels.KEY_ENABLED] ?: false
             if (!enabled) return
             val dir = SpeakerLabels.modelDir(applicationContext)
             if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) return
             val total = info.totalMonoSamples
-            if (total > SpeakerLabels.MAX_SAMPLES) {
-                Log.i(TAG, "Recording too long for speaker labels (${total / 16000 / 60} min)")
+            // Allow only what the phone can hold right now (and never more than the fixed cap).
+            val decision = MemoryPolicy.speakerDecision(
+                MemoryPolicy.read(applicationContext), total, SpeakerLabels.MAX_SAMPLES
+            )
+            if (!decision.allowed) {
+                Log.i(TAG, "Speaker labels skipped for $recordingId: ${decision.reason}")
+                SpeakerLabels.setSkipNote(applicationContext, recordingId, decision.skip)
                 return
             }
 
             // A native crash cannot be caught, and WorkManager re-runs a worker whose process died.
             // Leave a marker for the duration of the pass so a retry skips it instead of crashing
             // again in a loop.
-            val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
-            val guardKey = "speaker_pass_started_$recordingId"
             if (guard.getBoolean(guardKey, false)) {
                 Log.w(TAG, "Speaker pass crashed last time for $recordingId; skipping it")
                 guard.edit().remove(guardKey).apply()
@@ -284,8 +292,15 @@ class TranscriptionWorker(
             if (hasMultipleSpeakers(labelled)) repository.saveSegments(labelled)
             Log.i(TAG, "Speaker pass done: ${labelled.map { it.speaker }.toSet().size} speakers")
         } catch (e: CancellationException) {
+            guard.edit().remove(guardKey).apply()
             throw e
         } catch (e: Throwable) {
+            // A Java-level failure (including OutOfMemoryError) was caught, so there is no native
+            // crash to guard against on the next run; clear the marker so it is not left half-done.
+            guard.edit().remove(guardKey).apply()
+            if (e is OutOfMemoryError) {
+                SpeakerLabels.setSkipNote(applicationContext, recordingId, MemoryPolicy.SpeakerSkip.LOW_MEMORY)
+            }
             Log.w(TAG, "Speaker labelling skipped", e)
         }
     }
