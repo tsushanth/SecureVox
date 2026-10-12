@@ -1,5 +1,6 @@
 package com.securevox.app.data.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.Index
@@ -28,5 +29,8 @@ data class TranscriptSegment(
     val text: String,
     val startTimeMs: Long,
     val endTimeMs: Long,
-    val segmentIndex: Int
+    val segmentIndex: Int,
+    /** 0-based speaker number by first appearance, or -1 when speakers were not labelled. */
+    @ColumnInfo(defaultValue = "-1")
+    val speaker: Int = -1
 )

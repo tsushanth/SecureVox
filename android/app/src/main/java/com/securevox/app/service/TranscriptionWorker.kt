@@ -15,6 +15,15 @@ import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
+import com.securevox.app.speakers.ModelDownloader
+import com.securevox.app.speakers.SpeakerDiarizer
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.speakers.SpeakerModels
+import com.securevox.app.speakers.assignSpeakers
+import com.securevox.app.speakers.hasMultipleSpeakers
+import com.securevox.app.presentation.settings.dataStore
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.flow.first
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.util.CrashLogger
@@ -204,8 +213,11 @@ class TranscriptionWorker(
                 Log.i(TAG, "Chunk $chunkIdx/$totalChunks done, ${newSegments.size} segments, progress=$progress%")
             }
 
-            repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
+            // Free the Whisper model before the speaker pass loads its own models.
             whisperLib.release()
+            labelSpeakers(recordingId, wavInfo)
+
+            repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
             Log.i(TAG, "Transcription completed: ${allSegments.size} total segments")
 
             Result.success()
@@ -226,6 +238,37 @@ class TranscriptionWorker(
                 transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
             )
             Result.failure()
+        }
+    }
+
+    /**
+     * Optional second pass: labels who is speaking. It must never fail the transcription, so
+     * any problem (models missing, too little memory, an error in the native library) just
+     * leaves the transcript unlabelled.
+     */
+    private suspend fun labelSpeakers(recordingId: String, info: WavInfo) {
+        try {
+            val enabled = applicationContext.dataStore.data.first()[SpeakerLabels.KEY_ENABLED] ?: false
+            if (!enabled) return
+            val dir = SpeakerLabels.modelDir(applicationContext)
+            if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) return
+            val total = info.totalMonoSamples
+            if (total > SpeakerLabels.MAX_SAMPLES) {
+                Log.i(TAG, "Recording too long for speaker labels (${total / 16000 / 60} min)")
+                return
+            }
+
+            val samples = loadAudioChunk(info, 0, total.toInt()) ?: return
+            val spans = SpeakerDiarizer(dir).diarize(samples) { }
+            val segments = repository.getSegmentsForRecordingSync(recordingId)
+            val labelled = assignSpeakers(segments, spans)
+            // One voice means there is nothing to label; keep the transcript clean.
+            if (hasMultipleSpeakers(labelled)) repository.saveSegments(labelled)
+            Log.i(TAG, "Speaker pass done: ${labelled.map { it.speaker }.toSet().size} speakers")
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Throwable) {
+            Log.w(TAG, "Speaker labelling skipped", e)
         }
     }
 

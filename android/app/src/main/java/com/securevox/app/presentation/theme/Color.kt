@@ -25,3 +25,12 @@ val Ink = Color(0xFF1C1E20)
 val InkSoft = Color(0xFF565C61)
 val VerdigrisDeep = Color(0xFF2B6F67)
 val SignalRedDeep = Color(0xFFC93A2C)
+
+// Speaker labels: four voices that stay apart on both the graphite and paper backgrounds,
+// and none of them red, which is reserved for recording and destructive actions.
+val SpeakerColors = listOf(
+    Color(0xFF6DB8AD), // verdigris
+    Color(0xFFE0B04A), // amber
+    Color(0xFF9A8FE0), // violet
+    Color(0xFF5FA3D6)  // blue
+)
