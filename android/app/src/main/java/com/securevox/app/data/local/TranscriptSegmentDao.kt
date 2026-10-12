@@ -25,6 +25,16 @@ interface TranscriptSegmentDao {
     @Query("DELETE FROM transcript_segments WHERE recordingId = :recordingId")
     suspend fun deleteSegmentsForRecording(recordingId: String)
 
+    /**
+     * Replaces a recording's whole segment list in ONE transaction, so a crash leaves either the old
+     * rows or the new ones, never a mix or duplicates. Used by the speaker relabel.
+     */
+    @Transaction
+    suspend fun replaceSegments(recordingId: String, segments: List<TranscriptSegment>) {
+        deleteSegmentsForRecording(recordingId)
+        insertSegments(segments)
+    }
+
     @Query("SELECT GROUP_CONCAT(text, ' ') FROM transcript_segments WHERE recordingId = :recordingId ORDER BY segmentIndex ASC")
     suspend fun getFullTranscriptText(recordingId: String): String?
 }

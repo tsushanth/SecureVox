@@ -234,4 +234,26 @@
     <string name="engine_download">Download</string>
     <string name="engine_cancel">Cancel</string>
     <string name="engine_delete">Delete</string>
+    <string name="relabel_notification_title">Re-labelling speakers</string>
+    <string name="relabel_menu">Label speakers</string>
+    <string name="relabel_title">Label speakers</string>
+    <string name="relabel_explain">Tell SecureVox how many people are talking, then it re-labels this recording. The text does not change.</string>
+    <string name="relabel_automatic">Automatic</string>
+    <string name="relabel_more">More</string>
+    <string name="relabel_run">Re-run</string>
+    <string name="relabel_running">Re-labelling speakers…</string>
+    <string name="relabel_too_long">Speaker labels are limited to recordings under 30 minutes</string>
+    <string name="relabel_need_models">Speaker labels need a one-time download of about 46 MB. It then works offline.</string>
+    <string name="relabel_download">Download and re-run</string>
+    <string name="relabel_downloading">Downloading speaker models… %1$d%%</string>
+    <string name="relabel_download_failed">Could not download the speaker models: %1$s</string>
+    <string name="relabel_failed">Could not re-label: %1$s</string>
+    <string name="relabel_done">Speakers re-labelled</string>
+    <string name="relabel_chip_description">%1$d speakers</string>
+    <string name="relabel_chip_one_description">1 speaker</string>
+    <string name="speakers_header_auto">Speakers: %1$d detected (automatic)</string>
+    <string name="speakers_header_fixed">Speakers: %1$d (set by you)</string>
+    <string name="speakers_header_none">No speaker labels yet</string>
+    <string name="speakers_change">Change</string>
+    <string name="speakers_change_description">Change the number of speakers</string>
 </resources>
