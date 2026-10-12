@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptSegment
+import com.securevox.app.data.model.WordTiming
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.service.AudioPlayerService
@@ -28,6 +29,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.securevox.app.util.WaveformExtractor
 import java.io.File
+
+private const val WORD_SEEK_LEAD_IN_MS = 120L
 
 class RecordingDetailViewModel(
     application: Application,
@@ -102,6 +105,17 @@ class RecordingDetailViewModel(
 
     fun seekToSegment(segment: TranscriptSegment) {
         audioPlayer.seekTo(segment.startTimeMs)
+        if (!isPlaying.value) {
+            audioPlayer.play()
+        }
+    }
+
+    /**
+     * Seeks to a tapped word. Word starts are approximate (token timing), so land slightly
+     * before it rather than clipping its first sound.
+     */
+    fun seekToWord(word: WordTiming) {
+        audioPlayer.seekTo((word.startMs - WORD_SEEK_LEAD_IN_MS).coerceAtLeast(0L))
         if (!isPlaying.value) {
             audioPlayer.play()
         }
