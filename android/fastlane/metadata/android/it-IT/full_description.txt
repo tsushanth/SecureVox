@@ -1,50 +1,48 @@
-SecureVox - La Tua App Privata per Registrazione Vocale e Trascrizione
+SecureVox registra la tua voce e la trasforma in testo direttamente sul telefono. La trascrizione avviene sul dispositivo con il modello Whisper di OpenAI, quindi il tuo audio non viene caricato da nessuna parte.
 
-Registra memo vocali e ottieni trascrizioni accurate senza mai inviare i tuoi dati al cloud. SecureVox utilizza l'IA sul dispositivo, basata sul modello Whisper di OpenAI, per trascrivere le tue registrazioni completamente offline.
+PERCHÉ SECUREVOX
 
-Perché SecureVox?
+Memo vocali, riunioni e interviste sono spesso riservati. La maggior parte delle app di trascrizione invia l'audio a un server. SecureVox no. Nessun account, nessun caricamento nel cloud, nessuna analisi, nessun tracciamento. Internet serve una sola volta, per scaricare il modello di trascrizione che scegli.
 
-Le tue registrazioni vocali contengono informazioni sensibili: appunti di riunioni, pensieri personali, conversazioni riservate. A differenza di altre app di trascrizione che caricano il tuo audio su server remoti, SecureVox elabora tutto localmente sul tuo dispositivo. Le tue registrazioni non lasciano mai il tuo telefono.
+COSA PUOI FARE
 
-Funzionalità Principali:
+• Trascrivere offline - Scegli un modello Whisper nell'app: Tiny (circa 78 MB) per la velocità, Base (circa 148 MB) come via di mezzo, oppure Small (circa 488 MB) per la massima precisione. I modelli si scaricano dall'app.
 
-• Trascrizione 100% Offline - Tutta l'elaborazione da voce a testo avviene sul tuo dispositivo grazie all'IA avanzata. Nessuna connessione internet necessaria.
-• Privacy Completa - Le tue registrazioni e trascrizioni sono salvate esclusivamente sul tuo dispositivo. Nessun caricamento nel cloud, nessun account, nessuna raccolta dati.
-• Registrazione di Alta Qualità - Cattura audio cristallina ottimizzata per memo vocali e riunioni.
-• Veloce e Preciso - Alimentato dall'IA Whisper, la stessa tecnologia utilizzata dai principali servizi di trascrizione, eseguita interamente sul tuo dispositivo.
-• Cerca le Tue Trascrizioni - Trova rapidamente qualsiasi registrazione cercando tra le tue trascrizioni.
-• Opzioni di Esportazione - Esporta le trascrizioni come file di testo o condividile con altre app.
-• Importa Audio - Importa file audio esistenti (MP3, WAV, M4A) per la trascrizione.
-• Organizza con i Preferiti - Segna le registrazioni importanti per un accesso rapido.
-• Velocità di Riproduzione Variabile - Ascolta da 0,5x a 2x di velocità.
-• Design Moderno - Interfaccia pulita e intuitiva realizzata con Material Design 3.
+• Sottotitoli in tempo reale durante la registrazione - Le parole compaiono mentre parli. La trascrizione completa viene creata quando fermi la registrazione.
 
-Perfetto Per:
-• Giornalisti che proteggono la riservatezza delle fonti
-• Professionisti sanitari che gestiscono informazioni sui pazienti
-• Professionisti legali con comunicazioni privilegiate
-• Riunioni aziendali con discussioni riservate
-• Studenti che registrano le lezioni
-• Chiunque tenga alla propria privacy
+• Etichette dei parlanti (facoltativo) - Attiva "Etichetta i parlanti" e la trascrizione viene divisa in Parlante 1, Parlante 2 e così via. Richiede un piccolo download aggiuntivo e funziona con registrazioni fino a 30 minuti.
 
-Come Funziona:
-Tocca per registrare il tuo memo vocale
-SecureVox trascrive automaticamente usando l'IA sul dispositivo
-Visualizza, cerca ed esporta le tue trascrizioni
-Tutti i dati rimangono al sicuro sul tuo dispositivo
+• Condividere o aprire audio e video da altre app - Invia un messaggio vocale, un video o un file audio a SecureVox da qualsiasi app e viene trascritto sul telefono. Puoi anche importare file dall'app.
 
-Dettagli Tecnici:
-• Utilizza il modello Whisper di OpenAI ottimizzato per dispositivi mobili
-• Supporta Android 8.0 (Oreo) e versioni successive
-• Richiede circa 50MB per il modello IA (scaricato al primo utilizzo)
-• Nessun account o registrazione necessari
+• Avvio rapido - Aggiungi il riquadro alle Impostazioni rapide o usa la scorciatoia dell'icona per iniziare a registrare con un tocco.
 
-Acquisto Una Tantum:
-SecureVox è un'app a pagamento senza abbonamenti, senza pubblicità e senza acquisti in-app. Paga una volta e usala per sempre.
+• Blocco dell'app (facoltativo) - Proteggi l'app con impronta, volto o blocco schermo.
 
-Scopri di più su https://securevox.app
+• Esportare - Salva o condividi le trascrizioni in TXT, SRT o VTT (sottotitoli), oppure condividi l'audio stesso.
 
-La Privacy Prima di Tutto:
-Crediamo che le tue registrazioni vocali siano profondamente personali. Ecco perché abbiamo costruito SecureVox dalle fondamenta con la privacy come pilastro — non come un ripensamento. Nessuna analisi, nessun tracciamento, nessuna elaborazione nel cloud. Solo tu e le tue registrazioni.
+• Dizionario personalizzato - Aggiungi nomi e termini particolari perché vengano scritti come vuoi tu.
 
-Scarica SecureVox oggi e riprendi il controllo dei tuoi dati vocali.
+• Ritrascrivere - Rielabora una registrazione con un altro modello se vuoi più precisione.
+
+• Lettura ad alta voce - Ascolta la trascrizione letta da una voce che funziona sul telefono.
+
+• Lettore con forma d'onda - Trascina la forma d'onda per spostarti nell'audio, cambia la velocità da 0,5x a 2x e cerca in tutte le trascrizioni.
+
+• Tema chiaro e scuro, con un design sobrio e leggibile.
+
+LINGUE
+
+SecureVox trascrive molte lingue. La qualità varia da lingua a lingua: è migliore nelle lingue molto diffuse come inglese, spagnolo, francese, tedesco, italiano, portoghese, cinese e giapponese, e più debole in quelle con meno dati di addestramento. I modelli più grandi aiutano.
+
+DA SAPERE
+
+• La precisione dipende dalla qualità dell'audio, dagli accenti e dal rumore di fondo. Controlla le trascrizioni importanti prima di fidartene.
+• Le etichette dei parlanti sono approssimative e possono confondere voci simili.
+• I modelli più grandi sono più lenti e richiedono più memoria e spazio.
+• Richiede Android 8.0 o successivo.
+
+ACQUISTO UNA TANTUM
+
+SecureVox è un'app a pagamento. Nessun abbonamento, nessuna pubblicità, nessun acquisto in-app.
+
+Maggiori informazioni su https://securevox.app

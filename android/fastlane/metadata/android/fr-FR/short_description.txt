@@ -1,1 +1,1 @@
-Enregistreur vocal privé avec transcription IA hors ligne — vos données restent
+Enregistrez et transcrivez hors ligne avec Whisper. L'audio reste sur le mobile.
