@@ -3,6 +3,8 @@ package com.securevox.app.presentation.recordings
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.util.Log
+import com.securevox.app.util.MemoryPolicy
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
@@ -200,14 +202,24 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     /**
      * Starts rolling captions for the recording in progress. Uses Base when it is
-     * downloaded, otherwise Tiny; Small is too slow to keep up with speech on most phones.
+     * downloaded and the phone has memory to spare, otherwise Tiny, or nothing when memory is
+     * low; Small is too slow to keep up with speech on most phones.
      */
     private fun startLiveCaptions() {
         viewModelScope.launch {
             val enabled = dataStore.data.first()[LiveTranscriber.KEY_ENABLED] ?: true
             if (!enabled || !audioRecorder.isRecording.value) return@launch
             val models = SecureVoxApp.instance.modelManager
+            // Live captions load a second Whisper context, so on a tight phone use Tiny only or none.
+            val snapshot = MemoryPolicy.read(getApplication())
+            val largest = MemoryPolicy.liveCaptionModel(snapshot)
+            if (largest == null) {
+                Log.i("RecordingsVM", "Live captions off for this recording: low memory " +
+                    "(avail=${snapshot.availBytes / 1_000_000} MB, lowMemory=${snapshot.lowMemory})")
+                return@launch
+            }
             val model = listOf(WhisperModel.BASE, WhisperModel.TINY)
+                .filter { it.sizeBytes <= largest.sizeBytes }
                 .firstOrNull { models.isModelDownloaded(it) } ?: return@launch
 
             val transcriber = LiveTranscriber(
