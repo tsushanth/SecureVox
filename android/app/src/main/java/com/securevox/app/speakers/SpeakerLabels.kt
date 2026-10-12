@@ -37,5 +37,20 @@ object SpeakerLabels {
         edit.apply()
     }
 
+    private fun countKey(recordingId: String) = "speaker_count_$recordingId"
+
+    /** The speaker count the user chose for this recording (1..8), or null for automatic. */
+    fun chosenCount(context: Context, recordingId: String): Int? =
+        SpeakerCount.normalize(
+            context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getInt(countKey(recordingId), 0)
+        )
+
+    fun setChosenCount(context: Context, recordingId: String, count: Int?) {
+        val edit = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+        val n = SpeakerCount.normalize(count)
+        if (n == null) edit.remove(countKey(recordingId)) else edit.putInt(countKey(recordingId), n)
+        edit.apply()
+    }
+
     fun modelDir(context: Context) = File(context.filesDir, SpeakerModels.DIARIZATION_DIR)
 }
