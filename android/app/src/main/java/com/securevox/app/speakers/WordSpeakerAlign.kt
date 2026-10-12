@@ -108,7 +108,8 @@ private fun smoothSentence(words: List<WordTiming>, raw: IntArray, out: IntArray
  * does. A segment with one speaker comes back unchanged apart from its label. Split pieces keep
  * contiguous times (a piece starts at its first word, or at the segment start for the first piece,
  * and ends where the next begins, or at the segment end for the last), carry their own words, and
- * the first piece keeps the original id so saving replaces the old row. Speaker numbers are
+ * the first piece keeps the original id so saving replaces the old row, and every later piece is
+ * marked [TranscriptSegment.speakerSplit] so a relabel can merge the pieces back. Speaker numbers are
  * renumbered by first appearance over the whole recording and segmentIndex is renumbered.
  */
 fun assignSpeakersByWord(segments: List<TranscriptSegment>, spans: List<SpeakerSpan>): List<TranscriptSegment> {
@@ -136,7 +137,8 @@ fun assignSpeakersByWord(segments: List<TranscriptSegment>, spans: List<SpeakerS
                 text = joinWords(sub.map { it.text }),
                 startTimeMs = if (isFirst) seg.startTimeMs else sub.first().startMs,
                 endTimeMs = if (isLast) seg.endTimeMs else words[k].startMs,
-                words = WordCodec.encode(sub)
+                words = WordCodec.encode(sub),
+                speakerSplit = if (isFirst) seg.speakerSplit else true
             )
             pieces.add(piece to speakers[first])
             first = k
