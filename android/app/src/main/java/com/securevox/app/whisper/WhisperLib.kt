@@ -1,6 +1,8 @@
 package com.securevox.app.whisper
 
 import android.content.Context
+import com.securevox.app.data.model.WordTiming
+import com.securevox.app.util.MiniJson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -105,40 +107,7 @@ class WhisperLib(private val context: Context) {
         }
     }
 
-    private fun parseSegments(json: String): List<TranscriptionSegment> {
-        if (json.isEmpty() || json == "[]") return emptyList()
-
-        val segments = mutableListOf<TranscriptionSegment>()
-
-        // Simple JSON parsing without external library
-        val pattern = """\{"text":"((?:[^"\\]|\\.)*)","start":([0-9.]+),"end":([0-9.]+)\}""".toRegex()
-
-        pattern.findAll(json).forEach { match ->
-            val text = match.groupValues[1]
-                .replace("\\\"", "\"")
-                .replace("\\\\", "\\")
-                .replace("\\n", "\n")
-                .replace("\\r", "\r")
-                .replace("\\t", "\t")
-                .trim()
-                .let { NonSpeech.strip(it) }
-
-            val startMs = match.groupValues[2].toDoubleOrNull() ?: 0.0
-            val endMs = match.groupValues[3].toDoubleOrNull() ?: 0.0
-
-            if (text.isNotEmpty()) {
-                segments.add(
-                    TranscriptionSegment(
-                        text = text,
-                        startTimeMs = startMs.toLong(),
-                        endTimeMs = endMs.toLong()
-                    )
-                )
-            }
-        }
-
-        return segments
-    }
+    private fun parseSegments(json: String): List<TranscriptionSegment> = parseWhisperSegments(json)
 
     // JNI methods
     private external fun initContext(modelPath: String): Long
@@ -160,8 +129,50 @@ class WhisperLib(private val context: Context) {
 data class TranscriptionSegment(
     val text: String,
     val startTimeMs: Long,
-    val endTimeMs: Long
+    val endTimeMs: Long,
+    /** Word times relative to this transcribe() call's audio; empty when not requested or unusable. */
+    val words: List<WordTiming> = emptyList()
 )
+
+/**
+ * Parses the JSON from the native bridge: `[{"text","start","end"[,"tokens":[[tok,startMs,endMs]..]]}]`.
+ * Pure function so it can be unit tested. Segments with no text (after stripping [BLANK_AUDIO]-style
+ * markers) are dropped, as before; segments without usable tokens simply have no words.
+ */
+fun parseWhisperSegments(json: String): List<TranscriptionSegment> {
+    if (json.isEmpty() || json == "[]") return emptyList()
+    val list = MiniJson.parse(json) as? List<*> ?: return emptyList()
+    val segments = ArrayList<TranscriptionSegment>(list.size)
+    for (item in list) {
+        val obj = item as? Map<*, *> ?: continue
+        val text = (obj["text"] as? String ?: continue).trim().let { NonSpeech.strip(it) }
+        if (text.isEmpty()) continue
+        val startMs = (obj["start"] as? Double ?: 0.0).toLong()
+        val endMs = (obj["end"] as? Double ?: 0.0).toLong()
+        segments.add(TranscriptionSegment(text, startMs, endMs, wordsOf(obj["tokens"], text, startMs, endMs)))
+    }
+    return segments
+}
+
+private fun wordsOf(tokens: Any?, text: String, startMs: Long, endMs: Long): List<WordTiming> {
+    val list = tokens as? List<*> ?: return emptyList()
+    val timed = list.mapNotNull { t ->
+        val triple = t as? List<*> ?: return@mapNotNull null
+        if (triple.size != 3) return@mapNotNull null
+        TokenTime(
+            triple[0] as? String ?: return@mapNotNull null,
+            (triple[1] as? Double)?.toLong() ?: -1L,
+            (triple[2] as? Double)?.toLong() ?: -1L
+        )
+    }
+    // Markers like [BLANK_AUDIO] are stripped from the segment text; drop them from the words too.
+    val words = groupTokensIntoWords(timed).filter { NonSpeech.strip(it.text).isNotEmpty() }
+    if (words.isEmpty()) return emptyList()
+    // Only trust the words if they spell exactly what the segment says.
+    val joined = joinWords(words.map { it.text })
+    if (joined.filterNot { it.isWhitespace() } != text.filterNot { it.isWhitespace() }) return emptyList()
+    return repairWordTimes(words, startMs, endMs)
+}
 
 /**
  * Progress callback for JNI.

@@ -2,6 +2,7 @@ package com.securevox.app.speakers
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import com.securevox.app.util.MemoryPolicy
 import java.io.File
 
 object SpeakerLabels {
@@ -17,9 +18,24 @@ object SpeakerLabels {
     /**
      * Longest recording that gets labelled. The speaker models need the whole recording in
      * memory as floats (4 bytes a sample, about 115 MB at this limit), so longer ones are
-     * left unlabelled rather than risking running out of memory.
+     * left unlabelled rather than risking running out of memory. This is only the ceiling:
+     * [MemoryPolicy.speakerDecision] lowers it to what the phone can spare at the time.
      */
     const val MAX_SAMPLES = 30L * 60 * 16000
+
+    private const val PREFS = "securevox_prefs"
+    private fun noteKey(recordingId: String) = "speaker_note_$recordingId"
+
+    /** Why the speaker pass was skipped for a recording (shown as a hint in the transcript), or null. */
+    fun skipNote(context: Context, recordingId: String): MemoryPolicy.SpeakerSkip? =
+        context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getString(noteKey(recordingId), null)
+            ?.let { name -> MemoryPolicy.SpeakerSkip.entries.firstOrNull { it.name == name } }
+
+    fun setSkipNote(context: Context, recordingId: String, skip: MemoryPolicy.SpeakerSkip?) {
+        val edit = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit()
+        if (skip == null) edit.remove(noteKey(recordingId)) else edit.putString(noteKey(recordingId), skip.name)
+        edit.apply()
+    }
 
     fun modelDir(context: Context) = File(context.filesDir, SpeakerModels.DIARIZATION_DIR)
 }

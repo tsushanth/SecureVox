@@ -11,15 +11,20 @@ import androidx.work.*
 import com.securevox.app.R
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.TranscriptSegment
+import com.securevox.app.data.model.WordCodec
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
+import com.securevox.app.engines.ChunkRequest
+import com.securevox.app.engines.EngineManager
+import com.securevox.app.engines.TranscriptionEngine
+import com.securevox.app.engines.WhisperEngine
 import com.securevox.app.speakers.ModelDownloader
 import com.securevox.app.speakers.SpeakerDiarizer
 import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.speakers.SpeakerModels
-import com.securevox.app.speakers.assignSpeakers
+import com.securevox.app.speakers.assignSpeakersByWord
 import com.securevox.app.speakers.hasMultipleSpeakers
 import com.securevox.app.presentation.settings.dataStore
 import kotlinx.coroutines.CancellationException
@@ -27,6 +32,7 @@ import kotlinx.coroutines.flow.first
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.util.CrashLogger
+import com.securevox.app.util.MemoryPolicy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -100,6 +106,8 @@ class TranscriptionWorker(
         val transcriptionStartedAtMs = System.currentTimeMillis()
         var lastChunkIndexReached = -1
         var lastTotalChunks = -1
+        // Speech engine for this recording (engines package); closed in the finally below.
+        var engine: TranscriptionEngine? = null
 
         // Confirmed root cause of "won't complete a transcript for meetings": this worker ran as
         // a plain background CoroutineWorker, which Android's WorkManager kills after roughly 10
@@ -158,11 +166,16 @@ class TranscriptionWorker(
             val allSegments = mutableListOf<TranscriptSegment>()
             var segmentIndex = 0
 
+            // ENGINES: whisper.cpp unless the user installed a better engine for this language (see
+            // engines/EngineRouter); an engine that fails to load or throws falls back to whisper.cpp.
+            val activeEngine = EngineManager.createEngine(applicationContext, WhisperEngine(whisperLib), language, recordingId)
+            engine = activeEngine
+
             repository.deleteSegmentsForRecording(recordingId)
 
             for (chunkIdx in 0 until totalChunks) {
                 lastChunkIndexReached = chunkIdx
-                val chunkStartSample = (chunkIdx * CHUNK_SAMPLES - if (chunkIdx > 0) OVERLAP_SAMPLES else 0).coerceAtLeast(0)
+                val chunkStartSample = ChunkTiming.chunkStartSample(chunkIdx, CHUNK_SAMPLES, OVERLAP_SAMPLES)
                 val chunkEndSample = minOf(chunkStartSample + CHUNK_SAMPLES + OVERLAP_SAMPLES, totalAudioSamples.toInt())
 
                 val chunkData = loadAudioChunk(wavInfo, chunkStartSample, chunkEndSample)
@@ -171,11 +184,11 @@ class TranscriptionWorker(
                     continue
                 }
 
-                val chunkOffsetMs = (chunkStartSample.toLong() * 1000L) / 16000L
+                val chunkOffsetMs = ChunkTiming.chunkOffsetMs(chunkStartSample)
 
-                val chunkSegments = whisperLib.transcribe(
-                    audioData = chunkData,
-                    language = language,
+                // ENGINES dispatch hook: was whisperLib.transcribe(chunkData, language, onProgress).
+                val chunkSegments = activeEngine.transcribe(
+                    ChunkRequest(chunkData, language, if (chunkIdx > 0) OVERLAP_SAMPLES * 1000L / 16000L else 0L),
                     onProgress = { chunkProgress ->
                         val overall = ((chunkIdx * 100 + chunkProgress) / totalChunks).coerceIn(0, 99)
                         setProgressAsync(workDataOf(KEY_PROGRESS to overall))
@@ -183,16 +196,21 @@ class TranscriptionWorker(
                 )
 
                 // Adjust timestamps by chunk offset and filter out overlap duplicates
-                val overlapMs = if (chunkIdx > 0) (OVERLAP_SAMPLES.toLong() * 1000L / 16000L) else 0L
+                val overlapMs = ChunkTiming.overlapMs(chunkIdx, OVERLAP_SAMPLES)
+                // chunkOffsetMs already points at the chunk's first sample (overlap included), so
+                // a chunk-relative time maps to chunkOffsetMs + time. The old "- overlapMs" put
+                // every segment after the first chunk about one second too early.
                 val newSegments = chunkSegments
-                    .filter { it.startTimeMs >= overlapMs } // skip the overlap region from previous chunk
+                    .filter { ChunkTiming.isNewSegment(it.startTimeMs, overlapMs) } // skip overlap from previous chunk
                     .map { seg ->
                         TranscriptSegment(
                             recordingId = recordingId,
                             text = seg.text,
-                            startTimeMs = seg.startTimeMs - overlapMs + chunkOffsetMs,
-                            endTimeMs = seg.endTimeMs - overlapMs + chunkOffsetMs,
-                            segmentIndex = segmentIndex++
+                            startTimeMs = ChunkTiming.toRecordingMs(seg.startTimeMs, chunkOffsetMs),
+                            endTimeMs = ChunkTiming.toRecordingMs(seg.endTimeMs, chunkOffsetMs),
+                            segmentIndex = segmentIndex++,
+                            // Word timing: same offset as the segment; "" when none were produced.
+                            words = WordCodec.encode(seg.words.map { it.shifted(chunkOffsetMs) })
                         )
                     }
 
@@ -214,6 +232,7 @@ class TranscriptionWorker(
             }
 
             // Free the Whisper model before the speaker pass loads its own models.
+            activeEngine.close()
             whisperLib.release()
             labelSpeakers(recordingId, wavInfo)
 
@@ -238,6 +257,8 @@ class TranscriptionWorker(
                 transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
             )
             Result.failure()
+        } finally {
+            engine?.close() // ENGINES: also frees the alternative engine on failure/cancel (idempotent)
         }
     }
 
@@ -247,22 +268,29 @@ class TranscriptionWorker(
      * leaves the transcript unlabelled.
      */
     private suspend fun labelSpeakers(recordingId: String, info: WavInfo) {
+        // Declared outside the try so the catch below can clear the crash marker.
+        val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
+        val guardKey = "speaker_pass_started_$recordingId"
         try {
+            SpeakerLabels.setSkipNote(applicationContext, recordingId, null) // forget a note from an earlier run
             val enabled = applicationContext.dataStore.data.first()[SpeakerLabels.KEY_ENABLED] ?: false
             if (!enabled) return
             val dir = SpeakerLabels.modelDir(applicationContext)
             if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) return
             val total = info.totalMonoSamples
-            if (total > SpeakerLabels.MAX_SAMPLES) {
-                Log.i(TAG, "Recording too long for speaker labels (${total / 16000 / 60} min)")
+            // Allow only what the phone can hold right now (and never more than the fixed cap).
+            val decision = MemoryPolicy.speakerDecision(
+                MemoryPolicy.read(applicationContext), total, SpeakerLabels.MAX_SAMPLES
+            )
+            if (!decision.allowed) {
+                Log.i(TAG, "Speaker labels skipped for $recordingId: ${decision.reason}")
+                SpeakerLabels.setSkipNote(applicationContext, recordingId, decision.skip)
                 return
             }
 
             // A native crash cannot be caught, and WorkManager re-runs a worker whose process died.
             // Leave a marker for the duration of the pass so a retry skips it instead of crashing
             // again in a loop.
-            val guard = applicationContext.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE)
-            val guardKey = "speaker_pass_started_$recordingId"
             if (guard.getBoolean(guardKey, false)) {
                 Log.w(TAG, "Speaker pass crashed last time for $recordingId; skipping it")
                 guard.edit().remove(guardKey).apply()
@@ -279,13 +307,26 @@ class TranscriptionWorker(
                     "${spans.size} spans, ${spans.map { it.speaker }.toSet().size} raw speakers"
             )
             val segments = repository.getSegmentsForRecordingSync(recordingId)
-            val labelled = assignSpeakers(segments, spans)
+            // Word-level: labels each word and splits a segment where the speaker changes (falls
+            // back to whole-segment labels for recordings without word timing).
+            val labelled = assignSpeakersByWord(segments, spans)
             // One voice means there is nothing to label; keep the transcript clean.
-            if (hasMultipleSpeakers(labelled)) repository.saveSegments(labelled)
+            if (hasMultipleSpeakers(labelled)) {
+                // Every original row keeps its id (the first piece of a split reuses it), so
+                // REPLACE overwrites the old rows and the extra pieces are simply added.
+                repository.saveSegments(labelled)
+            }
             Log.i(TAG, "Speaker pass done: ${labelled.map { it.speaker }.toSet().size} speakers")
         } catch (e: CancellationException) {
+            guard.edit().remove(guardKey).apply()
             throw e
         } catch (e: Throwable) {
+            // A Java-level failure (including OutOfMemoryError) was caught, so there is no native
+            // crash to guard against on the next run; clear the marker so it is not left half-done.
+            guard.edit().remove(guardKey).apply()
+            if (e is OutOfMemoryError) {
+                SpeakerLabels.setSkipNote(applicationContext, recordingId, MemoryPolicy.SpeakerSkip.LOW_MEMORY)
+            }
             Log.w(TAG, "Speaker labelling skipped", e)
         }
     }

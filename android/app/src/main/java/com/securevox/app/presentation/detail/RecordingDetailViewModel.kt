@@ -9,6 +9,7 @@ import androidx.work.WorkManager
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptSegment
+import com.securevox.app.data.model.WordTiming
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.service.AudioPlayerService
@@ -17,6 +18,8 @@ import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.NonSpeech
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.whisper.WhisperLanguage
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -28,6 +31,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.securevox.app.util.WaveformExtractor
 import java.io.File
+
+private const val WORD_SEEK_LEAD_IN_MS = 120L
 
 class RecordingDetailViewModel(
     application: Application,
@@ -43,6 +48,11 @@ class RecordingDetailViewModel(
     private val exportService = ExportService(application)
 
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
+
+    /** Why speaker labels were skipped for this recording (memory or length), or null. */
+    val speakerSkip: StateFlow<MemoryPolicy.SpeakerSkip?> = recording
+        .map { SpeakerLabels.skipNote(getApplication(), recordingId) }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     // Older recordings were saved with Whisper's [BLANK_AUDIO]-style markers; hide them here so
@@ -102,6 +112,17 @@ class RecordingDetailViewModel(
 
     fun seekToSegment(segment: TranscriptSegment) {
         audioPlayer.seekTo(segment.startTimeMs)
+        if (!isPlaying.value) {
+            audioPlayer.play()
+        }
+    }
+
+    /**
+     * Seeks to a tapped word. Word starts are approximate (token timing), so land slightly
+     * before it rather than clipping its first sound.
+     */
+    fun seekToWord(word: WordTiming) {
+        audioPlayer.seekTo((word.startMs - WORD_SEEK_LEAD_IN_MS).coerceAtLeast(0L))
         if (!isPlaying.value) {
             audioPlayer.play()
         }
