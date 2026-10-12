@@ -1,64 +1,48 @@
-SecureVox - Votre Application Privée d'Enregistrement Vocal et de Transcription
+SecureVox enregistre votre voix et la transforme en texte sur votre téléphone. La transcription se fait sur l'appareil avec le modèle Whisper d'OpenAI : votre audio n'est envoyé nulle part.
 
-Enregistrez des mémos vocaux et obtenez des transcriptions précises sans jamais envoyer vos données dans le cloud. SecureVox utilise l'IA embarquée alimentée par le modèle Whisper d'OpenAI pour transcrire vos enregistrements entièrement hors ligne.
+POURQUOI SECUREVOX
 
-Pourquoi SecureVox ?
+Les mémos vocaux, les réunions et les entretiens sont souvent confidentiels. La plupart des applications de transcription envoient votre audio vers un serveur. Pas SecureVox. Pas de compte, pas d'envoi dans le cloud, pas de statistiques, pas de pistage. Internet n'est utilisé qu'une fois, pour télécharger le modèle de transcription que vous choisissez.
 
-Vos enregistrements vocaux contiennent des informations sensibles : notes de réunion, pensées personnelles, conversations confidentielles. Contrairement aux autres applications de transcription qui envoient votre audio sur des serveurs distants, SecureVox traite tout localement sur votre appareil. Vos enregistrements ne quittent jamais votre téléphone.
+CE QUE VOUS POUVEZ FAIRE
 
-Fonctionnalités Principales :
+• Transcrire hors ligne - Choisissez un modèle Whisper dans l'application : Tiny (environ 78 Mo) pour la rapidité, Base (environ 148 Mo) comme compromis, ou Small (environ 488 Mo) pour la meilleure précision. Les modèles se téléchargent depuis l'application.
 
-• Transcription 100% Hors Ligne - Tout le traitement de la reconnaissance vocale se fait sur votre appareil grâce à une IA avancée. Aucune connexion internet requise.
+• Sous-titres en direct pendant l'enregistrement - Les mots s'affichent pendant que vous parlez. La transcription complète est générée à l'arrêt.
 
-• Confidentialité Totale - Vos enregistrements et transcriptions sont stockés uniquement sur votre appareil. Pas de téléchargement vers le cloud, pas de compte, pas de collecte de données.
+• Étiquettes de locuteurs (facultatif) - Activez « Étiqueter les locuteurs » et la transcription est découpée en Locuteur 1, Locuteur 2, etc. Cela demande un petit téléchargement supplémentaire et fonctionne pour des enregistrements allant jusqu'à 30 minutes.
 
-• Enregistrement Haute Qualité - Capture audio cristalline optimisée pour les mémos vocaux et les réunions.
+• Partager ou ouvrir un audio ou une vidéo depuis d'autres applications - Envoyez un message vocal, une vidéo ou un fichier audio à SecureVox depuis n'importe quelle application, il est transcrit sur votre téléphone. Vous pouvez aussi importer des fichiers depuis l'application.
 
-• Rapide et Précis - Propulsé par Whisper IA, la même technologie utilisée par les services de transcription leaders, fonctionnant entièrement sur votre appareil.
+• Démarrage rapide - Ajoutez la tuile aux Réglages rapides ou utilisez le raccourci de l'icône pour lancer un enregistrement en un geste.
 
-• Recherchez vos Transcriptions - Retrouvez rapidement n'importe quel enregistrement en effectuant une recherche dans vos transcriptions.
+• Verrouillage de l'application (facultatif) - Protégez l'application par empreinte, visage ou verrouillage d'écran.
 
-• Options d'Exportation - Exportez les transcriptions sous forme de fichiers texte ou partagez-les avec d'autres applications.
+• Export - Enregistrez ou partagez les transcriptions en TXT, SRT ou VTT (sous-titres), ou partagez l'audio lui-même.
 
-• Importation Audio - Importez des fichiers audio existants (MP3, WAV, M4A) pour la transcription.
+• Dictionnaire personnalisé - Ajoutez des noms et des termes spécifiques pour qu'ils soient écrits comme vous le voulez.
 
-• Organisez avec les Favoris - Marquez les enregistrements importants pour un accès rapide.
+• Retranscrire - Relancez un enregistrement avec un autre modèle si vous voulez plus de précision.
 
-• Vitesse de Lecture Variable - Écoutez à une vitesse de 0,5x à 2x.
+• Lecture à voix haute - Écoutez une transcription lue par une voix qui tourne sur votre téléphone.
 
-• Design Moderne - Interface épurée et intuitive construite avec Material Design 3.
+• Lecteur avec forme d'onde - Faites glisser la forme d'onde pour vous déplacer, réglez la vitesse de 0,5x à 2x et recherchez dans toutes vos transcriptions.
 
-Idéal Pour :
+• Thème clair et sombre, avec une interface sobre et lisible.
 
-• Les journalistes protégeant la confidentialité de leurs sources
-• Les professionnels de santé gérant des informations patients
-• Les professionnels du droit avec des communications privilégiées
-• Les réunions d'affaires avec des discussions sensibles
-• Les étudiants enregistrant des cours
-• Tous ceux qui valorisent leur vie privée
+LANGUES
 
-Comment Ça Marche :
+SecureVox transcrit de nombreuses langues. La qualité varie selon la langue : elle est meilleure dans les langues très répandues comme l'anglais, l'espagnol, le français, l'allemand, l'italien, le portugais, le chinois et le japonais, et plus faible dans les langues moins bien représentées dans les données d'entraînement. Les modèles plus grands aident.
 
-Appuyez pour enregistrer votre mémo vocal
-SecureVox transcrit automatiquement grâce à l'IA embarquée
-Consultez, recherchez et exportez vos transcriptions
-Toutes les données restent en sécurité sur votre appareil
+BON À SAVOIR
 
-Détails Techniques :
+• La précision dépend de la qualité du son, des accents et du bruit de fond. Relisez les transcriptions importantes avant de vous y fier.
+• Les étiquettes de locuteurs sont approximatives et peuvent confondre des voix proches.
+• Les modèles plus grands sont plus lents et demandent plus de mémoire et d'espace de stockage.
+• Nécessite Android 8.0 ou une version plus récente.
 
-• Utilise le modèle Whisper d'OpenAI optimisé pour mobile
-• Compatible avec Android 8.0 (Oreo) et versions ultérieures
-• Nécessite environ 50 Mo pour le modèle d'IA (téléchargé lors de la première utilisation)
-• Aucun compte ni inscription requis
+ACHAT UNIQUE
 
-Achat Unique :
+SecureVox est une application payante. Pas d'abonnement, pas de publicité, pas d'achats intégrés.
 
-SecureVox est une application payante sans abonnement, sans publicité et sans achat intégré. Payez une fois et profitez-en pour toujours.
-
-En savoir plus sur https://securevox.app
-
-La Confidentialité d'Abord :
-
-Nous pensons que vos enregistrements vocaux sont profondément personnels. C'est pourquoi nous avons conçu SecureVox dès le départ avec la confidentialité comme fondation, et non comme une réflexion après coup. Pas d'analyses, pas de suivi, pas de traitement dans le cloud. Juste vous et vos enregistrements.
-
-Téléchargez SecureVox aujourd'hui et reprenez le contrôle de vos données vocales.
+Plus d'infos sur https://securevox.app

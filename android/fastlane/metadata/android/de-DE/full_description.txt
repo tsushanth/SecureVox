@@ -1,64 +1,48 @@
-SecureVox - Ihre Private App für Sprachaufnahmen und Transkription
+SecureVox nimmt deine Stimme auf und macht auf deinem Handy Text daraus. Die Transkription läuft direkt auf dem Gerät mit OpenAIs Whisper-Modell, deine Audiodaten werden also nirgendwohin hochgeladen.
 
-Nehmen Sie Sprachmemos auf und erhalten Sie präzise Transkriptionen, ohne Ihre Daten jemals in die Cloud zu senden. SecureVox nutzt gerätebasierte KI, angetrieben vom Whisper-Modell von OpenAI, um Ihre Aufnahmen vollständig offline zu transkribieren.
+WARUM SECUREVOX
 
-Warum SecureVox?
+Sprachmemos, Meetings und Interviews sind oft vertraulich. Die meisten Transkriptions-Apps schicken dein Audio an einen Server. SecureVox nicht. Es gibt kein Konto, keinen Cloud-Upload, keine Analyse und kein Tracking. Das Internet wird nur einmal gebraucht, um das gewählte Transkriptionsmodell herunterzuladen.
 
-Ihre Sprachaufnahmen enthalten sensible Informationen – Besprechungsnotizen, persönliche Gedanken, vertrauliche Gespräche. Anders als andere Transkriptions-Apps, die Ihr Audio auf entfernte Server hochladen, verarbeitet SecureVox alles lokal auf Ihrem Gerät. Ihre Aufnahmen verlassen niemals Ihr Telefon.
+DAS KANNST DU TUN
 
-Hauptfunktionen:
+• Offline transkribieren - Wähle in der App ein Whisper-Modell: Tiny (ca. 78 MB) für Tempo, Base (ca. 148 MB) als Mittelweg oder Small (ca. 488 MB) für die beste Genauigkeit. Die Modelle werden in der App heruntergeladen.
 
-• 100% Offline-Transkription - Die gesamte Sprache-zu-Text-Verarbeitung findet auf Ihrem Gerät mit fortschrittlicher KI statt. Keine Internetverbindung erforderlich.
+• Live-Untertitel während der Aufnahme - Die Wörter erscheinen, während du sprichst. Das vollständige Transkript entsteht, wenn du die Aufnahme beendest.
 
-• Vollständige Privatsphäre - Ihre Aufnahmen und Transkriptionen werden ausschließlich auf Ihrem Gerät gespeichert. Kein Cloud-Upload, kein Konto, keine Datenerfassung.
+• Sprecherlabels (optional) - Mit "Sprecher kennzeichnen" wird das Transkript in Sprecher 1, Sprecher 2 usw. aufgeteilt. Dafür ist ein kleiner zusätzlicher Download nötig; es funktioniert bei Aufnahmen bis 30 Minuten.
 
-• Hochwertige Aufnahme - Kristallklare Audioaufnahme, optimiert für Sprachmemos und Besprechungen.
+• Audio und Video aus anderen Apps teilen oder öffnen - Schick eine Sprachnachricht, ein Video oder eine Audiodatei aus einer beliebigen App an SecureVox, und sie wird auf deinem Handy transkribiert. Dateien lassen sich auch in der App importieren.
 
-• Schnell und Genau - Angetrieben von Whisper KI, derselben Technologie, die von führenden Transkriptionsdiensten verwendet wird, läuft vollständig auf Ihrem Gerät.
+• Schnell starten - Mit der Kachel in den Schnelleinstellungen oder der Verknüpfung am App-Symbol startest du die Aufnahme mit einem Tipp.
 
-• Durchsuchen Sie Ihre Transkriptionen - Finden Sie schnell jede Aufnahme durch Durchsuchen Ihrer Transkriptionen.
+• App-Sperre (optional) - Schütze die App mit Fingerabdruck, Gesicht oder Bildschirmsperre.
 
-• Exportoptionen - Exportieren Sie Transkriptionen als Textdateien oder teilen Sie sie mit anderen Apps.
+• Export - Speichere oder teile Transkripte als TXT, SRT oder VTT (Untertitel) oder teile das Audio selbst.
 
-• Audio importieren - Importieren Sie vorhandene Audiodateien (MP3, WAV, M4A) zur Transkription.
+• Eigenes Wörterbuch - Trage Namen und Fachbegriffe ein, damit sie so geschrieben werden, wie du es willst.
 
-• Mit Favoriten organisieren - Markieren Sie wichtige Aufnahmen für schnellen Zugriff.
+• Erneut transkribieren - Lass eine Aufnahme mit einem anderen Modell noch einmal transkribieren, wenn du mehr Genauigkeit brauchst.
 
-• Variable Wiedergabegeschwindigkeit - Hören Sie mit 0,5x bis 2x Geschwindigkeit.
+• Vorlesen - Lass dir ein Transkript mit einer Stimme vorlesen, die auf deinem Handy läuft.
 
-• Modernes Design - Klare, intuitive Benutzeroberfläche mit Material Design 3.
+• Player mit Wellenform - Zieh an der Wellenform zum Vor- und Zurückspulen, ändere das Tempo von 0,5x bis 2x und durchsuche alle deine Transkripte.
 
-Perfekt Für:
+• Helles und dunkles Design, ruhig und gut lesbar.
 
-• Journalisten, die die Vertraulichkeit ihrer Quellen schützen
-• Medizinische Fachkräfte im Umgang mit Patienteninformationen
-• Juristen mit privilegierter Kommunikation
-• Geschäftsbesprechungen mit sensiblen Diskussionen
-• Studenten, die Vorlesungen aufnehmen
-• Jeden, der seine Privatsphäre schätzt
+SPRACHEN
 
-So Funktioniert Es:
+SecureVox transkribiert viele Sprachen. Die Qualität schwankt je nach Sprache: Am besten ist sie bei weit verbreiteten Sprachen wie Englisch, Spanisch, Französisch, Deutsch, Italienisch, Portugiesisch, Chinesisch und Japanisch, schwächer bei Sprachen mit weniger Trainingsdaten. Größere Modelle helfen.
 
-Tippen Sie, um Ihr Sprachmemo aufzunehmen
-SecureVox transkribiert automatisch mit gerätebasierter KI
-Anzeigen, Durchsuchen und Exportieren Ihrer Transkriptionen
-Alle Daten bleiben sicher auf Ihrem Gerät
+GUT ZU WISSEN
 
-Technische Details:
+• Die Genauigkeit hängt von Tonqualität, Akzent und Hintergrundgeräuschen ab. Prüfe wichtige Transkripte, bevor du dich darauf verlässt.
+• Sprecherlabels sind nur eine Näherung und können ähnlich klingende Stimmen verwechseln.
+• Größere Modelle sind langsamer und brauchen mehr Arbeitsspeicher und Speicherplatz.
+• Erfordert Android 8.0 oder neuer.
 
-• Verwendet das Whisper-Modell von OpenAI, optimiert für Mobilgeräte
-• Unterstützt Android 8.0 (Oreo) und höher
-• Benötigt etwa 50 MB für das KI-Modell (wird bei der ersten Verwendung heruntergeladen)
-• Kein Konto oder Registrierung erforderlich
+EINMALIGER KAUF
 
-Einmaliger Kauf:
+SecureVox ist eine kostenpflichtige App. Kein Abo, keine Werbung, keine In-App-Käufe.
 
-SecureVox ist eine kostenpflichtige App ohne Abonnements, ohne Werbung und ohne In-App-Käufe. Einmal bezahlen und für immer nutzen.
-
-Erfahren Sie mehr auf https://securevox.app
-
-Privatsphäre Zuerst:
-
-Wir glauben, dass Ihre Sprachaufnahmen zutiefst persönlich sind. Deshalb haben wir SecureVox von Grund auf mit Privatsphäre als Fundament entwickelt – nicht als nachträglichen Einfall. Keine Analysen, kein Tracking, keine Cloud-Verarbeitung. Nur Sie und Ihre Aufnahmen.
-
-Laden Sie SecureVox heute herunter und übernehmen Sie die Kontrolle über Ihre Sprachdaten.
+Mehr unter https://securevox.app
