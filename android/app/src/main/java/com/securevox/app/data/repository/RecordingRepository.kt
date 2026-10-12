@@ -57,6 +57,9 @@ class RecordingRepository(
     suspend fun saveSegments(segments: List<TranscriptSegment>) =
         segmentDao.insertSegments(segments)
 
+    suspend fun replaceSegments(recordingId: String, segments: List<TranscriptSegment>) =
+        segmentDao.replaceSegments(recordingId, segments)
+
     suspend fun deleteSegmentsForRecording(recordingId: String) =
         segmentDao.deleteSegmentsForRecording(recordingId)
 
