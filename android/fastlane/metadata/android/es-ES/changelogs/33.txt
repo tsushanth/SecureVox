@@ -1,0 +1,7 @@
+• Nuevo diseño: colores más tranquilos, tipografía con serifas legible para transcripciones y una onda que puedes arrastrar
+• Subtítulos en vivo mientras grabas
+• Comparte audio o vídeo desde cualquier app con SecureVox
+• Empieza a grabar desde Ajustes rápidos o el acceso directo del icono
+• Bloqueo opcional de la app (huella, rostro o bloqueo de pantalla)
+• Corregido: las grabaciones mostraban el doble de duración
+• Las grabaciones en silencio lo indican en vez de [BLANK_AUDIO]

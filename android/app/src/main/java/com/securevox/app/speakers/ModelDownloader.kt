@@ -18,9 +18,11 @@ object SpeakerModels {
             "$HF/sherpa-onnx-pyannote-segmentation-3-0/resolve/main/model.onnx",
             "segmentation.onnx", 5_992_913, "220ad67ca923bef2fa91f2390c786097bf305bceb5e261d4af67b38e938e1079"
         ),
+        // NeMo TitaNet-small. On real-speaker test conversations ClearVoice found the right number
+        // of speakers 16/16 times at threshold 0.8-0.9, where CAM++ got 1/16 at its best.
         ModelFile(
-            "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/wespeaker_en_voxceleb_CAM++.onnx",
-            "embedding.onnx", 29_292_684, "c46fad10b5f81e1aa4a60c162714208577093655076c5450f8c469e522ec54ef"
+            "https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/nemo_en_titanet_small.onnx",
+            "embedding.onnx", 40_257_283, "ad4a1802485d8b34c722d2a9d04249662f2ece5d28a7a039063ca22f515a789e"
         )
     )
 }

@@ -5,6 +5,14 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import java.io.File
 
 object SpeakerLabels {
+    /**
+     * Whether the Settings toggle is shown. Off for release: on a Pixel the speaker pass ran
+     * (about 3 s for 24 s of audio) but found one speaker in a clip with two clearly different
+     * voices, so it is not ready to ship. Everything else here stays in place so it can be
+     * turned on once that is fixed.
+     */
+    const val AVAILABLE = false
+
     val KEY_ENABLED = booleanPreferencesKey("label_speakers_enabled")
 
     /**
