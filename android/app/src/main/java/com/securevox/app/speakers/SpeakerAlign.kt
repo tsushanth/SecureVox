@@ -19,7 +19,7 @@ fun assignSpeakers(segments: List<TranscriptSegment>, spans: List<SpeakerSpan>):
     return segments.mapIndexed { i, s -> s.copy(speaker = order.getValue(raw[i])) }
 }
 
-private fun dominantSpeaker(start: Long, end: Long, spans: List<SpeakerSpan>): Int {
+internal fun dominantSpeaker(start: Long, end: Long, spans: List<SpeakerSpan>): Int {
     val overlap = HashMap<Int, Long>()
     for (span in spans) {
         val shared = minOf(end, span.endMs) - maxOf(start, span.startMs)
@@ -30,7 +30,7 @@ private fun dominantSpeaker(start: Long, end: Long, spans: List<SpeakerSpan>): I
     return spans.minByOrNull { distanceTo(it, mid) }!!.speaker
 }
 
-private fun distanceTo(span: SpeakerSpan, ms: Long): Long = when {
+internal fun distanceTo(span: SpeakerSpan, ms: Long): Long = when {
     ms < span.startMs -> span.startMs - ms
     ms > span.endMs -> ms - span.endMs
     else -> 0L
