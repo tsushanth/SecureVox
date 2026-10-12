@@ -1,0 +1,3 @@
+• Re-transcribe any recording with a different model size for better accuracy
+• Export audio recordings to share via any app
+• Send Feedback button in Settings for quick access to support

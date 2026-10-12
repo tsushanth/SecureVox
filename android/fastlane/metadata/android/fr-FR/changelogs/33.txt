@@ -1,0 +1,6 @@
+• Nouveau design : couleurs sobres, police à empattements lisible pour les transcriptions et forme d'onde à faire glisser
+• Sous-titres en direct pendant l'enregistrement
+• Partagez un audio ou une vidéo depuis n'importe quelle app vers SecureVox
+• Lancez l'enregistrement depuis les Réglages rapides ou le raccourci de l'icône
+• Verrouillage facultatif de l'app (empreinte, visage ou écran)
+• Correction : les enregistrements affichaient le double de leur durée

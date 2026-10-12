@@ -22,6 +22,11 @@ enum class ExportFormat(val extension: String, val mimeType: String, val display
  */
 class ExportService(private val context: Context) {
 
+    /** "Speaker 2: text" when the transcript has speaker labels, otherwise just the text. */
+    private fun labelled(segment: TranscriptSegment): String =
+        if (segment.speaker >= 0) "Speaker ${segment.speaker + 1}: ${segment.text}" else segment.text
+
+
     companion object {
         private const val TAG = "ExportService"
     }
@@ -75,7 +80,7 @@ class ExportService(private val context: Context) {
      * Simple text without timestamps, segments joined with double line breaks.
      */
     private fun generateTxt(segments: List<TranscriptSegment>): String {
-        return segments.joinToString("\n\n") { it.text }
+        return segments.joinToString("\n\n") { labelled(it) }
     }
 
     /**
@@ -95,7 +100,7 @@ class ExportService(private val context: Context) {
         return segments.mapIndexed { index, segment ->
             val startTime = formatSrtTimestamp(segment.startTimeMs)
             val endTime = formatSrtTimestamp(segment.endTimeMs)
-            "${index + 1}\n$startTime --> $endTime\n${segment.text}"
+            "${index + 1}\n$startTime --> $endTime\n${labelled(segment)}"
         }.joinToString("\n\n")
     }
 
@@ -117,7 +122,7 @@ class ExportService(private val context: Context) {
         val body = segments.joinToString("\n\n") { segment ->
             val startTime = formatVttTimestamp(segment.startTimeMs)
             val endTime = formatVttTimestamp(segment.endTimeMs)
-            "$startTime --> $endTime\n${segment.text}"
+            "$startTime --> $endTime\n${labelled(segment)}"
         }
         return header + body
     }

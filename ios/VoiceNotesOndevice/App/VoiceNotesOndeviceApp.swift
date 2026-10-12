@@ -1,4 +1,5 @@
 import SwiftUI
+import RatingKit
 import SwiftData
 import os.log
 
@@ -48,6 +49,14 @@ struct VoiceNotesOndeviceApp: App {
         } catch {
             modelContainerResult = .failure(error)
         }
+    
+        // Server-driven rating prompts (variant testing + analytics).
+        // Currently in simple mode — uses native SKStoreReviewController, no UI overlay.
+        RatingKit.configure(appId: "securevox", apiUrl: "https://paywallkit-api.fly.dev")
+        RatingKit.shared.trackAppOpen()
+
+        // Apple Search Ads attribution (iOS 14.3+). Fires once per install.
+        AttributionService.shared.trackAttribution()
     }
 
     // MARK: - Body
@@ -56,6 +65,7 @@ struct VoiceNotesOndeviceApp: App {
         WindowGroup {
             if let container = sharedModelContainer {
                 ContentView()
+                    .ratingPrompt()
                     .preferredColorScheme(colorScheme)
                     .environmentObject(deepLinkHandler)
                     .onOpenURL { url in

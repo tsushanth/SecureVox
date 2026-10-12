@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">กลับ</string>
+    <string name="cancel">ยกเลิก</string>
+    <string name="delete">ลบ</string>
+    <string name="ok">ตกลง</string>
+    <string name="search">ค้นหา</string>
+    <string name="clear">ล้าง</string>
+    <string name="settings">การตั้งค่า</string>
+    <string name="recording_label">การบันทึก</string>
+    <string name="export">ส่งออก</string>
+    <string name="retry">ลองอีกครั้ง</string>
+    <string name="add">เพิ่ม</string>
+    <string name="import_label">นำเข้า</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">ค้นหาการบันทึก</string>
+    <string name="close_search">ปิดการค้นหา</string>
+    <string name="import_media">นำเข้าสื่อ</string>
+    <string name="stop_recording">หยุดบันทึก</string>
+    <string name="start_recording">เริ่มบันทึก</string>
+    <string name="importing_media">กำลังนำเข้าสื่อ\u2026</string>
+    <string name="filter_all">ทั้งหมด</string>
+    <string name="filter_favorites">รายการโปรด</string>
+    <string name="favorite">รายการโปรด</string>
+    <string name="remove_from_favorites">ลบออกจากรายการโปรด</string>
+    <string name="add_to_favorites">เพิ่มในรายการโปรด</string>
+    <string name="import_failed_title">นำเข้าล้มเหลว</string>
+    <string name="delete_recording_title">ลบการบันทึก</string>
+    <string name="delete_recording_message">คุณแน่ใจหรือไม่ว่าต้องการลบการบันทึกนี้? การกระทำนี้ไม่สามารถย้อนกลับได้</string>
+    <string name="no_recordings_found">ไม่พบการบันทึก</string>
+    <string name="no_favorites_yet">ยังไม่มีรายการโปรด</string>
+    <string name="no_recordings_yet">ยังไม่มีการบันทึก</string>
+    <string name="try_different_search">ลองใช้คำค้นหาอื่น</string>
+    <string name="swipe_to_favorite">เลื่อนไปทางขวาบนการบันทึกเพื่อเพิ่มในรายการโปรด</string>
+    <string name="tap_mic_to_start">แตะปุ่มไมโครโฟนเพื่อเริ่มต้น</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">รอดำเนินการ</string>
+    <string name="status_processing">กำลังประมวลผล</string>
+    <string name="status_done">เสร็จสิ้น</string>
+    <string name="status_failed">ล้มเหลว</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">ตัวเลือกเพิ่มเติม</string>
+    <string name="copy_transcript">คัดลอกข้อความถอดเสียง</string>
+    <string name="copied_to_clipboard">คัดลอกไปยังคลิปบอร์ดแล้ว</string>
+    <string name="export_transcript">ส่งออกข้อความถอดเสียง</string>
+    <string name="export_failed">ส่งออกล้มเหลว</string>
+    <string name="transcribing">กำลังถอดเสียง\u2026</string>
+    <string name="transcription_may_take_minutes">อาจใช้เวลาสักครู่</string>
+    <string name="transcription_pending">การถอดเสียงรอดำเนินการ</string>
+    <string name="transcription_failed">การถอดเสียงล้มเหลว</string>
+    <string name="please_try_again">กรุณาลองอีกครั้ง</string>
+    <string name="skip_back_10">ย้อนกลับ 10 วินาที</string>
+    <string name="skip_forward_10">ข้ามไป 10 วินาที</string>
+    <string name="pause">หยุดชั่วคราว</string>
+    <string name="play">เล่น</string>
+    <string name="selected">เลือกแล้ว</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">โมเดลถอดเสียง</string>
+    <string name="section_language">ภาษา</string>
+    <string name="section_transcription">การถอดเสียง</string>
+    <string name="section_recording">การบันทึก</string>
+    <string name="section_data_management">การจัดการข้อมูล</string>
+    <string name="section_appearance">ธีม</string>
+    <string name="section_storage">พื้นที่เก็บข้อมูล</string>
+    <string name="section_about">เกี่ยวกับ</string>
+    <string name="transcription_language">ภาษาถอดเสียง</string>
+    <string name="auto_punctuation">เครื่องหมายวรรคตอนอัตโนมัติ</string>
+    <string name="auto_punctuation_subtitle">เพิ่มเครื่องหมายวรรคตอนอัตโนมัติในข้อความถอดเสียง</string>
+    <string name="smart_capitalization">ตัวพิมพ์ใหญ่อัจฉริยะ</string>
+    <string name="smart_capitalization_subtitle">ทำตัวพิมพ์ใหญ่ประโยคและคำนามเฉพาะ</string>
+    <string name="custom_dictionary">พจนานุกรมกำหนดเอง</string>
+    <string name="custom_dictionary_subtitle">เพิ่มคำเพื่อปรับปรุงความแม่นยำของการถอดเสียง</string>
+    <string name="sound_effects">เอฟเฟกต์เสียง</string>
+    <string name="sound_effects_subtitle">เล่นเสียงเมื่อเริ่ม/หยุดบันทึก</string>
+    <string name="haptic_feedback">การตอบสนองสัมผัส</string>
+    <string name="haptic_feedback_subtitle">สั่นเมื่อเริ่ม/หยุดบันทึก</string>
+    <string name="recycle_bin">ถังขยะ</string>
+    <string name="recycle_bin_deleted_immediately">การบันทึกถูกลบทันที</string>
+    <string name="recycle_bin_keep_for">เก็บการบันทึกที่ลบไว้ %1$s</string>
+    <string name="auto_delete_audio">ลบเสียงอัตโนมัติ</string>
+    <string name="auto_delete_audio_subtitle">ลบไฟล์เสียงหลังถอดเสียงเสร็จ</string>
+    <string name="auto_copy_clipboard">คัดลอกอัตโนมัติไปยังคลิปบอร์ด</string>
+    <string name="auto_copy_clipboard_subtitle">คัดลอกข้อความถอดเสียงไปยังคลิปบอร์ดหลังถอดเสียง</string>
+    <string name="theme">ธีม</string>
+    <string name="models_storage">พื้นที่เก็บโมเดล</string>
+    <string name="faq_and_help">คำถามที่พบบ่อย &amp; ช่วยเหลือ</string>
+    <string name="faq_subtitle">คำถามทั่วไปและการแก้ไขปัญหา</string>
+    <string name="about_version">เวอร์ชัน 1.0.0</string>
+    <string name="about_description">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว ขับเคลื่อนด้วย Whisper AI การประมวลผลทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ - เสียงของคุณไม่เคยออกจากโทรศัพท์</string>
+    <string name="select_language">เลือกภาษา</string>
+    <string name="select_theme">เลือกธีม</string>
+    <string name="recycle_bin_retention">ระยะเวลาเก็บถังขยะ</string>
+    <string name="theme_follow_system">ตามการตั้งค่าของระบบ</string>
+    <string name="theme_always_light">ใช้ธีมสว่างเสมอ</string>
+    <string name="theme_always_dark">ใช้ธีมมืดเสมอ</string>
+    <string name="retention_disabled_desc">การบันทึกถูกลบถาวรทันที</string>
+    <string name="retention_7_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 7 วัน</string>
+    <string name="retention_14_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 14 วัน</string>
+    <string name="retention_30_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 30 วัน</string>
+
+    <!-- Model Card -->
+    <string name="active">ใช้งานอยู่</string>
+    <string name="cancel_download">ยกเลิกการดาวน์โหลด</string>
+    <string name="delete_model">ลบโมเดล</string>
+    <string name="downloaded">ดาวน์โหลดแล้ว</string>
+    <string name="download">ดาวน์โหลด</string>
+    <string name="model_stat_size">ขนาด</string>
+    <string name="model_stat_accuracy">ความแม่นยำ</string>
+    <string name="model_stat_speed">ความเร็ว</string>
+    <string name="download_failed_prefix">ดาวน์โหลดล้มเหลว: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">ยินดีต้อนรับสู่ SecureVox</string>
+    <string name="welcome_subtitle">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว</string>
+    <string name="download_ai_model">ดาวน์โหลดโมเดล AI</string>
+    <string name="download_model_description">SecureVox จำเป็นต้องดาวน์โหลดโมเดล Whisper AI (~75MB) เพื่อถอดเสียงการบันทึกของคุณบนอุปกรณ์</string>
+    <string name="download_with_size">ดาวน์โหลด (%1$dMB)</string>
+    <string name="downloading_progress">กำลังดาวน์โหลด\u2026 %1$d%%</string>
+    <string name="download_complete">ดาวน์โหลดเสร็จสิ้น!</string>
+    <string name="download_failed_message">ดาวน์โหลดล้มเหลว: %1$s</string>
+    <string name="privacy_note">การถอดเสียงทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">ค้นหาคำถามที่พบบ่อย\u2026</string>
+    <string name="no_results_found">ไม่พบผลลัพธ์</string>
+    <string name="try_different_search_term">ลองใช้คำค้นหาอื่น</string>
+    <string name="still_have_questions">ยังมีคำถามอยู่?</string>
+    <string name="contact_support">ติดต่อเราที่ support@securevox.app</string>
+    <string name="collapse">ย่อ</string>
+    <string name="expand">ขยาย</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d คำ</string>
+    <string name="add_word">เพิ่มคำ</string>
+    <string name="import_from_clipboard">นำเข้าจากคลิปบอร์ด</string>
+    <string name="export_to_clipboard">ส่งออกไปยังคลิปบอร์ด</string>
+    <string name="delete_all">ลบทั้งหมด</string>
+    <string name="search_words">ค้นหาคำ\u2026</string>
+    <string name="no_custom_words_yet">ยังไม่มีคำที่กำหนดเอง</string>
+    <string name="custom_words_empty_hint">เพิ่มคำที่มักถูกรู้จำผิด เช่น ชื่อ คำศัพท์ทางเทคนิค หรือตัวย่อ</string>
+    <string name="add_word_button">เพิ่มคำ</string>
+    <string name="no_words_found">ไม่พบคำ</string>
+    <string name="delete_word_title">ลบคำ?</string>
+    <string name="delete_word_message">ลบ \"%1$s\" ออกจากพจนานุกรมกำหนดเอง?</string>
+    <string name="add_word_title">เพิ่มคำ</string>
+    <string name="add_word_description">ป้อนคำเพื่อเพิ่มในพจนานุกรมกำหนดเอง</string>
+    <string name="word_label">คำ</string>
+    <string name="import_words_title">นำเข้าคำ</string>
+    <string name="import_words_description">วางคำเพื่อนำเข้า (หนึ่งคำต่อบรรทัด)</string>
+    <string name="words_label">คำ</string>
+    <string name="delete_all_words_title">ลบคำทั้งหมด?</string>
+    <string name="delete_all_words_message">จะลบคำทั้งหมด %1$d คำออกจากพจนานุกรมกำหนดเอง การกระทำนี้ไม่สามารถย้อนกลับได้</string>
+    <string name="delete_all_button">ลบทั้งหมด</string>
+    <string name="dictionary_copied">คัดลอกพจนานุกรมไปยังคลิปบอร์ดแล้ว</string>
+    <string name="dictionary_empty">พจนานุกรมว่างเปล่า</string>
+    <string name="word_added">เพิ่มคำแล้ว</string>
+    <string name="word_already_exists">คำนี้มีอยู่แล้ว</string>
+    <string name="words_imported">นำเข้า %1$d คำแล้ว</string>
+    <string name="no_new_words">ไม่มีคำใหม่ที่จะนำเข้า</string>
+    <string name="dictionary_cleared">ล้างพจนานุกรมแล้ว</string>
+</resources>

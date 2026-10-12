@@ -1,0 +1,319 @@
+/*
+  Localizable.strings (French)
+  SecureVox
+*/
+
+// MARK: - Tabs
+"Recordings" = "Enregistrements";
+"Settings" = "Réglages";
+
+// MARK: - Recordings List
+"Search recordings" = "Rechercher des enregistrements";
+"No Recordings" = "Aucun enregistrement";
+"Tap the record button to create a new recording, or import audio/video files." = "Appuyez sur le bouton d'enregistrement pour créer un nouvel enregistrement ou importez des fichiers audio/vidéo.";
+"Record audio or import media to get started with offline transcription." = "Enregistrez de l'audio ou importez des médias pour commencer la transcription hors ligne.";
+"Record Audio" = "Enregistrer l'audio";
+"Import Media" = "Importer des médias";
+"Delete" = "Supprimer";
+"Favorite" = "Favori";
+"Unfavorite" = "Retirer des favoris";
+"Add to Favorites" = "Ajouter aux favoris";
+"Remove from Favorites" = "Retirer des favoris";
+"Copy Transcript" = "Copier la transcription";
+"Delete Recording" = "Supprimer l'enregistrement";
+"Cancel" = "Annuler";
+"Are you sure you want to delete this recording? This cannot be undone." = "Êtes-vous sûr de vouloir supprimer cet enregistrement ? Cette action est irréversible.";
+"Error" = "Erreur";
+"OK" = "OK";
+
+// MARK: - Recording Row Status
+"Waiting" = "En attente";
+"Transcribing" = "Transcription en cours";
+"Done" = "Terminé";
+"Failed" = "Échec";
+"Tap to transcribe" = "Appuyez pour transcrire";
+"Transcription failed" = "Échec de la transcription";
+"Today, %@" = "Aujourd'hui, %@";
+"Yesterday, %@" = "Hier, %@";
+
+// MARK: - Recorder Sheet
+"Recording" = "Enregistrement";
+"Cancel Recording?" = "Annuler l'enregistrement ?";
+"Discard Recording" = "Supprimer l'enregistrement";
+"Keep Recording" = "Garder l'enregistrement";
+"Your recording will be lost." = "Votre enregistrement sera perdu.";
+"Tap to start recording" = "Appuyez pour commencer l'enregistrement";
+"Microphone permission required" = "Autorisation du microphone requise";
+"Saving..." = "Enregistrement...";
+
+// MARK: - Recording Detail View
+"Rename Recording" = "Renommer l'enregistrement";
+"Title" = "Titre";
+"Save" = "Enregistrer";
+"Delete this recording?" = "Supprimer cet enregistrement ?";
+"Cancel transcription?" = "Annuler la transcription ?";
+"Cancel Transcription" = "Annuler la transcription";
+"Continue" = "Continuer";
+"Rename" = "Renommer";
+"Start Transcription" = "Démarrer la transcription";
+"Export Transcript" = "Exporter la transcription";
+"Export TXT" = "Exporter TXT";
+"Export SRT" = "Exporter SRT";
+"Export VTT" = "Exporter VTT";
+
+// MARK: - Pending View
+"Ready to Transcribe" = "Prêt à transcrire";
+"Tap the button below to start offline transcription using Whisper." = "Appuyez sur le bouton ci-dessous pour démarrer la transcription hors ligne avec Whisper.";
+
+// MARK: - Processing View
+"Loading Transcription Model" = "Chargement du modèle de transcription";
+"This may take a moment on first use..." = "Cela peut prendre un moment lors de la première utilisation...";
+"(Fallback)" = "(Alternative)";
+"Live Preview" = "Aperçu en direct";
+
+// MARK: - Transcript View
+"No Transcript" = "Aucune transcription";
+"The transcript will appear here after processing." = "La transcription apparaîtra ici après le traitement.";
+"View Mode" = "Mode d'affichage";
+
+// MARK: - Apple Speech Fallback Banner
+"Transcribed with Apple Speech" = "Transcrit avec Apple Speech";
+"Whisper AI provides better accuracy on iPhone 12 and newer devices." = "Whisper AI offre une meilleure précision sur iPhone 12 et appareils plus récents.";
+
+// MARK: - Re-transcribe
+"Re-transcribe" = "Re-transcrire";
+"Currently: %@ model" = "Actuel : modèle %@";
+"Try a different model" = "Essayer un autre modèle";
+"Choose quality level for re-transcription. Higher accuracy takes longer but produces better results." = "Choisissez le niveau de qualité pour la re-transcription. Une précision plus élevée prend plus de temps mais produit de meilleurs résultats.";
+"Choose quality level. Fast is recommended for this device. Higher quality options may be slow without GPU acceleration." = "Choisissez le niveau de qualité. Rapide est recommandé pour cet appareil. Les options de qualité supérieure peuvent être lentes sans accélération GPU.";
+"Choose Quality" = "Choisir la qualité";
+"This will replace the current transcription." = "Cela remplacera la transcription actuelle.";
+"Current" = "Actuel";
+
+// MARK: - Failed View
+"Transcription Failed" = "Échec de la transcription";
+"An error occurred during transcription." = "Une erreur s'est produite pendant la transcription.";
+"Retry" = "Réessayer";
+
+// MARK: - Transcription Progress
+"Complete" = "Terminé";
+"Transcribing..." = "Transcription en cours...";
+"About %@ remaining" = "Environ %@ restant";
+"Processing entirely on your device" = "Traitement entièrement sur votre appareil";
+"less than a minute" = "moins d'une minute";
+
+// MARK: - Export Sheet
+"Export Format" = "Format d'exportation";
+"Preview" = "Aperçu";
+"Export" = "Exporter";
+"Exporting..." = "Exportation...";
+"Export Error" = "Erreur d'exportation";
+"Choose Format" = "Choisir le format";
+"The transcript will be exported and ready to share." = "La transcription sera exportée et prête à être partagée.";
+
+// MARK: - Export Formats
+"Plain Text (.txt)" = "Texte brut (.txt)";
+"SubRip Subtitle (.srt)" = "Sous-titre SubRip (.srt)";
+"WebVTT (.vtt)" = "WebVTT (.vtt)";
+"Simple text without timestamps. Best for reading and editing." = "Texte simple sans horodatages. Idéal pour la lecture et l'édition.";
+"Industry-standard subtitle format. Compatible with most video editors." = "Format de sous-titres standard de l'industrie. Compatible avec la plupart des éditeurs vidéo.";
+"Web-compatible subtitle format. Works with HTML5 video players." = "Format de sous-titres compatible web. Fonctionne avec les lecteurs vidéo HTML5.";
+
+// MARK: - Import Menu
+"Choose Source" = "Choisir la source";
+"Audio will be extracted from videos. Supported formats: MP4, MOV, MP3, M4A, WAV, and more." = "L'audio sera extrait des vidéos. Formats pris en charge : MP4, MOV, MP3, M4A, WAV et plus.";
+"Photo Library" = "Photothèque";
+"Import videos from Camera Roll" = "Importer des vidéos depuis la pellicule";
+"Files" = "Fichiers";
+"Import audio or video files" = "Importer des fichiers audio ou vidéo";
+"Supported Formats" = "Formats pris en charge";
+"Video" = "Vidéo";
+"Audio" = "Audio";
+"Maximum file size: 2 GB" = "Taille maximale du fichier : 2 Go";
+"Importing..." = "Importation...";
+"Import Error" = "Erreur d'importation";
+"An unknown error occurred" = "Une erreur inconnue s'est produite";
+"Imported Recording" = "Enregistrement importé";
+"Loading video..." = "Chargement de la vidéo...";
+"Loading file..." = "Chargement du fichier...";
+
+// MARK: - Settings View
+"Transcription Quality" = "Qualité de transcription";
+"Higher quality options produce better results but take longer. Your device supports GPU acceleration for optimal performance." = "Les options de qualité supérieure produisent de meilleurs résultats mais prennent plus de temps. Votre appareil prend en charge l'accélération GPU pour des performances optimales.";
+"Higher quality options may be slow on this device. Fast is recommended. iPhone 12 or newer recommended for Balanced and Accurate." = "Les options de qualité supérieure peuvent être lentes sur cet appareil. Rapide est recommandé. iPhone 12 ou plus récent recommandé pour Équilibré et Précis.";
+"Default Language" = "Langue par défaut";
+"Language" = "Langue";
+"Whisper supports 99 languages. Auto-detect works well for most content, but selecting a specific language can improve accuracy." = "Whisper prend en charge 99 langues. La détection automatique fonctionne bien pour la plupart des contenus, mais la sélection d'une langue spécifique peut améliorer la précision.";
+"Auto-Punctuation" = "Ponctuation automatique";
+"Smart Capitalization" = "Capitalisation intelligente";
+"Custom Dictionary" = "Dictionnaire personnalisé";
+"%lld words" = "%lld mots";
+"Transcription" = "Transcription";
+"Customize how transcription results are formatted. Add custom words to fix common misrecognitions." = "Personnalisez le formatage des résultats de transcription. Ajoutez des mots personnalisés pour corriger les erreurs de reconnaissance courantes.";
+"Sound Effects" = "Effets sonores";
+"Haptic Feedback" = "Retour haptique";
+"Play sounds and provide haptic feedback when starting and stopping recordings." = "Émettre des sons et un retour haptique lors du démarrage et de l'arrêt des enregistrements.";
+"Recording Quality" = "Qualité d'enregistrement";
+"Input Gain" = "Gain d'entrée";
+"Normal" = "Normal";
+"Higher quality produces larger files. Adjust input gain if recordings are too quiet or loud." = "Une qualité supérieure produit des fichiers plus volumineux. Ajustez le gain si les enregistrements sont trop silencieux ou forts.";
+"Theme" = "Thème";
+"Appearance" = "Apparence";
+"Recycle Bin" = "Corbeille";
+"Disabled" = "Désactivé";
+"7 Days" = "7 jours";
+"14 Days" = "14 jours";
+"30 Days" = "30 jours";
+"Recently Deleted" = "Supprimés récemment";
+"Data Management" = "Gestion des données";
+"Deleted recordings are kept for %lld days before permanent deletion." = "Les enregistrements supprimés sont conservés %lld jours avant la suppression définitive.";
+"Recordings are permanently deleted immediately." = "Les enregistrements sont supprimés définitivement immédiatement.";
+"Loading..." = "Chargement...";
+"Audio Files" = "Fichiers audio";
+"Total Duration" = "Durée totale";
+"Available Space" = "Espace disponible";
+"Auto-Delete Audio" = "Suppression automatique de l'audio";
+"Auto-Copy to Clipboard" = "Copie automatique dans le presse-papiers";
+"Delete All Audio Files" = "Supprimer tous les fichiers audio";
+"Delete All Recordings" = "Supprimer tous les enregistrements";
+"Storage" = "Stockage";
+"After transcription: audio files will be deleted and transcript will be copied to clipboard." = "Après la transcription : les fichiers audio seront supprimés et la transcription sera copiée dans le presse-papiers.";
+"Audio files will be automatically deleted after transcription completes. Transcripts are preserved." = "Les fichiers audio seront automatiquement supprimés après la transcription. Les transcriptions sont préservées.";
+"Transcript will be automatically copied to clipboard after transcription completes." = "La transcription sera automatiquement copiée dans le presse-papiers après la transcription.";
+"Privacy" = "Confidentialité";
+"FAQ & Help" = "FAQ et aide";
+"Contact Support" = "Contacter le support";
+"Rate on App Store" = "Évaluer sur l'App Store";
+"Share with Friends" = "Partager avec des amis";
+"Privacy Policy" = "Politique de confidentialité";
+"Version" = "Version";
+"About" = "À propos";
+"Delete All Audio Files?" = "Supprimer tous les fichiers audio ?";
+"Delete All Audio" = "Supprimer tout l'audio";
+"Transcripts will be preserved. This cannot be undone." = "Les transcriptions seront préservées. Cette action est irréversible.";
+"Delete All Recordings?" = "Supprimer tous les enregistrements ?";
+"Delete Everything" = "Tout supprimer";
+"All recordings and transcripts will be permanently deleted. This cannot be undone." = "Tous les enregistrements et transcriptions seront définitivement supprimés. Cette action est irréversible.";
+"Unable to Open Mail" = "Impossible d'ouvrir Mail";
+"Please email us at %@" = "Envoyez-nous un email à %@";
+"Get" = "Obtenir";
+
+// MARK: - Settings - Recording Quality Options
+"Standard" = "Standard";
+"High" = "Élevée";
+"Maximum" = "Maximum";
+"16-bit, smaller files" = "16 bits, fichiers plus petits";
+"24-bit, better quality" = "24 bits, meilleure qualité";
+"32-bit, best quality" = "32 bits, meilleure qualité";
+
+// MARK: - Settings - Theme Options
+"System" = "Système";
+"Light" = "Clair";
+"Dark" = "Sombre";
+
+// MARK: - Settings - Whisper Model Options
+"Fast" = "Rapide";
+"Balanced" = "Équilibré";
+"Accurate" = "Précis";
+"Quick results" = "Résultats rapides";
+"2x slower" = "2x plus lent";
+"5x slower" = "5x plus lent";
+"Fastest" = "Le plus rapide";
+"Moderate" = "Modéré";
+"Slower" = "Plus lent";
+
+// MARK: - Settings - Privacy Section
+"%@ works completely offline. Your recordings never leave your device, and we never request network access. This means no iCloud sync, but your privacy is absolutely protected." = "%@ fonctionne entièrement hors ligne. Vos enregistrements ne quittent jamais votre appareil et nous ne demandons jamais d'accès réseau. Cela signifie pas de synchronisation iCloud, mais votre vie privée est absolument protégée.";
+
+// MARK: - Language Picker
+"Select Language" = "Sélectionner la langue";
+"Search languages" = "Rechercher des langues";
+"Common" = "Courantes";
+"All Languages" = "Toutes les langues";
+"Auto-Detect" = "Détection automatique";
+
+// MARK: - Custom Dictionary
+"Add word..." = "Ajouter un mot...";
+"Words to Import" = "Mots à importer";
+"Enter one word or phrase per line." = "Entrez un mot ou une phrase par ligne.";
+"Import Words" = "Importer des mots";
+"Export Words" = "Exporter des mots";
+"Clear All" = "Tout effacer";
+"Import" = "Importer";
+"Words (%lld)" = "Mots (%lld)";
+"Add names, technical terms, or specialized vocabulary to improve accuracy—like 'Steve Wozniak', 'CRISPR-Cas9', or 'Llama-2'." = "Ajoutez des noms, des termes techniques ou du vocabulaire spécialisé pour améliorer la précision — comme 'Steve Wozniak', 'CRISPR-Cas9' ou 'Llama-2'.";
+"Too many terms can reduce transcription quality. If accuracy suffers, try using fewer dictionary words." = "Trop de termes peuvent réduire la qualité de transcription. Si la précision en souffre, essayez d'utiliser moins de mots du dictionnaire.";
+"Imported %lld word(s)" = "%lld mot(s) importé(s)";
+
+// MARK: - Recycle Bin
+"Empty" = "Vider";
+"Empty Recycle Bin?" = "Vider la corbeille ?";
+"Delete All Permanently" = "Tout supprimer définitivement";
+"This will permanently delete %lld recording(s). This cannot be undone." = "Cela supprimera définitivement %lld enregistrement(s). Cette action est irréversible.";
+"Delete Permanently?" = "Supprimer définitivement ?";
+"Delete Permanently" = "Supprimer définitivement";
+"This recording will be permanently deleted. This cannot be undone." = "Cet enregistrement sera définitivement supprimé. Cette action est irréversible.";
+"No Deleted Recordings" = "Aucun enregistrement supprimé";
+"Recordings you delete will appear here and can be restored." = "Les enregistrements que vous supprimez apparaîtront ici et pourront être restaurés.";
+"Restore" = "Restaurer";
+"Expires today" = "Expire aujourd'hui";
+"1 day left" = "1 jour restant";
+"%lld days left" = "%lld jours restants";
+"Deleted today at %@" = "Supprimé aujourd'hui à %@";
+"Deleted yesterday" = "Supprimé hier";
+"Deleted %@" = "Supprimé %@";
+
+// MARK: - Storage Usage View
+"Storage Usage" = "Utilisation du stockage";
+"Audio Recordings" = "Enregistrements audio";
+"Total Audio Size" = "Taille totale de l'audio";
+"Device Storage" = "Stockage de l'appareil";
+"Tips to free up space:" = "Conseils pour libérer de l'espace :";
+"Delete audio files after transcription" = "Supprimer les fichiers audio après la transcription";
+"Remove old recordings you no longer need" = "Supprimer les anciens enregistrements dont vous n'avez plus besoin";
+"Enable auto-delete in Settings" = "Activer la suppression automatique dans Réglages";
+"Tips" = "Conseils";
+"Usage" = "Utilisation";
+
+// MARK: - Rating Prompt
+"Enjoying %@?" = "Vous aimez %@ ?";
+"Your feedback helps us improve the app for everyone." = "Vos commentaires nous aident à améliorer l'application pour tous.";
+"Yes, I love it!" = "Oui, j'adore !";
+"Not Really" = "Pas vraiment";
+"Not Now" = "Pas maintenant";
+
+// MARK: - Confirmation Dialogs
+"Delete Recording?" = "Supprimer l'enregistrement ?";
+"This will permanently delete the recording and its transcript." = "Cela supprimera définitivement l'enregistrement et sa transcription.";
+"Delete Audio File?" = "Supprimer le fichier audio ?";
+"The transcript will be preserved. This cannot be undone." = "La transcription sera préservée. Cette action est irréversible.";
+"Delete Audio" = "Supprimer l'audio";
+"Discard" = "Supprimer";
+
+// MARK: - Share Sheet (macOS)
+"Share" = "Partager";
+"Show in Finder" = "Afficher dans le Finder";
+"Copy Path" = "Copier le chemin";
+"Share..." = "Partager...";
+
+// MARK: - FAQ View
+"Search help topics" = "Rechercher des sujets d'aide";
+"Getting Started" = "Premiers pas";
+"Export & Sharing" = "Exportation et partage";
+"Storage & Privacy" = "Stockage et confidentialité";
+"Troubleshooting" = "Dépannage";
+
+// MARK: - Widget
+"Recording..." = "Enregistrement...";
+"recordings" = "enregistrements";
+"Tap to record" = "Appuyez pour enregistrer";
+"total time" = "durée totale";
+"Recent" = "Récent";
+"No recordings yet" = "Aucun enregistrement pour le moment";
+"Most Recent" = "Plus récent";
+"No recordings yet. Tap to start!" = "Aucun enregistrement. Appuyez pour commencer !";
+"Tap to start recording" = "Appuyez pour commencer l'enregistrement";
+"Tap to start recording instantly" = "Appuyez pour enregistrer instantanément";
+
+// MARK: - Widget Stats
+"Total Time" = "Durée totale";

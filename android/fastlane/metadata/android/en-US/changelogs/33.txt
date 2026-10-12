@@ -1,0 +1,8 @@
+• A new look: calmer colors, a readable serif for transcripts, and a waveform you can drag to seek
+• Live captions while you record
+• Share audio or video from any app into SecureVox
+• Start recording from a Quick Settings tile or the icon shortcut
+• Optional app lock (fingerprint, face or screen lock)
+• Fixed recordings showing twice their real length
+• Silent recordings now say so instead of showing [BLANK_AUDIO]
+• Offer to download the more accurate Base model

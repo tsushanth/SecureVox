@@ -1,3 +1,6 @@
+import java.net.URI
+import java.security.MessageDigest
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -5,17 +8,41 @@ plugins {
     id("com.google.devtools.ksp")
 }
 
+// sherpa-onnx (speaker labels). The AAR is ~50 MB, so it is fetched
+// into app/libs on first build instead of being committed, and checked against a
+// pinned SHA-256 because it ships native code.
+val sherpaVersion = "1.13.8"
+val sherpaSha256 = "633c24321e06b1fe79feafa03ea16cbc0f8a286641e2da3559bac91bdb13bd96"
+val sherpaAar = layout.projectDirectory.file("libs/sherpa-onnx-$sherpaVersion.aar").asFile
+
+val downloadSherpaOnnx by tasks.registering {
+    outputs.file(sherpaAar)
+    doLast {
+        fun sha256(f: File): String = MessageDigest.getInstance("SHA-256")
+            .digest(f.readBytes()).joinToString("") { "%02x".format(it) }
+        if (!sherpaAar.exists() || sha256(sherpaAar) != sherpaSha256) {
+            sherpaAar.parentFile.mkdirs()
+            val url = "https://github.com/k2-fsa/sherpa-onnx/releases/download/v$sherpaVersion/sherpa-onnx-$sherpaVersion.aar"
+            val tmp = File(sherpaAar.parentFile, sherpaAar.name + ".part")
+            URI(url).toURL().openStream().use { input -> tmp.outputStream().use { input.copyTo(it) } }
+            check(sha256(tmp) == sherpaSha256) { "sherpa-onnx AAR checksum mismatch; refusing to use it" }
+            tmp.renameTo(sherpaAar)
+        }
+    }
+}
+tasks.named("preBuild") { dependsOn(downloadSherpaOnnx) }
+
 android {
     namespace = "com.securevox.app"
-    compileSdk = 35
+    compileSdk = 36
     ndkVersion = "27.2.12479018"
 
     defaultConfig {
         applicationId = "com.securevox.app"
         minSdk = 26
-        targetSdk = 35
-        versionCode = 9
-        versionName = "1.1.0"
+        targetSdk = 36
+        versionCode = 33
+        versionName = "1.4.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -50,9 +77,14 @@ android {
     }
 
     buildTypes {
+        // Installs next to the Play build instead of failing on its signature, so a debug
+        // install can never touch real recordings.
+        debug {
+            applicationIdSuffix = ".debug"
+        }
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -87,6 +119,10 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -94,6 +130,7 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.1")
+    implementation("androidx.appcompat:appcompat:1.7.0")
 
     // Compose
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
@@ -120,6 +157,16 @@ dependencies {
 
     // Work Manager for background transcription
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.biometric:biometric:1.1.0")
+    // sherpa-onnx: on-device speaker diarization (AAR fetched by downloadSherpaOnnx)
+    implementation(files(sherpaAar))
+
+    // In-App Review
+    implementation("com.google.android.play:review:2.0.1")
+    implementation("com.google.android.play:review-ktx:2.0.1")
+
+    // RatingKit
+    implementation(project(":ratingkit"))
 
     // Testing
     testImplementation("junit:junit:4.13.2")

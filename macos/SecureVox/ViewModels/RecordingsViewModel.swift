@@ -20,6 +20,8 @@ class RecordingsViewModel: ObservableObject {
     @Published var recordingDuration: TimeInterval = 0
     @Published var audioLevel: Float = 0
     @Published var isImporting = false
+    /// Import conversion progress (0.0 – 1.0)
+    @Published var importProgress: Float = 0
     @Published var errorMessage: String?
     @Published var selectedRecordings: Set<UUID> = []
     @Published var isSelectionMode = false
@@ -196,10 +198,16 @@ class RecordingsViewModel: ObservableObject {
         guard let url = MediaImportService.shared.showOpenPanel() else { return }
 
         isImporting = true
-        defer { isImporting = false }
+        importProgress = 0
+        defer {
+            isImporting = false
+            importProgress = 0
+        }
 
         do {
-            let result = try await MediaImportService.shared.importFile(url: url)
+            let result = try await MediaImportService.shared.importFile(url: url) { [weak self] p in
+                DispatchQueue.main.async { self?.importProgress = p }
+            }
 
             let title = result.originalFileName
                 .replacingOccurrences(of: "_", with: " ")
@@ -277,6 +285,31 @@ class RecordingsViewModel: ObservableObject {
         }
 
         await fetchRecordings()
+    }
+
+    /// Re-transcribe a recording with a specific model (e.g., to improve quality).
+    func retryTranscription(_ recording: Recording, with model: AppConstants.WhisperModel? = nil) async {
+        guard let audioURL = recording.audioURL else {
+            errorMessage = "Audio file not found"
+            return
+        }
+
+        // Clear existing segments
+        for segment in recording.segments {
+            modelContext?.delete(segment)
+        }
+        recording.segments.removeAll()
+
+        // Switch model if specified
+        if let model = model {
+            TranscriptionService.shared.selectedModel = model
+        }
+
+        recording.transcriptionStatus = .pending
+        recording.transcriptionError = nil
+        try? modelContext?.save()
+
+        await transcribe(recording)
     }
 
     // MARK: - CRUD Operations

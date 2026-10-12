@@ -76,3 +76,4 @@ android/app/release/
 *.jks
 google-services.json
 GoogleService-Info.plist
+docs/.wrangler/

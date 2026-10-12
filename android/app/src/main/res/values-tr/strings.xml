@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Geri</string>
+    <string name="cancel">İptal</string>
+    <string name="delete">Sil</string>
+    <string name="ok">Tamam</string>
+    <string name="search">Ara</string>
+    <string name="clear">Temizle</string>
+    <string name="settings">Ayarlar</string>
+    <string name="recording_label">Kayıt</string>
+    <string name="export">Dışa Aktar</string>
+    <string name="retry">Tekrar Dene</string>
+    <string name="add">Ekle</string>
+    <string name="import_label">İçe Aktar</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Kayıtlarda ara</string>
+    <string name="close_search">Aramayı kapat</string>
+    <string name="import_media">Medya içe aktar</string>
+    <string name="stop_recording">Kaydı durdur</string>
+    <string name="start_recording">Kaydı başlat</string>
+    <string name="importing_media">Medya içe aktarılıyor\u2026</string>
+    <string name="filter_all">Tümü</string>
+    <string name="filter_favorites">Favoriler</string>
+    <string name="favorite">Favori</string>
+    <string name="remove_from_favorites">Favorilerden kaldır</string>
+    <string name="add_to_favorites">Favorilere ekle</string>
+    <string name="import_failed_title">İçe Aktarma Başarısız</string>
+    <string name="delete_recording_title">Kaydı Sil</string>
+    <string name="delete_recording_message">Bu kaydı silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.</string>
+    <string name="no_recordings_found">Kayıt bulunamadı</string>
+    <string name="no_favorites_yet">Henüz favori yok</string>
+    <string name="no_recordings_yet">Henüz kayıt yok</string>
+    <string name="try_different_search">Farklı bir arama terimi deneyin</string>
+    <string name="swipe_to_favorite">Favoriye eklemek için kayıtta sağa kaydırın</string>
+    <string name="tap_mic_to_start">Başlamak için mikrofon düğmesine dokunun</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Beklemede</string>
+    <string name="status_processing">İşleniyor</string>
+    <string name="status_done">Tamamlandı</string>
+    <string name="status_failed">Başarısız</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Daha fazla seçenek</string>
+    <string name="copy_transcript">Metni Kopyala</string>
+    <string name="copied_to_clipboard">Panoya kopyalandı</string>
+    <string name="export_transcript">Metni dışa aktar</string>
+    <string name="export_failed">Dışa aktarma başarısız</string>
+    <string name="transcribing">Yazıya dökülüyor\u2026</string>
+    <string name="transcription_may_take_minutes">Bu birkaç dakika sürebilir</string>
+    <string name="transcription_pending">Yazıya dökme beklemede</string>
+    <string name="transcription_failed">Yazıya dökme başarısız</string>
+    <string name="please_try_again">Lütfen tekrar deneyin</string>
+    <string name="skip_back_10">10 saniye geri sar</string>
+    <string name="skip_forward_10">10 saniye ileri sar</string>
+    <string name="pause">Duraklat</string>
+    <string name="play">Oynat</string>
+    <string name="selected">Seçildi</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Yazıya Dökme Modeli</string>
+    <string name="section_language">Dil</string>
+    <string name="section_transcription">Yazıya Dökme</string>
+    <string name="section_recording">Kayıt</string>
+    <string name="section_data_management">Veri Yönetimi</string>
+    <string name="section_appearance">Görünüm</string>
+    <string name="section_storage">Depolama</string>
+    <string name="section_about">Hakkında</string>
+    <string name="transcription_language">Yazıya Dökme Dili</string>
+    <string name="auto_punctuation">Otomatik Noktalama</string>
+    <string name="auto_punctuation_subtitle">Metinlere otomatik olarak noktalama işaretleri ekle</string>
+    <string name="smart_capitalization">Akıllı Büyük Harf</string>
+    <string name="smart_capitalization_subtitle">Cümleleri ve özel isimleri büyük harfle yaz</string>
+    <string name="custom_dictionary">Özel Sözlük</string>
+    <string name="custom_dictionary_subtitle">Yazıya dökme doğruluğunu artırmak için kelime ekleyin</string>
+    <string name="sound_effects">Ses Efektleri</string>
+    <string name="sound_effects_subtitle">Kaydı başlatırken/durdururken ses çal</string>
+    <string name="haptic_feedback">Dokunsal Geri Bildirim</string>
+    <string name="haptic_feedback_subtitle">Kaydı başlatırken/durdururken titret</string>
+    <string name="recycle_bin">Geri Dönüşüm Kutusu</string>
+    <string name="recycle_bin_deleted_immediately">Kayıtlar hemen silinir</string>
+    <string name="recycle_bin_keep_for">Silinen kayıtları %1$s boyunca sakla</string>
+    <string name="auto_delete_audio">Sesi Otomatik Sil</string>
+    <string name="auto_delete_audio_subtitle">Yazıya dökme tamamlandıktan sonra ses dosyalarını sil</string>
+    <string name="auto_copy_clipboard">Panoya Otomatik Kopyala</string>
+    <string name="auto_copy_clipboard_subtitle">Yazıya dökmeden sonra metni panoya kopyala</string>
+    <string name="theme">Tema</string>
+    <string name="models_storage">Model Depolama</string>
+    <string name="faq_and_help">SSS &amp; Yardım</string>
+    <string name="faq_subtitle">Sık sorulan sorular ve sorun giderme</string>
+    <string name="about_version">Sürüm 1.0.0</string>
+    <string name="about_description">Whisper AI ile güçlendirilmiş gizlilik öncelikli ses yazıya dökme. Tüm işlemler cihazınızda gerçekleşir - sesiniz asla telefonunuzdan çıkmaz.</string>
+    <string name="select_language">Dil Seçin</string>
+    <string name="select_theme">Tema Seçin</string>
+    <string name="recycle_bin_retention">Geri Dönüşüm Kutusu Saklama Süresi</string>
+    <string name="theme_follow_system">Sistem ayarlarını takip et</string>
+    <string name="theme_always_light">Her zaman açık tema kullan</string>
+    <string name="theme_always_dark">Her zaman koyu tema kullan</string>
+    <string name="retention_disabled_desc">Kayıtlar hemen kalıcı olarak silinir</string>
+    <string name="retention_7_days_desc">Silinen kayıtlar 7 gün içinde geri yüklenebilir</string>
+    <string name="retention_14_days_desc">Silinen kayıtlar 14 gün içinde geri yüklenebilir</string>
+    <string name="retention_30_days_desc">Silinen kayıtlar 30 gün içinde geri yüklenebilir</string>
+
+    <!-- Model Card -->
+    <string name="active">Aktif</string>
+    <string name="cancel_download">İndirmeyi iptal et</string>
+    <string name="delete_model">Modeli sil</string>
+    <string name="downloaded">İndirildi</string>
+    <string name="download">İndir</string>
+    <string name="model_stat_size">Boyut</string>
+    <string name="model_stat_accuracy">Doğruluk</string>
+    <string name="model_stat_speed">Hız</string>
+    <string name="download_failed_prefix">İndirme başarısız: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">SecureVox\'a Hoş Geldiniz</string>
+    <string name="welcome_subtitle">Gizlilik öncelikli ses yazıya dökme</string>
+    <string name="download_ai_model">Yapay Zeka Modelini İndir</string>
+    <string name="download_model_description">SecureVox, ses kayıtlarınızı cihazınızda yazıya dökmek için Whisper AI modelini (~75MB) indirmesi gerekiyor.</string>
+    <string name="download_with_size">İndir (%1$dMB)</string>
+    <string name="downloading_progress">İndiriliyor\u2026 %1$d%%</string>
+    <string name="download_complete">İndirme tamamlandı!</string>
+    <string name="download_failed_message">İndirme başarısız: %1$s</string>
+    <string name="privacy_note">Tüm yazıya dökme işlemi cihazınızda gerçekleşir</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">SSS\'de Ara\u2026</string>
+    <string name="no_results_found">Sonuç bulunamadı</string>
+    <string name="try_different_search_term">Farklı bir arama terimi deneyin</string>
+    <string name="still_have_questions">Hâlâ sorularınız mı var?</string>
+    <string name="contact_support">Bize support@securevox.app adresinden ulaşın</string>
+    <string name="collapse">Daralt</string>
+    <string name="expand">Genişlet</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d kelime</string>
+    <string name="add_word">Kelime ekle</string>
+    <string name="import_from_clipboard">Panodan içe aktar</string>
+    <string name="export_to_clipboard">Panoya dışa aktar</string>
+    <string name="delete_all">Tümünü sil</string>
+    <string name="search_words">Kelime ara\u2026</string>
+    <string name="no_custom_words_yet">Henüz özel kelime yok</string>
+    <string name="custom_words_empty_hint">Sıkça yanlış tanınan kelimeleri ekleyin; isimler, teknik terimler veya kısaltmalar gibi.</string>
+    <string name="add_word_button">Kelime Ekle</string>
+    <string name="no_words_found">Kelime bulunamadı</string>
+    <string name="delete_word_title">Kelime Silinsin mi?</string>
+    <string name="delete_word_message">\"%1$s\" özel sözlüğünüzden kaldırılsın mı?</string>
+    <string name="add_word_title">Kelime Ekle</string>
+    <string name="add_word_description">Özel sözlüğünüze eklemek için bir kelime girin.</string>
+    <string name="word_label">Kelime</string>
+    <string name="import_words_title">Kelimeleri İçe Aktar</string>
+    <string name="import_words_description">İçe aktarılacak kelimeleri yapıştırın (her satıra bir kelime).</string>
+    <string name="words_label">Kelimeler</string>
+    <string name="delete_all_words_title">Tüm Kelimeler Silinsin mi?</string>
+    <string name="delete_all_words_message">Bu, özel sözlüğünüzdeki tüm %1$d kelimeyi kaldıracaktır. Bu işlem geri alınamaz.</string>
+    <string name="delete_all_button">Tümünü Sil</string>
+    <string name="dictionary_copied">Sözlük panoya kopyalandı</string>
+    <string name="dictionary_empty">Sözlük boş</string>
+    <string name="word_added">Kelime eklendi</string>
+    <string name="word_already_exists">Kelime zaten mevcut</string>
+    <string name="words_imported">%1$d kelime içe aktarıldı</string>
+    <string name="no_new_words">İçe aktarılacak yeni kelime yok</string>
+    <string name="dictionary_cleared">Sözlük temizlendi</string>
+</resources>

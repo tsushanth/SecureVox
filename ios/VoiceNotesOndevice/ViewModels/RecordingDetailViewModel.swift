@@ -4,6 +4,7 @@ import SwiftData
 import AVFoundation
 import Combine
 import os.log
+import RatingKit
 #if os(iOS)
 import UIKit
 #elseif os(macOS)
@@ -63,9 +64,6 @@ final class RecordingDetailViewModel: ObservableObject {
 
     /// Whether export is in progress
     @Published private(set) var isExporting: Bool = false
-
-    /// Whether to show the rating prompt
-    @Published var showRatingPrompt: Bool = false
 
     /// Current playback speed
     @Published var playbackSpeed: Float = 1.0 {
@@ -364,11 +362,23 @@ final class RecordingDetailViewModel: ObservableObject {
         let engineName = transcriptionEngine.displayName
         statusMessage = "Transcribing with \(engineName)..."
 
-        // Perform transcription
+        // Perform transcription.
+        //
+        // Uses the user's *currently selected* language preference (Settings), not the
+        // recording's saved `language` field. Previously this passed `recording.language`
+        // unconditionally, which is stale the moment the user changes their language
+        // selection - re-picking a language in Settings had no effect on a later
+        // "improve with model" retry since it always read the old per-recording value.
+        // Reported by a user: switching from Tiny to Base/Small flipped Japanese
+        // transcripts to English with no way back. Android has the same fix
+        // (RecordingDetailViewModel.kt's retryTranscription).
         do {
+            let preferredLanguage = UserDefaults.standard.string(forKey: AppConstants.UserDefaultsKeys.defaultLanguage)
+            let languageCode = (preferredLanguage != nil && preferredLanguage != "auto") ? preferredLanguage : recording.language
+
             let segments = try await transcriber.transcribe(
                 audioURL: audioURL,
-                languageCode: recording.language,
+                languageCode: languageCode,
                 onPartial: { [weak self] progressValue, partialText in
                     Task { @MainActor [weak self] in
                         self?.handlePartialResult(progress: progressValue, text: partialText)
@@ -424,8 +434,8 @@ final class RecordingDetailViewModel: ObservableObject {
             // Auto-copy to clipboard if enabled
             autoCopyToClipboardIfEnabled()
 
-            // Check if we should show rating prompt (after first transcription)
-            checkAndShowRatingPrompt()
+            // Server-controlled rating prompt (RatingKit handles thresholds + variants)
+            RatingKit.shared.trackAction()
         }
     }
 
@@ -443,76 +453,6 @@ final class RecordingDetailViewModel: ObservableObject {
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(transcript, forType: .string)
         #endif
-    }
-
-    /// Check if we should show the rating prompt and trigger it
-    private func checkAndShowRatingPrompt() {
-        // Increment total transcription count
-        let totalCount = UserDefaults.standard.integer(forKey: AppConstants.UserDefaultsKeys.transcriptionCount) + 1
-        UserDefaults.standard.set(totalCount, forKey: AppConstants.UserDefaultsKeys.transcriptionCount)
-
-        // Increment transcriptions since last prompt
-        let sinceLastPrompt = UserDefaults.standard.integer(forKey: AppConstants.UserDefaultsKeys.transcriptionsSinceLastPrompt) + 1
-        UserDefaults.standard.set(sinceLastPrompt, forKey: AppConstants.UserDefaultsKeys.transcriptionsSinceLastPrompt)
-
-        Logger.info("Rating check: Total transcriptions: \(totalCount), since last prompt: \(sinceLastPrompt)", category: Logger.ui)
-
-        // Check if we should show the prompt
-        guard shouldShowRatingPrompt(totalCount: totalCount, sinceLastPrompt: sinceLastPrompt) else {
-            return
-        }
-
-        // Delay slightly to let the user see "Transcription complete"
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) { [weak self] in
-            Logger.info("Rating prompt: Showing rating prompt", category: Logger.ui)
-            self?.showRatingPrompt = true
-        }
-    }
-
-    /// Determine if we should show the rating prompt based on user history
-    private func shouldShowRatingPrompt(totalCount: Int, sinceLastPrompt: Int) -> Bool {
-        let defaults = UserDefaults.standard
-        let lastResponse = defaults.string(forKey: AppConstants.UserDefaultsKeys.ratingPromptResponse)
-        let notNowCount = defaults.integer(forKey: AppConstants.UserDefaultsKeys.ratingPromptNotNowCount)
-        let lastShownDate = defaults.object(forKey: AppConstants.UserDefaultsKeys.ratingPromptLastShownDate) as? Date
-
-        // If user already said "yes" or "no", don't prompt again
-        if lastResponse == "yes" || lastResponse == "no" {
-            Logger.info("Rating check: User already responded '\(lastResponse ?? "")' - skipping", category: Logger.ui)
-            return false
-        }
-
-        // If user has hit max "Not Now" responses, stop asking
-        if notNowCount >= AppConstants.RatingPrompt.maxNotNowPrompts {
-            Logger.info("Rating check: Max 'Not Now' count (\(notNowCount)) reached - skipping", category: Logger.ui)
-            return false
-        }
-
-        // First time showing prompt - need minimum transcriptions
-        if lastResponse == nil {
-            let shouldShow = totalCount >= AppConstants.RatingPrompt.minTranscriptionsForFirstPrompt
-            Logger.info("Rating check: First prompt check - total: \(totalCount), required: \(AppConstants.RatingPrompt.minTranscriptionsForFirstPrompt), showing: \(shouldShow)", category: Logger.ui)
-            return shouldShow
-        }
-
-        // User chose "Not Now" - check if enough time and transcriptions have passed
-        if lastResponse == "notNow" {
-            // Check minimum days
-            if let lastDate = lastShownDate {
-                let daysSince = Calendar.current.dateComponents([.day], from: lastDate, to: Date()).day ?? 0
-                if daysSince < AppConstants.RatingPrompt.daysBetweenPrompts {
-                    Logger.info("Rating check: Only \(daysSince) days since last prompt (need \(AppConstants.RatingPrompt.daysBetweenPrompts)) - skipping", category: Logger.ui)
-                    return false
-                }
-            }
-
-            // Check minimum transcriptions since last prompt
-            let shouldShow = sinceLastPrompt >= AppConstants.RatingPrompt.transcriptionsBetweenPrompts
-            Logger.info("Rating check: Re-prompt check - sinceLastPrompt: \(sinceLastPrompt), required: \(AppConstants.RatingPrompt.transcriptionsBetweenPrompts), showing: \(shouldShow)", category: Logger.ui)
-            return shouldShow
-        }
-
-        return false
     }
 
     private func handleTranscriptionError(_ error: Error) async {

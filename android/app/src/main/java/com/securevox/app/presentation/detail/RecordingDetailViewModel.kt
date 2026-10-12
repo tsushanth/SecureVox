@@ -1,19 +1,33 @@
 package com.securevox.app.presentation.detail
 
 import android.app.Application
+import android.content.Intent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.work.WorkInfo
+import androidx.work.WorkManager
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.repository.RecordingRepository
+import com.securevox.app.SecureVoxApp
 import com.securevox.app.service.AudioPlayerService
 import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
-import android.content.Intent
+import com.securevox.app.service.TranscriptionWorker
+import com.securevox.app.whisper.NonSpeech
+import com.securevox.app.whisper.WhisperModel
+import com.securevox.app.whisper.WhisperLanguage
+import androidx.datastore.preferences.core.stringPreferencesKey
+import com.securevox.app.presentation.settings.dataStore
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import com.securevox.app.util.WaveformExtractor
+import java.io.File
 
 class RecordingDetailViewModel(
     application: Application,
@@ -31,8 +45,25 @@ class RecordingDetailViewModel(
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
+    // Older recordings were saved with Whisper's [BLANK_AUDIO]-style markers; hide them here so
+    // the transcript, copy and export all agree, whatever version transcribed the recording.
     val segments: StateFlow<List<TranscriptSegment>> = repository.getSegmentsForRecording(recordingId)
+        .map { list ->
+            list.mapNotNull { segment ->
+                NonSpeech.strip(segment.text).takeIf { it.isNotEmpty() }?.let { segment.copy(text = it) }
+            }
+        }
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
+
+    // Live transcription progress (0-100) from WorkManager, null if not actively running
+    val transcriptionProgress: StateFlow<Int?> =
+        WorkManager.getInstance(application)
+            .getWorkInfosByTagFlow("${TranscriptionWorker.TAG_RECORDING_PREFIX}$recordingId")
+            .map { infos ->
+                infos.firstOrNull { it.state == WorkInfo.State.RUNNING }
+                    ?.progress?.getInt(TranscriptionWorker.KEY_PROGRESS, 0)
+            }
+            .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     val isPlaying: StateFlow<Boolean> = audioPlayer.isPlaying
     val currentPosition: StateFlow<Long> = audioPlayer.currentPosition
@@ -46,10 +77,17 @@ class RecordingDetailViewModel(
         segs.find { position >= it.startTimeMs && position < it.endTimeMs }
     }.stateIn(viewModelScope, SharingStarted.Lazily, null)
 
+    private val _waveform = MutableStateFlow(FloatArray(0))
+    val waveform: StateFlow<FloatArray> = _waveform.asStateFlow()
+
     init {
         viewModelScope.launch {
             recording.filterNotNull().first().let { rec ->
                 audioPlayer.load(rec.audioFilePath)
+                _waveform.value = withContext(Dispatchers.IO) {
+                    runCatching { WaveformExtractor.extract(File(rec.audioFilePath)) }
+                        .getOrDefault(FloatArray(0))
+                }
             }
         }
     }
@@ -83,6 +121,44 @@ class RecordingDetailViewModel(
 
     fun cyclePlaybackSpeed() {
         audioPlayer.cyclePlaybackSpeed()
+    }
+
+    /** Returns all WhisperModels that are currently downloaded on device. */
+    fun getDownloadedModels(): List<WhisperModel> {
+        val modelManager = SecureVoxApp.instance.modelManager
+        return WhisperModel.entries.filter { modelManager.isModelDownloaded(it) }
+    }
+
+    /**
+     * Re-run transcription with a specific model.
+     * Clears existing segments so the UI reflects fresh results.
+     *
+     * Uses the user's *currently selected* language preference (Settings), not the
+     * recording's saved `language` field. Previously this passed `rec.language`, which
+     * is stale the moment the user changes their language selection and doesn't
+     * override it back to their new choice - and if `rec.language` was ever null,
+     * TranscriptionWorker's `?: "en"` default silently forced English regardless of
+     * what the user had picked. Confirmed via a real user report: switching from
+     * Tiny to Base/Small flipped Japanese transcripts to English with no way back.
+     */
+    fun retryTranscription(model: WhisperModel) {
+        viewModelScope.launch {
+            val rec = recording.value ?: return@launch
+            repository.updateTranscriptionStatus(rec.id, com.securevox.app.data.model.TranscriptionStatus.PENDING, 0)
+            repository.deleteSegmentsForRecording(rec.id)
+            val selectedLanguageKey = stringPreferencesKey("selected_language")
+            val currentLanguageCode = getApplication<Application>().dataStore.data.first()[selectedLanguageKey]
+                ?.let { WhisperLanguage.fromCode(it) }
+                ?.takeIf { it != WhisperLanguage.AUTO }
+                ?.code
+                ?: rec.language
+            val workRequest = TranscriptionWorker.createWorkRequest(
+                recordingId = rec.id,
+                modelName = model.fileName,
+                language = currentLanguageCode
+            )
+            WorkManager.getInstance(getApplication()).enqueue(workRequest)
+        }
     }
 
     fun deleteRecording() {

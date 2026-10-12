@@ -1,4 +1,5 @@
 import SwiftUI
+import RatingKit
 
 /// Sheet view for recording audio
 struct RecorderSheet: View {
@@ -25,9 +26,12 @@ struct RecorderSheet: View {
                 Spacer()
 
                 // Duration display
-                Text(viewModel.formattedDuration)
-                    .font(.system(size: 64, weight: .light, design: .monospaced))
-                    .foregroundStyle(viewModel.state == .recording ? .primary : .secondary)
+                VStack(spacing: 8) {
+                    Text(viewModel.formattedDuration)
+                        .font(.system(size: 64, weight: .light, design: .monospaced))
+                        .foregroundStyle(viewModel.state == .recording ? .primary : .secondary)
+
+                    }
 
                 // Waveform visualization
                 WaveformView(level: viewModel.audioLevel, isActive: viewModel.state == .recording)
@@ -237,6 +241,13 @@ struct RecorderSheet: View {
 
         do {
             try modelContext.save()
+
+            // Rating signal: only count meaningful recordings (≥30s) as a success
+            // peak. RatingKit handles thresholds + gateway routing server-side.
+            if result.duration >= 30 {
+                RatingKit.shared.trackAction()
+            }
+
             onComplete(recording)
             dismiss()
         } catch {

@@ -19,7 +19,6 @@ struct SettingsView: View {
     @State private var isDeletingRecordings = false
     @State private var showingMailError = false
     @State private var showingShareSheet = false
-    @State private var showingRatingPrompt = false
 
     // MARK: - Body
 
@@ -90,10 +89,6 @@ struct SettingsView: View {
                 ]) {
                     showingShareSheet = false
                 }
-            }
-            .sheet(isPresented: $showingRatingPrompt) {
-                RatingPromptView(isPresented: $showingRatingPrompt)
-                    .presentationDetents([.height(340)])
             }
         }
     }
@@ -344,7 +339,7 @@ struct SettingsView: View {
             }
 
             Button {
-                showingRatingPrompt = true
+                openAppStoreReviewPage()
             } label: {
                 Label("Rate on App Store", systemImage: "star")
             }
@@ -353,6 +348,10 @@ struct SettingsView: View {
                 shareApp()
             } label: {
                 Label("Share with Friends", systemImage: "heart")
+            }
+
+            Button("Redeem Offer Code") {
+                SKPaymentQueue.default().presentCodeRedemptionSheet()
             }
 
             Link(destination: URL(string: "https://kreativekoala.llc/privacy")!) {
@@ -387,6 +386,15 @@ struct SettingsView: View {
 
     private func shareApp() {
         showingShareSheet = true
+    }
+
+    private func openAppStoreReviewPage() {
+        let urlString = "\(AppConstants.AppStore.appStoreURL.absoluteString)?action=write-review"
+        if let url = URL(string: urlString) {
+            #if os(iOS)
+            UIApplication.shared.open(url)
+            #endif
+        }
     }
 
     /// Delete all audio files but keep transcripts

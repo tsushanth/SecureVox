@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SecureVox</string>
+
+    <!-- Common / Shared -->
+    <string name="back">Quay lại</string>
+    <string name="cancel">Hủy</string>
+    <string name="delete">Xóa</string>
+    <string name="ok">OK</string>
+    <string name="search">Tìm kiếm</string>
+    <string name="clear">Xóa</string>
+    <string name="settings">Cài đặt</string>
+    <string name="recording_label">Bản ghi</string>
+    <string name="export">Xuất</string>
+    <string name="retry">Thử lại</string>
+    <string name="add">Thêm</string>
+    <string name="import_label">Nhập</string>
+
+    <!-- Recordings Screen -->
+    <string name="search_recordings">Tìm kiếm bản ghi</string>
+    <string name="close_search">Đóng tìm kiếm</string>
+    <string name="import_media">Nhập phương tiện</string>
+    <string name="stop_recording">Dừng ghi</string>
+    <string name="start_recording">Bắt đầu ghi</string>
+    <string name="importing_media">Đang nhập phương tiện\u2026</string>
+    <string name="filter_all">Tất cả</string>
+    <string name="filter_favorites">Yêu thích</string>
+    <string name="favorite">Yêu thích</string>
+    <string name="remove_from_favorites">Xóa khỏi yêu thích</string>
+    <string name="add_to_favorites">Thêm vào yêu thích</string>
+    <string name="import_failed_title">Nhập thất bại</string>
+    <string name="delete_recording_title">Xóa bản ghi</string>
+    <string name="delete_recording_message">Bạn có chắc muốn xóa bản ghi này không? Hành động này không thể hoàn tác.</string>
+    <string name="no_recordings_found">Không tìm thấy bản ghi</string>
+    <string name="no_favorites_yet">Chưa có yêu thích</string>
+    <string name="no_recordings_yet">Chưa có bản ghi</string>
+    <string name="try_different_search">Thử từ khóa tìm kiếm khác</string>
+    <string name="swipe_to_favorite">Vuốt phải trên bản ghi để thêm vào yêu thích</string>
+    <string name="tap_mic_to_start">Nhấn nút micro để bắt đầu</string>
+
+    <!-- Transcription Status -->
+    <string name="status_pending">Đang chờ</string>
+    <string name="status_processing">Đang xử lý</string>
+    <string name="status_done">Hoàn tất</string>
+    <string name="status_failed">Thất bại</string>
+
+    <!-- Recording Detail Screen -->
+    <string name="more_options">Tùy chọn khác</string>
+    <string name="copy_transcript">Sao chép bản ghi</string>
+    <string name="copied_to_clipboard">Đã sao chép vào bộ nhớ tạm</string>
+    <string name="export_transcript">Xuất bản ghi</string>
+    <string name="export_failed">Xuất thất bại</string>
+    <string name="transcribing">Đang chuyển đổi\u2026</string>
+    <string name="transcription_may_take_minutes">Có thể mất vài phút</string>
+    <string name="transcription_pending">Chuyển đổi đang chờ</string>
+    <string name="transcription_failed">Chuyển đổi thất bại</string>
+    <string name="please_try_again">Vui lòng thử lại</string>
+    <string name="skip_back_10">Tua lại 10 giây</string>
+    <string name="skip_forward_10">Tua tới 10 giây</string>
+    <string name="pause">Tạm dừng</string>
+    <string name="play">Phát</string>
+    <string name="selected">Đã chọn</string>
+
+    <!-- Settings Screen -->
+    <string name="section_transcription_model">Mô hình chuyển đổi</string>
+    <string name="section_language">Ngôn ngữ</string>
+    <string name="section_transcription">Chuyển đổi giọng nói</string>
+    <string name="section_recording">Ghi âm</string>
+    <string name="section_data_management">Quản lý dữ liệu</string>
+    <string name="section_appearance">Giao diện</string>
+    <string name="section_storage">Lưu trữ</string>
+    <string name="section_about">Giới thiệu</string>
+    <string name="transcription_language">Ngôn ngữ chuyển đổi</string>
+    <string name="auto_punctuation">Dấu câu tự động</string>
+    <string name="auto_punctuation_subtitle">Tự động thêm dấu câu vào bản ghi</string>
+    <string name="smart_capitalization">Viết hoa thông minh</string>
+    <string name="smart_capitalization_subtitle">Viết hoa câu và danh từ riêng</string>
+    <string name="custom_dictionary">Từ điển tùy chỉnh</string>
+    <string name="custom_dictionary_subtitle">Thêm từ để cải thiện độ chính xác chuyển đổi</string>
+    <string name="sound_effects">Hiệu ứng âm thanh</string>
+    <string name="sound_effects_subtitle">Phát âm thanh khi bắt đầu/dừng ghi</string>
+    <string name="haptic_feedback">Phản hồi rung</string>
+    <string name="haptic_feedback_subtitle">Rung khi bắt đầu/dừng ghi</string>
+    <string name="recycle_bin">Thùng rác</string>
+    <string name="recycle_bin_deleted_immediately">Bản ghi bị xóa ngay lập tức</string>
+    <string name="recycle_bin_keep_for">Giữ bản ghi đã xóa trong %1$s</string>
+    <string name="auto_delete_audio">Tự động xóa âm thanh</string>
+    <string name="auto_delete_audio_subtitle">Xóa file âm thanh sau khi chuyển đổi xong</string>
+    <string name="auto_copy_clipboard">Tự động sao chép vào bộ nhớ tạm</string>
+    <string name="auto_copy_clipboard_subtitle">Sao chép bản ghi vào bộ nhớ tạm sau khi chuyển đổi</string>
+    <string name="theme">Chủ đề</string>
+    <string name="models_storage">Lưu trữ mô hình</string>
+    <string name="faq_and_help">Câu hỏi thường gặp &amp; Trợ giúp</string>
+    <string name="faq_subtitle">Câu hỏi thường gặp và khắc phục sự cố</string>
+    <string name="about_version">Phiên bản 1.0.0</string>
+    <string name="about_description">Chuyển đổi giọng nói ưu tiên quyền riêng tư được hỗ trợ bởi Whisper AI. Tất cả xử lý diễn ra trên thiết bị của bạn - âm thanh không bao giờ rời khỏi điện thoại.</string>
+    <string name="select_language">Chọn ngôn ngữ</string>
+    <string name="select_theme">Chọn chủ đề</string>
+    <string name="recycle_bin_retention">Thời gian lưu giữ thùng rác</string>
+    <string name="theme_follow_system">Theo cài đặt hệ thống</string>
+    <string name="theme_always_light">Luôn dùng giao diện sáng</string>
+    <string name="theme_always_dark">Luôn dùng giao diện tối</string>
+    <string name="retention_disabled_desc">Bản ghi bị xóa vĩnh viễn ngay lập tức</string>
+    <string name="retention_7_days_desc">Bản ghi đã xóa có thể khôi phục trong 7 ngày</string>
+    <string name="retention_14_days_desc">Bản ghi đã xóa có thể khôi phục trong 14 ngày</string>
+    <string name="retention_30_days_desc">Bản ghi đã xóa có thể khôi phục trong 30 ngày</string>
+
+    <!-- Model Card -->
+    <string name="active">Đang hoạt động</string>
+    <string name="cancel_download">Hủy tải xuống</string>
+    <string name="delete_model">Xóa mô hình</string>
+    <string name="downloaded">Đã tải xuống</string>
+    <string name="download">Tải xuống</string>
+    <string name="model_stat_size">Kích thước</string>
+    <string name="model_stat_accuracy">Độ chính xác</string>
+    <string name="model_stat_speed">Tốc độ</string>
+    <string name="download_failed_prefix">Tải xuống thất bại: %1$s</string>
+
+    <!-- Setup / Onboarding Screen -->
+    <string name="welcome_title">Chào mừng đến SecureVox</string>
+    <string name="welcome_subtitle">Chuyển đổi giọng nói ưu tiên quyền riêng tư</string>
+    <string name="download_ai_model">Tải mô hình AI</string>
+    <string name="download_model_description">SecureVox cần tải mô hình Whisper AI (~75MB) để chuyển đổi bản ghi âm trên thiết bị.</string>
+    <string name="download_with_size">Tải xuống (%1$dMB)</string>
+    <string name="downloading_progress">Đang tải\u2026 %1$d%%</string>
+    <string name="download_complete">Tải xuống hoàn tất!</string>
+    <string name="download_failed_message">Tải xuống thất bại: %1$s</string>
+    <string name="privacy_note">Tất cả chuyển đổi diễn ra trên thiết bị của bạn</string>
+
+    <!-- FAQ Screen -->
+    <string name="search_faq">Tìm câu hỏi thường gặp\u2026</string>
+    <string name="no_results_found">Không tìm thấy kết quả</string>
+    <string name="try_different_search_term">Thử từ khóa tìm kiếm khác</string>
+    <string name="still_have_questions">Vẫn còn thắc mắc?</string>
+    <string name="contact_support">Liên hệ chúng tôi tại support@securevox.app</string>
+    <string name="collapse">Thu gọn</string>
+    <string name="expand">Mở rộng</string>
+
+    <!-- Custom Dictionary Screen -->
+    <string name="words_count">%1$d từ</string>
+    <string name="add_word">Thêm từ</string>
+    <string name="import_from_clipboard">Nhập từ bộ nhớ tạm</string>
+    <string name="export_to_clipboard">Xuất ra bộ nhớ tạm</string>
+    <string name="delete_all">Xóa tất cả</string>
+    <string name="search_words">Tìm từ\u2026</string>
+    <string name="no_custom_words_yet">Chưa có từ tùy chỉnh</string>
+    <string name="custom_words_empty_hint">Thêm các từ thường bị nhận dạng sai, như tên, thuật ngữ kỹ thuật, hoặc viết tắt.</string>
+    <string name="add_word_button">Thêm từ</string>
+    <string name="no_words_found">Không tìm thấy từ</string>
+    <string name="delete_word_title">Xóa từ?</string>
+    <string name="delete_word_message">Xóa \"%1$s\" khỏi từ điển tùy chỉnh?</string>
+    <string name="add_word_title">Thêm từ</string>
+    <string name="add_word_description">Nhập từ để thêm vào từ điển tùy chỉnh.</string>
+    <string name="word_label">Từ</string>
+    <string name="import_words_title">Nhập từ</string>
+    <string name="import_words_description">Dán các từ để nhập (mỗi dòng một từ).</string>
+    <string name="words_label">Từ</string>
+    <string name="delete_all_words_title">Xóa tất cả từ?</string>
+    <string name="delete_all_words_message">Điều này sẽ xóa tất cả %1$d từ khỏi từ điển tùy chỉnh. Hành động này không thể hoàn tác.</string>
+    <string name="delete_all_button">Xóa tất cả</string>
+    <string name="dictionary_copied">Đã sao chép từ điển vào bộ nhớ tạm</string>
+    <string name="dictionary_empty">Từ điển trống</string>
+    <string name="word_added">Đã thêm từ</string>
+    <string name="word_already_exists">Từ đã tồn tại</string>
+    <string name="words_imported">Đã nhập %1$d từ</string>
+    <string name="no_new_words">Không có từ mới để nhập</string>
+    <string name="dictionary_cleared">Đã xóa từ điển</string>
+</resources>

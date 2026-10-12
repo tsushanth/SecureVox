@@ -1,0 +1,1 @@
+Bug fix: transcription now correctly uses your selected language from Settings. Previously, recordings were always transcribed in English regardless of language setting.

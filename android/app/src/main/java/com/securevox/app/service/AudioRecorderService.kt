@@ -9,8 +9,13 @@ import android.media.MediaRecorder
 import android.util.Log
 import androidx.core.content.ContextCompat
 import kotlinx.coroutines.*
+import kotlinx.coroutines.delay
 import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.channels.BufferOverflow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
@@ -28,6 +33,10 @@ class AudioRecorderService(private val context: Context) {
     companion object {
         private const val TAG = "AudioRecorderService"
         const val SAMPLE_RATE = 16000
+
+        /** Length of a 16 kHz mono 16-bit WAV file with a 44-byte header, in milliseconds. */
+        fun durationMsForWavBytes(fileBytes: Long): Long =
+            (fileBytes - 44).coerceAtLeast(0) * 1000 / (SAMPLE_RATE * 2)
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
     }
@@ -36,14 +45,29 @@ class AudioRecorderService(private val context: Context) {
     private var recordingJob: Job? = null
     private var outputFile: File? = null
 
+    // Raw 16 kHz PCM as it is captured, for live captions. Dropping the oldest chunk when a
+    // collector falls behind keeps the recording loop from ever waiting on a slow consumer.
+    private val _liveAudio = MutableSharedFlow<ShortArray>(
+        extraBufferCapacity = 64,
+        onBufferOverflow = BufferOverflow.DROP_OLDEST
+    )
+    val liveAudio: SharedFlow<ShortArray> = _liveAudio.asSharedFlow()
+
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording.asStateFlow()
+
+    private val _isPaused = MutableStateFlow(false)
+    val isPaused: StateFlow<Boolean> = _isPaused.asStateFlow()
 
     private val _audioLevel = MutableStateFlow(0f)
     val audioLevel: StateFlow<Float> = _audioLevel.asStateFlow()
 
     private val _recordingDuration = MutableStateFlow(0L)
     val recordingDuration: StateFlow<Long> = _recordingDuration.asStateFlow()
+
+    // Accumulated duration before current pause/resume segment
+    private var accumulatedDurationMs = 0L
+    private var segmentStartMs = 0L
 
     private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
@@ -63,23 +87,35 @@ class AudioRecorderService(private val context: Context) {
             return false
         }
 
-        val bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
-        if (bufferSize == AudioRecord.ERROR || bufferSize == AudioRecord.ERROR_BAD_VALUE) {
-            Log.e(TAG, "Invalid buffer size: $bufferSize")
+        val minBuffer = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
+        if (minBuffer == AudioRecord.ERROR || minBuffer == AudioRecord.ERROR_BAD_VALUE) {
+            Log.e(TAG, "Invalid buffer size: $minBuffer")
             return false
         }
+        // Use at least 2× min buffer; round up to next power-of-two for compatibility
+        val bufferSize = maxOf(minBuffer * 2, 8192)
 
         try {
-            audioRecord = AudioRecord(
+            // Try preferred audio sources in order; some phones block MIC but allow VOICE_RECOGNITION
+            val audioSources = listOf(
+                MediaRecorder.AudioSource.VOICE_RECOGNITION,
                 MediaRecorder.AudioSource.MIC,
-                SAMPLE_RATE,
-                CHANNEL_CONFIG,
-                AUDIO_FORMAT,
-                bufferSize * 2
+                MediaRecorder.AudioSource.DEFAULT
             )
+            for (source in audioSources) {
+                val candidate = AudioRecord(source, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, bufferSize)
+                if (candidate.state == AudioRecord.STATE_INITIALIZED) {
+                    audioRecord = candidate
+                    Log.i(TAG, "AudioRecord initialized with source=$source")
+                    break
+                } else {
+                    candidate.release()
+                    Log.w(TAG, "AudioRecord source=$source failed, trying next")
+                }
+            }
 
-            if (audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
-                Log.e(TAG, "AudioRecord failed to initialize")
+            if (audioRecord == null || audioRecord?.state != AudioRecord.STATE_INITIALIZED) {
+                Log.e(TAG, "AudioRecord failed to initialize with all sources")
                 audioRecord?.release()
                 audioRecord = null
                 return false
@@ -90,7 +126,10 @@ class AudioRecorderService(private val context: Context) {
 
             audioRecord?.startRecording()
             _isRecording.value = true
+            _isPaused.value = false
             _recordingDuration.value = 0L
+            accumulatedDurationMs = 0L
+            segmentStartMs = System.currentTimeMillis()
 
             recordingJob = scope.launch {
                 recordAudioToFile(bufferSize)
@@ -111,13 +150,45 @@ class AudioRecorderService(private val context: Context) {
     }
 
     /**
+     * Pause an active recording. Audio capture stops but the file stays open.
+     */
+    fun pauseRecording() {
+        if (!_isRecording.value || _isPaused.value) return
+        accumulatedDurationMs += System.currentTimeMillis() - segmentStartMs
+        _isPaused.value = true
+        _audioLevel.value = 0f
+        audioRecord?.stop()
+    }
+
+    /**
+     * Resume a paused recording.
+     */
+    fun resumeRecording() {
+        if (!_isRecording.value || !_isPaused.value) return
+        try {
+            audioRecord?.startRecording()
+            segmentStartMs = System.currentTimeMillis()
+            _isPaused.value = false
+        } catch (e: Exception) {
+            Log.e(TAG, "Error resuming recording", e)
+        }
+    }
+
+    /**
      * Stop recording and finalize the WAV file.
      * @return Path to the recorded file, or null if failed
      */
     fun stopRecording(): String? {
         if (!_isRecording.value) return null
 
+        // Capture final duration before stopping
+        if (!_isPaused.value) {
+            accumulatedDurationMs += System.currentTimeMillis() - segmentStartMs
+        }
+        _recordingDuration.value = accumulatedDurationMs
+
         _isRecording.value = false
+        _isPaused.value = false
 
         // Wait for recording job to finish writing
         runBlocking {
@@ -125,12 +196,18 @@ class AudioRecorderService(private val context: Context) {
         }
         recordingJob = null
 
-        audioRecord?.stop()
+        try { audioRecord?.stop() } catch (_: Exception) {}
         audioRecord?.release()
         audioRecord = null
 
         val file = outputFile
         outputFile = null
+
+        // The recording loop is finished, so this is the last write to the duration. Derive it
+        // from the audio that actually reached the file: until now it was the wall clock, and
+        // the loop's final pass added the last segment a second time, storing every recording
+        // at about twice its real length.
+        file?.let { _recordingDuration.value = durationMsForWavBytes(it.length()) }
 
         Log.i(TAG, "Recording stopped: ${file?.absolutePath}, size: ${file?.length()} bytes")
         return file?.absolutePath
@@ -138,7 +215,6 @@ class AudioRecorderService(private val context: Context) {
 
     private suspend fun recordAudioToFile(bufferSize: Int) {
         val buffer = ShortArray(bufferSize)
-        val startTime = System.currentTimeMillis()
 
         FileOutputStream(outputFile).use { fos ->
             // Write placeholder WAV header (will be updated at the end)
@@ -148,13 +224,21 @@ class AudioRecorderService(private val context: Context) {
             var totalBytesWritten = 0L
 
             while (_isRecording.value && coroutineContext.isActive) {
+                if (_isPaused.value) {
+                    // While paused: don't read/write audio, just yield
+                    _recordingDuration.value = accumulatedDurationMs
+                    delay(50)
+                    continue
+                }
+
                 val readResult = audioRecord?.read(buffer, 0, buffer.size) ?: -1
 
                 if (readResult > 0) {
-                    // Calculate audio level for visualization
                     updateAudioLevel(buffer, readResult)
+                    if (_liveAudio.subscriptionCount.value > 0) {
+                        _liveAudio.tryEmit(buffer.copyOf(readResult))
+                    }
 
-                    // Convert shorts to bytes and write
                     val byteBuffer = ByteBuffer.allocate(readResult * 2)
                     byteBuffer.order(ByteOrder.LITTLE_ENDIAN)
                     for (i in 0 until readResult) {
@@ -163,8 +247,8 @@ class AudioRecorderService(private val context: Context) {
                     fos.write(byteBuffer.array())
                     totalBytesWritten += readResult * 2
 
-                    // Update duration
-                    _recordingDuration.value = System.currentTimeMillis() - startTime
+                    // Update live duration
+                    _recordingDuration.value = accumulatedDurationMs + (System.currentTimeMillis() - segmentStartMs)
                 }
 
                 yield()
