@@ -73,8 +73,14 @@ for s in core:
 print("\n### Pooled over the core scenarios that have a true speaker count > 1 (excludes single speaker)\n")
 print("| threshold | right count | over | under | mean DER % | seg acc GT+-0.5 s |")
 print("|---|---|---|---|---|---|")
+pool_ths = [t for t in ths if t >= 0.8]  # scenarios swept at 0.8-0.95 (plus 0.85 from the app run)
 multi = [s for s in core if not s.startswith("h_")]
-for t in ths:
+multi = [s for s in multi if all(any(r["scenario"] == s and r["th"] == t and (r["on"], r["off"]) == (0.3, 0.5)
+                                    for r in rows) for t in pool_ths)]
+print("scenarios pooled: " + ", ".join(multi) + "\n")
+print("| threshold | right count | over | under | mean DER % | seg acc GT+-0.5 s |")
+print("|---|---|---|---|---|---|")
+for t in pool_ths:
     rs = [r for r in rows if r["scenario"] in multi and r["th"] == t and (r["on"], r["off"]) == (0.3, 0.5)]
     a = agg(rs)
     print(f"| {t:g} | {a['exact']}/{a['n']} | {a['over']} | {a['under']} | {a['der']:.1f} | {a['s_gt']:.1f} |")

@@ -78,9 +78,8 @@ def scenarios():
     return S
 
 
-CORE = ["a_2spk_clean", "a_3spk_clean", "b_4spk_clean", "b_5spk_clean", "d_short_turns_2spk",
-        "e_overlap20_2spk", "e_overlap50_2spk", "c_pink_snr10_2spk", "c_pink_snr5_2spk",
-        "f_same_gender_2spk", "h_single_speaker", "h_single_pink_snr10"]
+CORE = ["a_2spk_clean", "b_4spk_clean", "d_short_turns_2spk", "e_overlap20_2spk",
+        "c_pink_snr10_2spk", "h_single_speaker"]
 
 _corpus = None
 
@@ -120,29 +119,36 @@ def main():
     ap.add_argument("--workers", type=int, default=4)
     ap.add_argument("--sweep", action="store_true")
     ap.add_argument("--only", default="")
+    ap.add_argument("--core", default="", help="comma list overriding the sweep scenarios")
+    ap.add_argument("--ths", default="0.6,0.7,0.8,0.9,0.95", help="sweep thresholds")
+    ap.add_argument("--no-mins", action="store_true", help="skip the min-duration sweep")
+    ap.add_argument("--skip-app", action="store_true", help="do not run the app config baseline")
+    ap.add_argument("--sweep-n", type=int, default=0, help="mixes per sweep scenario (default: --n)")
     ap.add_argument("--out", default="results.csv")
     a = ap.parse_args()
     S = scenarios()
     names = [x for x in S if (not a.only or a.only in x)]
     app = (sb.APP["th"], sb.APP["on"], sb.APP["off"])
-    tasks = [(n, i, *app) for n in names for i in range(a.n)]
+    tasks = [] if a.skip_app else [(n, i, *app) for n in names for i in range(a.n)]
     if a.sweep:
-        ths = [0.6, 0.7, 0.75, 0.8, 0.9, 0.95]
-        mins = [(0.1, 0.3), (0.2, 0.3), (0.3, 0.3), (0.5, 0.5), (0.3, 0.8), (0.3, 1.2)]
-        for n in [x for x in CORE if x in names]:
-            for i in range(a.n):
+        ths = [float(x) for x in a.ths.split(",")]
+        mins = [] if a.no_mins else [(0.1, 0.3), (0.5, 0.5), (0.3, 1.0)]
+        core = a.core.split(",") if a.core else CORE
+        for n in [x for x in core if x in names]:
+            for i in range(a.sweep_n or a.n):
                 tasks += [(n, i, th, 0.3, 0.5) for th in ths]
                 tasks += [(n, i, 0.85, on, off) for on, off in mins]
     print(len(tasks), "tasks", flush=True)
-    rows = []
+    f = open(a.out, "w", newline="")  # rows are appended as they finish, so partial runs are usable
+    w = None
     with ProcessPoolExecutor(a.workers) as ex:
-        for k, r in enumerate(ex.map(work, tasks, chunksize=2)):
-            rows.append(r)
+        for k, r in enumerate(ex.map(work, tasks, chunksize=1)):
+            if w is None:
+                w = csv.DictWriter(f, fieldnames=list(r)); w.writeheader()
+            w.writerow(r); f.flush()
             if k % 25 == 0:
                 print(k, r["scenario"], r["th"], r["true_spk"], r["est_spk"], r["der"], flush=True)
-    with open(a.out, "w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=list(rows[0]))
-        w.writeheader(); w.writerows(rows)
+    f.close()
     print("wrote", a.out)
 
 
