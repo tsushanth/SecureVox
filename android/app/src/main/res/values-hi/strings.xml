@@ -92,7 +92,7 @@
     <string name="models_storage">मॉडल स्टोरेज</string>
     <string name="faq_and_help">FAQ &amp; सहायता</string>
     <string name="faq_subtitle">सामान्य प्रश्न और समस्या निवारण</string>
-    <string name="about_version">संस्करण 1.0.0</string>
+    <string name="about_version">संस्करण %1$s</string>
     <string name="about_description">Whisper AI द्वारा संचालित गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन। सारी प्रोसेसिंग आपके डिवाइस पर होती है \u2013 आपका ऑडियो कभी भी आपके फ़ोन से बाहर नहीं जाता।</string>
     <string name="select_language">भाषा चुनें</string>
     <string name="select_theme">थीम चुनें</string>

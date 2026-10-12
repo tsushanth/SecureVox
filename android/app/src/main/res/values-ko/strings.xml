@@ -92,7 +92,7 @@
     <string name="models_storage">모델 저장소</string>
     <string name="faq_and_help">FAQ &amp; 도움말</string>
     <string name="faq_subtitle">자주 묻는 질문과 문제 해결</string>
-    <string name="about_version">버전 1.0.0</string>
+    <string name="about_version">버전 %1$s</string>
     <string name="about_description">Whisper AI로 구동되는 개인정보 보호 우선 음성 텍스트 변환. 모든 처리는 기기에서 이루어지며 \u2013 오디오가 휴대폰 밖으로 나가지 않습니다.</string>
     <string name="select_language">언어 선택</string>
     <string name="select_theme">테마 선택</string>

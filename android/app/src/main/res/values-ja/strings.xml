@@ -92,7 +92,7 @@
     <string name="models_storage">モデルストレージ</string>
     <string name="faq_and_help">FAQ &amp; ヘルプ</string>
     <string name="faq_subtitle">よくある質問とトラブルシューティング</string>
-    <string name="about_version">バージョン 1.0.0</string>
+    <string name="about_version">バージョン %1$s</string>
     <string name="about_description">Whisper AIを搭載したプライバシー重視の音声文字起こし。すべての処理はデバイス上で行われます \u2013 音声がスマートフォンから外に出ることはありません。</string>
     <string name="select_language">言語を選択</string>
     <string name="select_theme">テーマを選択</string>

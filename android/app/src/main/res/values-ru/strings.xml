@@ -92,7 +92,7 @@
     <string name="models_storage">Хранилище моделей</string>
     <string name="faq_and_help">Вопросы и помощь</string>
     <string name="faq_subtitle">Частые вопросы и устранение неполадок</string>
-    <string name="about_version">Версия 1.0.0</string>
+    <string name="about_version">Версия %1$s</string>
     <string name="about_description">Конфиденциальное голосовое транскрибирование на базе Whisper AI. Вся обработка происходит на вашем устройстве — аудио никогда не покидает ваш телефон.</string>
     <string name="select_language">Выберите язык</string>
     <string name="select_theme">Выберите тему</string>

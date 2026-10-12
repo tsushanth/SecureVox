@@ -462,7 +462,7 @@ fun SettingsScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = stringResource(R.string.about_version),
+                            text = stringResource(R.string.about_version, appVersionName(settingsContext)),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -728,7 +728,14 @@ private fun ModelCard(
                         }
                     }
                     else -> {
-                        FilledTonalButton(onClick = onDownload) {
+                        FilledTonalButton(
+                            onClick = onDownload,
+                            // Red is reserved for recording and destructive actions.
+                            colors = ButtonDefaults.filledTonalButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        ) {
                             Icon(
                                 Icons.Default.Download,
                                 contentDescription = null,
@@ -895,3 +902,7 @@ private fun SettingsToggleCard(
         }
     }
 }
+
+private fun appVersionName(context: android.content.Context): String =
+    runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }
+        .getOrNull() ?: ""

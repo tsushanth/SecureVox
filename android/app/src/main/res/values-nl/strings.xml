@@ -92,7 +92,7 @@
     <string name="models_storage">Modelopslag</string>
     <string name="faq_and_help">FAQ &amp; Help</string>
     <string name="faq_subtitle">Veelgestelde vragen en probleemoplossing</string>
-    <string name="about_version">Versie 1.0.0</string>
+    <string name="about_version">Versie %1$s</string>
     <string name="about_description">Privacy-first spraaktranscriptie aangedreven door Whisper AI. Alle verwerking gebeurt op je apparaat - je audio verlaat nooit je telefoon.</string>
     <string name="select_language">Selecteer taal</string>
     <string name="select_theme">Selecteer thema</string>

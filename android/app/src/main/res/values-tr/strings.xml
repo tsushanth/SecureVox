@@ -92,7 +92,7 @@
     <string name="models_storage">Model Depolama</string>
     <string name="faq_and_help">SSS &amp; Yardım</string>
     <string name="faq_subtitle">Sık sorulan sorular ve sorun giderme</string>
-    <string name="about_version">Sürüm 1.0.0</string>
+    <string name="about_version">Sürüm %1$s</string>
     <string name="about_description">Whisper AI ile güçlendirilmiş gizlilik öncelikli ses yazıya dökme. Tüm işlemler cihazınızda gerçekleşir - sesiniz asla telefonunuzdan çıkmaz.</string>
     <string name="select_language">Dil Seçin</string>
     <string name="select_theme">Tema Seçin</string>
