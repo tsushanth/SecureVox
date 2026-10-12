@@ -11,6 +11,7 @@ import androidx.work.*
 import com.securevox.app.R
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.TranscriptSegment
+import com.securevox.app.data.model.WordCodec
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
@@ -19,7 +20,7 @@ import com.securevox.app.speakers.ModelDownloader
 import com.securevox.app.speakers.SpeakerDiarizer
 import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.speakers.SpeakerModels
-import com.securevox.app.speakers.assignSpeakers
+import com.securevox.app.speakers.assignSpeakersByWord
 import com.securevox.app.speakers.hasMultipleSpeakers
 import com.securevox.app.presentation.settings.dataStore
 import kotlinx.coroutines.CancellationException
@@ -162,7 +163,7 @@ class TranscriptionWorker(
 
             for (chunkIdx in 0 until totalChunks) {
                 lastChunkIndexReached = chunkIdx
-                val chunkStartSample = (chunkIdx * CHUNK_SAMPLES - if (chunkIdx > 0) OVERLAP_SAMPLES else 0).coerceAtLeast(0)
+                val chunkStartSample = ChunkTiming.chunkStartSample(chunkIdx, CHUNK_SAMPLES, OVERLAP_SAMPLES)
                 val chunkEndSample = minOf(chunkStartSample + CHUNK_SAMPLES + OVERLAP_SAMPLES, totalAudioSamples.toInt())
 
                 val chunkData = loadAudioChunk(wavInfo, chunkStartSample, chunkEndSample)
@@ -171,7 +172,7 @@ class TranscriptionWorker(
                     continue
                 }
 
-                val chunkOffsetMs = (chunkStartSample.toLong() * 1000L) / 16000L
+                val chunkOffsetMs = ChunkTiming.chunkOffsetMs(chunkStartSample)
 
                 val chunkSegments = whisperLib.transcribe(
                     audioData = chunkData,
@@ -183,16 +184,21 @@ class TranscriptionWorker(
                 )
 
                 // Adjust timestamps by chunk offset and filter out overlap duplicates
-                val overlapMs = if (chunkIdx > 0) (OVERLAP_SAMPLES.toLong() * 1000L / 16000L) else 0L
+                val overlapMs = ChunkTiming.overlapMs(chunkIdx, OVERLAP_SAMPLES)
+                // chunkOffsetMs already points at the chunk's first sample (overlap included), so
+                // a chunk-relative time maps to chunkOffsetMs + time. The old "- overlapMs" put
+                // every segment after the first chunk about one second too early.
                 val newSegments = chunkSegments
-                    .filter { it.startTimeMs >= overlapMs } // skip the overlap region from previous chunk
+                    .filter { ChunkTiming.isNewSegment(it.startTimeMs, overlapMs) } // skip overlap from previous chunk
                     .map { seg ->
                         TranscriptSegment(
                             recordingId = recordingId,
                             text = seg.text,
-                            startTimeMs = seg.startTimeMs - overlapMs + chunkOffsetMs,
-                            endTimeMs = seg.endTimeMs - overlapMs + chunkOffsetMs,
-                            segmentIndex = segmentIndex++
+                            startTimeMs = ChunkTiming.toRecordingMs(seg.startTimeMs, chunkOffsetMs),
+                            endTimeMs = ChunkTiming.toRecordingMs(seg.endTimeMs, chunkOffsetMs),
+                            segmentIndex = segmentIndex++,
+                            // Word timing: same offset as the segment; "" when none were produced.
+                            words = WordCodec.encode(seg.words.map { it.shifted(chunkOffsetMs) })
                         )
                     }
 
@@ -279,9 +285,15 @@ class TranscriptionWorker(
                     "${spans.size} spans, ${spans.map { it.speaker }.toSet().size} raw speakers"
             )
             val segments = repository.getSegmentsForRecordingSync(recordingId)
-            val labelled = assignSpeakers(segments, spans)
+            // Word-level: labels each word and splits a segment where the speaker changes (falls
+            // back to whole-segment labels for recordings without word timing).
+            val labelled = assignSpeakersByWord(segments, spans)
             // One voice means there is nothing to label; keep the transcript clean.
-            if (hasMultipleSpeakers(labelled)) repository.saveSegments(labelled)
+            if (hasMultipleSpeakers(labelled)) {
+                // Every original row keeps its id (the first piece of a split reuses it), so
+                // REPLACE overwrites the old rows and the extra pieces are simply added.
+                repository.saveSegments(labelled)
+            }
             Log.i(TAG, "Speaker pass done: ${labelled.map { it.speaker }.toSet().size} speakers")
         } catch (e: CancellationException) {
             throw e
