@@ -23,6 +23,7 @@ import android.widget.Toast
 import com.securevox.app.AppLock
 import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.R
+import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.WhisperLanguage
@@ -200,6 +201,9 @@ fun SettingsScreen(
                     onClick = onNavigateToCustomDictionary
                 )
             }
+
+            // Speech engines (engines package): self-contained block, kept apart from the language/model cards.
+            item { EngineSettingsSection(selectedLanguage.code, selectedLanguage.displayName) }
 
             // Recording Section
             item {
@@ -641,8 +645,44 @@ private fun ModelCard(
     val model = modelInfo.model
     val isDownloading = downloadState is DownloadState.Downloading && downloadState.model == model
 
+    // Memory advice: a model too big for this phone is flagged, and needs an explicit confirm (never blocked).
+    val totalRam = remember { MemoryPolicy.read(context).totalBytes }
+    val advice = remember(model, totalRam) { MemoryPolicy.modelAdvice(model, totalRam) }
+    val ramText = String.format(java.util.Locale.US, "%.1f GB", totalRam / 1e9)
+    val adviceText = when {
+        advice.advice == MemoryPolicy.ModelAdvice.RECOMMENDED -> null
+        model == WhisperModel.BASE -> stringResource(R.string.model_base_not_recommended, ramText)
+        advice.advice == MemoryPolicy.ModelAdvice.LIKELY_TO_FAIL -> stringResource(R.string.model_likely_to_fail, ramText)
+        else -> stringResource(R.string.model_not_recommended, ramText)
+    }
+    var pendingConfirm by remember { mutableStateOf<(() -> Unit)?>(null) }
+    var pendingIsDownload by remember { mutableStateOf(false) }
+    fun guarded(isDownload: Boolean, action: () -> Unit) {
+        if (advice.needsConfirm) {
+            pendingIsDownload = isDownload
+            pendingConfirm = action
+        } else {
+            action()
+        }
+    }
+    pendingConfirm?.let { action ->
+        AlertDialog(
+            onDismissRequest = { pendingConfirm = null },
+            title = { Text(stringResource(R.string.model_confirm_title, model.displayName)) },
+            text = { Text(stringResource(R.string.model_confirm_body, adviceText.orEmpty())) },
+            confirmButton = {
+                TextButton(onClick = { pendingConfirm = null; action() }) {
+                    Text(stringResource(if (pendingIsDownload) R.string.model_confirm_download else R.string.model_confirm_select))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingConfirm = null }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
     Card(
-        onClick = { if (modelInfo.isDownloaded) onSelect() },
+        onClick = { if (modelInfo.isDownloaded && !isSelected) guarded(false, onSelect) else if (modelInfo.isDownloaded) onSelect() },
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
@@ -694,6 +734,14 @@ private fun ModelCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    if (adviceText != null) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = adviceText,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -734,7 +782,7 @@ private fun ModelCard(
                     }
                     else -> {
                         FilledTonalButton(
-                            onClick = onDownload,
+                            onClick = { guarded(true, onDownload) },
                             // Red is reserved for recording and destructive actions.
                             colors = ButtonDefaults.filledTonalButtonColors(
                                 containerColor = MaterialTheme.colorScheme.primaryContainer,

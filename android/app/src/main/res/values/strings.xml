@@ -117,6 +117,15 @@
     <string name="model_stat_accuracy">Accuracy</string>
     <string name="model_stat_speed">Speed</string>
     <string name="download_failed_prefix">Download failed: %1$s</string>
+    <string name="model_not_recommended">Not recommended on this phone: it needs about 1.3 GB of memory and this phone has %1$s.</string>
+    <string name="model_likely_to_fail">Likely to crash on this phone: it needs about 1.3 GB of memory and this phone has only %1$s.</string>
+    <string name="model_base_not_recommended">Not recommended on this phone: it has only %1$s of memory.</string>
+    <string name="model_confirm_title">Use %1$s anyway?</string>
+    <string name="model_confirm_body">%1$s This model may be slow or make the app close while transcribing. A smaller model is safer on this phone.</string>
+    <string name="model_confirm_download">Download anyway</string>
+    <string name="model_confirm_select">Use anyway</string>
+    <string name="speaker_skipped_memory">Speaker labels were skipped because the phone did not have enough free memory.</string>
+    <string name="speaker_skipped_long">Speaker labels were skipped because this recording is longer than 30 minutes.</string>
 
     <!-- Setup / Onboarding Screen -->
     <string name="welcome_title">Welcome to SecureVox</string>
@@ -208,4 +217,21 @@
     <string name="speaker_n">Speaker %1$d</string>
     <string name="licenses_title">Open-source licenses</string>
     <string name="licenses_view">View open-source licenses</string>
+    <!-- Speech engines (Settings > Transcription) -->
+    <string name="engines_title">Speech engines</string>
+    <string name="engines_subtitle">Optional recognizers for some languages. Nothing downloads until you tap Download, and each works offline.</string>
+    <string name="engines_suggestion">A better engine for %2$s is available: %1$s (%3$d MB download). Tap Download to install it.</string>
+    <string name="engines_use_alternative">Use these engines when installed</string>
+    <string name="engines_use_alternative_subtitle">Turn off to always use the Whisper model selected above.</string>
+    <string name="engine_nemo_name">NeMo FastConformer</string>
+    <string name="engine_nemo_desc">German, Spanish, French. About as accurate as Whisper Small, much faster and lighter.</string>
+    <string name="engine_sense_voice_name">SenseVoice</string>
+    <string name="engine_sense_voice_desc">Chinese. Far more accurate than Whisper Base for Mandarin.</string>
+    <string name="engine_size_format">%1$d MB</string>
+    <string name="engine_installed">Installed</string>
+    <string name="engine_downloading">Downloading… %1$d%%</string>
+    <string name="engine_failed">Download failed: %1$s</string>
+    <string name="engine_download">Download</string>
+    <string name="engine_cancel">Cancel</string>
+    <string name="engine_delete">Delete</string>
 </resources>

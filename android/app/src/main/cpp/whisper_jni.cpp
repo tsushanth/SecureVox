@@ -4,6 +4,7 @@
 #include <vector>
 #include <thread>
 #include "whisper.h"
+#include "whisper_json.h"
 
 #define TAG "WhisperJNI"
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
@@ -90,6 +91,10 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     params.no_context = true;
     params.single_segment = false;
 
+    // Word timing: ask whisper.cpp for per-token times (cheap, runs after each segment is
+    // decoded, does not change the decoded text). Live captions ('fast') never need them.
+    params.token_timestamps = !fast;
+
     if (fast) {
         // Live captions: a late answer is worthless, so never retry at a higher temperature
         // (that alone can turn a 2s pass into 20s on noisy audio). Shortening the encoder
@@ -136,42 +141,9 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
         return env->NewStringUTF("");
     }
 
-    // Build result JSON with segments
-    std::string jsonResult = "[";
+    // Build result JSON: segments, plus per-token times for word timing when requested.
     int numSegments = whisper_full_n_segments(ctx);
-
-    for (int i = 0; i < numSegments; i++) {
-        const char* text = whisper_full_get_segment_text(ctx, i);
-        int64_t t0 = whisper_full_get_segment_t0(ctx, i);
-        int64_t t1 = whisper_full_get_segment_t1(ctx, i);
-
-        // Convert to milliseconds
-        double startMs = t0 * 10.0;
-        double endMs = t1 * 10.0;
-
-        if (i > 0) jsonResult += ",";
-
-        // Escape text for JSON
-        std::string escapedText;
-        for (const char* p = text; *p; p++) {
-            switch (*p) {
-                case '"': escapedText += "\\\""; break;
-                case '\\': escapedText += "\\\\"; break;
-                case '\n': escapedText += "\\n"; break;
-                case '\r': escapedText += "\\r"; break;
-                case '\t': escapedText += "\\t"; break;
-                default: escapedText += *p;
-            }
-        }
-
-        jsonResult += "{";
-        jsonResult += "\"text\":\"" + escapedText + "\",";
-        jsonResult += "\"start\":" + std::to_string(startMs) + ",";
-        jsonResult += "\"end\":" + std::to_string(endMs);
-        jsonResult += "}";
-    }
-
-    jsonResult += "]";
+    std::string jsonResult = wjson::segments_to_json(ctx, params.token_timestamps);
 
     LOGI("Transcription complete: %d segments", numSegments);
     return env->NewStringUTF(jsonResult.c_str());
