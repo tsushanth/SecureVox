@@ -70,6 +70,12 @@ class LiveTranscriber(
                     return@launch
                 }
                 runLoop()
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Throwable) {
+                // Captions are a preview: running out of memory (or any native failure surfaced as an
+                // error) just stops them. It must never take down the recording or the app.
+                Log.e(TAG, "Live captions stopped", e)
             } finally {
                 collector.cancel()
             }
@@ -116,6 +122,11 @@ class LiveTranscriber(
                 clean(lib.transcribe(shot, language, fast = true).joinToString(" ") { it.text })
             } catch (e: CancellationException) {
                 throw e
+            } catch (e: OutOfMemoryError) {
+                // Stop for good rather than retry every tick on a phone that has no memory to spare.
+                Log.e(TAG, "Live captions out of memory; turning them off for this recording", e)
+                _caption.value = LiveCaption(committed, "")
+                return
             } catch (e: Exception) {
                 Log.w(TAG, "Live pass failed", e)
                 continue

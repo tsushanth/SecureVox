@@ -121,7 +121,7 @@
     <string name="model_likely_to_fail">Likely to crash on this phone: it needs about 1.3 GB of memory and this phone has only %1$s.</string>
     <string name="model_base_not_recommended">Not recommended on this phone: it has only %1$s of memory.</string>
     <string name="model_confirm_title">Use %1$s anyway?</string>
-    <string name="model_confirm_body">%1$s This model may be slow or make the app close while transcribing. Tiny and Base are safer on this phone.</string>
+    <string name="model_confirm_body">%1$s This model may be slow or make the app close while transcribing. A smaller model is safer on this phone.</string>
     <string name="model_confirm_download">Download anyway</string>
     <string name="model_confirm_select">Use anyway</string>
     <string name="speaker_skipped_memory">Speaker labels were skipped because the phone did not have enough free memory.</string>
