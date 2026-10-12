@@ -43,6 +43,13 @@ import androidx.compose.ui.unit.dp
 import com.securevox.app.R
 import com.securevox.app.presentation.theme.*
 import com.securevox.app.data.model.TranscriptSegment
+import com.securevox.app.data.model.WordLayout
+import com.securevox.app.data.model.WordTiming
+import com.securevox.app.data.model.activeWordIndex
+import com.securevox.app.data.model.timedWords
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.buildAnnotatedString
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.PlaybackSpeed
@@ -278,8 +285,11 @@ fun RecordingDetailScreen(
                                         segment = segment,
                                         showSpeaker = newSpeaker,
                                         isActive = segment.id == activeSegment?.id,
-                                        currentTime = currentPosition,
-                                        onClick = { viewModel.seekToSegment(segment) }
+                                        // Only the playing row needs the clock; passing it to
+                                        // every row would recompose the whole list every 100 ms.
+                                        currentTime = if (segment.id == activeSegment?.id) currentPosition else -1L,
+                                        onClick = { viewModel.seekToSegment(segment) },
+                                        onWordClick = { viewModel.seekToWord(it) }
                                     )
                                 }
                             }
@@ -402,9 +412,42 @@ private fun SegmentRow(
     showSpeaker: Boolean,
     isActive: Boolean,
     currentTime: Long,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+    onWordClick: (WordTiming) -> Unit
 ) {
     val accent = MaterialTheme.colorScheme.primary
+    // Timed words, if this segment has trustworthy ones. Decoded once per segment, and only for
+    // rows the lazy list actually composes.
+    val layout = remember(segment.id, segment.words, segment.text) {
+        segment.timedWords().takeIf { it.isNotEmpty() }?.let { WordLayout(it) }
+    }
+    val baseColor = if (isActive) MaterialTheme.colorScheme.onSurface
+    else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.78f)
+    val activeWord = if (layout != null && isActive) {
+        activeWordIndex(layout.words, currentTime, segment.startTimeMs, segment.endTimeMs)
+    } else -1
+    val highlight = accent.copy(alpha = 0.22f)
+    // One AnnotatedString per segment: a background span on the playing word, no per-word composables.
+    val annotated = remember(layout, activeWord, highlight) {
+        buildAnnotatedString {
+            append(layout?.text ?: segment.text)
+            if (layout != null && activeWord >= 0) {
+                addStyle(
+                    SpanStyle(background = highlight),
+                    layout.starts[activeWord],
+                    layout.endOf(activeWord)
+                )
+            }
+        }
+    }
+    var textLayout by remember { mutableStateOf<TextLayoutResult?>(null) }
+    val wordTapModifier = if (layout == null) Modifier else Modifier.pointerInput(layout) {
+        detectTapGestures { tap ->
+            val result = textLayout ?: return@detectTapGestures
+            val index = layout.wordAt(result.getOffsetForPosition(tap))
+            if (index >= 0) onWordClick(layout.words[index])
+        }
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -438,10 +481,11 @@ private fun SegmentRow(
                 )
             }
             Text(
-                text = segment.text,
+                text = annotated,
                 style = TranscriptStyle,
-                color = if (isActive) MaterialTheme.colorScheme.onSurface
-                else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.78f)
+                color = baseColor,
+                onTextLayout = { textLayout = it },
+                modifier = wordTapModifier
             )
         }
     }
