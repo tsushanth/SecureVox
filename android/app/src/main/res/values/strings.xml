@@ -206,4 +206,6 @@
     <string name="label_speakers_downloading">Downloading speaker models… %1$d%%</string>
     <string name="label_speakers_failed">Could not download the speaker models: %1$s</string>
     <string name="speaker_n">Speaker %1$d</string>
+    <string name="licenses_title">Open-source licenses</string>
+    <string name="licenses_view">View open-source licenses</string>
 </resources>

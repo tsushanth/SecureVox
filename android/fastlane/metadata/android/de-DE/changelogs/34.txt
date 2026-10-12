@@ -1,0 +1,4 @@
+• Sprecherkennung (optional, in den Einstellungen): Neue Transkripte zeigen, wer spricht
+• Open-Source-Lizenzen sind jetzt unter "Über" aufgeführt
+• "Über" zeigt jetzt die richtige Version
+• Die Wellenform wird bei langen, leisen Aufnahmen nicht mehr flach

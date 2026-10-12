@@ -1,0 +1,4 @@
+• Étiquettes des interlocuteurs (facultatif, dans les Réglages) : les nouvelles transcriptions indiquent qui parle
+• Les licences open source figurent désormais dans À propos
+• À propos affiche maintenant la bonne version
+• La forme d'onde ne s'aplatit plus sur les longs enregistrements calmes
