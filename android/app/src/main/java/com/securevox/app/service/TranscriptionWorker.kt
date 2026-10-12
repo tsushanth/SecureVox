@@ -15,6 +15,10 @@ import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.whisper.TranscriptionSegment as WhisperSegment
 import com.securevox.app.whisper.WhisperLib
+import com.securevox.app.engines.ChunkRequest
+import com.securevox.app.engines.EngineManager
+import com.securevox.app.engines.TranscriptionEngine
+import com.securevox.app.engines.WhisperEngine
 import com.securevox.app.speakers.ModelDownloader
 import com.securevox.app.speakers.SpeakerDiarizer
 import com.securevox.app.speakers.SpeakerLabels
@@ -100,6 +104,8 @@ class TranscriptionWorker(
         val transcriptionStartedAtMs = System.currentTimeMillis()
         var lastChunkIndexReached = -1
         var lastTotalChunks = -1
+        // Speech engine for this recording (engines package); closed in the finally below.
+        var engine: TranscriptionEngine? = null
 
         // Confirmed root cause of "won't complete a transcript for meetings": this worker ran as
         // a plain background CoroutineWorker, which Android's WorkManager kills after roughly 10
@@ -158,6 +164,11 @@ class TranscriptionWorker(
             val allSegments = mutableListOf<TranscriptSegment>()
             var segmentIndex = 0
 
+            // ENGINES: whisper.cpp unless the user installed a better engine for this language (see
+            // engines/EngineRouter); an engine that fails to load or throws falls back to whisper.cpp.
+            val activeEngine = EngineManager.createEngine(applicationContext, WhisperEngine(whisperLib), language, recordingId)
+            engine = activeEngine
+
             repository.deleteSegmentsForRecording(recordingId)
 
             for (chunkIdx in 0 until totalChunks) {
@@ -173,9 +184,9 @@ class TranscriptionWorker(
 
                 val chunkOffsetMs = (chunkStartSample.toLong() * 1000L) / 16000L
 
-                val chunkSegments = whisperLib.transcribe(
-                    audioData = chunkData,
-                    language = language,
+                // ENGINES dispatch hook: was whisperLib.transcribe(chunkData, language, onProgress).
+                val chunkSegments = activeEngine.transcribe(
+                    ChunkRequest(chunkData, language, if (chunkIdx > 0) OVERLAP_SAMPLES * 1000L / 16000L else 0L),
                     onProgress = { chunkProgress ->
                         val overall = ((chunkIdx * 100 + chunkProgress) / totalChunks).coerceIn(0, 99)
                         setProgressAsync(workDataOf(KEY_PROGRESS to overall))
@@ -214,6 +225,7 @@ class TranscriptionWorker(
             }
 
             // Free the Whisper model before the speaker pass loads its own models.
+            activeEngine.close()
             whisperLib.release()
             labelSpeakers(recordingId, wavInfo)
 
@@ -238,6 +250,8 @@ class TranscriptionWorker(
                 transcriptionStartedAtMs, lastChunkIndexReached, lastTotalChunks
             )
             Result.failure()
+        } finally {
+            engine?.close() // ENGINES: also frees the alternative engine on failure/cancel (idempotent)
         }
     }
 
