@@ -17,6 +17,8 @@ import com.securevox.app.service.ExportService
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.NonSpeech
+import com.securevox.app.speakers.SpeakerLabels
+import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.whisper.WhisperLanguage
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -43,6 +45,11 @@ class RecordingDetailViewModel(
     private val exportService = ExportService(application)
 
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
+        .stateIn(viewModelScope, SharingStarted.Lazily, null)
+
+    /** Why speaker labels were skipped for this recording (memory or length), or null. */
+    val speakerSkip: StateFlow<MemoryPolicy.SpeakerSkip?> = recording
+        .map { SpeakerLabels.skipNote(getApplication(), recordingId) }
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
     // Older recordings were saved with Whisper's [BLANK_AUDIO]-style markers; hide them here so
