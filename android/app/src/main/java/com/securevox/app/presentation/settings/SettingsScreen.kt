@@ -202,6 +202,9 @@ fun SettingsScreen(
                 )
             }
 
+            // Speech engines (engines package): self-contained block, kept apart from the language/model cards.
+            item { EngineSettingsSection(selectedLanguage.code, selectedLanguage.displayName) }
+
             // Recording Section
             item {
                 Spacer(modifier = Modifier.height(16.dp))

@@ -217,4 +217,21 @@
     <string name="speaker_n">Speaker %1$d</string>
     <string name="licenses_title">Open-source licenses</string>
     <string name="licenses_view">View open-source licenses</string>
+    <!-- Speech engines (Settings > Transcription) -->
+    <string name="engines_title">Speech engines</string>
+    <string name="engines_subtitle">Optional recognizers for some languages. Nothing downloads until you tap Download, and each works offline.</string>
+    <string name="engines_suggestion">A better engine for %2$s is available: %1$s (%3$d MB download). Tap Download to install it.</string>
+    <string name="engines_use_alternative">Use these engines when installed</string>
+    <string name="engines_use_alternative_subtitle">Turn off to always use the Whisper model selected above.</string>
+    <string name="engine_nemo_name">NeMo FastConformer</string>
+    <string name="engine_nemo_desc">German, Spanish, French. About as accurate as Whisper Small, much faster and lighter.</string>
+    <string name="engine_sense_voice_name">SenseVoice</string>
+    <string name="engine_sense_voice_desc">Chinese. Far more accurate than Whisper Base for Mandarin.</string>
+    <string name="engine_size_format">%1$d MB</string>
+    <string name="engine_installed">Installed</string>
+    <string name="engine_downloading">Downloading… %1$d%%</string>
+    <string name="engine_failed">Download failed: %1$s</string>
+    <string name="engine_download">Download</string>
+    <string name="engine_cancel">Cancel</string>
+    <string name="engine_delete">Delete</string>
 </resources>
