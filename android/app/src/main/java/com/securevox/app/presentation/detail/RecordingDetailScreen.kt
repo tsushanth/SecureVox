@@ -38,6 +38,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.speakers.SpeakerLabels
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.securevox.app.R
@@ -82,6 +83,13 @@ fun RecordingDetailScreen(
     val activeSegment by viewModel.activeSegment.collectAsState()
     val playbackSpeed by viewModel.playbackSpeed.collectAsState()
     val transcriptionProgress by viewModel.transcriptionProgress.collectAsState()
+    val relabelState by viewModel.relabelState.collectAsState()
+    val chosenCount by viewModel.chosenCount.collectAsState()
+    val modelProgress by viewModel.modelProgress.collectAsState()
+    val modelError by viewModel.modelError.collectAsState()
+    var showSpeakerDialog by remember { mutableStateOf(false) }
+    val relabelRunning = relabelState is RecordingDetailViewModel.RelabelState.Running
+    LaunchedEffect(relabelRunning) { if (relabelRunning) showSpeakerDialog = false }
 
     var showDeleteDialog by remember { mutableStateOf(false) }
     var showSpeedMenu by remember { mutableStateOf(false) }
@@ -184,6 +192,18 @@ fun RecordingDetailScreen(
                                 }
                             }
                         )
+                        if (SpeakerLabels.AVAILABLE && segments.isNotEmpty() && !relabelRunning &&
+                            recording?.transcriptionStatus != TranscriptionStatus.IN_PROGRESS) {
+                            DropdownMenuItem(
+                                text = { Text(stringResource(R.string.relabel_menu)) },
+                                leadingIcon = { Icon(Icons.Default.People, null) },
+                                onClick = {
+                                    showMenu = false
+                                    viewModel.clearModelError()
+                                    showSpeakerDialog = true
+                                }
+                            )
+                        }
                         if (downloadedModels.size >= 1 &&
                             recording?.transcriptionStatus != TranscriptionStatus.IN_PROGRESS) {
                             DropdownMenuItem(
@@ -260,6 +280,27 @@ fun RecordingDetailScreen(
                             // Progress banner while still transcribing (segments arriving live)
                             if (isInProgress) {
                                 TranscriptionProgressBanner(progress = transcriptionProgress)
+                            }
+                            if (relabelRunning) RelabelBanner()
+                            (relabelState as? RecordingDetailViewModel.RelabelState.Failed)?.let { failed ->
+                                Text(
+                                    text = stringResource(R.string.relabel_failed, failed.message),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                                )
+                            }
+                            val detected = remember(segments) { segments.map { it.speaker }.filter { it >= 0 }.toSet().size }
+                            if (SpeakerLabels.AVAILABLE && detected > 0) {
+                                SpeakerCountHeader(
+                                    detected = detected,
+                                    chosen = chosenCount,
+                                    enabled = !relabelRunning && !isInProgress,
+                                    onChange = {
+                                        viewModel.clearModelError()
+                                        showSpeakerDialog = true
+                                    }
+                                )
                             }
                             speakerSkip?.let { skip ->
                                 Text(
@@ -395,6 +436,21 @@ fun RecordingDetailScreen(
                     Text(stringResource(R.string.cancel))
                 }
             }
+        )
+    }
+
+    if (showSpeakerDialog) {
+        SpeakerRelabelDialog(
+            initial = chosenCount,
+            tooLong = (recording?.duration ?: 0L) > RELABEL_MAX_DURATION_MS,
+            modelsReady = viewModel.speakerModelsReady(),
+            downloadProgress = modelProgress,
+            downloadError = modelError,
+            onConfirm = { count ->
+                if (viewModel.startRelabel(count)) showSpeakerDialog = false
+            },
+            onDownloadAndConfirm = { count -> viewModel.downloadModelsAndRelabel(count) },
+            onDismiss = { showSpeakerDialog = false }
         )
     }
 
