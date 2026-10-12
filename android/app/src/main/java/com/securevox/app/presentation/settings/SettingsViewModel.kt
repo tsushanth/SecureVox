@@ -21,6 +21,7 @@ import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.LiveTranscriber
 import com.securevox.app.whisper.ModelManager
+import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.flow.*
@@ -212,15 +213,10 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             dataStore.edit { prefs ->
                 prefs[KEY_SELECTED_LANGUAGE] = language.code
             }
-            // Auto-upgrade model for non-Latin scripts if a better model is available
-            if (language.requiresBetterModel && selectedModel.value == WhisperModel.TINY) {
-                val upgrade = listOf(WhisperModel.BASE, WhisperModel.SMALL)
-                    .firstOrNull { modelManager.isModelDownloaded(it) }
-                if (upgrade != null) {
-                    dataStore.edit { prefs ->
-                        prefs[KEY_SELECTED_MODEL] = upgrade.fileName
-                    }
-                }
+            // Move off a model that is POOR for this language if a better one is already downloaded
+            val downloaded = WhisperModel.entries.filter { modelManager.isModelDownloaded(it) }.toSet()
+            LanguageQuality.autoUpgrade(language, selectedModel.value, downloaded)?.let { upgrade ->
+                dataStore.edit { prefs -> prefs[KEY_SELECTED_MODEL] = upgrade.fileName }
             }
         }
     }

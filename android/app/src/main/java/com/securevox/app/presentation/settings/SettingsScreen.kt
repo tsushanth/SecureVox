@@ -25,6 +25,8 @@ import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.R
 import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.DownloadState
+import com.securevox.app.whisper.LanguageAdvice
+import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
@@ -131,34 +133,18 @@ fun SettingsScreen(
                 )
             }
 
-            if (selectedLanguage.requiresBetterModel) {
+            val languageAdvice = LanguageQuality.adviceFor(
+                selectedLanguage, selectedModel,
+                availableModels.filter { it.isDownloaded }.map { it.model }.toSet()
+            )
+            if (languageAdvice != null) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Icon(
-                                Icons.Default.Info,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Text(
-                                text = "${selectedLanguage.displayName} uses a non-Latin script. For accurate transcription in ${selectedLanguage.displayName}, the Base or Small model is recommended. The Tiny model may produce English or romanized output.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        }
-                    }
+                    LanguageQualityNote(
+                        language = selectedLanguage,
+                        selectedModel = selectedModel,
+                        advice = languageAdvice,
+                        onSwitch = { viewModel.selectModel(languageAdvice.recommended) }
+                    )
                 }
             }
 
@@ -959,3 +945,55 @@ private fun SettingsToggleCard(
 private fun appVersionName(context: android.content.Context): String =
     runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }
         .getOrNull() ?: ""
+
+/** Calm heads-up under the language row when the selected model is not great for the language. */
+@Composable
+private fun LanguageQualityNote(
+    language: WhisperLanguage,
+    selectedModel: WhisperModel,
+    advice: LanguageAdvice,
+    onSwitch: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = if (advice.canSwitch) {
+                        stringResource(
+                            R.string.language_quality_note,
+                            language.displayName, selectedModel.displayName, advice.recommended.displayName
+                        )
+                    } else {
+                        stringResource(R.string.language_quality_note_limited, language.displayName)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+            if (advice.canSwitch) {
+                if (advice.recommendedDownloaded) {
+                    TextButton(onClick = onSwitch) {
+                        Text(stringResource(R.string.language_quality_switch, advice.recommended.displayName))
+                    }
+                } else {
+                    Text(
+                        text = stringResource(
+                            R.string.language_quality_download, advice.recommended.displayName, advice.recommended.sizeMB
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            }
+        }
+    }
+}
