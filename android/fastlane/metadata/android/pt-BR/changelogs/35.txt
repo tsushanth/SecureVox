@@ -1,0 +1,5 @@
+• Toque em uma palavra da transcrição para ir até ela; a palavra em reprodução fica destacada
+• Informe quantas pessoas falam e reetiquete os falantes sem refazer o texto
+• Corrigidos os tempos que adiantavam cerca de um segundo em gravações longas
+• Avisos no seletor de idioma quando um modelo é fraco para o seu idioma
+• Protege aparelhos mais antigos contra falta de memória
