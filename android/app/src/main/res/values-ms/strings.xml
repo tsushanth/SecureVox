@@ -92,7 +92,7 @@
     <string name="models_storage">Storan Model</string>
     <string name="faq_and_help">Soalan Lazim &amp; Bantuan</string>
     <string name="faq_subtitle">Soalan lazim dan penyelesaian masalah</string>
-    <string name="about_version">Versi 1.0.0</string>
+    <string name="about_version">Versi %1$s</string>
     <string name="about_description">Transkripsi suara yang mengutamakan privasi dikuasakan oleh Whisper AI. Semua pemprosesan berlaku pada peranti anda - audio anda tidak pernah meninggalkan telefon anda.</string>
     <string name="select_language">Pilih Bahasa</string>
     <string name="select_theme">Pilih Tema</string>

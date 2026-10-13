@@ -1,0 +1,4 @@
+• Etichette dei parlanti (facoltative, nelle Impostazioni): le nuove trascrizioni mostrano chi parla
+• Le licenze open source ora sono elencate in Info
+• Info ora mostra la versione corretta
+• La forma d'onda non si appiattisce più nelle registrazioni lunghe e silenziose

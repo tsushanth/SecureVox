@@ -92,7 +92,7 @@
     <string name="models_storage">تخزين النماذج</string>
     <string name="faq_and_help">الأسئلة الشائعة والمساعدة</string>
     <string name="faq_subtitle">أسئلة شائعة واستكشاف الأخطاء وإصلاحها</string>
-    <string name="about_version">الإصدار 1.0.0</string>
+    <string name="about_version">الإصدار %1$s</string>
     <string name="about_description">نسخ صوتي يضع الخصوصية أولاً مدعوم بتقنية Whisper AI. تتم جميع المعالجة على جهازك - لا يغادر صوتك هاتفك أبدًا.</string>
     <string name="select_language">اختر اللغة</string>
     <string name="select_theme">اختر المظهر</string>

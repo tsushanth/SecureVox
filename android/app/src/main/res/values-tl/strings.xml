@@ -92,7 +92,7 @@
     <string name="models_storage">Storage ng mga Model</string>
     <string name="faq_and_help">FAQ &amp; Tulong</string>
     <string name="faq_subtitle">Mga karaniwang tanong at troubleshooting</string>
-    <string name="about_version">Bersyon 1.0.0</string>
+    <string name="about_version">Bersyon %1$s</string>
     <string name="about_description">Privacy-first na voice transcription na pinapagana ng Whisper AI. Lahat ng processing ay nangyayari sa iyong device - hindi kailanman aalis ang iyong audio sa iyong telepono.</string>
     <string name="select_language">Pumili ng Wika</string>
     <string name="select_theme">Pumili ng Tema</string>

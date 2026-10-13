@@ -41,8 +41,8 @@ android {
         applicationId = "com.securevox.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 33
-        versionName = "1.4.0"
+        versionCode = 35
+        versionName = "1.5.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -160,6 +160,8 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     // sherpa-onnx: on-device speaker diarization (AAR fetched by downloadSherpaOnnx)
     implementation(files(sherpaAar))
+    // Unpacks the NeMo .tar.bz2 model archive (engines package). Apache 2.0.
+    implementation("org.apache.commons:commons-compress:1.27.1")
 
     // In-App Review
     implementation("com.google.android.play:review:2.0.1")

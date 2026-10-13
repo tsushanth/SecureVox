@@ -9,7 +9,12 @@ import com.k2fsa.sherpa.onnx.SpeakerEmbeddingExtractorConfig
 import java.io.File
 
 /** Finds who spoke when, on-device, using pyannote segmentation plus speaker embeddings. */
-class SpeakerDiarizer(private val modelDir: File, private val threshold: Float = 0.85f) {
+class SpeakerDiarizer(
+    private val modelDir: File,
+    private val threshold: Float = 0.85f,
+    /** A fixed number of speakers (1..8) chosen by the user, or null for automatic (use [threshold]). */
+    private val numSpeakers: Int? = null
+) {
 
     fun diarize(samples: FloatArray): List<SpeakerSpan> {
         val config = OfflineSpeakerDiarizationConfig(
@@ -23,7 +28,7 @@ class SpeakerDiarizer(private val modelDir: File, private val threshold: Float =
                 model = File(modelDir, "embedding.onnx").absolutePath,
                 numThreads = 2
             ),
-            clustering = FastClusteringConfig(numClusters = -1, threshold = threshold),
+            clustering = FastClusteringConfig(numClusters = SpeakerCount.clusters(numSpeakers), threshold = threshold),
             minDurationOn = 0.3f,
             minDurationOff = 0.5f
         )

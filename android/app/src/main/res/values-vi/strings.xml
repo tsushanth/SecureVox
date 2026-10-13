@@ -92,7 +92,7 @@
     <string name="models_storage">Lưu trữ mô hình</string>
     <string name="faq_and_help">Câu hỏi thường gặp &amp; Trợ giúp</string>
     <string name="faq_subtitle">Câu hỏi thường gặp và khắc phục sự cố</string>
-    <string name="about_version">Phiên bản 1.0.0</string>
+    <string name="about_version">Phiên bản %1$s</string>
     <string name="about_description">Chuyển đổi giọng nói ưu tiên quyền riêng tư được hỗ trợ bởi Whisper AI. Tất cả xử lý diễn ra trên thiết bị của bạn - âm thanh không bao giờ rời khỏi điện thoại.</string>
     <string name="select_language">Chọn ngôn ngữ</string>
     <string name="select_theme">Chọn chủ đề</string>

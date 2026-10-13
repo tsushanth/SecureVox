@@ -72,6 +72,10 @@
     <string name="section_appearance">Appearance</string>
     <string name="section_storage">Storage</string>
     <string name="section_about">About</string>
+    <string name="language_quality_note">%1$s accuracy is limited with the %2$s model. The %3$s model works noticeably better for it.</string>
+    <string name="language_quality_note_limited">%1$s is supported, but accuracy is limited with every model on this device. Treat transcripts as a rough draft.</string>
+    <string name="language_quality_switch">Switch to %1$s</string>
+    <string name="language_quality_download">Download the %1$s model (%2$d MB) in the list above to improve accuracy.</string>
     <string name="transcription_language">Transcription Language</string>
     <string name="auto_punctuation">Auto-Punctuation</string>
     <string name="auto_punctuation_subtitle">Automatically add punctuation to transcripts</string>
@@ -94,7 +98,7 @@
     <string name="models_storage">Models Storage</string>
     <string name="faq_and_help">FAQ &amp; Help</string>
     <string name="faq_subtitle">Common questions and troubleshooting</string>
-    <string name="about_version">Version 1.0.0</string>
+    <string name="about_version">Version %1$s</string>
     <string name="about_description">Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.</string>
     <string name="select_language">Select Language</string>
     <string name="select_theme">Select Theme</string>
@@ -117,6 +121,15 @@
     <string name="model_stat_accuracy">Accuracy</string>
     <string name="model_stat_speed">Speed</string>
     <string name="download_failed_prefix">Download failed: %1$s</string>
+    <string name="model_not_recommended">Not recommended on this phone: it needs about 1.3 GB of memory and this phone has %1$s.</string>
+    <string name="model_likely_to_fail">Likely to crash on this phone: it needs about 1.3 GB of memory and this phone has only %1$s.</string>
+    <string name="model_base_not_recommended">Not recommended on this phone: it has only %1$s of memory.</string>
+    <string name="model_confirm_title">Use %1$s anyway?</string>
+    <string name="model_confirm_body">%1$s This model may be slow or make the app close while transcribing. A smaller model is safer on this phone.</string>
+    <string name="model_confirm_download">Download anyway</string>
+    <string name="model_confirm_select">Use anyway</string>
+    <string name="speaker_skipped_memory">Speaker labels were skipped because the phone did not have enough free memory.</string>
+    <string name="speaker_skipped_long">Speaker labels were skipped because this recording is longer than 30 minutes.</string>
 
     <!-- Setup / Onboarding Screen -->
     <string name="welcome_title">Welcome to SecureVox</string>
@@ -206,4 +219,45 @@
     <string name="label_speakers_downloading">Downloading speaker models… %1$d%%</string>
     <string name="label_speakers_failed">Could not download the speaker models: %1$s</string>
     <string name="speaker_n">Speaker %1$d</string>
+    <string name="licenses_title">Open-source licenses</string>
+    <string name="licenses_view">View open-source licenses</string>
+    <!-- Speech engines (Settings > Transcription) -->
+    <string name="engines_title">Speech engines</string>
+    <string name="engines_subtitle">Optional recognizers for some languages. Nothing downloads until you tap Download, and each works offline.</string>
+    <string name="engines_suggestion">A better engine for %2$s is available: %1$s (%3$d MB download). Tap Download to install it.</string>
+    <string name="engines_use_alternative">Use these engines when installed</string>
+    <string name="engines_use_alternative_subtitle">Turn off to always use the Whisper model selected above.</string>
+    <string name="engine_nemo_name">NeMo FastConformer</string>
+    <string name="engine_nemo_desc">German, Spanish, French. About as accurate as Whisper Small, much faster and lighter.</string>
+    <string name="engine_sense_voice_name">SenseVoice</string>
+    <string name="engine_sense_voice_desc">Chinese. Far more accurate than Whisper Base for Mandarin.</string>
+    <string name="engine_size_format">%1$d MB</string>
+    <string name="engine_installed">Installed</string>
+    <string name="engine_downloading">Downloading… %1$d%%</string>
+    <string name="engine_failed">Download failed: %1$s</string>
+    <string name="engine_download">Download</string>
+    <string name="engine_cancel">Cancel</string>
+    <string name="engine_delete">Delete</string>
+    <string name="relabel_notification_title">Re-labelling speakers</string>
+    <string name="relabel_menu">Label speakers</string>
+    <string name="relabel_title">Label speakers</string>
+    <string name="relabel_explain">Tell SecureVox how many people are talking, then it re-labels this recording. The text does not change.</string>
+    <string name="relabel_automatic">Automatic</string>
+    <string name="relabel_more">More</string>
+    <string name="relabel_run">Re-run</string>
+    <string name="relabel_running">Re-labelling speakers…</string>
+    <string name="relabel_too_long">Speaker labels are limited to recordings under 30 minutes</string>
+    <string name="relabel_need_models">Speaker labels need a one-time download of about 46 MB. It then works offline.</string>
+    <string name="relabel_download">Download and re-run</string>
+    <string name="relabel_downloading">Downloading speaker models… %1$d%%</string>
+    <string name="relabel_download_failed">Could not download the speaker models: %1$s</string>
+    <string name="relabel_failed">Could not re-label: %1$s</string>
+    <string name="relabel_done">Speakers re-labelled</string>
+    <string name="relabel_chip_description">%1$d speakers</string>
+    <string name="relabel_chip_one_description">1 speaker</string>
+    <string name="speakers_header_auto">Speakers: %1$d detected (automatic)</string>
+    <string name="speakers_header_fixed">Speakers: %1$d (set by you)</string>
+    <string name="speakers_header_none">No speaker labels yet</string>
+    <string name="speakers_change">Change</string>
+    <string name="speakers_change_description">Change the number of speakers</string>
 </resources>

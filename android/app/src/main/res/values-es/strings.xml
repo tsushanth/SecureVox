@@ -92,7 +92,7 @@
     <string name="models_storage">Almacenamiento de modelos</string>
     <string name="faq_and_help">Preguntas frecuentes &amp; Ayuda</string>
     <string name="faq_subtitle">Preguntas comunes y solución de problemas</string>
-    <string name="about_version">Versión 1.0.0</string>
+    <string name="about_version">Versión %1$s</string>
     <string name="about_description">Transcripción de voz con privacidad primero, impulsada por Whisper AI. Todo el procesamiento ocurre en tu dispositivo \u2013 tu audio nunca sale de tu teléfono.</string>
     <string name="select_language">Seleccionar idioma</string>
     <string name="select_theme">Seleccionar tema</string>

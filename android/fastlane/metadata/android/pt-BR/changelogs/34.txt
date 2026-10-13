@@ -1,0 +1,4 @@
+• Rótulos de falantes (opcional, em Ajustes): as novas transcrições mostram quem está falando
+• As licenças de código aberto agora aparecem em Sobre
+• Sobre agora mostra a versão correta
+• A onda não fica mais achatada em gravações longas e silenciosas

@@ -1,0 +1,5 @@
+• Touchez un mot de la transcription pour y aller ; le mot lu est surligné
+• Indiquez combien de personnes parlent et ré-étiquetez les interlocuteurs sans refaire le texte
+• Correction des horodatages avancés d'environ une seconde dans les longs enregistrements
+• Conseils dans le choix de langue quand un modèle est faible pour votre langue
+• Protège les anciens téléphones d'un manque de mémoire

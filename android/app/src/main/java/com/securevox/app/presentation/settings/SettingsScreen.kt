@@ -23,7 +23,10 @@ import android.widget.Toast
 import com.securevox.app.AppLock
 import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.R
+import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.whisper.DownloadState
+import com.securevox.app.whisper.LanguageAdvice
+import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
@@ -62,6 +65,8 @@ fun SettingsScreen(
     val speakerModelProgress by viewModel.speakerModelProgress.collectAsState()
     val speakerModelError by viewModel.speakerModelError.collectAsState()
     val settingsContext = LocalContext.current
+    var showLicenses by remember { mutableStateOf(false) }
+    if (showLicenses) LicensesSheet(onDismiss = { showLicenses = false })
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
@@ -128,34 +133,18 @@ fun SettingsScreen(
                 )
             }
 
-            if (selectedLanguage.requiresBetterModel) {
+            val languageAdvice = LanguageQuality.adviceFor(
+                selectedLanguage, selectedModel,
+                availableModels.filter { it.isDownloaded }.map { it.model }.toSet()
+            )
+            if (languageAdvice != null) {
                 item {
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        colors = CardDefaults.cardColors(
-                            containerColor = MaterialTheme.colorScheme.secondaryContainer
-                        )
-                    ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(12.dp),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Icon(
-                                Icons.Default.Info,
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                                modifier = Modifier.size(18.dp)
-                            )
-                            Text(
-                                text = "${selectedLanguage.displayName} uses a non-Latin script. For accurate transcription in ${selectedLanguage.displayName}, the Base or Small model is recommended. The Tiny model may produce English or romanized output.",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSecondaryContainer
-                            )
-                        }
-                    }
+                    LanguageQualityNote(
+                        language = selectedLanguage,
+                        selectedModel = selectedModel,
+                        advice = languageAdvice,
+                        onSwitch = { viewModel.selectModel(languageAdvice.recommended) }
+                    )
                 }
             }
 
@@ -198,6 +187,9 @@ fun SettingsScreen(
                     onClick = onNavigateToCustomDictionary
                 )
             }
+
+            // Speech engines (engines package): self-contained block, kept apart from the language/model cards.
+            item { EngineSettingsSection(selectedLanguage.code, selectedLanguage.displayName) }
 
             // Recording Section
             item {
@@ -462,10 +454,13 @@ fun SettingsScreen(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = stringResource(R.string.about_version),
+                            text = stringResource(R.string.about_version, appVersionName(settingsContext)),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
+                        TextButton(onClick = { showLicenses = true }) {
+                            Text(stringResource(R.string.licenses_view))
+                        }
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
                             text = stringResource(R.string.about_description),
@@ -636,8 +631,44 @@ private fun ModelCard(
     val model = modelInfo.model
     val isDownloading = downloadState is DownloadState.Downloading && downloadState.model == model
 
+    // Memory advice: a model too big for this phone is flagged, and needs an explicit confirm (never blocked).
+    val totalRam = remember { MemoryPolicy.read(context).totalBytes }
+    val advice = remember(model, totalRam) { MemoryPolicy.modelAdvice(model, totalRam) }
+    val ramText = String.format(java.util.Locale.US, "%.1f GB", totalRam / 1e9)
+    val adviceText = when {
+        advice.advice == MemoryPolicy.ModelAdvice.RECOMMENDED -> null
+        model == WhisperModel.BASE -> stringResource(R.string.model_base_not_recommended, ramText)
+        advice.advice == MemoryPolicy.ModelAdvice.LIKELY_TO_FAIL -> stringResource(R.string.model_likely_to_fail, ramText)
+        else -> stringResource(R.string.model_not_recommended, ramText)
+    }
+    var pendingConfirm by remember { mutableStateOf<(() -> Unit)?>(null) }
+    var pendingIsDownload by remember { mutableStateOf(false) }
+    fun guarded(isDownload: Boolean, action: () -> Unit) {
+        if (advice.needsConfirm) {
+            pendingIsDownload = isDownload
+            pendingConfirm = action
+        } else {
+            action()
+        }
+    }
+    pendingConfirm?.let { action ->
+        AlertDialog(
+            onDismissRequest = { pendingConfirm = null },
+            title = { Text(stringResource(R.string.model_confirm_title, model.displayName)) },
+            text = { Text(stringResource(R.string.model_confirm_body, adviceText.orEmpty())) },
+            confirmButton = {
+                TextButton(onClick = { pendingConfirm = null; action() }) {
+                    Text(stringResource(if (pendingIsDownload) R.string.model_confirm_download else R.string.model_confirm_select))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { pendingConfirm = null }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
     Card(
-        onClick = { if (modelInfo.isDownloaded) onSelect() },
+        onClick = { if (modelInfo.isDownloaded && !isSelected) guarded(false, onSelect) else if (modelInfo.isDownloaded) onSelect() },
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = if (isSelected) {
@@ -689,6 +720,14 @@ private fun ModelCard(
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                    if (adviceText != null) {
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = adviceText,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -728,7 +767,14 @@ private fun ModelCard(
                         }
                     }
                     else -> {
-                        FilledTonalButton(onClick = onDownload) {
+                        FilledTonalButton(
+                            onClick = { guarded(true, onDownload) },
+                            // Red is reserved for recording and destructive actions.
+                            colors = ButtonDefaults.filledTonalButtonColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        ) {
                             Icon(
                                 Icons.Default.Download,
                                 contentDescription = null,
@@ -892,6 +938,62 @@ private fun SettingsToggleCard(
                 checked = checked,
                 onCheckedChange = onCheckedChange
             )
+        }
+    }
+}
+
+private fun appVersionName(context: android.content.Context): String =
+    runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }
+        .getOrNull() ?: ""
+
+/** Calm heads-up under the language row when the selected model is not great for the language. */
+@Composable
+private fun LanguageQualityNote(
+    language: WhisperLanguage,
+    selectedModel: WhisperModel,
+    advice: LanguageAdvice,
+    onSwitch: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+    ) {
+        Column(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = if (advice.canSwitch) {
+                        stringResource(
+                            R.string.language_quality_note,
+                            language.displayName, selectedModel.displayName, advice.recommended.displayName
+                        )
+                    } else {
+                        stringResource(R.string.language_quality_note_limited, language.displayName)
+                    },
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                )
+            }
+            if (advice.canSwitch) {
+                if (advice.recommendedDownloaded) {
+                    TextButton(onClick = onSwitch) {
+                        Text(stringResource(R.string.language_quality_switch, advice.recommended.displayName))
+                    }
+                } else {
+                    Text(
+                        text = stringResource(
+                            R.string.language_quality_download, advice.recommended.displayName, advice.recommended.sizeMB
+                        ),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                }
+            }
         }
     }
 }

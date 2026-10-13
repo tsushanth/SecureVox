@@ -92,7 +92,7 @@
     <string name="models_storage">Pamięć modeli</string>
     <string name="faq_and_help">FAQ &amp; Pomoc</string>
     <string name="faq_subtitle">Najczęstsze pytania i rozwiązywanie problemów</string>
-    <string name="about_version">Wersja 1.0.0</string>
+    <string name="about_version">Wersja %1$s</string>
     <string name="about_description">Transkrypcja głosowa stawiająca prywatność na pierwszym miejscu, napędzana przez Whisper AI. Cała obróbka odbywa się na Twoim urządzeniu — Twoje nagrania nigdy nie opuszczają telefonu.</string>
     <string name="select_language">Wybierz język</string>
     <string name="select_theme">Wybierz motyw</string>

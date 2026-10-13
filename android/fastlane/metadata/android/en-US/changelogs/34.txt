@@ -1,0 +1,4 @@
+• Speaker labels (optional, in Settings): see who is talking in new transcripts
+• Open-source licenses are now listed under About
+• About now shows the correct version
+• The waveform no longer goes flat on long, quiet recordings
