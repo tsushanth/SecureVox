@@ -100,12 +100,18 @@ fun SpeakerRelabelDialog(
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
+                // Selection is teal (primary), not the default secondary, which is the recording red.
+                val chipColors = FilterChipDefaults.filterChipColors(
+                    selectedContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    selectedLabelColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
                 FlowRow(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                     verticalArrangement = Arrangement.spacedBy(4.dp)
                 ) {
                     FilterChip(
                         selected = selected == null,
+                        colors = chipColors,
                         onClick = { selected = null },
                         enabled = !downloading,
                         label = { Text(stringResource(R.string.relabel_automatic)) }
@@ -116,6 +122,7 @@ fun SpeakerRelabelDialog(
                         else stringResource(R.string.relabel_chip_description, n)
                         FilterChip(
                             selected = selected == n,
+                            colors = chipColors,
                             onClick = { selected = n },
                             enabled = !downloading,
                             label = { Text(n.toString()) },
@@ -125,6 +132,7 @@ fun SpeakerRelabelDialog(
                     if (!showMore) {
                         FilterChip(
                             selected = false,
+                            colors = chipColors,
                             onClick = { showMore = true },
                             enabled = !downloading,
                             label = { Text(stringResource(R.string.relabel_more)) }

@@ -66,7 +66,9 @@ class EngineRouterTest {
     }
 
     @Test fun `shipped gates`() {
+        // 1.5.0 ships with both alternative engines off until their licences are settled.
         assertEquals(false, EngineGates.NEMO_FAST_CONFORMER_AVAILABLE)
-        assertEquals(setOf(EngineId.WHISPER, EngineId.SENSE_VOICE), EngineGates.available)
+        assertEquals(false, EngineGates.SENSE_VOICE_AVAILABLE)
+        assertEquals(setOf(EngineId.WHISPER), EngineGates.available)
     }
 }

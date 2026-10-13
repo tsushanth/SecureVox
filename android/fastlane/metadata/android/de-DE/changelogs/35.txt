@@ -1,0 +1,5 @@
+• Tippe auf ein Wort im Transkript, um dorthin zu springen; das gesprochene Wort wird hervorgehoben
+• Lege fest, wie viele Personen sprechen, und beschrifte die Sprecher neu, ohne den Text neu zu erstellen
+• Zeitstempel in langen Aufnahmen lagen etwa eine Sekunde zu früh; behoben
+• Hinweise in der Sprachauswahl, wenn ein Modell für deine Sprache schwach ist
+• Schützt ältere Geräte vor Speichermangel

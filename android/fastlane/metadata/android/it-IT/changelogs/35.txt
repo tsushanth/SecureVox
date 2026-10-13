@@ -1,0 +1,5 @@
+• Tocca una parola della trascrizione per saltarci; la parola in riproduzione è evidenziata
+• Indica quante persone parlano e rietichetta i parlanti senza rifare il testo
+• Corretti i tempi che anticipavano di circa un secondo nelle registrazioni lunghe
+• Suggerimenti nella scelta della lingua quando un modello è debole per la tua lingua
+• Protegge i telefoni più vecchi dalla mancanza di memoria

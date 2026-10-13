@@ -1,0 +1,5 @@
+• Toca cualquier palabra de la transcripción para saltar a ella; se resalta la palabra que suena
+• Indica cuántas personas hablan y vuelve a etiquetar a los hablantes sin rehacer el texto
+• Corregidas las marcas de tiempo que se adelantaban un segundo en grabaciones largas
+• Avisos en el selector de idioma cuando un modelo es débil para tu idioma
+• Protege los teléfonos antiguos de quedarse sin memoria

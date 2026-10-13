@@ -29,11 +29,12 @@ object EngineGates {
     const val NEMO_FAST_CONFORMER_AVAILABLE = false
 
     /**
-     * ON. The model is a fine-tune of SenseVoice Small (FunASR Model Open Source License 1.1: free use,
-     * copying, modification and sharing with attribution) published by ASLP-lab under Apache 2.0 and
-     * converted to int8 ONNX by the sherpa-onnx project.
+     * OFF for the 1.5.0 release until the owner decides. The model is a fine-tune of SenseVoice Small (FunASR
+     * Model Open Source License 1.1: free use, copying, modification and sharing with attribution) published by
+     * ASLP-lab under Apache 2.0 and converted to int8 ONNX by the sherpa-onnx project, but the FunASR maintainers'
+     * clarification on commercial use covers the official weights, not third-party conversions.
      */
-    const val SENSE_VOICE_AVAILABLE = true
+    const val SENSE_VOICE_AVAILABLE = false
 
     val available: Set<EngineId> = buildSet {
         add(EngineId.WHISPER)

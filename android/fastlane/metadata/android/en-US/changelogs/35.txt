@@ -1,0 +1,5 @@
+• Tap any word in a transcript to jump to it, with the playing word highlighted
+• Tell SecureVox how many people are talking and re-label speakers without redoing the text
+• Fixed timestamps drifting about a second early in long recordings
+• Hints in the language picker when a model is weak for your language
+• Protects older phones from running out of memory
