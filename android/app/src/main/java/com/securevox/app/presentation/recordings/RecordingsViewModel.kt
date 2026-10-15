@@ -135,22 +135,21 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     init {
         viewModelScope.launch {
             var lastCompletedCount = -1
+            var lastFailedCount = -1
             allRecordings.collect { recordings ->
                 val completedCount = recordings.count { it.transcriptionStatus == TranscriptionStatus.COMPLETED }
+                val failedCount = recordings.count { it.transcriptionStatus == TranscriptionStatus.FAILED }
                 if (lastCompletedCount >= 0 && completedCount > lastCompletedCount) {
-                    // A new transcription just completed — check if we should prompt for review
-                    maybeRequestReview(completedCount)
+                    // Magic moment: a transcription just finished. RatingKit decides whether to ask (several moments
+                    // and a few days of use first); the screen calls it once the finished transcript is on screen.
+                    _triggerReview.tryEmit(Unit)
+                }
+                if (lastFailedCount >= 0 && failedCount > lastFailedCount) {
+                    com.kreativekoala.ratingkit.RatingKit.reportError() // stay quiet for a while after a failure
                 }
                 lastCompletedCount = completedCount
+                lastFailedCount = failedCount
             }
-        }
-    }
-
-    private fun maybeRequestReview(completedCount: Int) {
-        val hasPrompted = prefs.getBoolean("review_prompted", false)
-        if (!hasPrompted && completedCount >= 3) {
-            prefs.edit().putBoolean("review_prompted", true).apply()
-            _triggerReview.tryEmit(Unit)
         }
     }
 
