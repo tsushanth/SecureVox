@@ -43,7 +43,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.google.android.play.core.review.ReviewManagerFactory
 import com.kreativekoala.ratingkit.RatingKit
 import com.securevox.app.R
 import com.securevox.app.data.model.Recording
@@ -88,12 +87,7 @@ fun RecordingsScreen(
     LaunchedEffect(Unit) {
         viewModel.triggerReview.collect {
             val activity = context as? Activity ?: return@collect
-            val manager = ReviewManagerFactory.create(context)
-            manager.requestReviewFlow().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    manager.launchReviewFlow(activity, task.result)
-                }
-            }
+            RatingKit.trackAction(activity)
         }
     }
 
@@ -203,10 +197,7 @@ fun RecordingsScreen(
                     caption = liveCaption,
                     onPause = { viewModel.pauseRecording() },
                     onResume = { viewModel.resumeRecording() },
-                    onStop = {
-                        viewModel.stopRecording()
-                        (context as? Activity)?.let { RatingKit.trackAction(it) }
-                    }
+                    onStop = { viewModel.stopRecording() }
                 )
             }
 
