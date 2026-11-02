@@ -2,7 +2,12 @@ package com.securevox.app.whisper
 
 import android.content.Context
 import android.util.Log
+import com.securevox.app.util.Connectivity
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,6 +16,9 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
+import java.util.concurrent.ConcurrentHashMap
+import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.FailureSanitizer
 
 /**
  * Manages Whisper model downloads and storage.
@@ -26,10 +34,20 @@ class ModelManager(private val context: Context) {
         private const val LEGACY_TMP_SUFFIX = ".tmp"
         private const val CONNECT_TIMEOUT_MS = 30_000
         private const val READ_TIMEOUT_MS = 30_000
+        private const val HTTP_RANGE_NOT_SATISFIABLE = 416
 
         // HuggingFace model URLs
         private const val BASE_URL = "https://huggingface.co/ggerganov/whisper.cpp/resolve/main"
+
+        /**
+         * Models being downloaded right now. Shared across instances (Settings has its own ModelManager) so two
+         * callers can never write the same `.part` file at once.
+         */
+        private val inFlight: MutableSet<String> = ConcurrentHashMap.newKeySet()
     }
+
+    /** Outlives screens, so a download started on the setup screen survives rotation and leaving the screen. */
+    private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     private val modelsDir: File by lazy {
         File(context.filesDir, MODELS_DIR).also { it.mkdirs() }
@@ -125,12 +143,32 @@ class ModelManager(private val context: Context) {
     }
 
     /**
+     * Starts a download that is not tied to any screen or ViewModel (it survives rotation and navigating away).
+     * [onInstalled] runs after the model is verified and in place.
+     */
+    fun startDownload(model: WhisperModel, onInstalled: suspend (WhisperModel) -> Unit = {}) {
+        appScope.launch {
+            if (downloadModel(model).isSuccess) onInstalled(model)
+        }
+    }
+
+    /** Bytes of [model] already on disk from an interrupted download (0 when none). */
+    fun partialBytes(model: WhisperModel): Long {
+        val part = File(modelsDir, "${model.fileName}$PART_SUFFIX")
+        return if (part.exists()) part.length().coerceAtMost(model.sizeBytes) else 0L
+    }
+
+    /** True when at least one model is installed, so the app can transcribe. */
+    fun isAnyModelInstalled(): Boolean = WhisperModel.entries.any { isModelDownloaded(it) }
+
+    /**
      * Download a model from HuggingFace.
      *
      * Downloads are resumable: partial data is kept in a `.part` file and
      * continued with an HTTP Range request on the next attempt. The digest is
      * verified before the file is promoted into place, so a partial or corrupt
-     * download can never be mistaken for an installed model.
+     * download can never be mistaken for an installed model. Failures are typed
+     * (see [DownloadProblem]) so the UI can say what is wrong in plain words.
      */
     suspend fun downloadModel(model: WhisperModel): Result<File> = withContext(Dispatchers.IO) {
         val file = getModelFile(model)
@@ -140,6 +178,25 @@ class ModelManager(private val context: Context) {
             return@withContext Result.success(file)
         }
 
+        if (!inFlight.add(model.fileName)) {
+            // Another caller is already fetching this file; it reports through the same state flow.
+            return@withContext Result.failure(IllegalStateException("Already downloading ${model.fileName}"))
+        }
+        try {
+            downloadLocked(model, file)
+        } finally {
+            inFlight.remove(model.fileName)
+        }
+    }
+
+    private fun fail(model: WhisperModel, e: Exception): Result<File> {
+        val problem = DownloadPolicy.classify(e)
+        Log.e(TAG, "Failed to download model: ${model.fileName} ($problem)", e)
+        _downloadState.value = DownloadState.Error(model, e.message ?: "Download failed", problem)
+        return Result.failure(e)
+    }
+
+    private fun downloadLocked(model: WhisperModel, file: File): Result<File> {
         // A file of the wrong size is unusable; start over rather than trust it.
         if (file.exists()) {
             Log.w(TAG, "Removing invalid model file: ${model.fileName}")
@@ -158,23 +215,44 @@ class ModelManager(private val context: Context) {
         // A previous attempt may have finished downloading but not been promoted.
         if (resumeFrom == model.sizeBytes) {
             if (ModelIntegrity.verify(partFile, model, appVersion) && promote(partFile, file, model)) {
-                return@withContext Result.success(file)
+                _downloadState.value = DownloadState.Completed(model)
+                refreshModelList()
+                return Result.success(file)
             }
             partFile.delete()
             resumeFrom = 0L
         }
 
+        // Say plainly and at once when there is no network or no room, instead of failing after a long timeout.
+        if (Connectivity.state(context) == NetworkState.OFFLINE) {
+            return fail(model, DownloadOfflineException())
+        }
+        val remaining = DownloadPolicy.remainingBytes(model, resumeFrom)
+        val free = modelsDir.usableSpace
+        if (!DownloadPolicy.hasRoom(remaining, free)) {
+            return fail(model, DownloadStorageException(remaining, free))
+        }
+
         _downloadState.value = DownloadState.Downloading(model, resumeFrom, model.sizeBytes)
 
-        try {
-            val connection = openConnection(model, resumeFrom)
-            val responseCode = connection.responseCode
+        return try {
+            var connection = openConnection(model, resumeFrom)
+            var responseCode = connection.responseCode
+
+            // 416: the partial file no longer matches what the server has. Drop it and start clean.
+            if (responseCode == HTTP_RANGE_NOT_SATISFIABLE && resumeFrom > 0) {
+                connection.disconnect()
+                partFile.delete()
+                resumeFrom = 0L
+                connection = openConnection(model, 0L)
+                responseCode = connection.responseCode
+            }
 
             if (responseCode != HttpURLConnection.HTTP_OK &&
                 responseCode != HttpURLConnection.HTTP_PARTIAL
             ) {
                 connection.disconnect()
-                throw Exception("Server returned HTTP $responseCode")
+                throw DownloadHttpException(responseCode)
             }
 
             // 200 means the server ignored the Range header, so restart from zero.
@@ -198,6 +276,11 @@ class ModelManager(private val context: Context) {
                         output.write(buffer, 0, bytesRead)
                         totalBytesRead += bytesRead
 
+                        // More bytes than the model has means this is not the file (a proxy or error page).
+                        if (totalBytesRead > model.sizeBytes) {
+                            throw DownloadIncompleteException(totalBytesRead, model.sizeBytes)
+                        }
+
                         _downloadState.value = DownloadState.Downloading(
                             model = model,
                             downloadedBytes = totalBytesRead,
@@ -209,14 +292,13 @@ class ModelManager(private val context: Context) {
             connection.disconnect()
 
             if (partFile.length() != model.sizeBytes) {
-                throw Exception(
-                    "Incomplete download: got ${partFile.length()} of ${model.sizeBytes} bytes"
-                )
+                // Kept on purpose: the next attempt resumes from here.
+                throw DownloadIncompleteException(partFile.length(), model.sizeBytes)
             }
 
             if (!ModelIntegrity.verify(partFile, model, appVersion)) {
                 partFile.delete()
-                throw Exception("Downloaded model failed checksum verification")
+                throw DownloadChecksumException()
             }
 
             if (!promote(partFile, file, model)) {
@@ -229,10 +311,20 @@ class ModelManager(private val context: Context) {
 
             Result.success(file)
 
+        } catch (e: CancellationException) {
+            // The owner went away. Partial data stays for resuming; this is not an error to show.
+            _downloadState.value = DownloadState.Idle
+            throw e
         } catch (e: Exception) {
-            Log.e(TAG, "Failed to download model: ${model.fileName}", e)
-            _downloadState.value = DownloadState.Error(model, e.message ?: "Download failed")
-            Result.failure(e)
+            if (e is DownloadIncompleteException && partFile.length() > model.sizeBytes) {
+                partFile.delete() // oversized: cannot be resumed, so do not keep it
+            }
+            // Offline / dropped connection is the user's network; everything else (short download, bad checksum,
+            // disk full, cannot move into place) is a real failure.
+            if (e !is DownloadOfflineException && !FailureSanitizer.isConnectivity(e)) {
+                FailureReporter.failure("model.download", e, context = mapOf("model" to model.fileName))
+            }
+            fail(model, e)
         }
     }
 
@@ -259,6 +351,7 @@ class ModelManager(private val context: Context) {
                 partFile.delete()
             } catch (e: Exception) {
                 Log.e(TAG, "Copy failed for ${model.fileName}", e)
+                FailureReporter.failure("model.download", e, reason = "copy_failed", context = mapOf("model" to model.fileName))
                 return false
             }
         }
@@ -355,6 +448,7 @@ class ModelManager(private val context: Context) {
                 return@withContext true
             }
             Log.w(TAG, "Bundled model failed verification, discarding")
+            FailureReporter.failure("model.bundled", reason = "verification_failed", context = mapOf("model" to tinyModel.fileName))
             file.delete()
             ModelIntegrity.deleteMarker(file)
         } catch (e: Exception) {
@@ -397,5 +491,9 @@ sealed class DownloadState {
 
     data class Completed(val model: WhisperModel) : DownloadState()
 
-    data class Error(val model: WhisperModel, val message: String) : DownloadState()
+    data class Error(
+        val model: WhisperModel,
+        val message: String,
+        val problem: DownloadProblem = DownloadProblem.OTHER
+    ) : DownloadState()
 }

@@ -14,7 +14,14 @@ import com.securevox.app.whisper.LiveCaption
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.IncomingAction
 import com.securevox.app.IncomingActions
+import android.content.Context
+import android.content.ContextWrapper
+import android.content.Intent
 import android.net.Uri
+import android.provider.Settings
+import android.widget.Toast
+import com.securevox.app.util.MicPermission
+import com.securevox.app.util.MicStep
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -55,6 +62,7 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordingsScreen(
+    onOpenSetup: () -> Unit,
     onRecordingClick: (String) -> Unit,
     onSettingsClick: () -> Unit,
     viewModel: RecordingsViewModel = viewModel()
@@ -66,12 +74,14 @@ fun RecordingsScreen(
     val recordingDuration by viewModel.recordingDuration.collectAsState()
     val liveCaption by viewModel.liveCaption.collectAsState()
     val showModelUpgrade by viewModel.showModelUpgrade.collectAsState()
+    val showReportsPrompt by viewModel.showReportsPrompt.collectAsState()
     val modelDownload by viewModel.downloadState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val filter by viewModel.filter.collectAsState()
     val isImporting by viewModel.isImporting.collectAsState()
     val importError by viewModel.importError.collectAsState()
     val transcriptionProgressMap by viewModel.transcriptionProgress.collectAsState()
+    val hasModel by viewModel.hasModel.collectAsState()
 
     // Recording state lives in AudioRecorderService, independent of this screen's
     // lifecycle — but backing out of the app while recording (this is the start
@@ -91,6 +101,39 @@ fun RecordingsScreen(
         }
     }
 
+    // Microphone permission is asked for when the user taps Record, with a reason first, and a way to the
+    // system Settings page once Android will no longer show its own prompt.
+    val prefs = remember { context.getSharedPreferences("securevox_prefs", Context.MODE_PRIVATE) }
+    var showMicRationale by remember { mutableStateOf(false) }
+    var showMicSettings by remember { mutableStateOf(false) }
+    var showNeedModel by remember { mutableStateOf(false) }
+
+    val micLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        if (granted) {
+            if (!isRecording) viewModel.startRecording()
+        } else {
+            Toast.makeText(context, R.string.mic_denied_toast, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun beginRecording() {
+        if (!hasModel) {
+            showNeedModel = true
+            return
+        }
+        val granted = ContextCompat.checkSelfPermission(
+            context, Manifest.permission.RECORD_AUDIO
+        ) == PackageManager.PERMISSION_GRANTED
+        val rationale = context.findActivity()?.let {
+            androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.RECORD_AUDIO)
+        } ?: false
+        when (MicPermission.decide(granted, rationale, prefs.getBoolean(KEY_MIC_ASKED, false))) {
+            MicStep.PROCEED -> if (!isRecording) viewModel.startRecording()
+            MicStep.EXPLAIN_THEN_ASK -> showMicRationale = true
+            MicStep.OPEN_SETTINGS -> showMicSettings = true
+        }
+    }
+
     // Files shared into the app and launches from the tile or shortcut. The screen is only
     // composed once the app lock and first-run setup are out of the way, so this is the
     // right place to act on them.
@@ -98,15 +141,65 @@ fun RecordingsScreen(
     LaunchedEffect(incoming) {
         val action = incoming ?: return@LaunchedEffect
         when (action) {
+            // A shared file is always imported; without a model it waits for Retry once one is installed.
             is IncomingAction.ImportMedia -> viewModel.importMedia(action.uri)
-            IncomingAction.StartRecording -> {
-                val hasMic = ContextCompat.checkSelfPermission(
-                    context, Manifest.permission.RECORD_AUDIO
-                ) == PackageManager.PERMISSION_GRANTED
-                if (hasMic && !isRecording) viewModel.startRecording()
-            }
+            IncomingAction.StartRecording -> beginRecording()
         }
         IncomingActions.consume(action)
+    }
+
+    if (showMicRationale) {
+        AlertDialog(
+            onDismissRequest = { showMicRationale = false },
+            title = { Text(stringResource(R.string.mic_rationale_title)) },
+            text = { Text(stringResource(R.string.mic_rationale_body)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showMicRationale = false
+                    prefs.edit().putBoolean(KEY_MIC_ASKED, true).apply()
+                    micLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                }) { Text(stringResource(R.string.mic_rationale_continue)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showMicRationale = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
+    if (showMicSettings) {
+        AlertDialog(
+            onDismissRequest = { showMicSettings = false },
+            title = { Text(stringResource(R.string.mic_denied_title)) },
+            text = { Text(stringResource(R.string.mic_denied_body)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showMicSettings = false
+                    context.startActivity(
+                        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.fromParts("package", context.packageName, null))
+                            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    )
+                }) { Text(stringResource(R.string.mic_open_settings)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showMicSettings = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
+    if (showNeedModel) {
+        AlertDialog(
+            onDismissRequest = { showNeedModel = false },
+            title = { Text(stringResource(R.string.no_model_dialog_title)) },
+            text = { Text(stringResource(R.string.no_model_dialog_body, WhisperModel.TINY.sizeMB)) },
+            confirmButton = {
+                TextButton(onClick = { showNeedModel = false; onOpenSetup() }) {
+                    Text(stringResource(R.string.no_model_banner_action))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showNeedModel = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
     }
 
     var showSearch by remember { mutableStateOf(false) }
@@ -156,7 +249,8 @@ fun RecordingsScreen(
                     actions = {
                         IconButton(
                             onClick = {
-                                filePickerLauncher.launch(MediaImportService.getSupportedMimeTypes())
+                                if (hasModel) filePickerLauncher.launch(MediaImportService.getSupportedMimeTypes())
+                                else showNeedModel = true
                             },
                             enabled = !isImporting
                         ) {
@@ -173,7 +267,7 @@ fun RecordingsScreen(
             if (!isRecording) {
                 RecordButton(
                     audioLevel = audioLevel,
-                    onClick = { viewModel.startRecording() }
+                    onClick = { beginRecording() }
                 )
             }
         },
@@ -201,11 +295,26 @@ fun RecordingsScreen(
                 )
             }
 
-            if (showModelUpgrade && !isRecording) {
+            if (!hasModel) {
+                NoModelBanner(
+                    downloading = modelDownload as? DownloadState.Downloading,
+                    onSetup = onOpenSetup
+                )
+            }
+
+            if (showModelUpgrade && !isRecording && hasModel) {
                 ModelUpgradeCard(
                     downloading = modelDownload as? DownloadState.Downloading,
                     onUpgrade = { viewModel.upgradeToBase() },
                     onDismiss = { viewModel.dismissModelUpgrade() }
+                )
+            }
+
+            // One-time question about anonymous crash reports; not stacked on top of the model upgrade card.
+            if (showReportsPrompt && !isRecording && !showModelUpgrade) {
+                ReportsPromptCard(
+                    onTurnOn = { viewModel.answerReportsPrompt(true) },
+                    onNoThanks = { viewModel.answerReportsPrompt(false) }
                 )
             }
 
@@ -292,6 +401,48 @@ fun RecordingsScreen(
     }
 }
 
+private const val KEY_MIC_ASKED = "mic_permission_asked"
+
+private tailrec fun Context.findActivity(): Activity? = when (this) {
+    is Activity -> this
+    is ContextWrapper -> baseContext.findActivity()
+    else -> null
+}
+
+/** Shown while no speech model is installed: says why recording is held back and how to fix it. */
+@Composable
+private fun NoModelBanner(downloading: DownloadState.Downloading?, onSetup: () -> Unit) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.no_model_banner_title),
+                style = MaterialTheme.typography.titleSmall
+            )
+            Spacer(Modifier.height(4.dp))
+            if (downloading != null) {
+                Text(
+                    text = stringResource(R.string.no_model_banner_downloading, downloading.progressPercent),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(Modifier.height(8.dp))
+                LinearProgressIndicator(progress = downloading.progress, modifier = Modifier.fillMaxWidth())
+            } else {
+                Text(
+                    text = stringResource(R.string.no_model_banner_body, WhisperModel.TINY.sizeMB),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(Modifier.height(8.dp))
+                Button(onClick = onSetup) { Text(stringResource(R.string.no_model_banner_action)) }
+            }
+        }
+    }
+}
+
 @Composable
 private fun SearchPill(onClick: () -> Unit) {
     Surface(
@@ -351,6 +502,27 @@ private fun ModelUpgradeCard(
                 Button(onClick = onUpgrade) { Text(stringResource(R.string.upgrade_model_action)) }
                 TextButton(onClick = onDismiss) { Text(stringResource(R.string.upgrade_model_dismiss)) }
             }
+        }
+    }
+}
+
+@Composable
+private fun ReportsPromptCard(onTurnOn: () -> Unit, onNoThanks: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Text(
+            text = stringResource(R.string.reports_prompt_title),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = stringResource(R.string.reports_prompt_body),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = onTurnOn) { Text(stringResource(R.string.reports_prompt_accept)) }
+            TextButton(onClick = onNoThanks) { Text(stringResource(R.string.reports_prompt_decline)) }
         }
     }
 }

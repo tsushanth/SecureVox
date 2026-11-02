@@ -18,6 +18,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.text.SimpleDateFormat
 import java.util.*
+import com.securevox.app.util.FailureReporter
 
 /**
  * Result of a media import operation
@@ -136,6 +137,7 @@ class MediaImportService(private val context: Context) {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Import failed", e)
+            FailureReporter.failure("import.media", e, context = mapOf("stage" to "open"))
             ImportResult.Error("Import failed: ${e.message}")
         }
     }
@@ -212,6 +214,7 @@ class MediaImportService(private val context: Context) {
                 )
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to convert media", e)
+                FailureReporter.failure("import.media", e, context = mapOf("stage" to "convert"))
                 outputFile.delete()
                 ImportResult.Error("Failed to import media: ${e.message}")
             } finally {

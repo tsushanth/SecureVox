@@ -20,7 +20,7 @@ import androidx.lifecycle.viewModelScope
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.ModelInfo
 import com.securevox.app.whisper.LiveTranscriber
-import com.securevox.app.whisper.ModelManager
+import com.securevox.app.SecureVoxApp
 import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
@@ -83,7 +83,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     private val dataStore = application.dataStore
-    val modelManager = ModelManager(application)
+    // The app-wide instance, so a download here is seen by the recordings screen (which hides Record until a
+    // model exists) and two managers can never fight over the same partial file.
+    val modelManager = SecureVoxApp.instance.modelManager
 
     val availableModels: StateFlow<List<ModelInfo>> = modelManager.availableModels
     val downloadState: StateFlow<DownloadState> = modelManager.downloadState

@@ -1,13 +1,11 @@
 package com.securevox.app
 
-import android.Manifest
 import android.content.Intent
 import android.os.Bundle
 import android.os.SystemClock
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -41,12 +39,6 @@ import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
 
-    private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { isGranted ->
-        // Permission result handled
-    }
-
     private var unlocked by mutableStateOf(false)
     private var stoppedAt = 0L
 
@@ -55,8 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         RatingKit.trackAppOpen(this)
 
-        // Request microphone permission
-        permissionLauncher.launch(Manifest.permission.RECORD_AUDIO)
+        // The microphone permission is requested when the user taps Record (RecordingsScreen), with a reason.
 
         // A recreated activity (rotation, process death) re-delivers the launch intent;
         // only act on it the first time or a shared file would be imported twice.

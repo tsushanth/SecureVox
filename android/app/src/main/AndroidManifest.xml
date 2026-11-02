@@ -4,6 +4,8 @@
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Lets setup say "you are offline" instead of failing after a long timeout. Normal permission, no prompt. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!-- Lets TranscriptionWorker promote itself to a foreground service via setForeground(),
          removing WorkManager's ~10min background-execution limit for meeting-length recordings. -->
