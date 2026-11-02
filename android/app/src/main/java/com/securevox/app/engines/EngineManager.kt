@@ -17,6 +17,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.FailureSanitizer
 
 sealed interface EngineDownloadState {
     data object Idle : EngineDownloadState
@@ -76,6 +78,7 @@ object EngineManager {
                     failure is DownloadCancelledException || !job.isActive -> EngineDownloadState.Idle
                     else -> {
                         Log.w(TAG, "Engine download failed for $id", failure)
+                        if (!FailureSanitizer.isConnectivity(failure)) FailureReporter.failure("engine.download", failure, context = mapOf("engine" to id.name.lowercase()))
                         EngineDownloadState.Failed(failure.message ?: "Download failed")
                     }
                 })
@@ -102,7 +105,14 @@ object EngineManager {
         languageCode: String,
         recordingId: String
     ): TranscriptionEngine {
-        val log: (String, Throwable?) -> Unit = { msg, t -> if (t != null) Log.w(TAG, msg, t) else Log.i(TAG, msg); Unit }
+        val log: (String, Throwable?) -> Unit = { msg, t ->
+            if (t != null) {
+                Log.w(TAG, msg, t)
+                // The alternative engine threw and whisper.cpp took over: the user still gets a transcript, but worse.
+                FailureReporter.failure("engine.fallback", t)
+            } else Log.i(TAG, msg)
+            Unit
+        }
         val whisperOnly = runCatching { context.dataStore.data.first()[KEY_WHISPER_ONLY] ?: false }.getOrDefault(false)
         val choice = EngineRouter.choose(
             languageCode = languageCode,

@@ -147,6 +147,8 @@
     <string name="send_feedback_subtitle">Share suggestions or report an issue</string>
     <string name="report_a_problem">Report a Problem</string>
     <string name="report_a_problem_subtitle">Send a diagnostic log to help us fix a failed recording or transcription</string>
+    <string name="diagnostic_reports">Anonymous crash reports</string>
+    <string name="diagnostic_reports_subtitle">Send the app version, phone model and the type of error when something breaks. Never your recordings, transcripts or file names.</string>
     <string name="report_a_problem_no_log">No diagnostic log yet — nothing has gone wrong on this device.</string>
 
     <!-- Re-transcribe & Export Audio -->

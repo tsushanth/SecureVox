@@ -91,7 +91,7 @@ SecureVox is designed with privacy as the core principle:
 
 - ✅ All audio processing happens on-device
 - ✅ No internet connection required
-- ✅ No analytics or tracking
+- ✅ No analytics or tracking (only anonymous crash/error reports with no user content; can be turned off in Settings)
 - ✅ Audio files stored only on your device
 - ✅ Full control to delete your data anytime
 

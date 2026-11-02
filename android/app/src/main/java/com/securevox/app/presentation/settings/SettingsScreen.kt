@@ -5,6 +5,7 @@ import android.net.Uri
 import android.text.format.Formatter
 import androidx.core.content.FileProvider
 import com.securevox.app.util.CrashLogger
+import com.securevox.app.util.FailureReporter
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -437,6 +438,21 @@ fun SettingsScreen(
                             }
                         }
                         context.startActivity(Intent.createChooser(intent, context.getString(R.string.report_a_problem)))
+                    }
+                )
+            }
+
+            item {
+                // Anonymous crash/failure reports (see FailureReporter): on by default, off here.
+                var reportsOn by remember { mutableStateOf(FailureReporter.isEnabled(context)) }
+                SettingsToggleCard(
+                    title = stringResource(R.string.diagnostic_reports),
+                    subtitle = stringResource(R.string.diagnostic_reports_subtitle),
+                    icon = Icons.Default.BugReport,
+                    checked = reportsOn,
+                    onCheckedChange = {
+                        reportsOn = it
+                        FailureReporter.setEnabled(context, it)
                     }
                 )
             }

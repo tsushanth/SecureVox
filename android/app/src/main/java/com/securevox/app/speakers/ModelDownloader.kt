@@ -7,6 +7,8 @@ import java.io.File
 import java.net.HttpURLConnection
 import java.net.URL
 import java.security.MessageDigest
+import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.FailureSanitizer
 
 /** One downloadable model file, pinned by size and SHA-256 because native code parses it. */
 data class ModelFile(val url: String, val fileName: String, val sizeBytes: Long, val sha256: String)
@@ -181,6 +183,9 @@ object ModelDownloader {
             }
         } catch (e: Throwable) {
             part.delete()
+            // Engine and speaker model downloads all end up here. A dropped connection is the user's network,
+            // not a bug, so only real failures are reported (HTTP errors, disk full, write errors).
+            if (e !is DownloadCancelledException && !FailureSanitizer.isConnectivity(e)) FailureReporter.failure("model.download_extra", e)
             throw e
         } finally {
             (conn as? HttpURLConnection)?.disconnect()
@@ -188,9 +193,13 @@ object ModelDownloader {
         val actual = digest.digest().joinToString("") { "%02x".format(it) }
         if (part.length() != sizeBytes || actual != sha256) {
             part.delete()
+            FailureReporter.failure("model.download_extra", reason = "integrity_check_failed")
             error("Downloaded model failed its integrity check")
         }
         target.delete()
-        check(part.renameTo(target)) { "Could not save model file" }
+        if (!part.renameTo(target)) {
+            FailureReporter.failure("model.download_extra", reason = "move_failed")
+            error("Could not save model file")
+        }
     }
 }
