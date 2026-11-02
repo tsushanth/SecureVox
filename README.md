@@ -1,12 +1,12 @@
 # SecureVox
 
-Privacy-first voice transcription app powered by OpenAI's Whisper model. All processing happens entirely on your device - no internet connection required, no data ever leaves your phone.
+Privacy-first voice transcription app powered by OpenAI's Whisper model. Recording and transcription run on your device. The app downloads its speech model once; after that no internet connection is needed. SecureVox does not upload your audio or transcripts.
 
 ## Features
 
 - **On-device transcription**: Transcription runs on your phone using Whisper AI (the internet is only used to download speech models)
 - **Privacy First**: SecureVox does not upload your audio or transcripts
-- **Multiple Languages**: Support for 15+ languages with auto-detection
+- **Languages**: 14 languages plus auto-detect. Accuracy varies by language and model (see `tools/lang-bench/results.md`); Hindi is experimental
 - **Timed Transcripts**: Word-level timestamps for easy navigation
 - **Cross-Platform**: Native apps for iOS and Android
 
@@ -41,9 +41,9 @@ Privacy-first voice transcription app powered by OpenAI's Whisper model. All pro
    ```
 
 2. Download a Whisper model from [HuggingFace](https://huggingface.co/ggerganov/whisper.cpp/tree/main):
-   - `ggml-tiny.bin` (~40MB) - Fastest
-   - `ggml-base.bin` (~150MB) - Balanced
-   - `ggml-small.bin` (~500MB) - Best accuracy
+   - `ggml-tiny.bin` (~78MB) - Fastest
+   - `ggml-base.bin` (~148MB) - Balanced
+   - `ggml-small.bin` (~488MB) - Best accuracy
 
 3. Place the model in `android/app/src/main/assets/`
 
@@ -79,9 +79,9 @@ android/app/src/main/
 
 | Model | Size | iOS (Neural Engine) | Android (CPU) |
 |-------|------|---------------------|---------------|
-| Tiny  | 40MB | ~0.5x realtime | ~1x realtime |
-| Base  | 150MB | ~1x realtime | ~2-3x realtime |
-| Small | 500MB | ~2x realtime | ~5-8x realtime |
+| Tiny  | 78MB | ~0.5x realtime | ~1x realtime |
+| Base  | 148MB | ~1x realtime | ~2-3x realtime |
+| Small | 488MB | ~2x realtime | ~5-8x realtime |
 
 *Times are approximate and vary by device*
 
