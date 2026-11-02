@@ -18,6 +18,7 @@ import com.securevox.app.service.AudioRecorderService
 import com.securevox.app.service.ImportResult
 import com.securevox.app.service.MediaImportService
 import com.securevox.app.service.TranscriptionWorker
+import com.securevox.app.whisper.ModelSelection
 import com.securevox.app.whisper.WhisperLanguage
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
@@ -67,8 +68,16 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
             ?: WhisperLanguage.fromDeviceLocale().code
     }
 
+    /**
+     * The saved model if it is installed, otherwise the installed model that suits the language best, so a phone
+     * that only has Small (chosen at setup) never queues work for a Tiny it does not have.
+     */
     private suspend fun getSelectedModelName(): String {
-        return dataStore.data.first()[keySelectedModel] ?: "ggml-tiny.bin"
+        val saved = dataStore.data.first()[keySelectedModel]?.let { WhisperModel.fromFileName(it) }
+            ?: WhisperModel.DEFAULT
+        val installed = WhisperModel.entries.filter { modelManager.isModelDownloaded(it) }.toSet()
+        val language = WhisperLanguage.fromCode(getSelectedLanguageCode())
+        return (ModelSelection.effective(saved, installed, language) ?: saved).fileName
     }
 
     // Import state
@@ -170,6 +179,11 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     private val _upgradeInstalled = MutableStateFlow(modelManager.isModelDownloaded(WhisperModel.BASE))
     val downloadState: StateFlow<DownloadState> = modelManager.downloadState
+
+    /** False until some model is installed (setup skipped, or still downloading): recording is held back. */
+    val hasModel: StateFlow<Boolean> = modelManager.availableModels
+        .map { models -> models.any { it.isDownloaded } }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, modelManager.isAnyModelInstalled())
 
     val showModelUpgrade: StateFlow<Boolean> = combine(
         dataStore.data.map { it[keyUpgradeDismissed] ?: false },
