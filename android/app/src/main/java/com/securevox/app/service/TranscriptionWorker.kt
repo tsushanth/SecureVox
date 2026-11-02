@@ -41,6 +41,7 @@ import java.io.FileInputStream
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import com.securevox.app.util.FailureReporter
 
 /**
  * WorkManager Worker for background transcription.
@@ -136,6 +137,7 @@ class TranscriptionWorker(
 
             if (!modelManager.isModelDownloaded(whisperModel)) {
                 Log.e(TAG, "Model not downloaded: ${whisperModel.fileName}")
+                FailureReporter.failure("transcription.run", reason = "model_missing", context = mapOf("model" to whisperModel.fileName))
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
@@ -146,6 +148,7 @@ class TranscriptionWorker(
             val initialized = whisperLib.initialize(modelPath)
             if (!initialized) {
                 Log.e(TAG, "Failed to initialize Whisper model")
+                FailureReporter.failure("transcription.run", reason = "model_init_failed", context = mapOf("model" to whisperModel.fileName))
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
@@ -154,6 +157,7 @@ class TranscriptionWorker(
             val wavInfo = WavReader.readWavInfo(recording.audioFilePath)
             if (wavInfo == null) {
                 Log.e(TAG, "Failed to parse WAV info")
+                FailureReporter.failure("transcription.run", reason = "audio_unreadable")
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 whisperLib.release()
                 return@withContext Result.failure()
@@ -182,6 +186,8 @@ class TranscriptionWorker(
                 val chunkData = WavReader.loadAudioChunk(wavInfo, chunkStartSample, chunkEndSample)
                 if (chunkData == null) {
                     Log.e(TAG, "Failed to load chunk $chunkIdx")
+                    // The chunk is skipped, so the transcript silently has a gap: worth knowing about.
+                    FailureReporter.failure("transcription.chunk", reason = "chunk_load_failed", context = mapOf("chunk" to chunkIdx.toString(), "chunks" to totalChunks.toString()))
                     continue
                 }
 
@@ -244,6 +250,7 @@ class TranscriptionWorker(
 
         } catch (e: OutOfMemoryError) {
             Log.e(TAG, "OOM during transcription — device RAM too low", e)
+            FailureReporter.failure("transcription.run", e, reason = "oom", context = progressContext(lastChunkIndexReached, lastTotalChunks, transcriptionStartedAtMs))
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
             logFailureToDisk(
                 recordingId, "OutOfMemoryError", e.message,
@@ -252,6 +259,7 @@ class TranscriptionWorker(
             Result.failure()
         } catch (e: Exception) {
             Log.e(TAG, "Transcription failed", e)
+            FailureReporter.failure("transcription.run", e, context = progressContext(lastChunkIndexReached, lastTotalChunks, transcriptionStartedAtMs))
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
             logFailureToDisk(
                 recordingId, e.javaClass.simpleName, e.message,
@@ -277,6 +285,13 @@ class TranscriptionWorker(
         SpeakerPass(applicationContext, repository)
             .run(recordingId, audioPath, SpeakerLabels.chosenCount(applicationContext, recordingId), SpeakerPass.Mode.FIRST_TIME)
     }
+
+    /** Counters only (how far it got); nothing from the recording itself. */
+    private fun progressContext(chunk: Int, chunks: Int, startedAtMs: Long): Map<String, String> = mapOf(
+        "chunk" to chunk.toString(),
+        "chunks" to chunks.toString(),
+        "stage" to (if (System.currentTimeMillis() - startedAtMs < 10_000) "early" else "running")
+    )
 
     /**
      * Appends a diagnostic entry to the local on-device failure log for a FAILED transcription.

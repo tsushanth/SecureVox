@@ -4,7 +4,9 @@ import android.app.Application
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import com.securevox.app.util.FailureReporter
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.util.ReportConsent
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
@@ -195,6 +197,18 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     fun dismissModelUpgrade() {
         viewModelScope.launch { dataStore.edit { it[keyUpgradeDismissed] = true } }
+    }
+
+    // One-time, non-blocking question about anonymous crash reports (off until the user says yes). It appears
+    // only after the first finished transcription, and an unanswered card never counts as consent.
+    private val _reportsAnswered = MutableStateFlow(FailureReporter.hasAnswered(application))
+    val showReportsPrompt: StateFlow<Boolean> = combine(allRecordings, _reportsAnswered) { recordings, answered ->
+        ReportConsent.shouldPrompt(answered, recordings.count { it.transcriptionStatus == TranscriptionStatus.COMPLETED })
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun answerReportsPrompt(turnOn: Boolean) {
+        FailureReporter.setEnabled(getApplication<Application>(), turnOn)
+        _reportsAnswered.value = true
     }
 
     /** Downloads Base and, once it verifies, makes it the model used for new transcriptions. */

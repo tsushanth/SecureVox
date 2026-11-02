@@ -74,6 +74,7 @@ fun RecordingsScreen(
     val recordingDuration by viewModel.recordingDuration.collectAsState()
     val liveCaption by viewModel.liveCaption.collectAsState()
     val showModelUpgrade by viewModel.showModelUpgrade.collectAsState()
+    val showReportsPrompt by viewModel.showReportsPrompt.collectAsState()
     val modelDownload by viewModel.downloadState.collectAsState()
     val searchQuery by viewModel.searchQuery.collectAsState()
     val filter by viewModel.filter.collectAsState()
@@ -309,6 +310,14 @@ fun RecordingsScreen(
                 )
             }
 
+            // One-time question about anonymous crash reports; not stacked on top of the model upgrade card.
+            if (showReportsPrompt && !isRecording && !showModelUpgrade) {
+                ReportsPromptCard(
+                    onTurnOn = { viewModel.answerReportsPrompt(true) },
+                    onNoThanks = { viewModel.answerReportsPrompt(false) }
+                )
+            }
+
             // Importing indicator
             if (isImporting) {
                 val importProgress by viewModel.importProgress.collectAsState()
@@ -493,6 +502,27 @@ private fun ModelUpgradeCard(
                 Button(onClick = onUpgrade) { Text(stringResource(R.string.upgrade_model_action)) }
                 TextButton(onClick = onDismiss) { Text(stringResource(R.string.upgrade_model_dismiss)) }
             }
+        }
+    }
+}
+
+@Composable
+private fun ReportsPromptCard(onTurnOn: () -> Unit, onNoThanks: () -> Unit) {
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Text(
+            text = stringResource(R.string.reports_prompt_title),
+            style = MaterialTheme.typography.titleMedium
+        )
+        Spacer(Modifier.height(4.dp))
+        Text(
+            text = stringResource(R.string.reports_prompt_body),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(Modifier.height(8.dp))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Button(onClick = onTurnOn) { Text(stringResource(R.string.reports_prompt_accept)) }
+            TextButton(onClick = onNoThanks) { Text(stringResource(R.string.reports_prompt_decline)) }
         }
     }
 }

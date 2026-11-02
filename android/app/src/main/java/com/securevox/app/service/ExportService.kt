@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.core.content.FileProvider
 import com.securevox.app.data.model.TranscriptSegment
 import java.io.File
+import com.securevox.app.util.FailureReporter
 
 /**
  * Export format options matching iOS
@@ -71,6 +72,7 @@ class ExportService(private val context: Context) {
             }
         } catch (e: Exception) {
             Log.e(TAG, "Export failed: ${e.message}", e)
+            FailureReporter.failure("export.file", e, context = mapOf("stage" to format.name.lowercase()))
             return null
         }
     }

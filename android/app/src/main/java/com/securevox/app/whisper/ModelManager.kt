@@ -17,6 +17,8 @@ import java.io.FileOutputStream
 import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.ConcurrentHashMap
+import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.FailureSanitizer
 
 /**
  * Manages Whisper model downloads and storage.
@@ -317,6 +319,11 @@ class ModelManager(private val context: Context) {
             if (e is DownloadIncompleteException && partFile.length() > model.sizeBytes) {
                 partFile.delete() // oversized: cannot be resumed, so do not keep it
             }
+            // Offline / dropped connection is the user's network; everything else (short download, bad checksum,
+            // disk full, cannot move into place) is a real failure.
+            if (!FailureSanitizer.isConnectivity(e)) {
+                FailureReporter.failure("model.download", e, context = mapOf("model" to model.fileName))
+            }
             fail(model, e)
         }
     }
@@ -344,6 +351,7 @@ class ModelManager(private val context: Context) {
                 partFile.delete()
             } catch (e: Exception) {
                 Log.e(TAG, "Copy failed for ${model.fileName}", e)
+                FailureReporter.failure("model.download", e, reason = "copy_failed", context = mapOf("model" to model.fileName))
                 return false
             }
         }
@@ -440,6 +448,7 @@ class ModelManager(private val context: Context) {
                 return@withContext true
             }
             Log.w(TAG, "Bundled model failed verification, discarding")
+            FailureReporter.failure("model.bundled", reason = "verification_failed", context = mapOf("model" to tinyModel.fileName))
             file.delete()
             ModelIntegrity.deleteMarker(file)
         } catch (e: Exception) {

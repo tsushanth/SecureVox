@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import java.io.File
+import com.securevox.app.util.FailureReporter
 
 /**
  * Playback speed options matching iOS
@@ -96,11 +97,14 @@ class AudioPlayerService private constructor(private val context: Context) {
         val file = File(filePath)
         if (!file.exists()) {
             Log.e(TAG, "File not found: $filePath")
+            // A recording row points at a file that is gone: the user has lost that audio.
+            FailureReporter.failure("playback.load", reason = "file_missing")
             return false
         }
 
         if (file.length() < 44) {
             Log.e(TAG, "File too small to be valid WAV: ${file.length()} bytes")
+            FailureReporter.failure("playback.load", reason = "file_too_small")
             return false
         }
 
@@ -119,6 +123,7 @@ class AudioPlayerService private constructor(private val context: Context) {
 
                 setOnErrorListener { _, what, extra ->
                     Log.e(TAG, "MediaPlayer error: what=$what, extra=$extra")
+                    FailureReporter.failure("playback.error", reason = "media_player_error", context = mapOf("code" to what.toString(), "status" to extra.toString()))
                     _isPlaying.value = false
                     true
                 }
@@ -135,6 +140,7 @@ class AudioPlayerService private constructor(private val context: Context) {
 
         } catch (e: Exception) {
             Log.e(TAG, "Error loading file: ${e.message}", e)
+            FailureReporter.failure("playback.load", e)
             mediaPlayer?.release()
             mediaPlayer = null
             currentFilePath = null

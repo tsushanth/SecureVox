@@ -6,6 +6,7 @@ import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.service.WavReader
 import com.securevox.app.util.MemoryPolicy
 import kotlinx.coroutines.CancellationException
+import com.securevox.app.util.FailureReporter
 
 /**
  * The speaker pass, shared by the post-transcription step and the user-triggered relabel.
@@ -37,7 +38,7 @@ class SpeakerPass(private val context: Context, private val repository: Recordin
 
             val dir = SpeakerLabels.modelDir(context)
             if (!ModelDownloader.isReady(dir, SpeakerModels.DIARIZATION)) return Outcome.ModelsMissing
-            val info = WavReader.readWavInfo(audioPath) ?: return Outcome.Failed("Could not read the audio file")
+            val info = WavReader.readWavInfo(audioPath) ?: return Outcome.Failed("Could not read the audio file").also { FailureReporter.failure("speakers.pass", reason = "audio_unreadable") }
             val total = info.totalMonoSamples
             val decision = MemoryPolicy.speakerDecision(MemoryPolicy.read(context), total, SpeakerLabels.MAX_SAMPLES)
             if (!decision.allowed) {
@@ -53,7 +54,7 @@ class SpeakerPass(private val context: Context, private val repository: Recordin
                 return Outcome.PreviousCrash
             }
             val samples = WavReader.loadAudioChunk(info, 0, total.toInt())
-                ?: return Outcome.Failed("Could not load the audio")
+                ?: return Outcome.Failed("Could not load the audio").also { FailureReporter.failure("speakers.pass", reason = "audio_unloadable") }
             prefs.edit().putBoolean(guardKey, true).commit()
             val startedAt = System.nanoTime()
             val spans = SpeakerDiarizer(dir, numSpeakers = fixed).diarize(samples)
@@ -87,6 +88,7 @@ class SpeakerPass(private val context: Context, private val repository: Recordin
                 return Outcome.Skipped(MemoryPolicy.SpeakerSkip.LOW_MEMORY)
             }
             Log.w(TAG, "Speaker labelling skipped", e)
+            FailureReporter.failure("speakers.pass", e, context = mapOf("stage" to mode.name.lowercase()))
             return Outcome.Failed(e.message ?: e.javaClass.simpleName)
         }
     }

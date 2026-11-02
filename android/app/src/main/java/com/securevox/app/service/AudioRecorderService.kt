@@ -23,6 +23,7 @@ import java.io.FileOutputStream
 import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import com.securevox.app.util.FailureReporter
 
 /**
  * Service for recording audio using AudioRecord.
@@ -90,6 +91,7 @@ class AudioRecorderService(private val context: Context) {
         val minBuffer = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
         if (minBuffer == AudioRecord.ERROR || minBuffer == AudioRecord.ERROR_BAD_VALUE) {
             Log.e(TAG, "Invalid buffer size: $minBuffer")
+            FailureReporter.failure("recording.start", reason = "invalid_buffer_size", context = mapOf("code" to minBuffer.toString()))
             return false
         }
         // Use at least 2× min buffer; round up to next power-of-two for compatibility
@@ -118,6 +120,8 @@ class AudioRecorderService(private val context: Context) {
                 Log.e(TAG, "AudioRecord failed to initialize with all sources")
                 audioRecord?.release()
                 audioRecord = null
+                // Mic busy (another app or a call holds it), blocked by the OS, or no input device.
+                FailureReporter.failure("recording.start", reason = "mic_unavailable")
                 return false
             }
 
@@ -132,7 +136,13 @@ class AudioRecorderService(private val context: Context) {
             segmentStartMs = System.currentTimeMillis()
 
             recordingJob = scope.launch {
-                recordAudioToFile(bufferSize)
+                try {
+                    recordAudioToFile(bufferSize)
+                } catch (t: Throwable) {
+                    // Disk full or a write error mid-recording. Report, then rethrow so behaviour is unchanged.
+                    FailureReporter.failure("recording.write", t)
+                    throw t
+                }
             }
 
             Log.i(TAG, "Recording started: $outputPath")
@@ -140,9 +150,11 @@ class AudioRecorderService(private val context: Context) {
 
         } catch (e: SecurityException) {
             Log.e(TAG, "Security exception starting recording", e)
+            FailureReporter.failure("recording.start", e, reason = "security_exception")
             return false
         } catch (e: Exception) {
             Log.e(TAG, "Error starting recording", e)
+            FailureReporter.failure("recording.start", e)
             audioRecord?.release()
             audioRecord = null
             return false
@@ -171,6 +183,7 @@ class AudioRecorderService(private val context: Context) {
             _isPaused.value = false
         } catch (e: Exception) {
             Log.e(TAG, "Error resuming recording", e)
+            FailureReporter.failure("recording.resume", e)
         }
     }
 
@@ -208,6 +221,10 @@ class AudioRecorderService(private val context: Context) {
         // the loop's final pass added the last segment a second time, storing every recording
         // at about twice its real length.
         file?.let { _recordingDuration.value = durationMsForWavBytes(it.length()) }
+        // A header-only file means the mic delivered nothing: the user thinks they recorded something.
+        if (file != null && file.length() <= 44L) {
+            FailureReporter.failure("recording.stop", reason = "empty_recording")
+        }
 
         Log.i(TAG, "Recording stopped: ${file?.absolutePath}, size: ${file?.length()} bytes")
         return file?.absolutePath
@@ -222,6 +239,7 @@ class AudioRecorderService(private val context: Context) {
             fos.write(header)
 
             var totalBytesWritten = 0L
+            var readErrorReported = false
 
             while (_isRecording.value && coroutineContext.isActive) {
                 if (_isPaused.value) {
@@ -232,6 +250,11 @@ class AudioRecorderService(private val context: Context) {
                 }
 
                 val readResult = audioRecord?.read(buffer, 0, buffer.size) ?: -1
+                if (readResult < 0 && !readErrorReported && _isRecording.value && !_isPaused.value) {
+                    // ERROR_DEAD_OBJECT / ERROR_INVALID_OPERATION: the input was taken away (call, another app).
+                    readErrorReported = true
+                    FailureReporter.failure("recording.read", reason = "read_error", context = mapOf("code" to readResult.toString()))
+                }
 
                 if (readResult > 0) {
                     updateAudioLevel(buffer, readResult)
