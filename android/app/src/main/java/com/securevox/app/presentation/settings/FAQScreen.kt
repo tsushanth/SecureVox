@@ -276,17 +276,17 @@ private fun getFAQItems(): List<FAQItem> = listOf(
     // General
     FAQItem(
         question = "What is SecureVox?",
-        answer = "SecureVox is a privacy-first voice transcription app that uses OpenAI's Whisper AI model to convert your voice recordings into text. All processing happens locally on your device - your audio never leaves your phone.",
+        answer = "SecureVox is a privacy-first voice transcription app that uses OpenAI's Whisper AI model to convert your voice recordings into text. Transcription runs on your device, and SecureVox does not upload your audio or transcripts.",
         category = FAQCategory.GENERAL
     ),
     FAQItem(
         question = "Is SecureVox free to use?",
-        answer = "Yes! SecureVox is completely free with no ads, no subscriptions, and no hidden costs. We believe privacy should be accessible to everyone.",
+        answer = "SecureVox is a one-time purchase on Google Play. There is no subscription, no in-app purchase and no ads.",
         category = FAQCategory.GENERAL
     ),
     FAQItem(
         question = "What languages are supported?",
-        answer = "Whisper supports 99 languages including English, Spanish, French, German, Chinese, Japanese, Arabic, and many more. You can set a default language or use auto-detection for mixed-language content.",
+        answer = "SecureVox offers 14 languages plus auto-detect. Accuracy depends on the language and the model: the default Tiny model is good for English only, Base also suits Spanish and Korean, and Small suits most major European languages, Japanese and Korean. Dutch, Polish, Chinese and Arabic stay less accurate even with Small, and Hindi is experimental.",
         category = FAQCategory.GENERAL
     ),
 
@@ -332,12 +332,12 @@ private fun getFAQItems(): List<FAQItem> = listOf(
     // Privacy
     FAQItem(
         question = "Is my data secure?",
-        answer = "Absolutely. SecureVox processes everything locally on your device. Your recordings and transcripts are stored only on your device and are never uploaded to any server. We don't collect any personal data or analytics.",
+        answer = "SecureVox transcribes on your device and does not upload your audio or transcripts. Recordings are stored in the app on your phone. Android Auto Backup may copy app data to your Google account if you have backup turned on in Android settings. SecureVox has no account, no ads and no analytics SDK. Optional anonymous crash reports (app version, phone model, error type; never audio or text) are off unless you turn them on in Settings.",
         category = FAQCategory.PRIVACY
     ),
     FAQItem(
         question = "Does SecureVox need an internet connection?",
-        answer = "No! After the initial model download, SecureVox works completely offline. You can record and transcribe without any internet connection.",
+        answer = "Only once: the first time you use SecureVox it downloads the speech model (Tiny, about 78 MB). After that, recording and transcription work without a connection. Larger models (Base about 148 MB, Small about 488 MB) are optional downloads.",
         category = FAQCategory.PRIVACY
     ),
     FAQItem(
