@@ -321,7 +321,7 @@ class ModelManager(private val context: Context) {
             }
             // Offline / dropped connection is the user's network; everything else (short download, bad checksum,
             // disk full, cannot move into place) is a real failure.
-            if (!FailureSanitizer.isConnectivity(e)) {
+            if (e !is DownloadOfflineException && !FailureSanitizer.isConnectivity(e)) {
                 FailureReporter.failure("model.download", e, context = mapOf("model" to model.fileName))
             }
             fail(model, e)
