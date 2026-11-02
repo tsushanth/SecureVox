@@ -24,8 +24,9 @@ import com.securevox.app.whisper.DownloadProblem
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.FirstRunModel
 import com.securevox.app.whisper.ModelManager
-import com.securevox.app.whisper.NetworkState
 import com.securevox.app.whisper.QualityTier
+import com.securevox.app.whisper.SetupNotice
+import com.securevox.app.whisper.SetupStatus
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.flow.first
@@ -64,6 +65,11 @@ fun SetupScreen(
     }
     LaunchedEffect(downloadState) {
         if (downloadState is DownloadState.Completed) onSetupComplete()
+    }
+    // When the connection comes back, a leftover "offline" failure is stale: return to the ready state without
+    // a tap on Retry. This only ever replaces that one failure state, so a running download is not affected.
+    LaunchedEffect(downloadState, network) {
+        modelManager.clearStaleOfflineError(network)
     }
 
     val appContext = context.applicationContext
@@ -167,7 +173,7 @@ fun SetupScreen(
                     Spacer(modifier = Modifier.height(8.dp))
 
                     Text(
-                        text = stringResource(R.string.download_model_description),
+                        text = stringResource(R.string.download_model_description, WhisperModel.TINY.sizeMB),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         textAlign = TextAlign.Center
@@ -206,16 +212,18 @@ fun SetupScreen(
 
                         else -> {
                             val error = state as? DownloadState.Error
-                            // Offline is shown from the live network state, or from the last failed attempt.
-                            val offline = network == NetworkState.OFFLINE ||
-                                error?.problem == DownloadProblem.OFFLINE
+                            // Offline comes from the live network state, or from a failed attempt that the
+                            // network has not yet recovered from (see SetupStatus).
+                            val notice = SetupStatus.notice(network, error?.problem)
+                            val offline = notice == SetupNotice.OFFLINE
+                            val showError = notice == SetupNotice.ERROR
                             val target = error?.model ?: if (offer.offersAlternative) offer.suggested else WhisperModel.TINY
                             val partial = remember(state) { modelManager.partialBytes(target) }
 
                             if (offline) {
                                 OfflineNotice(target)
                                 Spacer(modifier = Modifier.height(16.dp))
-                            } else if (error != null) {
+                            } else if (showError && error != null) {
                                 Text(
                                     text = problemText(
                                         error,
@@ -241,10 +249,10 @@ fun SetupScreen(
                                 Spacer(modifier = Modifier.height(12.dp))
                             }
 
-                            if (error != null || offline) {
+                            if (showError || offline) {
                                 // Retry continues from the partial file. A failed attempt was already confirmed.
                                 Button(
-                                    onClick = { if (error != null) start(target) else requestDownload(target) },
+                                    onClick = { if (showError) start(target) else requestDownload(target) },
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     Icon(
@@ -265,6 +273,9 @@ fun SetupScreen(
                                     language = language,
                                     offer = offer,
                                     metered = FirstRunModel.suggestWifi(offer.suggested, network),
+                                    remainingBytes = SetupStatus.remainingWhenResuming(
+                                        offer.suggested, if (target == offer.suggested) partial else 0L
+                                    ),
                                     onDownloadSuggested = { requestDownload(offer.suggested) },
                                     onDownloadTiny = { requestDownload(WhisperModel.TINY) }
                                 )
@@ -279,7 +290,19 @@ fun SetupScreen(
                                         modifier = Modifier.size(20.dp)
                                     )
                                     Spacer(modifier = Modifier.width(8.dp))
-                                    Text(stringResource(R.string.download_with_size, WhisperModel.TINY.sizeMB))
+                                    val remaining = SetupStatus.remainingWhenResuming(
+                                        WhisperModel.TINY, if (target == WhisperModel.TINY) partial else 0L
+                                    )
+                                    Text(
+                                        if (remaining != null) {
+                                            stringResource(
+                                                R.string.setup_continue_download,
+                                                Formatter.formatFileSize(context, remaining)
+                                            )
+                                        } else {
+                                            stringResource(R.string.download_with_size, WhisperModel.TINY.sizeMB)
+                                        }
+                                    )
                                 }
                             }
                         }
@@ -386,6 +409,7 @@ private fun SuggestedModel(
     language: WhisperLanguage,
     offer: com.securevox.app.whisper.SetupOffer,
     metered: Boolean,
+    remainingBytes: Long?,
     onDownloadSuggested: () -> Unit,
     onDownloadTiny: () -> Unit
 ) {
@@ -426,7 +450,16 @@ private fun SuggestedModel(
                 modifier = Modifier.size(20.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Text(stringResource(R.string.setup_suggest_download, offer.suggested.displayName, offer.suggested.sizeMB))
+            if (remainingBytes != null) {
+                Text(
+                    stringResource(
+                        R.string.setup_continue_download,
+                        Formatter.formatFileSize(LocalContext.current, remainingBytes)
+                    )
+                )
+            } else {
+                Text(stringResource(R.string.setup_suggest_download, offer.suggested.displayName, offer.suggested.sizeMB))
+            }
         }
         TextButton(onClick = onDownloadTiny) {
             Text(stringResource(R.string.setup_tiny_instead, WhisperModel.TINY.sizeMB))

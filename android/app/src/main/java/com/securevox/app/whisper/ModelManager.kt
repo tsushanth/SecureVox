@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
@@ -412,6 +413,16 @@ class ModelManager(private val context: Context) {
      */
     fun cancelDownload() {
         _downloadState.value = DownloadState.Idle
+    }
+
+    /**
+     * Drop a stale "offline" failure once the connection is back, returning to idle. Touches nothing else, so a
+     * download that has started in the meantime keeps its Downloading state. The partial file is kept.
+     */
+    fun clearStaleOfflineError(network: NetworkState) {
+        _downloadState.update { state ->
+            if (SetupStatus.shouldClearOfflineError(state, network)) DownloadState.Idle else state
+        }
     }
 
     /**

@@ -45,7 +45,8 @@ enum class WhisperModel(
         speed = "~5-8x realtime"
     );
 
-    val sizeMB: Int get() = (sizeBytes / 1_000_000).toInt()
+    /** Size in whole MB (1 MB = 1,000,000 bytes), rounded to nearest: Tiny 77.7 MB reads 78. */
+    val sizeMB: Int get() = ((sizeBytes + 500_000L) / 1_000_000L).toInt()
 
     companion object {
         val DEFAULT = TINY
