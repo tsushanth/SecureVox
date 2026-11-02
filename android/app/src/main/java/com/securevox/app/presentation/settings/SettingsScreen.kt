@@ -10,6 +10,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
@@ -17,6 +18,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -503,18 +505,27 @@ fun SettingsScreen(
             text = {
                 LazyColumn {
                     items(WhisperLanguage.entries.toList()) { language ->
+                        // The whole row is the target (name and radio), announced as one radio button.
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .heightIn(min = 48.dp)
+                                .selectable(
+                                    selected = language == selectedLanguage,
+                                    role = Role.RadioButton,
+                                    onClick = {
+                                        viewModel.selectLanguage(language)
+                                        showLanguageDialog = false
+                                    }
+                                )
                                 .padding(vertical = 4.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
+                            // onClick = null: the row handles the tap, so the radio is visual only and is not
+                            // announced a second time by accessibility services.
                             RadioButton(
                                 selected = language == selectedLanguage,
-                                onClick = {
-                                    viewModel.selectLanguage(language)
-                                    showLanguageDialog = false
-                                }
+                                onClick = null
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
@@ -749,7 +760,7 @@ private fun ModelCard(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        ModelStat(label = stringResource(R.string.model_stat_size), value = "${model.sizeMB}MB")
+                        ModelStat(label = stringResource(R.string.model_stat_size), value = stringResource(R.string.engine_size_format, model.sizeMB))
                         ModelStat(label = stringResource(R.string.model_stat_accuracy), value = model.accuracy)
                         ModelStat(label = stringResource(R.string.model_stat_speed), value = model.speed)
                     }
@@ -973,14 +984,15 @@ private fun LanguageQualityNote(
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+        // Advice, not an error: neutral surface and text. (This theme's secondary colours are red.)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp), verticalAlignment = Alignment.Top) {
                 Icon(
                     Icons.Default.Info,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
+                    tint = MaterialTheme.colorScheme.tertiary,
                     modifier = Modifier.size(18.dp)
                 )
                 Text(
@@ -993,7 +1005,7 @@ private fun LanguageQualityNote(
                         stringResource(R.string.language_quality_note_limited, language.displayName)
                     },
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
             if (advice.canSwitch) {
@@ -1007,7 +1019,7 @@ private fun LanguageQualityNote(
                             R.string.language_quality_download, advice.recommended.displayName, advice.recommended.sizeMB
                         ),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }

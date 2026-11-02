@@ -135,8 +135,9 @@
     <string name="welcome_title">Welcome to SecureVox</string>
     <string name="welcome_subtitle">Privacy-first voice transcription</string>
     <string name="download_ai_model">Download AI Model</string>
-    <string name="download_model_description">SecureVox needs to download the Whisper AI model (~75MB) to transcribe your voice recordings on-device.</string>
-    <string name="download_with_size">Download (%1$dMB)</string>
+    <string name="download_model_description">SecureVox needs to download the Whisper AI model (about %1$d MB) to transcribe your voice recordings on-device.</string>
+    <string name="download_with_size">Download (%1$d MB)</string>
+    <string name="setup_continue_download">Continue download (%1$s left)</string>
     <string name="downloading_progress">Downloading\u2026 %1$d%%</string>
     <string name="download_complete">Download complete!</string>
     <string name="download_failed_message">Download failed: %1$s</string>
