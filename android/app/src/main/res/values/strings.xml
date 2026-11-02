@@ -148,7 +148,11 @@
     <string name="report_a_problem">Report a Problem</string>
     <string name="report_a_problem_subtitle">Send a diagnostic log to help us fix a failed recording or transcription</string>
     <string name="diagnostic_reports">Anonymous crash reports</string>
-    <string name="diagnostic_reports_subtitle">Send the app version, phone model and the type of error when something breaks. Never your recordings, transcripts or file names.</string>
+    <string name="diagnostic_reports_subtitle">Off unless you turn it on. When something breaks, sends the app version, phone model and the type of error. Never your recordings, transcripts or file names.</string>
+    <string name="reports_prompt_title">Help fix crashes?</string>
+    <string name="reports_prompt_body">If something breaks, SecureVox can send an anonymous report: the app version, Android version, phone model, free storage, which feature failed, and the type of error with where it happened in the code. It never sends your audio, text, titles or file names.</string>
+    <string name="reports_prompt_accept">Turn on</string>
+    <string name="reports_prompt_decline">No thanks</string>
     <string name="report_a_problem_no_log">No diagnostic log yet — nothing has gone wrong on this device.</string>
 
     <!-- Re-transcribe & Export Audio -->

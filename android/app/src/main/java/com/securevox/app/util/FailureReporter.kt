@@ -7,7 +7,6 @@ import java.net.URL
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
-import com.securevox.app.util.FailureReporter
 
 /**
  * Sends crashes and handled failures to the shared app-failure-reporter Worker, which dedupes them and
@@ -18,16 +17,19 @@ import com.securevox.app.util.FailureReporter
  *
  * What is sent: app version, Android version, device model, free storage in MB, a stable flow name, and an
  * exception class with a scrubbed message and code locations. Never audio, transcripts, note text, titles,
- * file names or paths, emails: see [FailureSanitizer], which every report passes through. The user can turn
- * reporting off in Settings ([setEnabled]); it is on by default.
+ * file names or paths, emails: see [FailureSanitizer], which every report passes through.
+ *
+ * Reporting is OPT-IN and OFF by default ([ReportConsent.DEFAULT_ENABLED]). Nothing is sent, and no crash is
+ * persisted for later sending, until the user turns it on, either from the one-time card shown after the first
+ * finished transcription or from Settings ([setEnabled]). Every send path re-checks [isEnabled] immediately
+ * before it posts, so turning it off stops sending at once (a request already on the wire cannot be recalled).
  *
  * The local, user-initiated log ([CrashLogger]) is unchanged and independent of this.
  */
 object FailureReporter {
     private const val ENDPOINT = "https://app-failure-reporter.t-sushanth.workers.dev/v1/report"
     private const val PREFS = "failure_reporter"
-    private const val PENDING = "pending_crash"
-    private const val ENABLED = "enabled"
+    private const val PENDING = ConsentState.PENDING_CRASH
     private const val CRASH_WAIT_MS = 3000L
 
     private val io = Executors.newSingleThreadExecutor { r -> Thread(r, "failure-reporter").apply { isDaemon = true } }
@@ -77,6 +79,7 @@ object FailureReporter {
             if (!isEnabled() || FailureSanitizer.isCancellation(t)) return
             io.execute {
                 try {
+                    if (!isEnabled()) return@execute // re-check: the user may have turned it off while this was queued
                     val message = buildList {
                         if (FailureSanitizer.isStorageFull(t)) add("storage_full")
                         if (!reason.isNullOrBlank()) add(reason)
@@ -94,20 +97,31 @@ object FailureReporter {
         }
     }
 
-    fun isEnabled(): Boolean = try { prefs()?.getBoolean(ENABLED, true) ?: false } catch (_: Throwable) { false }
+    fun isEnabled(): Boolean = try { appCtx?.let { consent(it).isEnabled() } ?: false } catch (_: Throwable) { false }
 
-    fun isEnabled(context: Context): Boolean =
-        try { context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).getBoolean(ENABLED, true) } catch (_: Throwable) { true }
+    fun isEnabled(context: Context): Boolean = try { consent(context).isEnabled() } catch (_: Throwable) { false }
 
-    /** User choice from Settings. Turning it off also discards a crash report that was waiting to be sent. */
+    /** Whether the user has answered (card or Settings switch), in either direction. */
+    fun hasAnswered(context: Context): Boolean = try { consent(context).hasAnswered() } catch (_: Throwable) { true }
+
+    /**
+     * User choice, from the one-time card or the Settings switch. Either way the question counts as answered.
+     * Turning it off also discards a crash report that was waiting to be sent.
+     */
     fun setEnabled(context: Context, enabled: Boolean) {
-        try {
-            val p = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE).edit().putBoolean(ENABLED, enabled)
-            if (!enabled) p.remove(PENDING)
-            p.apply()
-        } catch (_: Throwable) {
-        }
+        try { consent(context).setEnabled(enabled) } catch (_: Throwable) { }
     }
+
+    private fun consent(context: Context) = ConsentState(object : ConsentStore {
+        private val p = context.applicationContext.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+        override fun getBoolean(key: String, default: Boolean) = p.getBoolean(key, default)
+        override fun apply(booleans: Map<String, Boolean>, remove: Set<String>) {
+            val e = p.edit()
+            booleans.forEach { (k, v) -> e.putBoolean(k, v) }
+            remove.forEach { e.remove(it) }
+            e.apply()
+        }
+    })
 
     private fun payload(kind: String, flow: String, message: String, stack: String, ctx: Map<String, String>): String =
         ReportPayload.build(
@@ -132,6 +146,6 @@ object FailureReporter {
     private fun flushPendingCrash() {
         val pending = prefs()?.getString(PENDING, null) ?: return
         if (!isEnabled()) { prefs()?.edit()?.remove(PENDING)?.apply(); return }
-        io.execute { try { if (post(pending, 8000)) prefs()?.edit()?.remove(PENDING)?.apply() } catch (_: Throwable) {} }
+        io.execute { try { if (isEnabled() && post(pending, 8000)) prefs()?.edit()?.remove(PENDING)?.apply() } catch (_: Throwable) {} }
     }
 }

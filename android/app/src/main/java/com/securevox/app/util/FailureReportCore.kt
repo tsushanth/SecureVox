@@ -212,3 +212,53 @@ class ReportLimiter(
         if (lastSame.size > 200) lastSame.entries.removeAll { t - it.value >= hourMs }
     }
 }
+
+/**
+ * Opt-in policy for diagnostic reports, kept free of Android types so the JVM tests can pin it.
+ * Reporting is OFF until the user says yes; the question is asked once, and only after the app has
+ * already done something useful for them (a first finished transcription).
+ */
+object ReportConsent {
+    /** Nothing is sent unless the user turned reporting on. */
+    const val DEFAULT_ENABLED = false
+
+    /** Number of finished transcriptions after which the one-time card may appear. */
+    const val PROMPT_AFTER_COMPLETED = 1
+
+    /**
+     * Show the one-time card: not answered yet (neither on the card nor with the Settings switch) and the user
+     * has seen at least one finished transcription. An unanswered card never counts as consent.
+     */
+    fun shouldPrompt(answered: Boolean, completedTranscriptions: Int): Boolean =
+        !answered && completedTranscriptions >= PROMPT_AFTER_COMPLETED
+}
+
+/** Minimal key-value storage the consent state needs (SharedPreferences in the app, a map in tests). */
+interface ConsentStore {
+    fun getBoolean(key: String, default: Boolean): Boolean
+
+    /** Writes [booleans] and deletes [remove] in one step. */
+    fun apply(booleans: Map<String, Boolean>, remove: Set<String> = emptySet())
+}
+
+/**
+ * The user's choice about diagnostic reports. Default is off. Whatever the user picks, on the card or with the
+ * Settings switch, counts as answering the question, so the card is never shown again. Turning reporting off
+ * also deletes a crash report that was saved for sending later.
+ */
+class ConsentState(private val store: ConsentStore) {
+    fun isEnabled(): Boolean = store.getBoolean(ENABLED, ReportConsent.DEFAULT_ENABLED)
+
+    fun hasAnswered(): Boolean = store.getBoolean(ASKED, false)
+
+    fun setEnabled(enabled: Boolean) {
+        store.apply(mapOf(ENABLED to enabled, ASKED to true), if (enabled) emptySet() else setOf(PENDING_CRASH))
+    }
+
+    companion object {
+        const val ENABLED = "enabled"
+        const val ASKED = "asked"
+        /** Key (in the reporter's own preferences) holding a crash report waiting to be sent. */
+        const val PENDING_CRASH = "pending_crash"
+    }
+}

@@ -4,8 +4,8 @@ Privacy-first voice transcription app powered by OpenAI's Whisper model. All pro
 
 ## Features
 
-- **100% Offline**: All transcription happens on-device using Whisper AI
-- **Privacy First**: Your audio never leaves your device
+- **On-device transcription**: Transcription runs on your phone using Whisper AI (the internet is only used to download speech models)
+- **Privacy First**: SecureVox does not upload your audio or transcripts
 - **Multiple Languages**: Support for 15+ languages with auto-detection
 - **Timed Transcripts**: Word-level timestamps for easy navigation
 - **Cross-Platform**: Native apps for iOS and Android
@@ -87,13 +87,14 @@ android/app/src/main/
 
 ## Privacy
 
-SecureVox is designed with privacy as the core principle:
+SecureVox does not upload your audio or transcripts. Optional anonymous crash reports are off unless you turn them on in Settings.
 
-- ✅ All audio processing happens on-device
-- ✅ No internet connection required
-- ✅ No analytics or tracking (only anonymous crash/error reports with no user content; can be turned off in Settings)
-- ✅ Audio files stored only on your device
-- ✅ Full control to delete your data anytime
+- Transcription runs on your device
+- An internet connection is used to download the speech models you choose; it is not needed for recording or transcribing once a model is on the phone
+- No account and no ads
+- Optional anonymous crash reports (Android): off by default. The app asks once after your first finished transcription, and you can change it any time in Settings. If on, a report contains the app version, Android version, phone model, free storage, the name of the feature that failed, and the error type with code locations. It never contains audio, text, titles or file names.
+- Recordings are stored on your device. Android's automatic backup may copy app data to your Google account if you have backup turned on
+- You can delete your recordings any time
 
 ## License
 

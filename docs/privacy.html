@@ -86,16 +86,19 @@
 
         <h2>Data Collection and Storage</h2>
         <p>SecureVox is designed with privacy as a core principle:</p>
+        <p><strong>SecureVox does not upload your audio or transcripts. Optional anonymous crash reports are off unless you turn them on in Settings.</strong></p>
         <ul>
-            <li><strong>All data stays on your device.</strong> Your voice recordings, transcriptions, and settings are stored locally on your device only.</li>
-            <li><strong>No cloud uploads.</strong> We do not upload your audio files or transcriptions to any server.</li>
+            <li><strong>Stored on your device.</strong> Your voice recordings, transcriptions, and settings are stored on your device.</li>
+            <li><strong>No audio or transcript uploads.</strong> The app does not send your audio files or transcriptions to any server.</li>
             <li><strong>No account required.</strong> You don't need to create an account or provide any personal information to use the app.</li>
-            <li><strong>On-device processing.</strong> All transcription is performed locally using on-device AI (Whisper), ensuring your conversations remain private.</li>
+            <li><strong>On-device transcription.</strong> Transcription runs on your device using Whisper and other speech models. The app uses the internet to download the speech models you choose from public hosts (Hugging Face and GitHub); the downloads do not include your data.</li>
+            <li><strong>Android backup.</strong> Like other Android apps, SecureVox's app data may be copied to your Google account by Android's automatic backup if you have device backup turned on. That is controlled by your device and Google account settings, not by SecureVox.</li>
         </ul>
 
-        <h2>Anonymous Crash and Error Reports</h2>
-        <p>When the app crashes or a feature such as recording, transcription, import or export fails, SecureVox sends a small diagnostic report so we can fix the problem. A report contains only: the app version, the Android version, the phone model, the amount of free storage, the name of the feature that failed, and the type of error with the places in the app's code where it happened.</p>
-        <p>A report never contains your audio, transcripts, notes, recording titles, file names, file paths, email addresses or any other content, and it is not linked to you or to an account. You can turn these reports off at any time in Settings under "Anonymous crash reports".</p>
+        <h2>Optional Anonymous Crash Reports</h2>
+        <p>Crash reports are optional and <strong>off by default</strong>. The app asks once, after your first finished transcription, and you can change your answer at any time in Settings under "Anonymous crash reports". Nothing is sent unless you turn them on.</p>
+        <p>If you turn them on, then when the app crashes or a feature such as recording, transcription, import or export fails, SecureVox sends a small report over an encrypted connection so we can fix the problem. A report contains only: the app version, the Android version, the phone model, the amount of free storage, the name of the feature that failed, and the type of error with the places in the app's code where it happened.</p>
+        <p>A report never contains your audio, transcripts, notes, recording titles, file names, file paths, email addresses or any other content of yours. It carries no account or device identifier, so we cannot tell which person it came from or delete one person's reports on request. Turning the setting off stops any further reports immediately.</p>
 
         <h2>Permissions</h2>
         <p>SecureVox requires the following permissions:</p>
@@ -106,13 +109,13 @@
         </ul>
 
         <h2>Data Sharing</h2>
-        <p>We do not share, sell, or transmit your recordings, transcriptions or personal data to anyone. Apart from the anonymous diagnostic reports described above, nothing leaves your device. Your recordings and transcriptions never leave your device unless you explicitly choose to export or share them using your device's share functionality.</p>
+        <p>We do not sell your data or share it with advertisers. We do not receive your recordings or transcriptions. The only information SecureVox can send to us is the optional anonymous crash report described above, and only if you turn it on. Your recordings and transcriptions leave your device only if you choose to export or share them using your device's share functionality, or through your device's own backup as described above.</p>
 
         <h2>Data Retention</h2>
-        <p>Your data remains on your device until you choose to delete it. When you delete a recording within the app, it is permanently removed from your device. Uninstalling the app will also remove all associated data.</p>
+        <p>Your recordings and transcriptions remain on your device until you choose to delete them. When you delete a recording within the app, it is removed from your device. Uninstalling the app removes its data from your device; any copy in your Google device backup is managed through your Google account.</p>
 
         <h2>Children's Privacy</h2>
-        <p>SecureVox does not knowingly collect any personal information from children under 13. The app does not collect any personal information from any users.</p>
+        <p>SecureVox does not knowingly collect any personal information from children under 13. The app does not collect personal information from any users; the optional crash reports contain none.</p>
 
         <h2>Changes to This Policy</h2>
         <p>We may update this privacy policy from time to time. Any changes will be reflected on this page with an updated revision date.</p>

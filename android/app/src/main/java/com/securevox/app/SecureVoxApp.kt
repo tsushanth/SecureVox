@@ -32,8 +32,8 @@ class SecureVoxApp : Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
-        // Central crash + handled-failure reporting (diagnostics only, never user content; the user can turn it
-        // off in Settings). Installed first so the local CrashLogger below chains to it. The key identifies this
+        // Central crash + handled-failure reporting (diagnostics only, never user content). Opt-in: nothing is
+        // sent until the user turns it on (card after the first transcription, or Settings). Installed first so the local CrashLogger below chains to it. The key identifies this
         // app to the reporter Worker: it ships in the app like the other apps' keys, an identifier not a secret.
         val versionName = try { packageManager.getPackageInfo(packageName, 0).versionName ?: "unknown" } catch (_: Exception) { "unknown" }
         FailureReporter.init(this, "securevox", REPORTER_KEY, versionName)

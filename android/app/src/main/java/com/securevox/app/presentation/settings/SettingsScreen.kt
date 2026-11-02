@@ -443,7 +443,8 @@ fun SettingsScreen(
             }
 
             item {
-                // Anonymous crash/failure reports (see FailureReporter): on by default, off here.
+                // Anonymous crash/failure reports (see FailureReporter): opt-in, off until the user turns it on here
+                // or on the one-time card shown after the first finished transcription.
                 var reportsOn by remember { mutableStateOf(FailureReporter.isEnabled(context)) }
                 SettingsToggleCard(
                     title = stringResource(R.string.diagnostic_reports),
