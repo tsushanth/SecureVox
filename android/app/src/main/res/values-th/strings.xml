@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">ยังไม่มีรายการโปรด</string>
     <string name="no_recordings_yet">ยังไม่มีการบันทึก</string>
     <string name="try_different_search">ลองใช้คำค้นหาอื่น</string>
-    <string name="swipe_to_favorite">เลื่อนไปทางขวาบนการบันทึกเพื่อเพิ่มในรายการโปรด</string>
+    <string name="tap_star_to_favorite">แตะดาวที่การบันทึกเพื่อเพิ่มในรายการโปรด</string>
     <string name="tap_mic_to_start">แตะปุ่มไมโครโฟนเพื่อเริ่มต้น</string>
 
     <!-- Transcription Status -->

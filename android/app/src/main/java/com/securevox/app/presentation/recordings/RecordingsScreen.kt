@@ -1128,7 +1128,7 @@ private fun EmptyState(
             Text(
                 text = when {
                     hasSearchQuery -> stringResource(R.string.try_different_search)
-                    isFavoritesFilter -> stringResource(R.string.swipe_to_favorite)
+                    isFavoritesFilter -> stringResource(R.string.tap_star_to_favorite)
                     else -> stringResource(R.string.tap_mic_to_start)
                 },
                 style = MaterialTheme.typography.bodyMedium,

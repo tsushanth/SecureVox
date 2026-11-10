@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Tiada kegemaran lagi</string>
     <string name="no_recordings_yet">Tiada rakaman lagi</string>
     <string name="try_different_search">Cuba istilah carian yang berbeza</string>
-    <string name="swipe_to_favorite">Leret ke kanan pada rakaman untuk menambah ke kegemaran</string>
+    <string name="tap_star_to_favorite">Ketik bintang pada rakaman untuk menambah ke kegemaran</string>
     <string name="tap_mic_to_start">Ketik butang mikrofon untuk mula</string>
 
     <!-- Transcription Status -->

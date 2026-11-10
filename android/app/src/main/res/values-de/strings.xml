@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Noch keine Favoriten</string>
     <string name="no_recordings_yet">Noch keine Aufnahmen</string>
     <string name="try_different_search">Versuchen Sie einen anderen Suchbegriff</string>
-    <string name="swipe_to_favorite">Wischen Sie nach rechts auf einer Aufnahme, um sie als Favorit zu markieren</string>
+    <string name="tap_star_to_favorite">Tippen Sie bei einer Aufnahme auf den Stern, um sie als Favorit zu markieren</string>
     <string name="tap_mic_to_start">Tippen Sie auf die Mikrofontaste, um zu beginnen</string>
 
     <!-- Transcription Status -->

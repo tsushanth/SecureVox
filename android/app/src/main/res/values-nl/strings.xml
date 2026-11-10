@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Nog geen favorieten</string>
     <string name="no_recordings_yet">Nog geen opnames</string>
     <string name="try_different_search">Probeer een andere zoekterm</string>
-    <string name="swipe_to_favorite">Veeg naar rechts op een opname om als favoriet te markeren</string>
+    <string name="tap_star_to_favorite">Tik op de ster bij een opname om deze als favoriet te markeren</string>
     <string name="tap_mic_to_start">Tik op de microfoonknop om te beginnen</string>
 
     <!-- Transcription Status -->
