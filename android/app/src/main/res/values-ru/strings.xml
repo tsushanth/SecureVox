@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Избранного пока нет</string>
     <string name="no_recordings_yet">Записей пока нет</string>
     <string name="try_different_search">Попробуйте другой поисковый запрос</string>
-    <string name="swipe_to_favorite">Проведите вправо по записи, чтобы добавить в избранное</string>
+    <string name="tap_star_to_favorite">Нажмите на звёздочку у записи, чтобы добавить в избранное</string>
     <string name="tap_mic_to_start">Нажмите кнопку микрофона, чтобы начать</string>
 
     <!-- Transcription Status -->

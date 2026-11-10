@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Wala pang mga paborito</string>
     <string name="no_recordings_yet">Wala pang mga recording</string>
     <string name="try_different_search">Subukan ang ibang salita sa paghahanap</string>
-    <string name="swipe_to_favorite">I-swipe pakanan sa recording para idagdag sa paborito</string>
+    <string name="tap_star_to_favorite">I-tap ang star sa recording para idagdag sa paborito</string>
     <string name="tap_mic_to_start">I-tap ang mikropono para magsimula</string>
 
     <!-- Transcription Status -->

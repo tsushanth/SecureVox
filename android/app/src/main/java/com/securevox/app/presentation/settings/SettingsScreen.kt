@@ -50,18 +50,6 @@ fun SettingsScreen(
     val storageUsed by viewModel.storageUsed.collectAsState()
     val themeMode by viewModel.themeMode.collectAsState()
 
-    // Recording settings
-    val soundEffectsEnabled by viewModel.soundEffectsEnabled.collectAsState()
-    val hapticFeedbackEnabled by viewModel.hapticFeedbackEnabled.collectAsState()
-
-    // Transcription settings
-    val autoPunctuationEnabled by viewModel.autoPunctuationEnabled.collectAsState()
-    val smartCapitalizationEnabled by viewModel.smartCapitalizationEnabled.collectAsState()
-
-    // Data management settings
-    val recycleBinRetention by viewModel.recycleBinRetention.collectAsState()
-    val autoDeleteAudio by viewModel.autoDeleteAudio.collectAsState()
-    val autoCopyToClipboard by viewModel.autoCopyToClipboard.collectAsState()
     val appLockEnabled by viewModel.appLockEnabled.collectAsState()
     val liveCaptionsEnabled by viewModel.liveCaptionsEnabled.collectAsState()
     val labelSpeakersEnabled by viewModel.labelSpeakersEnabled.collectAsState()
@@ -73,7 +61,6 @@ fun SettingsScreen(
 
     var showLanguageDialog by remember { mutableStateOf(false) }
     var showThemeDialog by remember { mutableStateOf(false) }
-    var showRecycleBinDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -163,26 +150,6 @@ fun SettingsScreen(
             }
 
             item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.auto_punctuation),
-                    subtitle = stringResource(R.string.auto_punctuation_subtitle),
-                    icon = Icons.Default.FormatQuote,
-                    checked = autoPunctuationEnabled,
-                    onCheckedChange = { viewModel.setAutoPunctuationEnabled(it) }
-                )
-            }
-
-            item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.smart_capitalization),
-                    subtitle = stringResource(R.string.smart_capitalization_subtitle),
-                    icon = Icons.Default.TextFormat,
-                    checked = smartCapitalizationEnabled,
-                    onCheckedChange = { viewModel.setSmartCapitalizationEnabled(it) }
-                )
-            }
-
-            item {
                 SettingsCard(
                     title = stringResource(R.string.custom_dictionary),
                     subtitle = stringResource(R.string.custom_dictionary_subtitle),
@@ -231,26 +198,6 @@ fun SettingsScreen(
                 )
             }
 
-            item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.sound_effects),
-                    subtitle = stringResource(R.string.sound_effects_subtitle),
-                    icon = Icons.Default.VolumeUp,
-                    checked = soundEffectsEnabled,
-                    onCheckedChange = { viewModel.setSoundEffectsEnabled(it) }
-                )
-            }
-
-            item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.haptic_feedback),
-                    subtitle = stringResource(R.string.haptic_feedback_subtitle),
-                    icon = Icons.Default.Vibration,
-                    checked = hapticFeedbackEnabled,
-                    onCheckedChange = { viewModel.setHapticFeedbackEnabled(it) }
-                )
-            }
-
             // Data Management Section
             item {
                 Spacer(modifier = Modifier.height(16.dp))
@@ -259,39 +206,6 @@ fun SettingsScreen(
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(vertical = 8.dp)
-                )
-            }
-
-            item {
-                SettingsCard(
-                    title = stringResource(R.string.recycle_bin),
-                    subtitle = if (recycleBinRetention == RecycleBinRetention.DISABLED) {
-                        stringResource(R.string.recycle_bin_deleted_immediately)
-                    } else {
-                        stringResource(R.string.recycle_bin_keep_for, recycleBinRetention.displayName)
-                    },
-                    icon = Icons.Default.Delete,
-                    onClick = { showRecycleBinDialog = true }
-                )
-            }
-
-            item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.auto_delete_audio),
-                    subtitle = stringResource(R.string.auto_delete_audio_subtitle),
-                    icon = Icons.Default.DeleteSweep,
-                    checked = autoDeleteAudio,
-                    onCheckedChange = { viewModel.setAutoDeleteAudio(it) }
-                )
-            }
-
-            item {
-                SettingsToggleCard(
-                    title = stringResource(R.string.auto_copy_clipboard),
-                    subtitle = stringResource(R.string.auto_copy_clipboard_subtitle),
-                    icon = Icons.Default.ContentCopy,
-                    checked = autoCopyToClipboard,
-                    onCheckedChange = { viewModel.setAutoCopyToClipboard(it) }
                 )
             }
 
@@ -587,56 +501,6 @@ fun SettingsScreen(
             },
             confirmButton = {
                 TextButton(onClick = { showThemeDialog = false }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
-        )
-    }
-
-    // Recycle bin retention dialog
-    if (showRecycleBinDialog) {
-        AlertDialog(
-            onDismissRequest = { showRecycleBinDialog = false },
-            title = { Text(stringResource(R.string.recycle_bin_retention)) },
-            text = {
-                Column {
-                    RecycleBinRetention.entries.forEach { retention ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            RadioButton(
-                                selected = retention == recycleBinRetention,
-                                onClick = {
-                                    viewModel.setRecycleBinRetention(retention)
-                                    showRecycleBinDialog = false
-                                }
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Column {
-                                Text(
-                                    text = retention.displayName,
-                                    style = MaterialTheme.typography.bodyMedium
-                                )
-                                Text(
-                                    text = when (retention) {
-                                        RecycleBinRetention.DISABLED -> stringResource(R.string.retention_disabled_desc)
-                                        RecycleBinRetention.DAYS_7 -> stringResource(R.string.retention_7_days_desc)
-                                        RecycleBinRetention.DAYS_14 -> stringResource(R.string.retention_14_days_desc)
-                                        RecycleBinRetention.DAYS_30 -> stringResource(R.string.retention_30_days_desc)
-                                    },
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                        }
-                    }
-                }
-            },
-            confirmButton = {
-                TextButton(onClick = { showRecycleBinDialog = false }) {
                     Text(stringResource(R.string.cancel))
                 }
             }

@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">还没有收藏</string>
     <string name="no_recordings_yet">还没有录音</string>
     <string name="try_different_search">请尝试其他搜索词</string>
-    <string name="swipe_to_favorite">向右滑动录音即可收藏</string>
+    <string name="tap_star_to_favorite">点按录音上的星标即可收藏</string>
     <string name="tap_mic_to_start">点击麦克风按钮开始录音</string>
 
     <!-- Transcription Status -->

@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Nessun preferito ancora</string>
     <string name="no_recordings_yet">Nessuna registrazione ancora</string>
     <string name="try_different_search">Prova con un termine di ricerca diverso</string>
-    <string name="swipe_to_favorite">Scorri verso destra su una registrazione per aggiungerla ai preferiti</string>
+    <string name="tap_star_to_favorite">Tocca la stella su una registrazione per aggiungerla ai preferiti</string>
     <string name="tap_mic_to_start">Tocca il pulsante del microfono per iniziare</string>
 
     <!-- Transcription Status -->

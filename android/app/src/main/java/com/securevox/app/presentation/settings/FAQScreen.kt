@@ -298,34 +298,34 @@ private fun getFAQItems(): List<FAQItem> = listOf(
     ),
     FAQItem(
         question = "Is there a time limit for recordings?",
-        answer = "There is no artificial time limit. Recording duration is only limited by your device's available storage space. However, very long recordings may take longer to transcribe.",
+        answer = "There is no time limit on recording; it is limited by your free storage (about 2 MB per minute). Very long recordings take longer to transcribe. Speaker labels are only added to recordings up to about 30 minutes.",
         category = FAQCategory.RECORDING
     ),
     FAQItem(
         question = "Can I import audio files?",
-        answer = "Yes! You can import audio files from your device. Tap the import button and select an audio file. SecureVox supports common formats like MP3, WAV, M4A, and more.",
+        answer = "Yes! You can import audio files from your device. Tap the import button and select an audio file. SecureVox supports common audio formats like MP3, WAV and M4A, and it can transcribe the sound of video files too.",
         category = FAQCategory.RECORDING
     ),
 
     // Transcription
     FAQItem(
         question = "How accurate is the transcription?",
-        answer = "Accuracy depends on the model you choose. The 'Accurate' model provides the best results but is slower. The 'Fast' model is quicker but may have more errors. Clear audio with minimal background noise produces the best results.",
+        answer = "Accuracy depends on the language and on the model you choose. Small is the most accurate and the slowest, Tiny is the fastest and makes the most mistakes. Clear audio with little background noise gives the best results.",
         category = FAQCategory.TRANSCRIPTION
     ),
     FAQItem(
         question = "What are the different transcription models?",
-        answer = "SecureVox offers three models:\n\n• Fast: Quickest results, good for clear audio\n• Balanced: Good balance of speed and accuracy\n• Accurate: Best accuracy, recommended for important recordings\n\nYou can download additional models in Settings.",
+        answer = "SecureVox offers three models:\n\n• Tiny (about 78 MB): fastest, good for English\n• Base (about 148 MB): a balance of speed and accuracy\n• Small (about 488 MB): most accurate, needs a phone with plenty of memory\n\nYou can download and switch models in Settings.",
         category = FAQCategory.TRANSCRIPTION
     ),
     FAQItem(
         question = "Why is transcription slow on my device?",
-        answer = "Transcription speed depends on your device's processing power. Newer devices with more powerful chips will transcribe faster. Try using the 'Fast' model for quicker results, or record in shorter segments.",
+        answer = "Transcription speed depends on your device's processing power. Newer devices with more powerful chips will transcribe faster. Try the Tiny model for quicker results, or record in shorter segments.",
         category = FAQCategory.TRANSCRIPTION
     ),
     FAQItem(
         question = "Can I edit the transcription?",
-        answer = "Yes! Tap on any recording to view its details, then tap the edit button to make changes to the transcript. You can also add custom words to the dictionary to improve future transcriptions.",
+        answer = "Not yet: transcripts cannot be edited inside SecureVox. You can copy the text or export it as TXT, SRT or VTT and edit it in another app. To improve future transcriptions, add commonly misrecognized names and terms to the custom dictionary in Settings.",
         category = FAQCategory.TRANSCRIPTION
     ),
 
@@ -349,22 +349,22 @@ private fun getFAQItems(): List<FAQItem> = listOf(
     // Troubleshooting
     FAQItem(
         question = "The app crashed during transcription",
-        answer = "This can happen if your device runs low on memory, especially with larger models. Try:\n\n• Using the 'Fast' model which uses less memory\n• Closing other apps to free up memory\n• Recording shorter segments\n• Restarting your device",
+        answer = "This can happen if your device runs low on memory, especially with larger models. Try:\n\n• Using the Tiny model, which uses the least memory\n• Closing other apps to free up memory\n• Recording shorter segments\n• Restarting your device",
         category = FAQCategory.TROUBLESHOOTING
     ),
     FAQItem(
         question = "My recordings sound too quiet",
-        answer = "You can adjust the input gain in Settings > Audio. Increase the gain to boost quiet recordings. Also, try holding your device closer to the sound source when recording.",
+        answer = "Hold your phone closer to the person speaking and avoid covering the microphone with your hand or a case. SecureVox records at the volume your phone's microphone provides and has no gain control.",
         category = FAQCategory.TROUBLESHOOTING
     ),
     FAQItem(
         question = "The transcription has many errors",
-        answer = "Try these tips for better accuracy:\n\n• Use the 'Accurate' model\n• Record in a quiet environment\n• Speak clearly and at a moderate pace\n• Select the correct language instead of auto-detect\n• Add commonly misrecognized words to your custom dictionary",
+        answer = "Try these tips for better accuracy:\n\n• Use a larger model (Base or Small) in Settings\n• Record in a quiet environment\n• Speak clearly and at a moderate pace\n• Select the correct language instead of auto-detect\n• Add commonly misrecognized words to your custom dictionary",
         category = FAQCategory.TROUBLESHOOTING
     ),
     FAQItem(
         question = "How do I delete all my data?",
-        answer = "Go to Settings > Storage and tap 'Delete All Recordings'. This will permanently remove all recordings and transcripts. You can also delete individual recordings by swiping left on them in the list.",
+        answer = "Delete a recording with the bin icon next to it in the list; this permanently removes its audio and transcript and cannot be undone. There is no delete-all button yet. Uninstalling SecureVox removes everything it stored on your phone.",
         category = FAQCategory.TROUBLESHOOTING
     )
 )

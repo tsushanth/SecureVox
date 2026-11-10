@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Chưa có yêu thích</string>
     <string name="no_recordings_yet">Chưa có bản ghi</string>
     <string name="try_different_search">Thử từ khóa tìm kiếm khác</string>
-    <string name="swipe_to_favorite">Vuốt phải trên bản ghi để thêm vào yêu thích</string>
+    <string name="tap_star_to_favorite">Chạm vào ngôi sao trên bản ghi để thêm vào yêu thích</string>
     <string name="tap_mic_to_start">Nhấn nút micro để bắt đầu</string>
 
     <!-- Transcription Status -->

@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Aucun favori pour le moment</string>
     <string name="no_recordings_yet">Aucun enregistrement pour le moment</string>
     <string name="try_different_search">Essayez un autre terme de recherche</string>
-    <string name="swipe_to_favorite">Balayez vers la droite sur un enregistrement pour le mettre en favori</string>
+    <string name="tap_star_to_favorite">Touchez l’étoile d’un enregistrement pour le mettre en favori</string>
     <string name="tap_mic_to_start">Appuyez sur le bouton du microphone pour commencer</string>
 
     <!-- Transcription Status -->

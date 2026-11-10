@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">아직 즐겨찾기가 없습니다</string>
     <string name="no_recordings_yet">아직 녹음이 없습니다</string>
     <string name="try_different_search">다른 검색어를 시도해 보세요</string>
-    <string name="swipe_to_favorite">녹음을 오른쪽으로 스와이프하여 즐겨찾기에 추가</string>
+    <string name="tap_star_to_favorite">녹음의 별표를 눌러 즐겨찾기에 추가</string>
     <string name="tap_mic_to_start">마이크 버튼을 탭하여 시작</string>
 
     <!-- Transcription Status -->

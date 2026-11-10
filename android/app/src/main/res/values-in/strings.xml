@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Belum ada favorit</string>
     <string name="no_recordings_yet">Belum ada rekaman</string>
     <string name="try_different_search">Coba istilah pencarian yang berbeda</string>
-    <string name="swipe_to_favorite">Geser ke kanan pada rekaman untuk menambahkan ke favorit</string>
+    <string name="tap_star_to_favorite">Ketuk bintang pada rekaman untuk menambahkan ke favorit</string>
     <string name="tap_mic_to_start">Ketuk tombol mikrofon untuk memulai</string>
 
     <!-- Transcription Status -->

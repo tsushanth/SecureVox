@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">Henüz favori yok</string>
     <string name="no_recordings_yet">Henüz kayıt yok</string>
     <string name="try_different_search">Farklı bir arama terimi deneyin</string>
-    <string name="swipe_to_favorite">Favoriye eklemek için kayıtta sağa kaydırın</string>
+    <string name="tap_star_to_favorite">Favoriye eklemek için kayıttaki yıldıza dokunun</string>
     <string name="tap_mic_to_start">Başlamak için mikrofon düğmesine dokunun</string>
 
     <!-- Transcription Status -->

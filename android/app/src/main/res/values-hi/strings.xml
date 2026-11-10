@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">अभी तक कोई पसंदीदा नहीं</string>
     <string name="no_recordings_yet">अभी तक कोई रिकॉर्डिंग नहीं</string>
     <string name="try_different_search">कोई अलग खोज शब्द आज़माएँ</string>
-    <string name="swipe_to_favorite">पसंदीदा में जोड़ने के लिए रिकॉर्डिंग पर दाएँ स्वाइप करें</string>
+    <string name="tap_star_to_favorite">पसंदीदा में जोड़ने के लिए रिकॉर्डिंग पर तारे को टैप करें</string>
     <string name="tap_mic_to_start">शुरू करने के लिए माइक्रोफ़ोन बटन टैप करें</string>
 
     <!-- Transcription Status -->

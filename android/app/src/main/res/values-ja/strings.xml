@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">お気に入りはまだありません</string>
     <string name="no_recordings_yet">録音はまだありません</string>
     <string name="try_different_search">別の検索語をお試しください</string>
-    <string name="swipe_to_favorite">録音を右にスワイプしてお気に入りに追加</string>
+    <string name="tap_star_to_favorite">録音の星をタップしてお気に入りに追加</string>
     <string name="tap_mic_to_start">マイクボタンをタップして開始</string>
 
     <!-- Transcription Status -->

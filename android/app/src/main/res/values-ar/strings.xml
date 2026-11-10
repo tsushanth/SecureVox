@@ -35,7 +35,7 @@
     <string name="no_favorites_yet">لا توجد مفضلة بعد</string>
     <string name="no_recordings_yet">لا توجد تسجيلات بعد</string>
     <string name="try_different_search">جرّب مصطلح بحث مختلف</string>
-    <string name="swipe_to_favorite">اسحب لليمين على تسجيل لإضافته للمفضلة</string>
+    <string name="tap_star_to_favorite">اضغط على النجمة في تسجيل لإضافته للمفضلة</string>
     <string name="tap_mic_to_start">اضغط على زر الميكروفون للبدء</string>
 
     <!-- Transcription Status -->

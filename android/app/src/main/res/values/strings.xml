@@ -37,7 +37,7 @@
     <string name="no_favorites_yet">No favorites yet</string>
     <string name="no_recordings_yet">No recordings yet</string>
     <string name="try_different_search">Try a different search term</string>
-    <string name="swipe_to_favorite">Swipe right on a recording to favorite it</string>
+    <string name="tap_star_to_favorite">Tap the star on a recording to favorite it</string>
     <string name="tap_mic_to_start">Tap the microphone button to start</string>
 
     <!-- Transcription Status -->
