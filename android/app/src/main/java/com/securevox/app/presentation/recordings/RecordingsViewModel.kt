@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import com.securevox.app.data.RecordingRecovery
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
@@ -22,6 +23,7 @@ import com.securevox.app.service.MediaImportService
 import com.securevox.app.service.TranscriptionWorker
 import com.securevox.app.whisper.ModelSelection
 import com.securevox.app.whisper.WhisperLanguage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 import com.securevox.app.SecureVoxApp
@@ -405,6 +407,27 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
      */
     fun clearImportError() {
         _importError.value = null
+    }
+
+    /**
+     * Recordings cut short by the app being swiped away or killed are repaired (header, duration, size) and
+     * transcribed. Declared after the properties it uses, since it starts working as soon as it is created.
+     */
+    init {
+        viewModelScope.launch(Dispatchers.IO) {
+            val candidates = repository.getAllRecordingsOnce().filter { it.id != _currentRecordingId.value }
+            val recovered = RecordingRecovery.recover(candidates) { repository.updateRecording(it) }
+            if (recovered.isEmpty()) return@launch
+            Log.i("RecordingsVM", "Recovered ${recovered.size} interrupted recording(s)")
+            if (modelManager.isAnyModelInstalled()) {
+                val language = getSelectedLanguageCode()
+                val model = getSelectedModelName()
+                recovered.forEach { startTranscription(it.id, language, model) }
+            } else {
+                // No model to transcribe with: show it as failed so the retry button is there once one is installed.
+                recovered.forEach { repository.updateTranscriptionStatus(it.id, TranscriptionStatus.FAILED, 0) }
+            }
+        }
     }
 
     override fun onCleared() {
