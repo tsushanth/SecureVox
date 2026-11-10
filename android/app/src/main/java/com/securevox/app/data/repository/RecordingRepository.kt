@@ -18,6 +18,8 @@ class RecordingRepository(
 
     suspend fun getRecordingById(id: String): Recording? = recordingDao.getRecordingById(id)
 
+    suspend fun getAllRecordingsOnce(): List<Recording> = recordingDao.getAllOnce()
+
     fun getRecordingByIdFlow(id: String): Flow<Recording?> = recordingDao.getRecordingByIdFlow(id)
 
     suspend fun saveRecording(recording: Recording) = recordingDao.insertRecording(recording)

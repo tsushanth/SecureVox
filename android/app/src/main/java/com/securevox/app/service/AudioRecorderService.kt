@@ -38,6 +38,25 @@ class AudioRecorderService(private val context: Context) {
         /** Length of a 16 kHz mono 16-bit WAV file with a 44-byte header, in milliseconds. */
         fun durationMsForWavBytes(fileBytes: Long): Long =
             (fileBytes - 44).coerceAtLeast(0) * 1000 / (SAMPLE_RATE * 2)
+
+        /** The 44-byte header of a 16 kHz mono 16-bit PCM WAV file holding [dataSize] bytes of audio. */
+        fun wavHeader(dataSize: Long): ByteArray =
+            ByteBuffer.allocate(44).order(ByteOrder.LITTLE_ENDIAN).apply {
+                put("RIFF".toByteArray(Charsets.US_ASCII))
+                putInt((dataSize + 36).toInt())
+                put("WAVE".toByteArray(Charsets.US_ASCII))
+                put("fmt ".toByteArray(Charsets.US_ASCII))
+                putInt(16)                  // Subchunk1Size
+                putShort(1)                 // AudioFormat (PCM)
+                putShort(1)                 // NumChannels (mono)
+                putInt(SAMPLE_RATE)         // SampleRate
+                putInt(SAMPLE_RATE * 2)     // ByteRate
+                putShort(2)                 // BlockAlign
+                putShort(16)                // BitsPerSample
+                put("data".toByteArray(Charsets.US_ASCII))
+                putInt(dataSize.toInt())
+            }.array()
+
         private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
         private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
     }
@@ -297,36 +316,9 @@ class AudioRecorderService(private val context: Context) {
 
     private fun updateWavHeader(file: File, dataSize: Long) {
         RandomAccessFile(file, "rw").use { raf ->
-            val totalSize = dataSize + 36
-
-            // Write WAV header
             raf.seek(0)
-            raf.writeBytes("RIFF")
-            raf.writeIntLE(totalSize.toInt())
-            raf.writeBytes("WAVE")
-            raf.writeBytes("fmt ")
-            raf.writeIntLE(16) // Subchunk1Size
-            raf.writeShortLE(1) // AudioFormat (PCM)
-            raf.writeShortLE(1) // NumChannels (mono)
-            raf.writeIntLE(SAMPLE_RATE) // SampleRate
-            raf.writeIntLE(SAMPLE_RATE * 2) // ByteRate
-            raf.writeShortLE(2) // BlockAlign
-            raf.writeShortLE(16) // BitsPerSample
-            raf.writeBytes("data")
-            raf.writeIntLE(dataSize.toInt())
+            raf.write(wavHeader(dataSize))
         }
-    }
-
-    private fun RandomAccessFile.writeIntLE(value: Int) {
-        write(value and 0xFF)
-        write((value shr 8) and 0xFF)
-        write((value shr 16) and 0xFF)
-        write((value shr 24) and 0xFF)
-    }
-
-    private fun RandomAccessFile.writeShortLE(value: Int) {
-        write(value and 0xFF)
-        write((value shr 8) and 0xFF)
     }
 
     private fun hasPermission(): Boolean {
