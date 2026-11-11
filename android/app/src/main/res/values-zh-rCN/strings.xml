@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">开始/停止录音时播放声音</string>
     <string name="haptic_feedback">触觉反馈</string>
     <string name="haptic_feedback_subtitle">开始/停止录音时振动</string>
-    <string name="recycle_bin">回收站</string>
-    <string name="recycle_bin_deleted_immediately">录音将立即删除</string>
-    <string name="recycle_bin_keep_for">保留已删除的录音 %1$s</string>
-    <string name="auto_delete_audio">自动删除音频</string>
-    <string name="auto_delete_audio_subtitle">转录完成后删除音频文件</string>
     <string name="auto_copy_clipboard">自动复制到剪贴板</string>
     <string name="auto_copy_clipboard_subtitle">转录完成后将文本复制到剪贴板</string>
     <string name="theme">主题</string>
@@ -96,14 +91,9 @@
     <string name="about_description">由 Whisper AI 驱动的隐私优先语音转录。所有处理均在您的设备上完成 \u2013 您的音频永远不会离开您的手机。</string>
     <string name="select_language">选择语言</string>
     <string name="select_theme">选择主题</string>
-    <string name="recycle_bin_retention">回收站保留期</string>
     <string name="theme_follow_system">跟随系统设置</string>
     <string name="theme_always_light">始终使用浅色主题</string>
     <string name="theme_always_dark">始终使用深色主题</string>
-    <string name="retention_disabled_desc">录音将被立即永久删除</string>
-    <string name="retention_7_days_desc">已删除的录音可在7天内恢复</string>
-    <string name="retention_14_days_desc">已删除的录音可在14天内恢复</string>
-    <string name="retention_30_days_desc">已删除的录音可在30天内恢复</string>
 
     <!-- Model Card -->
     <string name="active">活跃</string>

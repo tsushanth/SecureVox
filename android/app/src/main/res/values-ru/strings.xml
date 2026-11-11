@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Воспроизведение звуков при начале/остановке записи</string>
     <string name="haptic_feedback">Тактильная обратная связь</string>
     <string name="haptic_feedback_subtitle">Вибрация при начале/остановке записи</string>
-    <string name="recycle_bin">Корзина</string>
-    <string name="recycle_bin_deleted_immediately">Записи удаляются немедленно</string>
-    <string name="recycle_bin_keep_for">Хранить удалённые записи %1$s</string>
-    <string name="auto_delete_audio">Автоудаление аудио</string>
-    <string name="auto_delete_audio_subtitle">Удалять аудиофайлы после завершения транскрибирования</string>
     <string name="auto_copy_clipboard">Автокопирование в буфер</string>
     <string name="auto_copy_clipboard_subtitle">Копировать транскрипт в буфер обмена после транскрибирования</string>
     <string name="theme">Тема</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Конфиденциальное голосовое транскрибирование на базе Whisper AI. Вся обработка происходит на вашем устройстве — аудио никогда не покидает ваш телефон.</string>
     <string name="select_language">Выберите язык</string>
     <string name="select_theme">Выберите тему</string>
-    <string name="recycle_bin_retention">Срок хранения в корзине</string>
     <string name="theme_follow_system">Следовать настройкам системы</string>
     <string name="theme_always_light">Всегда светлая тема</string>
     <string name="theme_always_dark">Всегда тёмная тема</string>
-    <string name="retention_disabled_desc">Записи удаляются безвозвратно сразу</string>
-    <string name="retention_7_days_desc">Удалённые записи можно восстановить в течение 7 дней</string>
-    <string name="retention_14_days_desc">Удалённые записи можно восстановить в течение 14 дней</string>
-    <string name="retention_30_days_desc">Удалённые записи можно восстановить в течение 30 дней</string>
 
     <!-- Model Card -->
     <string name="active">Активна</string>

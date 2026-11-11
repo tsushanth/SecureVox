@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Riprodurre suoni all\'avvio/arresto della registrazione</string>
     <string name="haptic_feedback">Feedback aptico</string>
     <string name="haptic_feedback_subtitle">Vibrare all\'avvio/arresto della registrazione</string>
-    <string name="recycle_bin">Cestino</string>
-    <string name="recycle_bin_deleted_immediately">Registrazioni eliminate immediatamente</string>
-    <string name="recycle_bin_keep_for">Conserva registrazioni eliminate per %1$s</string>
-    <string name="auto_delete_audio">Eliminazione automatica audio</string>
-    <string name="auto_delete_audio_subtitle">Eliminare i file audio dopo il completamento della trascrizione</string>
     <string name="auto_copy_clipboard">Copia automatica negli appunti</string>
     <string name="auto_copy_clipboard_subtitle">Copiare la trascrizione negli appunti dopo la trascrizione</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Trascrizione vocale orientata alla privacy, alimentata da Whisper AI. Tutta l\'elaborazione avviene sul tuo dispositivo \u2013 il tuo audio non lascia mai il tuo telefono.</string>
     <string name="select_language">Seleziona lingua</string>
     <string name="select_theme">Seleziona tema</string>
-    <string name="recycle_bin_retention">Conservazione del cestino</string>
     <string name="theme_follow_system">Segui le impostazioni di sistema</string>
     <string name="theme_always_light">Usa sempre il tema chiaro</string>
     <string name="theme_always_dark">Usa sempre il tema scuro</string>
-    <string name="retention_disabled_desc">Le registrazioni vengono eliminate definitivamente immediatamente</string>
-    <string name="retention_7_days_desc">Le registrazioni eliminate possono essere ripristinate entro 7 giorni</string>
-    <string name="retention_14_days_desc">Le registrazioni eliminate possono essere ripristinate entro 14 giorni</string>
-    <string name="retention_30_days_desc">Le registrazioni eliminate possono essere ripristinate entro 30 giorni</string>
 
     <!-- Model Card -->
     <string name="active">Attivo</string>

@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">เล่นเสียงเมื่อเริ่ม/หยุดบันทึก</string>
     <string name="haptic_feedback">การตอบสนองสัมผัส</string>
     <string name="haptic_feedback_subtitle">สั่นเมื่อเริ่ม/หยุดบันทึก</string>
-    <string name="recycle_bin">ถังขยะ</string>
-    <string name="recycle_bin_deleted_immediately">การบันทึกถูกลบทันที</string>
-    <string name="recycle_bin_keep_for">เก็บการบันทึกที่ลบไว้ %1$s</string>
-    <string name="auto_delete_audio">ลบเสียงอัตโนมัติ</string>
-    <string name="auto_delete_audio_subtitle">ลบไฟล์เสียงหลังถอดเสียงเสร็จ</string>
     <string name="auto_copy_clipboard">คัดลอกอัตโนมัติไปยังคลิปบอร์ด</string>
     <string name="auto_copy_clipboard_subtitle">คัดลอกข้อความถอดเสียงไปยังคลิปบอร์ดหลังถอดเสียง</string>
     <string name="theme">ธีม</string>
@@ -96,14 +91,9 @@
     <string name="about_description">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว ขับเคลื่อนด้วย Whisper AI การประมวลผลทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ - เสียงของคุณไม่เคยออกจากโทรศัพท์</string>
     <string name="select_language">เลือกภาษา</string>
     <string name="select_theme">เลือกธีม</string>
-    <string name="recycle_bin_retention">ระยะเวลาเก็บถังขยะ</string>
     <string name="theme_follow_system">ตามการตั้งค่าของระบบ</string>
     <string name="theme_always_light">ใช้ธีมสว่างเสมอ</string>
     <string name="theme_always_dark">ใช้ธีมมืดเสมอ</string>
-    <string name="retention_disabled_desc">การบันทึกถูกลบถาวรทันที</string>
-    <string name="retention_7_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 7 วัน</string>
-    <string name="retention_14_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 14 วัน</string>
-    <string name="retention_30_days_desc">การบันทึกที่ลบสามารถกู้คืนได้ภายใน 30 วัน</string>
 
     <!-- Model Card -->
     <string name="active">ใช้งานอยู่</string>
