@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Jouer des sons au démarrage/arrêt de l\'enregistrement</string>
     <string name="haptic_feedback">Retour haptique</string>
     <string name="haptic_feedback_subtitle">Vibrer au démarrage/arrêt de l\'enregistrement</string>
-    <string name="recycle_bin">Corbeille</string>
-    <string name="recycle_bin_deleted_immediately">Enregistrements supprimés immédiatement</string>
-    <string name="recycle_bin_keep_for">Conserver les enregistrements supprimés pendant %1$s</string>
-    <string name="auto_delete_audio">Suppression automatique de l\'audio</string>
-    <string name="auto_delete_audio_subtitle">Supprimer les fichiers audio une fois la transcription terminée</string>
     <string name="auto_copy_clipboard">Copie automatique dans le presse-papiers</string>
     <string name="auto_copy_clipboard_subtitle">Copier la transcription dans le presse-papiers après la transcription</string>
     <string name="theme">Thème</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transcription vocale axée sur la confidentialité, propulsée par Whisper AI. Tout le traitement se fait sur votre appareil \u2013 votre audio ne quitte jamais votre téléphone.</string>
     <string name="select_language">Sélectionner la langue</string>
     <string name="select_theme">Sélectionner le thème</string>
-    <string name="recycle_bin_retention">Rétention de la corbeille</string>
     <string name="theme_follow_system">Suivre les paramètres système</string>
     <string name="theme_always_light">Toujours utiliser le thème clair</string>
     <string name="theme_always_dark">Toujours utiliser le thème sombre</string>
-    <string name="retention_disabled_desc">Les enregistrements sont définitivement supprimés immédiatement</string>
-    <string name="retention_7_days_desc">Les enregistrements supprimés peuvent être restaurés sous 7 jours</string>
-    <string name="retention_14_days_desc">Les enregistrements supprimés peuvent être restaurés sous 14 jours</string>
-    <string name="retention_30_days_desc">Les enregistrements supprimés peuvent être restaurés sous 30 jours</string>
 
     <!-- Model Card -->
     <string name="active">Actif</string>

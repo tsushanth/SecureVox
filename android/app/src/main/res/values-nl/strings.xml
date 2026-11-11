@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Geluiden afspelen bij starten/stoppen van opname</string>
     <string name="haptic_feedback">Haptische feedback</string>
     <string name="haptic_feedback_subtitle">Trillen bij starten/stoppen van opname</string>
-    <string name="recycle_bin">Prullenbak</string>
-    <string name="recycle_bin_deleted_immediately">Opnames worden direct verwijderd</string>
-    <string name="recycle_bin_keep_for">Verwijderde opnames bewaren voor %1$s</string>
-    <string name="auto_delete_audio">Audio automatisch verwijderen</string>
-    <string name="auto_delete_audio_subtitle">Audiobestanden verwijderen na voltooiing van transcriptie</string>
     <string name="auto_copy_clipboard">Automatisch kopiëren naar klembord</string>
     <string name="auto_copy_clipboard_subtitle">Transcript naar klembord kopiëren na transcriptie</string>
     <string name="theme">Thema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Privacy-first spraaktranscriptie aangedreven door Whisper AI. Alle verwerking gebeurt op je apparaat - je audio verlaat nooit je telefoon.</string>
     <string name="select_language">Selecteer taal</string>
     <string name="select_theme">Selecteer thema</string>
-    <string name="recycle_bin_retention">Bewaartermijn prullenbak</string>
     <string name="theme_follow_system">Systeeminstellingen volgen</string>
     <string name="theme_always_light">Altijd licht thema gebruiken</string>
     <string name="theme_always_dark">Altijd donker thema gebruiken</string>
-    <string name="retention_disabled_desc">Opnames worden direct permanent verwijderd</string>
-    <string name="retention_7_days_desc">Verwijderde opnames kunnen binnen 7 dagen worden hersteld</string>
-    <string name="retention_14_days_desc">Verwijderde opnames kunnen binnen 14 dagen worden hersteld</string>
-    <string name="retention_30_days_desc">Verwijderde opnames kunnen binnen 30 dagen worden hersteld</string>
 
     <!-- Model Card -->
     <string name="active">Actief</string>

@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Reproducir sonidos al iniciar/detener la grabación</string>
     <string name="haptic_feedback">Retroalimentación háptica</string>
     <string name="haptic_feedback_subtitle">Vibrar al iniciar/detener la grabación</string>
-    <string name="recycle_bin">Papelera de reciclaje</string>
-    <string name="recycle_bin_deleted_immediately">Grabaciones eliminadas inmediatamente</string>
-    <string name="recycle_bin_keep_for">Conservar grabaciones eliminadas durante %1$s</string>
-    <string name="auto_delete_audio">Eliminar audio automáticamente</string>
-    <string name="auto_delete_audio_subtitle">Eliminar archivos de audio después de completar la transcripción</string>
     <string name="auto_copy_clipboard">Copiar al portapapeles automáticamente</string>
     <string name="auto_copy_clipboard_subtitle">Copiar la transcripción al portapapeles después de transcribir</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transcripción de voz con privacidad primero, impulsada por Whisper AI. Todo el procesamiento ocurre en tu dispositivo \u2013 tu audio nunca sale de tu teléfono.</string>
     <string name="select_language">Seleccionar idioma</string>
     <string name="select_theme">Seleccionar tema</string>
-    <string name="recycle_bin_retention">Retención de la papelera de reciclaje</string>
     <string name="theme_follow_system">Seguir la configuración del sistema</string>
     <string name="theme_always_light">Usar siempre tema claro</string>
     <string name="theme_always_dark">Usar siempre tema oscuro</string>
-    <string name="retention_disabled_desc">Las grabaciones se eliminan permanentemente de inmediato</string>
-    <string name="retention_7_days_desc">Las grabaciones eliminadas se pueden restaurar en un plazo de 7 días</string>
-    <string name="retention_14_days_desc">Las grabaciones eliminadas se pueden restaurar en un plazo de 14 días</string>
-    <string name="retention_30_days_desc">Las grabaciones eliminadas se pueden restaurar en un plazo de 30 días</string>
 
     <!-- Model Card -->
     <string name="active">Activo</string>

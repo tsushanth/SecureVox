@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">録音の開始/停止時にサウンドを再生</string>
     <string name="haptic_feedback">触覚フィードバック</string>
     <string name="haptic_feedback_subtitle">録音の開始/停止時にバイブレーション</string>
-    <string name="recycle_bin">ごみ箱</string>
-    <string name="recycle_bin_deleted_immediately">録音は即座に削除されます</string>
-    <string name="recycle_bin_keep_for">削除した録音を%1$s保持</string>
-    <string name="auto_delete_audio">音声の自動削除</string>
-    <string name="auto_delete_audio_subtitle">文字起こし完了後に音声ファイルを削除</string>
     <string name="auto_copy_clipboard">クリップボードへ自動コピー</string>
     <string name="auto_copy_clipboard_subtitle">文字起こし後にクリップボードにコピー</string>
     <string name="theme">テーマ</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Whisper AIを搭載したプライバシー重視の音声文字起こし。すべての処理はデバイス上で行われます \u2013 音声がスマートフォンから外に出ることはありません。</string>
     <string name="select_language">言語を選択</string>
     <string name="select_theme">テーマを選択</string>
-    <string name="recycle_bin_retention">ごみ箱の保持期間</string>
     <string name="theme_follow_system">システム設定に従う</string>
     <string name="theme_always_light">常にライトテーマを使用</string>
     <string name="theme_always_dark">常にダークテーマを使用</string>
-    <string name="retention_disabled_desc">録音は即座に完全に削除されます</string>
-    <string name="retention_7_days_desc">削除された録音は7日以内に復元できます</string>
-    <string name="retention_14_days_desc">削除された録音は14日以内に復元できます</string>
-    <string name="retention_30_days_desc">削除された録音は30日以内に復元できます</string>
 
     <!-- Model Card -->
     <string name="active">アクティブ</string>

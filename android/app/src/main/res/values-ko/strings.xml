@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">녹음 시작/중지 시 소리 재생</string>
     <string name="haptic_feedback">햅틱 피드백</string>
     <string name="haptic_feedback_subtitle">녹음 시작/중지 시 진동</string>
-    <string name="recycle_bin">휴지통</string>
-    <string name="recycle_bin_deleted_immediately">녹음이 즉시 삭제됩니다</string>
-    <string name="recycle_bin_keep_for">삭제된 녹음을 %1$s 동안 보관</string>
-    <string name="auto_delete_audio">오디오 자동 삭제</string>
-    <string name="auto_delete_audio_subtitle">텍스트 변환 완료 후 오디오 파일 삭제</string>
     <string name="auto_copy_clipboard">클립보드에 자동 복사</string>
     <string name="auto_copy_clipboard_subtitle">텍스트 변환 후 클립보드에 복사</string>
     <string name="theme">테마</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Whisper AI로 구동되는 개인정보 보호 우선 음성 텍스트 변환. 모든 처리는 기기에서 이루어지며 \u2013 오디오가 휴대폰 밖으로 나가지 않습니다.</string>
     <string name="select_language">언어 선택</string>
     <string name="select_theme">테마 선택</string>
-    <string name="recycle_bin_retention">휴지통 보관 기간</string>
     <string name="theme_follow_system">시스템 설정 따르기</string>
     <string name="theme_always_light">항상 라이트 테마 사용</string>
     <string name="theme_always_dark">항상 다크 테마 사용</string>
-    <string name="retention_disabled_desc">녹음이 즉시 영구 삭제됩니다</string>
-    <string name="retention_7_days_desc">삭제된 녹음은 7일 이내에 복원할 수 있습니다</string>
-    <string name="retention_14_days_desc">삭제된 녹음은 14일 이내에 복원할 수 있습니다</string>
-    <string name="retention_30_days_desc">삭제된 녹음은 30일 이내에 복원할 수 있습니다</string>
 
     <!-- Model Card -->
     <string name="active">활성</string>

@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Phát âm thanh khi bắt đầu/dừng ghi</string>
     <string name="haptic_feedback">Phản hồi rung</string>
     <string name="haptic_feedback_subtitle">Rung khi bắt đầu/dừng ghi</string>
-    <string name="recycle_bin">Thùng rác</string>
-    <string name="recycle_bin_deleted_immediately">Bản ghi bị xóa ngay lập tức</string>
-    <string name="recycle_bin_keep_for">Giữ bản ghi đã xóa trong %1$s</string>
-    <string name="auto_delete_audio">Tự động xóa âm thanh</string>
-    <string name="auto_delete_audio_subtitle">Xóa file âm thanh sau khi chuyển đổi xong</string>
     <string name="auto_copy_clipboard">Tự động sao chép vào bộ nhớ tạm</string>
     <string name="auto_copy_clipboard_subtitle">Sao chép bản ghi vào bộ nhớ tạm sau khi chuyển đổi</string>
     <string name="theme">Chủ đề</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Chuyển đổi giọng nói ưu tiên quyền riêng tư được hỗ trợ bởi Whisper AI. Tất cả xử lý diễn ra trên thiết bị của bạn - âm thanh không bao giờ rời khỏi điện thoại.</string>
     <string name="select_language">Chọn ngôn ngữ</string>
     <string name="select_theme">Chọn chủ đề</string>
-    <string name="recycle_bin_retention">Thời gian lưu giữ thùng rác</string>
     <string name="theme_follow_system">Theo cài đặt hệ thống</string>
     <string name="theme_always_light">Luôn dùng giao diện sáng</string>
     <string name="theme_always_dark">Luôn dùng giao diện tối</string>
-    <string name="retention_disabled_desc">Bản ghi bị xóa vĩnh viễn ngay lập tức</string>
-    <string name="retention_7_days_desc">Bản ghi đã xóa có thể khôi phục trong 7 ngày</string>
-    <string name="retention_14_days_desc">Bản ghi đã xóa có thể khôi phục trong 14 ngày</string>
-    <string name="retention_30_days_desc">Bản ghi đã xóa có thể khôi phục trong 30 ngày</string>
 
     <!-- Model Card -->
     <string name="active">Đang hoạt động</string>

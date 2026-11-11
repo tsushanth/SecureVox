@@ -3,7 +3,9 @@ package com.securevox.app
 import android.app.Application
 import com.kreativekoala.ratingkit.RatingKit
 import com.securevox.app.data.DurationRepair
+import com.securevox.app.data.LegacySettings
 import com.securevox.app.data.local.SecureVoxDatabase
+import com.securevox.app.presentation.settings.dataStore
 import com.securevox.app.tts.ReadAloudManager
 import com.securevox.app.util.CrashLogger
 import com.securevox.app.util.FailureReporter
@@ -43,6 +45,8 @@ class SecureVoxApp : Application() {
         CrashLogger.install(this)
         RatingKit.init(this, appId = "securevox")
         appScope.launch { runCatching { DurationRepair.runOnce(this@SecureVoxApp) } }
+        // Drop values left by settings that were shown but never did anything (Recycle Bin, Auto-Delete Audio).
+        appScope.launch { runCatching { LegacySettings.purge(dataStore) } }
     }
 
     companion object {

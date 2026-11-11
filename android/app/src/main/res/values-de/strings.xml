@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Töne beim Starten/Stoppen der Aufnahme abspielen</string>
     <string name="haptic_feedback">Haptisches Feedback</string>
     <string name="haptic_feedback_subtitle">Beim Starten/Stoppen der Aufnahme vibrieren</string>
-    <string name="recycle_bin">Papierkorb</string>
-    <string name="recycle_bin_deleted_immediately">Aufnahmen werden sofort gelöscht</string>
-    <string name="recycle_bin_keep_for">Gelöschte Aufnahmen %1$s aufbewahren</string>
-    <string name="auto_delete_audio">Audio automatisch löschen</string>
-    <string name="auto_delete_audio_subtitle">Audiodateien nach Abschluss der Transkription löschen</string>
     <string name="auto_copy_clipboard">Automatisch in die Zwischenablage kopieren</string>
     <string name="auto_copy_clipboard_subtitle">Transkript nach der Transkription in die Zwischenablage kopieren</string>
     <string name="theme">Design</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Datenschutzorientierte Sprachtranskription mit Whisper AI. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät \u2013 Ihre Audiodaten verlassen nie Ihr Telefon.</string>
     <string name="select_language">Sprache auswählen</string>
     <string name="select_theme">Design auswählen</string>
-    <string name="recycle_bin_retention">Papierkorb-Aufbewahrung</string>
     <string name="theme_follow_system">Systemeinstellungen folgen</string>
     <string name="theme_always_light">Immer helles Design verwenden</string>
     <string name="theme_always_dark">Immer dunkles Design verwenden</string>
-    <string name="retention_disabled_desc">Aufnahmen werden sofort dauerhaft gelöscht</string>
-    <string name="retention_7_days_desc">Gelöschte Aufnahmen können innerhalb von 7 Tagen wiederhergestellt werden</string>
-    <string name="retention_14_days_desc">Gelöschte Aufnahmen können innerhalb von 14 Tagen wiederhergestellt werden</string>
-    <string name="retention_30_days_desc">Gelöschte Aufnahmen können innerhalb von 30 Tagen wiederhergestellt werden</string>
 
     <!-- Model Card -->
     <string name="active">Aktiv</string>

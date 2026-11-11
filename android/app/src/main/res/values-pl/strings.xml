@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Odtwarzaj dźwięki przy rozpoczynaniu/zatrzymywaniu nagrywania</string>
     <string name="haptic_feedback">Wibracje dotykowe</string>
     <string name="haptic_feedback_subtitle">Wibruj przy rozpoczynaniu/zatrzymywaniu nagrywania</string>
-    <string name="recycle_bin">Kosz</string>
-    <string name="recycle_bin_deleted_immediately">Nagrania usuwane natychmiast</string>
-    <string name="recycle_bin_keep_for">Przechowuj usunięte nagrania przez %1$s</string>
-    <string name="auto_delete_audio">Automatyczne usuwanie audio</string>
-    <string name="auto_delete_audio_subtitle">Usuwaj pliki audio po zakończeniu transkrypcji</string>
     <string name="auto_copy_clipboard">Automatyczne kopiowanie do schowka</string>
     <string name="auto_copy_clipboard_subtitle">Kopiuj transkrypt do schowka po transkrypcji</string>
     <string name="theme">Motyw</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transkrypcja głosowa stawiająca prywatność na pierwszym miejscu, napędzana przez Whisper AI. Cała obróbka odbywa się na Twoim urządzeniu — Twoje nagrania nigdy nie opuszczają telefonu.</string>
     <string name="select_language">Wybierz język</string>
     <string name="select_theme">Wybierz motyw</string>
-    <string name="recycle_bin_retention">Okres przechowywania w koszu</string>
     <string name="theme_follow_system">Zgodnie z ustawieniami systemowymi</string>
     <string name="theme_always_light">Zawsze jasny motyw</string>
     <string name="theme_always_dark">Zawsze ciemny motyw</string>
-    <string name="retention_disabled_desc">Nagrania są trwale usuwane natychmiast</string>
-    <string name="retention_7_days_desc">Usunięte nagrania można przywrócić w ciągu 7 dni</string>
-    <string name="retention_14_days_desc">Usunięte nagrania można przywrócić w ciągu 14 dni</string>
-    <string name="retention_30_days_desc">Usunięte nagrania można przywrócić w ciągu 30 dni</string>
 
     <!-- Model Card -->
     <string name="active">Aktywny</string>

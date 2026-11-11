@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Reproduzir sons ao iniciar/parar gravação</string>
     <string name="haptic_feedback">Feedback háptico</string>
     <string name="haptic_feedback_subtitle">Vibrar ao iniciar/parar gravação</string>
-    <string name="recycle_bin">Lixeira</string>
-    <string name="recycle_bin_deleted_immediately">Gravações excluídas imediatamente</string>
-    <string name="recycle_bin_keep_for">Manter gravações excluídas por %1$s</string>
-    <string name="auto_delete_audio">Excluir áudio automaticamente</string>
-    <string name="auto_delete_audio_subtitle">Excluir arquivos de áudio após a conclusão da transcrição</string>
     <string name="auto_copy_clipboard">Copiar automaticamente para a área de transferência</string>
     <string name="auto_copy_clipboard_subtitle">Copiar transcrição para a área de transferência após a transcrição</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transcrição de voz com privacidade em primeiro lugar, alimentada por Whisper AI. Todo o processamento acontece no seu dispositivo \u2013 seu áudio nunca sai do seu telefone.</string>
     <string name="select_language">Selecionar idioma</string>
     <string name="select_theme">Selecionar tema</string>
-    <string name="recycle_bin_retention">Retenção da lixeira</string>
     <string name="theme_follow_system">Seguir configurações do sistema</string>
     <string name="theme_always_light">Sempre usar tema claro</string>
     <string name="theme_always_dark">Sempre usar tema escuro</string>
-    <string name="retention_disabled_desc">Gravações são excluídas permanentemente de imediato</string>
-    <string name="retention_7_days_desc">Gravações excluídas podem ser restauradas em até 7 dias</string>
-    <string name="retention_14_days_desc">Gravações excluídas podem ser restauradas em até 14 dias</string>
-    <string name="retention_30_days_desc">Gravações excluídas podem ser restauradas em até 30 dias</string>
 
     <!-- Model Card -->
     <string name="active">Ativo</string>

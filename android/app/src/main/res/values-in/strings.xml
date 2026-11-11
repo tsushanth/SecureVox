@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Putar suara saat memulai/menghentikan rekaman</string>
     <string name="haptic_feedback">Umpan Balik Haptik</string>
     <string name="haptic_feedback_subtitle">Bergetar saat memulai/menghentikan rekaman</string>
-    <string name="recycle_bin">Tempat Sampah</string>
-    <string name="recycle_bin_deleted_immediately">Rekaman langsung dihapus</string>
-    <string name="recycle_bin_keep_for">Simpan rekaman yang dihapus selama %1$s</string>
-    <string name="auto_delete_audio">Hapus Audio Otomatis</string>
-    <string name="auto_delete_audio_subtitle">Hapus file audio setelah transkripsi selesai</string>
     <string name="auto_copy_clipboard">Salin Otomatis ke Papan Klip</string>
     <string name="auto_copy_clipboard_subtitle">Salin transkrip ke papan klip setelah transkripsi</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transkripsi suara yang mengutamakan privasi didukung oleh Whisper AI. Semua pemrosesan terjadi di perangkat Anda - audio Anda tidak pernah meninggalkan ponsel Anda.</string>
     <string name="select_language">Pilih Bahasa</string>
     <string name="select_theme">Pilih Tema</string>
-    <string name="recycle_bin_retention">Retensi Tempat Sampah</string>
     <string name="theme_follow_system">Ikuti pengaturan sistem</string>
     <string name="theme_always_light">Selalu gunakan tema terang</string>
     <string name="theme_always_dark">Selalu gunakan tema gelap</string>
-    <string name="retention_disabled_desc">Rekaman langsung dihapus secara permanen</string>
-    <string name="retention_7_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 7 hari</string>
-    <string name="retention_14_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 14 hari</string>
-    <string name="retention_30_days_desc">Rekaman yang dihapus dapat dipulihkan dalam 30 hari</string>
 
     <!-- Model Card -->
     <string name="active">Aktif</string>

@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">रिकॉर्डिंग शुरू/बंद करते समय ध्वनि बजाएँ</string>
     <string name="haptic_feedback">हैप्टिक फ़ीडबैक</string>
     <string name="haptic_feedback_subtitle">रिकॉर्डिंग शुरू/बंद करते समय कंपन करें</string>
-    <string name="recycle_bin">रीसायकल बिन</string>
-    <string name="recycle_bin_deleted_immediately">रिकॉर्डिंग तुरंत हटा दी जाती हैं</string>
-    <string name="recycle_bin_keep_for">हटाई गई रिकॉर्डिंग %1$s तक रखें</string>
-    <string name="auto_delete_audio">ऑडियो स्वचालित हटाएँ</string>
-    <string name="auto_delete_audio_subtitle">ट्रांसक्रिप्शन पूरा होने के बाद ऑडियो फ़ाइलें हटाएँ</string>
     <string name="auto_copy_clipboard">क्लिपबोर्ड पर स्वचालित कॉपी करें</string>
     <string name="auto_copy_clipboard_subtitle">ट्रांसक्रिप्शन के बाद ट्रांसक्रिप्ट क्लिपबोर्ड पर कॉपी करें</string>
     <string name="theme">थीम</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Whisper AI द्वारा संचालित गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन। सारी प्रोसेसिंग आपके डिवाइस पर होती है \u2013 आपका ऑडियो कभी भी आपके फ़ोन से बाहर नहीं जाता।</string>
     <string name="select_language">भाषा चुनें</string>
     <string name="select_theme">थीम चुनें</string>
-    <string name="recycle_bin_retention">रीसायकल बिन अवधारण</string>
     <string name="theme_follow_system">सिस्टम सेटिंग्स का पालन करें</string>
     <string name="theme_always_light">हमेशा लाइट थीम उपयोग करें</string>
     <string name="theme_always_dark">हमेशा डार्क थीम उपयोग करें</string>
-    <string name="retention_disabled_desc">रिकॉर्डिंग तुरंत स्थायी रूप से हटा दी जाती हैं</string>
-    <string name="retention_7_days_desc">हटाई गई रिकॉर्डिंग 7 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
-    <string name="retention_14_days_desc">हटाई गई रिकॉर्डिंग 14 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
-    <string name="retention_30_days_desc">हटाई गई रिकॉर्डिंग 30 दिनों के भीतर पुनर्स्थापित की जा सकती हैं</string>
 
     <!-- Model Card -->
     <string name="active">सक्रिय</string>

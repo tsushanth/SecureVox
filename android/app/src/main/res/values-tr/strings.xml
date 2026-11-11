@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Kaydı başlatırken/durdururken ses çal</string>
     <string name="haptic_feedback">Dokunsal Geri Bildirim</string>
     <string name="haptic_feedback_subtitle">Kaydı başlatırken/durdururken titret</string>
-    <string name="recycle_bin">Geri Dönüşüm Kutusu</string>
-    <string name="recycle_bin_deleted_immediately">Kayıtlar hemen silinir</string>
-    <string name="recycle_bin_keep_for">Silinen kayıtları %1$s boyunca sakla</string>
-    <string name="auto_delete_audio">Sesi Otomatik Sil</string>
-    <string name="auto_delete_audio_subtitle">Yazıya dökme tamamlandıktan sonra ses dosyalarını sil</string>
     <string name="auto_copy_clipboard">Panoya Otomatik Kopyala</string>
     <string name="auto_copy_clipboard_subtitle">Yazıya dökmeden sonra metni panoya kopyala</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Whisper AI ile güçlendirilmiş gizlilik öncelikli ses yazıya dökme. Tüm işlemler cihazınızda gerçekleşir - sesiniz asla telefonunuzdan çıkmaz.</string>
     <string name="select_language">Dil Seçin</string>
     <string name="select_theme">Tema Seçin</string>
-    <string name="recycle_bin_retention">Geri Dönüşüm Kutusu Saklama Süresi</string>
     <string name="theme_follow_system">Sistem ayarlarını takip et</string>
     <string name="theme_always_light">Her zaman açık tema kullan</string>
     <string name="theme_always_dark">Her zaman koyu tema kullan</string>
-    <string name="retention_disabled_desc">Kayıtlar hemen kalıcı olarak silinir</string>
-    <string name="retention_7_days_desc">Silinen kayıtlar 7 gün içinde geri yüklenebilir</string>
-    <string name="retention_14_days_desc">Silinen kayıtlar 14 gün içinde geri yüklenebilir</string>
-    <string name="retention_30_days_desc">Silinen kayıtlar 30 gün içinde geri yüklenebilir</string>
 
     <!-- Model Card -->
     <string name="active">Aktif</string>

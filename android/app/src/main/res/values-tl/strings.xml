@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Mag-play ng tunog kapag nagsisimula/humihinto ang recording</string>
     <string name="haptic_feedback">Haptic Feedback</string>
     <string name="haptic_feedback_subtitle">Mag-vibrate kapag nagsisimula/humihinto ang recording</string>
-    <string name="recycle_bin">Recycle Bin</string>
-    <string name="recycle_bin_deleted_immediately">Agad na dine-delete ang mga recording</string>
-    <string name="recycle_bin_keep_for">Itago ang mga na-delete na recording sa loob ng %1$s</string>
-    <string name="auto_delete_audio">Auto-Delete ng Audio</string>
-    <string name="auto_delete_audio_subtitle">I-delete ang mga audio file matapos makumpleto ang transcription</string>
     <string name="auto_copy_clipboard">Auto-Copy sa Clipboard</string>
     <string name="auto_copy_clipboard_subtitle">Kopyahin ang transcript sa clipboard pagkatapos ng transcription</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Privacy-first na voice transcription na pinapagana ng Whisper AI. Lahat ng processing ay nangyayari sa iyong device - hindi kailanman aalis ang iyong audio sa iyong telepono.</string>
     <string name="select_language">Pumili ng Wika</string>
     <string name="select_theme">Pumili ng Tema</string>
-    <string name="recycle_bin_retention">Tagal ng Pag-iingat sa Recycle Bin</string>
     <string name="theme_follow_system">Sundin ang mga setting ng system</string>
     <string name="theme_always_light">Palaging gamitin ang maliwanag na tema</string>
     <string name="theme_always_dark">Palaging gamitin ang madilim na tema</string>
-    <string name="retention_disabled_desc">Permanenteng dine-delete ang mga recording agad</string>
-    <string name="retention_7_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 7 araw</string>
-    <string name="retention_14_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 14 na araw</string>
-    <string name="retention_30_days_desc">Maaaring i-restore ang mga na-delete na recording sa loob ng 30 araw</string>
 
     <!-- Model Card -->
     <string name="active">Aktibo</string>

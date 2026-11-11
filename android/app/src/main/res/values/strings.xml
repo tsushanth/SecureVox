@@ -87,11 +87,6 @@
     <string name="sound_effects_subtitle">Play sounds when starting/stopping recording</string>
     <string name="haptic_feedback">Haptic Feedback</string>
     <string name="haptic_feedback_subtitle">Vibrate when starting/stopping recording</string>
-    <string name="recycle_bin">Recycle Bin</string>
-    <string name="recycle_bin_deleted_immediately">Recordings deleted immediately</string>
-    <string name="recycle_bin_keep_for">Keep deleted recordings for %1$s</string>
-    <string name="auto_delete_audio">Auto-Delete Audio</string>
-    <string name="auto_delete_audio_subtitle">Delete audio files after transcription completes</string>
     <string name="auto_copy_clipboard">Auto-Copy to Clipboard</string>
     <string name="auto_copy_clipboard_subtitle">Copy transcript to clipboard after transcription</string>
     <string name="theme">Theme</string>
@@ -102,14 +97,9 @@
     <string name="about_description">Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.</string>
     <string name="select_language">Select Language</string>
     <string name="select_theme">Select Theme</string>
-    <string name="recycle_bin_retention">Recycle Bin Retention</string>
     <string name="theme_follow_system">Follow system settings</string>
     <string name="theme_always_light">Always use light theme</string>
     <string name="theme_always_dark">Always use dark theme</string>
-    <string name="retention_disabled_desc">Recordings are permanently deleted immediately</string>
-    <string name="retention_7_days_desc">Deleted recordings can be restored within 7 days</string>
-    <string name="retention_14_days_desc">Deleted recordings can be restored within 14 days</string>
-    <string name="retention_30_days_desc">Deleted recordings can be restored within 30 days</string>
 
     <!-- Model Card -->
     <string name="active">Active</string>

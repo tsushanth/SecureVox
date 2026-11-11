@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">تشغيل أصوات عند بدء/إيقاف التسجيل</string>
     <string name="haptic_feedback">الاهتزاز اللمسي</string>
     <string name="haptic_feedback_subtitle">اهتزاز عند بدء/إيقاف التسجيل</string>
-    <string name="recycle_bin">سلة المحذوفات</string>
-    <string name="recycle_bin_deleted_immediately">يتم حذف التسجيلات فورًا</string>
-    <string name="recycle_bin_keep_for">الاحتفاظ بالتسجيلات المحذوفة لمدة %1$s</string>
-    <string name="auto_delete_audio">حذف الصوت تلقائيًا</string>
-    <string name="auto_delete_audio_subtitle">حذف ملفات الصوت بعد اكتمال النسخ</string>
     <string name="auto_copy_clipboard">النسخ التلقائي إلى الحافظة</string>
     <string name="auto_copy_clipboard_subtitle">نسخ النص إلى الحافظة بعد النسخ</string>
     <string name="theme">المظهر</string>
@@ -96,14 +91,9 @@
     <string name="about_description">نسخ صوتي يضع الخصوصية أولاً مدعوم بتقنية Whisper AI. تتم جميع المعالجة على جهازك - لا يغادر صوتك هاتفك أبدًا.</string>
     <string name="select_language">اختر اللغة</string>
     <string name="select_theme">اختر المظهر</string>
-    <string name="recycle_bin_retention">مدة الاحتفاظ بسلة المحذوفات</string>
     <string name="theme_follow_system">اتباع إعدادات النظام</string>
     <string name="theme_always_light">استخدام المظهر الفاتح دائمًا</string>
     <string name="theme_always_dark">استخدام المظهر الداكن دائمًا</string>
-    <string name="retention_disabled_desc">يتم حذف التسجيلات نهائيًا فورًا</string>
-    <string name="retention_7_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 7 أيام</string>
-    <string name="retention_14_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 14 يومًا</string>
-    <string name="retention_30_days_desc">يمكن استعادة التسجيلات المحذوفة خلال 30 يومًا</string>
 
     <!-- Model Card -->
     <string name="active">نشط</string>

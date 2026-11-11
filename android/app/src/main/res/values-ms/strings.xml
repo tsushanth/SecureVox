@@ -81,11 +81,6 @@
     <string name="sound_effects_subtitle">Main bunyi apabila memulakan/menghentikan rakaman</string>
     <string name="haptic_feedback">Maklum Balas Haptik</string>
     <string name="haptic_feedback_subtitle">Bergetar apabila memulakan/menghentikan rakaman</string>
-    <string name="recycle_bin">Tong Kitar Semula</string>
-    <string name="recycle_bin_deleted_immediately">Rakaman dipadam serta-merta</string>
-    <string name="recycle_bin_keep_for">Simpan rakaman yang dipadam selama %1$s</string>
-    <string name="auto_delete_audio">Padam Audio Automatik</string>
-    <string name="auto_delete_audio_subtitle">Padam fail audio selepas transkripsi selesai</string>
     <string name="auto_copy_clipboard">Salin Automatik ke Papan Keratan</string>
     <string name="auto_copy_clipboard_subtitle">Salin transkrip ke papan keratan selepas transkripsi</string>
     <string name="theme">Tema</string>
@@ -96,14 +91,9 @@
     <string name="about_description">Transkripsi suara yang mengutamakan privasi dikuasakan oleh Whisper AI. Semua pemprosesan berlaku pada peranti anda - audio anda tidak pernah meninggalkan telefon anda.</string>
     <string name="select_language">Pilih Bahasa</string>
     <string name="select_theme">Pilih Tema</string>
-    <string name="recycle_bin_retention">Tempoh Penyimpanan Tong Kitar Semula</string>
     <string name="theme_follow_system">Ikut tetapan sistem</string>
     <string name="theme_always_light">Sentiasa gunakan tema cerah</string>
     <string name="theme_always_dark">Sentiasa gunakan tema gelap</string>
-    <string name="retention_disabled_desc">Rakaman dipadam secara kekal serta-merta</string>
-    <string name="retention_7_days_desc">Rakaman yang dipadam boleh dipulihkan dalam 7 hari</string>
-    <string name="retention_14_days_desc">Rakaman yang dipadam boleh dipulihkan dalam 14 hari</string>
-    <string name="retention_30_days_desc">Rakaman yang dipadam boleh dipulihkan dalam 30 hari</string>
 
     <!-- Model Card -->
     <string name="active">Aktif</string>
