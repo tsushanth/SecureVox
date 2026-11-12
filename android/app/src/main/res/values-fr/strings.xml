@@ -17,7 +17,7 @@
     <string name="import_label">Importer</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Rechercher des enregistrements</string>
+    <string name="search_recordings">Rechercher dans les titres et les transcriptions</string>
     <string name="close_search">Fermer la recherche</string>
     <string name="import_media">Importer un média</string>
     <string name="stop_recording">Arrêter l\'enregistrement</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Ouvrir les Paramètres</string>
     <string name="mic_denied_toast">L\'enregistrement nécessite l\'accès au microphone.</string>
     <string name="setup_continue_download">Reprendre le téléchargement (reste %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transcription en cours\u2026 %1$d %%</string>
+    <string name="transcribing_progress_left">Transcription en cours\u2026 %1$d %% \u00b7 ~%2$d min restantes</string>
+    <string name="transcribing_estimate_total">Transcription en cours\u2026 \u00b7 ~%1$d min au total</string>
+    <string name="retry_transcription">Relancer la transcription</string>
+    <string name="notif_rationale_title">Soyez prévenu quand la transcription est prête</string>
+    <string name="notif_rationale_body">La transcription peut prendre quelques minutes. Autorisez les notifications et SecureVox vous préviendra dès que la transcription est prête, même si vous avez quitté l\u2019appli. Vous pouvez refuser et tout utiliser quand même.</string>
+    <string name="not_now">Pas maintenant</string>
+    <string name="notif_ready_title">Transcription prête</string>
+    <string name="notif_channel_ready_name">Transcription prête</string>
+    <string name="notif_channel_ready_description">Vous prévient quand une transcription est terminée</string>
+    <string name="notif_channel_progress_name">Transcription</string>
+    <string name="notif_channel_progress_description">Affiche la progression pendant la transcription d\u2019un enregistrement</string>
+    <string name="notif_progress_title">Transcription de l\u2019enregistrement</string>
+    <string name="notif_progress_text">%1$d %% terminé</string>
+    <string name="rename">Renommer</string>
+    <string name="rename_recording_title">Renommer l\u2019enregistrement</string>
+    <string name="rename_field_label">Titre</string>
+    <string name="save">Enregistrer</string>
+    <string name="nothing_recorded_toast">Rien n\u2019a été enregistré.</string>
 </resources>

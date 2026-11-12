@@ -17,7 +17,7 @@
     <string name="import_label">Importar</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Pesquisar gravações</string>
+    <string name="search_recordings">Pesquisar em títulos e transcrições</string>
     <string name="close_search">Fechar pesquisa</string>
     <string name="import_media">Importar mídia</string>
     <string name="stop_recording">Parar gravação</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Abrir Configurações</string>
     <string name="mic_denied_toast">Gravar exige acesso ao microfone.</string>
     <string name="setup_continue_download">Continuar o download (faltam %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transcrevendo\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Transcrevendo\u2026 %1$d%% \u00b7 ~%2$d min restantes</string>
+    <string name="transcribing_estimate_total">Transcrevendo\u2026 \u00b7 ~%1$d min no total</string>
+    <string name="retry_transcription">Tentar transcrever novamente</string>
+    <string name="notif_rationale_title">Saiba quando estiver pronta</string>
+    <string name="notif_rationale_body">A transcrição pode levar alguns minutos. Permita as notificações e o SecureVox avisará quando a transcrição estiver pronta, mesmo que você tenha saído do app. Você pode recusar e continuar usando tudo.</string>
+    <string name="not_now">Agora não</string>
+    <string name="notif_ready_title">Transcrição pronta</string>
+    <string name="notif_channel_ready_name">Transcrição pronta</string>
+    <string name="notif_channel_ready_description">Avisa quando uma transcrição termina</string>
+    <string name="notif_channel_progress_name">Transcrição</string>
+    <string name="notif_channel_progress_description">Mostra o progresso ao transcrever uma gravação</string>
+    <string name="notif_progress_title">Transcrevendo gravação</string>
+    <string name="notif_progress_text">%1$d%% concluído</string>
+    <string name="rename">Renomear</string>
+    <string name="rename_recording_title">Renomear gravação</string>
+    <string name="rename_field_label">Título</string>
+    <string name="save">Salvar</string>
+    <string name="nothing_recorded_toast">Nada foi gravado.</string>
 </resources>

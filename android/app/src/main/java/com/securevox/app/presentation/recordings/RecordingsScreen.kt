@@ -15,6 +15,7 @@ import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.IncomingAction
 import com.securevox.app.IncomingActions
 import android.content.Context
+import android.os.Build
 import android.content.ContextWrapper
 import android.content.Intent
 import android.net.Uri
@@ -22,6 +23,9 @@ import android.provider.Settings
 import android.widget.Toast
 import com.securevox.app.util.MicPermission
 import com.securevox.app.util.MicStep
+import com.securevox.app.notify.NotificationPermission
+import com.securevox.app.service.TranscriptionEta
+import com.securevox.app.service.TranscriptionRun
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -31,6 +35,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -116,6 +121,29 @@ fun RecordingsScreen(
         }
     }
 
+    // Notification permission (Android 13+): offered once, when the first transcription starts, with the reason first.
+    // Declining never blocks anything; the transcript is simply not announced.
+    var showNotifRationale by remember { mutableStateOf(false) }
+    val notifLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+    fun offerNotifications() {
+        val granted = Build.VERSION.SDK_INT < NotificationPermission.FIRST_SDK_WITH_PERMISSION ||
+            ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        if (NotificationPermission.shouldOffer(Build.VERSION.SDK_INT, granted, prefs.getBoolean(KEY_NOTIF_ASKED, false))) {
+            showNotifRationale = true
+        }
+    }
+
+    // The first time a transcription is queued (a recording stopped with audio, or a file imported), explain the
+    // notification and ask. An accidental empty recording queues nothing, so it never triggers this.
+    LaunchedEffect(Unit) {
+        viewModel.transcriptionQueued.collect { offerNotifications() }
+    }
+    LaunchedEffect(Unit) {
+        viewModel.nothingRecorded.collect {
+            Toast.makeText(context, R.string.nothing_recorded_toast, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     fun beginRecording() {
         if (!hasModel) {
             showNeedModel = true
@@ -144,6 +172,8 @@ fun RecordingsScreen(
             // A shared file is always imported; without a model it waits for Retry once one is installed.
             is IncomingAction.ImportMedia -> viewModel.importMedia(action.uri)
             IncomingAction.StartRecording -> beginRecording()
+            // Handled by the navigation host, which can open the recording from any screen.
+            is IncomingAction.OpenRecording -> return@LaunchedEffect
         }
         IncomingActions.consume(action)
     }
@@ -162,6 +192,31 @@ fun RecordingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = { showMicRationale = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
+    if (showNotifRationale) {
+        // Asked once: whichever button is tapped, we do not raise this again.
+        AlertDialog(
+            onDismissRequest = {
+                showNotifRationale = false
+                prefs.edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
+            },
+            title = { Text(stringResource(R.string.notif_rationale_title)) },
+            text = { Text(stringResource(R.string.notif_rationale_body)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    showNotifRationale = false
+                    prefs.edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
+                    notifLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                }) { Text(stringResource(R.string.mic_rationale_continue)) }
+            },
+            dismissButton = {
+                TextButton(onClick = {
+                    showNotifRationale = false
+                    prefs.edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
+                }) { Text(stringResource(R.string.not_now)) }
             }
         )
     }
@@ -337,7 +392,15 @@ fun RecordingsScreen(
                     hasSearchQuery = searchQuery.isNotBlank()
                 )
             } else {
+                // A recording added at the top would otherwise stay above the viewport (the list keeps the
+                // row that was first, by key, in place), so the one the user just made would be invisible.
+                val listState = rememberLazyListState()
+                val newestId = recordings.firstOrNull()?.id
+                LaunchedEffect(newestId) {
+                    if (listState.firstVisibleItemIndex <= 1) listState.scrollToItem(0)
+                }
                 LazyColumn(
+                    state = listState,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(
                         start = 16.dp,
@@ -350,7 +413,7 @@ fun RecordingsScreen(
                     items(recordings, key = { it.id }) { recording ->
                         SwipeableRecordingItem(
                             recording = recording,
-                            transcriptionProgress = transcriptionProgressMap[recording.id],
+                            transcriptionRun = transcriptionProgressMap[recording.id],
                             onClick = { onRecordingClick(recording.id) },
                             onDelete = { viewModel.deleteRecording(recording) },
                             onToggleFavorite = { viewModel.toggleFavorite(recording) },
@@ -402,6 +465,7 @@ fun RecordingsScreen(
 }
 
 private const val KEY_MIC_ASKED = "mic_permission_asked"
+private const val KEY_NOTIF_ASKED = "notification_permission_asked"
 
 private tailrec fun Context.findActivity(): Activity? = when (this) {
     is Activity -> this
@@ -904,7 +968,7 @@ private fun FilterTabs(
 @Composable
 private fun SwipeableRecordingItem(
     recording: Recording,
-    transcriptionProgress: Int?,
+    transcriptionRun: TranscriptionRun?,
     onClick: () -> Unit,
     onDelete: () -> Unit,
     onToggleFavorite: () -> Unit,
@@ -984,12 +1048,12 @@ private fun SwipeableRecordingItem(
 
                     // Retry button for failed or stuck-in-progress transcriptions
                     val canRetry = recording.transcriptionStatus == TranscriptionStatus.FAILED ||
-                        (recording.transcriptionStatus == TranscriptionStatus.IN_PROGRESS && transcriptionProgress == null)
+                        (recording.transcriptionStatus == TranscriptionStatus.IN_PROGRESS && transcriptionRun == null)
                     if (canRetry) {
                         IconButton(onClick = onRetryTranscription) {
                             Icon(
                                 Icons.Default.Refresh,
-                                contentDescription = "Retry transcription",
+                                contentDescription = stringResource(R.string.retry_transcription),
                                 tint = MaterialTheme.colorScheme.primary
                             )
                         }
@@ -1017,30 +1081,26 @@ private fun SwipeableRecordingItem(
 
             // Transcription progress bar
             if (recording.transcriptionStatus == TranscriptionStatus.IN_PROGRESS) {
-                val progress = transcriptionProgress
+                val progress = transcriptionRun?.progress
 
-                // Tick every 30s to keep ETA fresh
-                var tickMs by remember { mutableStateOf(System.currentTimeMillis()) }
-                val startMs = remember { System.currentTimeMillis() }
+                // Re-evaluated every 15 s so "min left" keeps moving; the start time comes from the worker, so
+                // it does not reset when this row is recomposed or scrolled back into view.
+                var nowMs by remember { mutableStateOf(System.currentTimeMillis()) }
                 LaunchedEffect(recording.id) {
                     while (true) {
-                        kotlinx.coroutines.delay(30_000)
-                        tickMs = System.currentTimeMillis()
+                        kotlinx.coroutines.delay(15_000)
+                        nowMs = System.currentTimeMillis()
                     }
                 }
 
-                // Whisper tiny ≈ 4× real-time on device; use as fallback estimate
-                val durationMs = recording.duration.coerceAtLeast(1L)
-                val estimatedTotalMs = durationMs * 4
-
-                val statusText = if (progress != null && progress > 0) {
-                    val elapsedMs = tickMs - startMs
-                    val remainingMs = (elapsedMs.toFloat() / progress * (100 - progress)).toLong()
-                    val remainingMin = (remainingMs / 60_000).coerceAtLeast(1)
-                    "Transcribing… $progress% · ~$remainingMin min left"
-                } else {
-                    val estMin = (estimatedTotalMs / 60_000).coerceAtLeast(1)
-                    "Transcribing… · Est. ~$estMin min total"
+                val statusText = when (val estimate = TranscriptionEta.estimate(transcriptionRun, nowMs, recording.duration)) {
+                    is TranscriptionEta.Estimate.Left ->
+                        stringResource(R.string.transcribing_progress_left, progress ?: 0, estimate.minutes)
+                    is TranscriptionEta.Estimate.Total ->
+                        stringResource(R.string.transcribing_estimate_total, estimate.minutes)
+                    TranscriptionEta.Estimate.Unknown ->
+                        if (progress != null && progress > 0) stringResource(R.string.transcribing_progress, progress)
+                        else stringResource(R.string.transcribing)
                 }
 
                 if (progress != null && progress > 0) {
@@ -1151,6 +1211,7 @@ private fun formatDuration(millis: Long): String {
 }
 
 private fun formatDate(timestamp: Long): String {
-    val sdf = SimpleDateFormat("MMM d", Locale.US)
+    val locale = Locale.getDefault()
+    val sdf = SimpleDateFormat(android.text.format.DateFormat.getBestDateTimePattern(locale, "MMMd"), locale)
     return sdf.format(Date(timestamp))
 }

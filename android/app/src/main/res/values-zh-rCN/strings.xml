@@ -17,7 +17,7 @@
     <string name="import_label">导入</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">搜索录音</string>
+    <string name="search_recordings">搜索标题和转录文本</string>
     <string name="close_search">关闭搜索</string>
     <string name="import_media">导入媒体</string>
     <string name="stop_recording">停止录音</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">打开设置</string>
     <string name="mic_denied_toast">录音需要麦克风权限。</string>
     <string name="setup_continue_download">继续下载（剩余 %1$s）</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">正在转录\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">正在转录\u2026 %1$d%% \u00b7 约剩 %2$d 分钟</string>
+    <string name="transcribing_estimate_total">正在转录\u2026 \u00b7 预计共约 %1$d 分钟</string>
+    <string name="retry_transcription">重试转录</string>
+    <string name="notif_rationale_title">完成时通知我</string>
+    <string name="notif_rationale_body">转录可能需要几分钟。允许通知后，即使你已离开应用，转录完成时 SecureVox 也会提醒你。你也可以拒绝，其他功能照常使用。</string>
+    <string name="not_now">暂不</string>
+    <string name="notif_ready_title">转录已完成</string>
+    <string name="notif_channel_ready_name">转录已完成</string>
+    <string name="notif_channel_ready_description">转录完成时提醒你</string>
+    <string name="notif_channel_progress_name">转录</string>
+    <string name="notif_channel_progress_description">转录录音时显示进度</string>
+    <string name="notif_progress_title">正在转录录音</string>
+    <string name="notif_progress_text">已完成 %1$d%%</string>
+    <string name="rename">重命名</string>
+    <string name="rename_recording_title">重命名录音</string>
+    <string name="rename_field_label">标题</string>
+    <string name="save">保存</string>
+    <string name="nothing_recorded_toast">没有录到任何内容。</string>
 </resources>

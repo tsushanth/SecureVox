@@ -17,10 +17,16 @@ sealed interface IncomingAction {
 
     /** Begin a new recording, from the tile or the launcher shortcut. */
     data object StartRecording : IncomingAction
+
+    /** Open one recording, from the "Transcript ready" notification. */
+    data class OpenRecording(val recordingId: String) : IncomingAction
 }
 
 object IncomingActions {
     const val ACTION_START_RECORDING = "com.securevox.app.action.START_RECORDING"
+
+    const val ACTION_OPEN_RECORDING = "com.securevox.app.action.OPEN_RECORDING"
+    const val EXTRA_RECORDING_ID = "recording_id"
 
     val pending = MutableStateFlow<IncomingAction?>(null)
 
@@ -37,6 +43,7 @@ object IncomingActions {
         intent ?: return null
         return when (intent.action) {
             ACTION_START_RECORDING -> IncomingAction.StartRecording
+            ACTION_OPEN_RECORDING -> intent.getStringExtra(EXTRA_RECORDING_ID)?.let { IncomingAction.OpenRecording(it) }
             Intent.ACTION_SEND -> sharedStream(intent)?.let { IncomingAction.ImportMedia(it) }
             Intent.ACTION_VIEW -> intent.data?.let { IncomingAction.ImportMedia(it) }
             else -> null

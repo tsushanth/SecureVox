@@ -12,6 +12,11 @@ import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.securevox.app.data.RecordingRecovery
+import com.securevox.app.data.RecordingSearch
+import com.securevox.app.service.TranscriptionRun
+import com.securevox.app.service.TranscriptionSpeedStore
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
 import com.securevox.app.data.local.SecureVoxDatabase
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
@@ -46,6 +51,9 @@ enum class RecordingsFilter {
     ALL,
     FAVORITES
 }
+
+/** Recording ids whose transcript matched [query]. */
+private data class TranscriptHits(val query: String, val ids: Set<String>)
 
 class RecordingsViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -91,11 +99,11 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     private val _importProgress = MutableStateFlow(0f)
     val importProgress: StateFlow<Float> = _importProgress.asStateFlow()
 
-    // Maps recordingId -> progress (0-100), only for actively running workers
-    val transcriptionProgress: StateFlow<Map<String, Int>> =
+    // Maps recordingId -> progress (0-100) and when the run began, only for actively running workers
+    val transcriptionProgress: StateFlow<Map<String, TranscriptionRun>> =
         workManager.getWorkInfosByTagFlow(TranscriptionWorker.TAG_TRANSCRIPTION)
             .map { workInfos: List<WorkInfo> ->
-                val result = mutableMapOf<String, Int>()
+                val result = mutableMapOf<String, TranscriptionRun>()
                 for (info in workInfos) {
                     if (info.state == WorkInfo.State.RUNNING) {
                         val recordingId = info.tags
@@ -103,10 +111,16 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
                             ?.removePrefix(TranscriptionWorker.TAG_RECORDING_PREFIX)
                             ?: continue
                         val progress = info.progress.getInt(TranscriptionWorker.KEY_PROGRESS, 0)
-                        result[recordingId] = progress
+                        val startedAt = info.progress.getLong(TranscriptionWorker.KEY_STARTED_AT, 0L).takeIf { it > 0L }
+                        val model = info.progress.getString(TranscriptionWorker.KEY_MODEL)
+                        result[recordingId] = TranscriptionRun(
+                            progress = progress,
+                            startedAtMs = startedAt,
+                            speed = TranscriptionSpeedStore.get(application, model)
+                        )
                     }
                 }
-                result as Map<String, Int>
+                result as Map<String, TranscriptionRun>
             }
             .stateIn(viewModelScope, SharingStarted.Lazily, emptyMap())
 
@@ -123,11 +137,28 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     private val allRecordings: StateFlow<List<Recording>> = repository.getAllRecordings()
         .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
 
+    /**
+     * Ids of recordings whose transcript contains the query. Empty while the query is blank (no work at
+     * all then), refreshed when the query settles for a moment or the list of recordings changes.
+     */
+    @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
+    private val transcriptMatches: StateFlow<TranscriptHits> = _searchQuery
+        .map { RecordingSearch.normalizeQuery(it) }
+        .distinctUntilChanged()
+        .debounce { if (it.isEmpty()) 0L else 200L }
+        .combine(allRecordings) { query, _ -> query }
+        .flatMapLatest { query ->
+            if (query.isEmpty()) flowOf(TranscriptHits("", emptySet()))
+            else flow { emit(TranscriptHits(query, repository.recordingIdsWithTranscriptMatching(query))) }
+        }
+        .stateIn(viewModelScope, SharingStarted.Lazily, TranscriptHits("", emptySet()))
+
     val recordings: StateFlow<List<Recording>> = combine(
         allRecordings,
         _searchQuery,
-        _filter
-    ) { recordings, query, filter ->
+        _filter,
+        transcriptMatches
+    ) { recordings, query, filter, hits ->
         var filtered = recordings
 
         // Apply favorites filter
@@ -138,7 +169,9 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
         // Apply search filter
         if (query.isNotBlank()) {
             filtered = filtered.filter {
-                it.title.contains(query, ignoreCase = true)
+                // Hits computed for an earlier query (typing is debounced) are ignored until they catch up.
+                RecordingSearch.titleMatches(it.title, query) ||
+                    (hits.query == RecordingSearch.normalizeQuery(query) && it.id in hits.ids)
             }
         }
 
@@ -281,17 +314,25 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
         if (audioRecorder.startRecording(filePath)) {
             val recording = Recording(
-                title = "Recording ${SimpleDateFormat("MMM d, h:mm a", Locale.US).format(Date())}",
+                title = defaultTitle(),
                 audioFilePath = filePath,
                 transcriptionStatus = TranscriptionStatus.PENDING
             )
             _currentRecordingId.value = recording.id
 
-            viewModelScope.launch {
+            pendingRowSave = viewModelScope.launch {
                 repository.saveRecording(recording)
             }
             startLiveCaptions()
         }
+    }
+
+    /** "Recording Nov 9, 3:41 PM", in the phone's language and date style. */
+    private fun defaultTitle(): String {
+        val locale = Locale.getDefault()
+        val pattern = android.text.format.DateFormat.getBestDateTimePattern(locale, "MMMdjm")
+        val label = getApplication<Application>().getString(com.securevox.app.R.string.recording_label)
+        return "$label ${SimpleDateFormat(pattern, locale).format(Date())}"
     }
 
     fun pauseRecording() {
@@ -304,26 +345,40 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
     fun stopRecording() {
         stopLiveCaptions()
-        val filePath = audioRecorder.stopRecording() ?: return
+        val filePath = audioRecorder.stopRecording()
         val recordingId = _currentRecordingId.value ?: return
+        _currentRecordingId.value = null
 
         viewModelScope.launch {
-            val recording = repository.getRecordingById(recordingId)
-            if (recording != null) {
-                val file = File(filePath)
-                val updatedRecording = recording.copy(
-                    duration = audioRecorder.recordingDuration.value,
-                    fileSize = file.length()
-                )
-                repository.updateRecording(updatedRecording)
-
-                // Start transcription with the user's selected language and model
-                startTranscription(recordingId, getSelectedLanguageCode(), getSelectedModelName())
+            // The row is saved when recording starts; wait for it so an instant stop cannot leave it behind.
+            pendingRowSave?.join()
+            when (stopper.onStopped(recordingId, filePath, audioRecorder.recordingDuration.value)) {
+                RecordingStopper.Result.KEPT -> _transcriptionQueued.tryEmit(Unit)
+                RecordingStopper.Result.DISCARDED -> _nothingRecorded.tryEmit(Unit)
+                RecordingStopper.Result.IGNORED -> Unit
             }
         }
-
-        _currentRecordingId.value = null
     }
+
+    private val stopper = RecordingStopper(
+        rows = object : RecordingRows {
+            override suspend fun get(id: String) = repository.getRecordingById(id)
+            override suspend fun update(recording: Recording) = repository.updateRecording(recording)
+            override suspend fun delete(id: String) = repository.deleteRecordingById(id)
+        },
+        // Start transcription with the user's selected language and model
+        startTranscription = { id -> startTranscription(id, getSelectedLanguageCode(), getSelectedModelName()) }
+    )
+
+    private var pendingRowSave: Job? = null
+
+    /** Emitted when the user's recording or import was queued for transcription. */
+    private val _transcriptionQueued = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val transcriptionQueued: SharedFlow<Unit> = _transcriptionQueued.asSharedFlow()
+
+    /** Emitted when a recording ended with no audio and was discarded. */
+    private val _nothingRecorded = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
+    val nothingRecorded: SharedFlow<Unit> = _nothingRecorded.asSharedFlow()
 
     fun startTranscription(recordingId: String, language: String = WhisperLanguage.fromDeviceLocale().code, modelName: String = "ggml-tiny.bin") {
         val workRequest = TranscriptionWorker.createWorkRequest(
@@ -392,6 +447,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
 
                     // Start transcription with the user's selected language and model
                     startTranscription(recording.id, getSelectedLanguageCode(), getSelectedModelName())
+                    _transcriptionQueued.tryEmit(Unit)
                 }
                 is ImportResult.Error -> {
                     _importError.value = result.message

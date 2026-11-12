@@ -17,7 +17,7 @@
     <string name="import_label">Importa</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Cerca registrazioni</string>
+    <string name="search_recordings">Cerca in titoli e trascrizioni</string>
     <string name="close_search">Chiudi ricerca</string>
     <string name="import_media">Importa file multimediali</string>
     <string name="stop_recording">Interrompi registrazione</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Apri Impostazioni</string>
     <string name="mic_denied_toast">Per registrare serve l\'accesso al microfono.</string>
     <string name="setup_continue_download">Continua il download (restano %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Trascrizione in corso\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Trascrizione in corso\u2026 %1$d%% \u00b7 ~%2$d min rimanenti</string>
+    <string name="transcribing_estimate_total">Trascrizione in corso\u2026 \u00b7 ~%1$d min in totale</string>
+    <string name="retry_transcription">Riprova la trascrizione</string>
+    <string name="notif_rationale_title">Ricevi un avviso quando è pronta</string>
+    <string name="notif_rationale_body">La trascrizione può richiedere alcuni minuti. Consenti le notifiche e SecureVox ti avviserà quando la trascrizione è pronta, anche se hai lasciato l\u2019app. Puoi rifiutare e usare comunque tutto.</string>
+    <string name="not_now">Non ora</string>
+    <string name="notif_ready_title">Trascrizione pronta</string>
+    <string name="notif_channel_ready_name">Trascrizione pronta</string>
+    <string name="notif_channel_ready_description">Ti avvisa quando una trascrizione è terminata</string>
+    <string name="notif_channel_progress_name">Trascrizione</string>
+    <string name="notif_channel_progress_description">Mostra l\u2019avanzamento durante la trascrizione di una registrazione</string>
+    <string name="notif_progress_title">Trascrizione della registrazione</string>
+    <string name="notif_progress_text">%1$d%% completato</string>
+    <string name="rename">Rinomina</string>
+    <string name="rename_recording_title">Rinomina registrazione</string>
+    <string name="rename_field_label">Titolo</string>
+    <string name="save">Salva</string>
+    <string name="nothing_recorded_toast">Non è stato registrato nulla.</string>
 </resources>

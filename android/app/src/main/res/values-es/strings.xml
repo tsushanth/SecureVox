@@ -17,7 +17,7 @@
     <string name="import_label">Importar</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Buscar grabaciones</string>
+    <string name="search_recordings">Buscar en títulos y transcripciones</string>
     <string name="close_search">Cerrar búsqueda</string>
     <string name="import_media">Importar medios</string>
     <string name="stop_recording">Detener grabación</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Abrir Ajustes</string>
     <string name="mic_denied_toast">Grabar requiere acceso al micrófono.</string>
     <string name="setup_continue_download">Continuar descarga (faltan %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transcribiendo\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Transcribiendo\u2026 %1$d%% \u00b7 faltan ~%2$d min</string>
+    <string name="transcribing_estimate_total">Transcribiendo\u2026 \u00b7 aprox. %1$d min en total</string>
+    <string name="retry_transcription">Reintentar transcripción</string>
+    <string name="notif_rationale_title">Recibe un aviso cuando esté lista</string>
+    <string name="notif_rationale_body">Transcribir puede tardar unos minutos. Permite las notificaciones y SecureVox te avisará cuando la transcripción esté lista, aunque hayas salido de la app. Puedes decir que no y usar todo igualmente.</string>
+    <string name="not_now">Ahora no</string>
+    <string name="notif_ready_title">Transcripción lista</string>
+    <string name="notif_channel_ready_name">Transcripción lista</string>
+    <string name="notif_channel_ready_description">Avisa cuando termina una transcripción</string>
+    <string name="notif_channel_progress_name">Transcripción</string>
+    <string name="notif_channel_progress_description">Muestra el progreso al transcribir una grabación</string>
+    <string name="notif_progress_title">Transcribiendo grabación</string>
+    <string name="notif_progress_text">%1$d%% completado</string>
+    <string name="rename">Renombrar</string>
+    <string name="rename_recording_title">Renombrar grabación</string>
+    <string name="rename_field_label">Título</string>
+    <string name="save">Guardar</string>
+    <string name="nothing_recorded_toast">No se grabó nada.</string>
 </resources>

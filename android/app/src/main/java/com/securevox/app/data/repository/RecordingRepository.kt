@@ -1,5 +1,6 @@
 package com.securevox.app.data.repository
 
+import com.securevox.app.data.RecordingSearch
 import com.securevox.app.data.local.RecordingDao
 import com.securevox.app.data.local.TranscriptSegmentDao
 import com.securevox.app.data.model.Recording
@@ -42,7 +43,19 @@ class RecordingRepository(
         progress: Int = 0
     ) = recordingDao.updateTranscriptionStatus(recordingId, status, progress)
 
-    fun searchRecordings(query: String): Flow<List<Recording>> = recordingDao.searchRecordings(query)
+    /** Removes a row only; the caller has already dealt with the audio file. Segments cascade. */
+    suspend fun deleteRecordingById(id: String) = recordingDao.deleteRecordingById(id)
+
+    suspend fun renameRecording(recordingId: String, title: String) =
+        recordingDao.updateTitle(recordingId, title)
+
+    /** Ids of recordings whose transcript contains [query], ignoring case. Cheap in the common ASCII case. */
+    suspend fun recordingIdsWithTranscriptMatching(query: String): Set<String> =
+        if (RecordingSearch.canUseSqlLike(query)) {
+            recordingDao.recordingIdsWithTextLike(RecordingSearch.likePattern(query)).toSet()
+        } else {
+            RecordingSearch.matchingIds(recordingDao.allSegmentTexts(), query)
+        }
 
     suspend fun toggleFavorite(recordingId: String, isFavorite: Boolean) =
         recordingDao.updateFavoriteStatus(recordingId, isFavorite)

@@ -17,7 +17,7 @@
     <string name="import_label">นำเข้า</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">ค้นหาการบันทึก</string>
+    <string name="search_recordings">ค้นหาชื่อและข้อความถอดเสียง</string>
     <string name="close_search">ปิดการค้นหา</string>
     <string name="import_media">นำเข้าสื่อ</string>
     <string name="stop_recording">หยุดบันทึก</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">เปิดการตั้งค่า</string>
     <string name="mic_denied_toast">การบันทึกต้องได้รับสิทธิ์เข้าถึงไมโครโฟน</string>
     <string name="setup_continue_download">ดาวน์โหลดต่อ (เหลือ %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">กำลังถอดเสียง\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">กำลังถอดเสียง\u2026 %1$d%% \u00b7 เหลืออีกประมาณ %2$d นาที</string>
+    <string name="transcribing_estimate_total">กำลังถอดเสียง\u2026 \u00b7 โดยรวมประมาณ %1$d นาที</string>
+    <string name="retry_transcription">ลองถอดเสียงอีกครั้ง</string>
+    <string name="notif_rationale_title">รับแจ้งเมื่อเสร็จ</string>
+    <string name="notif_rationale_body">การถอดเสียงอาจใช้เวลาสองสามนาที อนุญาตการแจ้งเตือน แล้ว SecureVox จะแจ้งให้คุณทราบเมื่อข้อความถอดเสียงพร้อม แม้คุณจะออกจากแอปแล้ว คุณจะปฏิเสธก็ได้และยังใช้งานได้ทุกอย่างตามปกติ</string>
+    <string name="not_now">ไว้ภายหลัง</string>
+    <string name="notif_ready_title">ข้อความถอดเสียงพร้อมแล้ว</string>
+    <string name="notif_channel_ready_name">ข้อความถอดเสียงพร้อมแล้ว</string>
+    <string name="notif_channel_ready_description">แจ้งเมื่อการถอดเสียงเสร็จสิ้น</string>
+    <string name="notif_channel_progress_name">การถอดเสียง</string>
+    <string name="notif_channel_progress_description">แสดงความคืบหน้าระหว่างถอดเสียงการบันทึก</string>
+    <string name="notif_progress_title">กำลังถอดเสียงการบันทึก</string>
+    <string name="notif_progress_text">เสร็จแล้ว %1$d%%</string>
+    <string name="rename">เปลี่ยนชื่อ</string>
+    <string name="rename_recording_title">เปลี่ยนชื่อการบันทึก</string>
+    <string name="rename_field_label">ชื่อ</string>
+    <string name="save">บันทึก</string>
+    <string name="nothing_recorded_toast">ไม่มีการบันทึกเสียง</string>
 </resources>

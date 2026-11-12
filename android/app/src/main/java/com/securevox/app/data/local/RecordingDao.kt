@@ -1,6 +1,7 @@
 package com.securevox.app.data.local
 
 import androidx.room.*
+import com.securevox.app.data.SegmentText
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
 import kotlinx.coroutines.flow.Flow
@@ -47,8 +48,20 @@ interface RecordingDao {
     @Query("SELECT COUNT(*) FROM recordings")
     suspend fun getRecordingCount(): Int
 
-    @Query("SELECT * FROM recordings WHERE title LIKE '%' || :query || '%' ORDER BY createdAt DESC")
-    fun searchRecordings(query: String): Flow<List<Recording>>
+    @Query("UPDATE recordings SET title = :title WHERE id = :id")
+    suspend fun updateTitle(id: String, title: String)
+
+    /** Every segment's text, for matching queries SQLite's LIKE cannot fold case for (non-ASCII). */
+    @Query("SELECT recordingId, text FROM transcript_segments")
+    suspend fun allSegmentTexts(): List<SegmentText>
+
+    /**
+     * Ids of recordings with a transcript segment containing [pattern] (a LIKE pattern from
+     * RecordingSearch.likePattern; LIKE is case-insensitive for ASCII only, so the caller uses it only for
+     * ASCII queries). Reads no transcript text into memory.
+     */
+    @Query("SELECT DISTINCT recordingId FROM transcript_segments WHERE text LIKE :pattern ESCAPE '\\'")
+    suspend fun recordingIdsWithTextLike(pattern: String): List<String>
 
     @Query("UPDATE recordings SET isFavorite = :isFavorite WHERE id = :id")
     suspend fun updateFavoriteStatus(id: String, isFavorite: Boolean)

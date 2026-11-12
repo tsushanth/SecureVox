@@ -21,6 +21,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Canvas
@@ -53,6 +54,9 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.ExportFormat
+import com.securevox.app.data.RecordingSearch
+import com.securevox.app.notify.TranscriptNotifier
+import com.securevox.app.notify.ViewedRecording
 import com.securevox.app.service.PlaybackSpeed
 import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.launch
@@ -92,6 +96,7 @@ fun RecordingDetailScreen(
     LaunchedEffect(relabelRunning) { if (relabelRunning) showSpeakerDialog = false }
 
     var showDeleteDialog by remember { mutableStateOf(false) }
+    var showRenameDialog by remember { mutableStateOf(false) }
     var showSpeedMenu by remember { mutableStateOf(false) }
     var showMenu by remember { mutableStateOf(false) }
     var showExportMenu by remember { mutableStateOf(false) }
@@ -216,6 +221,14 @@ fun RecordingDetailScreen(
                                 }
                             )
                         }
+                        DropdownMenuItem(
+                            text = { Text(stringResource(R.string.rename)) },
+                            leadingIcon = { Icon(Icons.Default.Edit, null) },
+                            onClick = {
+                                showMenu = false
+                                showRenameDialog = true
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text(stringResource(R.string.delete)) },
                             leadingIcon = { Icon(Icons.Default.Delete, null, tint = MaterialTheme.colorScheme.error) },
@@ -352,6 +365,61 @@ fun RecordingDetailScreen(
                 onSkipForward = { viewModel.skipForward() },
                 onSpeedChange = { viewModel.setPlaybackSpeed(it) }
             )
+        }
+    }
+
+    if (showRenameDialog) {
+        // Opens with the keyboard up and the whole title selected, so typing replaces it.
+        val initialTitle = recording?.title.orEmpty()
+        var draft by remember { mutableStateOf(androidx.compose.ui.text.input.TextFieldValue(initialTitle, androidx.compose.ui.text.TextRange(0, initialTitle.length))) }
+        val focusRequester = remember { androidx.compose.ui.focus.FocusRequester() }
+        LaunchedEffect(Unit) { focusRequester.requestFocus() }
+        val newTitle = RecordingSearch.normalizeTitle(draft.text)
+        AlertDialog(
+            onDismissRequest = { showRenameDialog = false },
+            title = { Text(stringResource(R.string.rename_recording_title)) },
+            text = {
+                OutlinedTextField(
+                    value = draft,
+                    onValueChange = { draft = it.copy(text = it.text.take(RecordingSearch.MAX_TITLE_LENGTH)) },
+                    label = { Text(stringResource(R.string.rename_field_label)) },
+                    singleLine = true,
+                    modifier = Modifier.fillMaxWidth().focusRequester(focusRequester)
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    enabled = newTitle != null,
+                    onClick = {
+                        newTitle?.let { viewModel.renameRecording(it) }
+                        showRenameDialog = false
+                    }
+                ) { Text(stringResource(R.string.save)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showRenameDialog = false }) { Text(stringResource(R.string.cancel)) }
+            }
+        )
+    }
+
+    // Tells the transcript-ready notification not to fire while this recording is on screen, and clears it
+    // when the user got here some other way.
+    val lifecycleOwner = androidx.compose.ui.platform.LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner, recordingId) {
+        val observer = androidx.lifecycle.LifecycleEventObserver { _, event ->
+            when (event) {
+                androidx.lifecycle.Lifecycle.Event.ON_RESUME -> {
+                    ViewedRecording.enter(recordingId)
+                    TranscriptNotifier.cancel(context, recordingId)
+                }
+                androidx.lifecycle.Lifecycle.Event.ON_PAUSE -> ViewedRecording.leave(recordingId)
+                else -> Unit
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose {
+            lifecycleOwner.lifecycle.removeObserver(observer)
+            ViewedRecording.leave(recordingId)
         }
     }
 
@@ -723,7 +791,7 @@ private fun TranscriptionProgress(progress: Int?) {
                 CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             }
             Text(
-                text = if (progress != null && progress > 0) "Transcribing… $progress%" else stringResource(R.string.transcribing),
+                text = if (progress != null && progress > 0) stringResource(R.string.transcribing_progress, progress) else stringResource(R.string.transcribing),
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -759,7 +827,7 @@ private fun TranscriptionProgressBanner(progress: Int?) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (progress != null && progress > 0) "Transcribing… $progress%" else "Transcribing…",
+                    text = if (progress != null && progress > 0) stringResource(R.string.transcribing_progress, progress) else stringResource(R.string.transcribing),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSurface
                 )

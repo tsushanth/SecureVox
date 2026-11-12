@@ -6,8 +6,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.securevox.app.IncomingAction
+import com.securevox.app.IncomingActions
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.presentation.detail.RecordingDetailScreen
 import com.securevox.app.presentation.onboarding.SetupScreen
@@ -54,6 +57,19 @@ fun SecureVoxNavHost() {
                 popUpTo(Screen.Setup.route) { inclusive = true }
             }
         }
+    }
+
+    // "Transcript ready" notification tap: open that recording. Waits while first-run setup is on screen.
+    val incoming by IncomingActions.pending.collectAsState()
+    val currentEntry by navController.currentBackStackEntryAsState()
+    LaunchedEffect(incoming, currentEntry) {
+        val action = incoming as? IncomingAction.OpenRecording ?: return@LaunchedEffect
+        val entry = currentEntry ?: return@LaunchedEffect
+        if (entry.destination.route == Screen.Setup.route) return@LaunchedEffect
+        val alreadyThere = entry.destination.route == Screen.RecordingDetail.route &&
+            entry.arguments?.getString("recordingId") == action.recordingId
+        if (!alreadyThere) navController.navigate(Screen.RecordingDetail.createRoute(action.recordingId))
+        IncomingActions.consume(action)
     }
 
     NavHost(

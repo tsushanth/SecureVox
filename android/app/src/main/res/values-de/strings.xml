@@ -17,7 +17,7 @@
     <string name="import_label">Importieren</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Aufnahmen suchen</string>
+    <string name="search_recordings">Titel und Transkripte durchsuchen</string>
     <string name="close_search">Suche schließen</string>
     <string name="import_media">Medien importieren</string>
     <string name="stop_recording">Aufnahme stoppen</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Einstellungen öffnen</string>
     <string name="mic_denied_toast">Für die Aufnahme ist Mikrofonzugriff erforderlich.</string>
     <string name="setup_continue_download">Download fortsetzen (noch %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transkribierung\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Transkribierung\u2026 %1$d%% \u00b7 noch ca. %2$d Min.</string>
+    <string name="transcribing_estimate_total">Transkribierung\u2026 \u00b7 ca. %1$d Min. insgesamt</string>
+    <string name="retry_transcription">Transkription wiederholen</string>
+    <string name="notif_rationale_title">Benachrichtigung, wenn es fertig ist</string>
+    <string name="notif_rationale_body">Die Transkription kann einige Minuten dauern. Erlauben Sie Benachrichtigungen, und SecureVox meldet sich, sobald das Transkript fertig ist, auch wenn Sie die App verlassen haben. Sie können ablehnen und trotzdem alles nutzen.</string>
+    <string name="not_now">Nicht jetzt</string>
+    <string name="notif_ready_title">Transkript fertig</string>
+    <string name="notif_channel_ready_name">Transkript fertig</string>
+    <string name="notif_channel_ready_description">Meldet, wenn ein Transkript fertig ist</string>
+    <string name="notif_channel_progress_name">Transkription</string>
+    <string name="notif_channel_progress_description">Zeigt den Fortschritt während der Transkription einer Aufnahme</string>
+    <string name="notif_progress_title">Aufnahme wird transkribiert</string>
+    <string name="notif_progress_text">%1$d%% abgeschlossen</string>
+    <string name="rename">Umbenennen</string>
+    <string name="rename_recording_title">Aufnahme umbenennen</string>
+    <string name="rename_field_label">Titel</string>
+    <string name="save">Speichern</string>
+    <string name="nothing_recorded_toast">Es wurde nichts aufgenommen.</string>
 </resources>

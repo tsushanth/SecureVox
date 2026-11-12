@@ -17,7 +17,7 @@
     <string name="import_label">Import</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Cari rakaman</string>
+    <string name="search_recordings">Cari tajuk dan transkrip</string>
     <string name="close_search">Tutup carian</string>
     <string name="import_media">Import media</string>
     <string name="stop_recording">Hentikan rakaman</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Buka Tetapan</string>
     <string name="mic_denied_toast">Merakam memerlukan akses mikrofon.</string>
     <string name="setup_continue_download">Sambung muat turun (baki %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Mentranskripsi\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Mentranskripsi\u2026 %1$d%% \u00b7 baki ~%2$d min</string>
+    <string name="transcribing_estimate_total">Mentranskripsi\u2026 \u00b7 anggaran ~%1$d min keseluruhan</string>
+    <string name="retry_transcription">Cuba transkripsi semula</string>
+    <string name="notif_rationale_title">Dapatkan pemberitahuan apabila siap</string>
+    <string name="notif_rationale_body">Transkripsi mungkin mengambil masa beberapa minit. Benarkan pemberitahuan dan SecureVox akan memaklumkan anda apabila transkrip siap, walaupun anda telah meninggalkan aplikasi. Anda boleh menolak dan masih menggunakan semuanya.</string>
+    <string name="not_now">Bukan sekarang</string>
+    <string name="notif_ready_title">Transkrip siap</string>
+    <string name="notif_channel_ready_name">Transkrip siap</string>
+    <string name="notif_channel_ready_description">Memaklumkan apabila transkrip selesai</string>
+    <string name="notif_channel_progress_name">Transkripsi</string>
+    <string name="notif_channel_progress_description">Menunjukkan kemajuan semasa mentranskripsi rakaman</string>
+    <string name="notif_progress_title">Mentranskripsi rakaman</string>
+    <string name="notif_progress_text">%1$d%% selesai</string>
+    <string name="rename">Namakan semula</string>
+    <string name="rename_recording_title">Namakan semula rakaman</string>
+    <string name="rename_field_label">Tajuk</string>
+    <string name="save">Simpan</string>
+    <string name="nothing_recorded_toast">Tiada apa yang dirakam.</string>
 </resources>

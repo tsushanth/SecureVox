@@ -17,7 +17,7 @@
     <string name="import_label">Importeren</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Opnames zoeken</string>
+    <string name="search_recordings">Zoeken in titels en transcripten</string>
     <string name="close_search">Zoekopdracht sluiten</string>
     <string name="import_media">Media importeren</string>
     <string name="stop_recording">Opname stoppen</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Instellingen openen</string>
     <string name="mic_denied_toast">Opnemen vereist toegang tot de microfoon.</string>
     <string name="setup_continue_download">Download hervatten (nog %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transcriberen\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Transcriberen\u2026 %1$d%% \u00b7 nog ~%2$d min</string>
+    <string name="transcribing_estimate_total">Transcriberen\u2026 \u00b7 ca. %1$d min in totaal</string>
+    <string name="retry_transcription">Transcriptie opnieuw proberen</string>
+    <string name="notif_rationale_title">Krijg een melding als het klaar is</string>
+    <string name="notif_rationale_body">Transcriberen kan een paar minuten duren. Sta meldingen toe en SecureVox laat het je weten zodra het transcript klaar is, ook als je de app hebt verlaten. Je kunt weigeren en toch alles gebruiken.</string>
+    <string name="not_now">Niet nu</string>
+    <string name="notif_ready_title">Transcript klaar</string>
+    <string name="notif_channel_ready_name">Transcript klaar</string>
+    <string name="notif_channel_ready_description">Laat je weten wanneer een transcript klaar is</string>
+    <string name="notif_channel_progress_name">Transcriptie</string>
+    <string name="notif_channel_progress_description">Toont de voortgang tijdens het transcriberen van een opname</string>
+    <string name="notif_progress_title">Opname transcriberen</string>
+    <string name="notif_progress_text">%1$d%% voltooid</string>
+    <string name="rename">Hernoemen</string>
+    <string name="rename_recording_title">Opname hernoemen</string>
+    <string name="rename_field_label">Titel</string>
+    <string name="save">Opslaan</string>
+    <string name="nothing_recorded_toast">Er is niets opgenomen.</string>
 </resources>
