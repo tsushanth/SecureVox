@@ -1,1 +1,1 @@
-Record and transcribe offline with Whisper. Your audio never leaves your phone.
+Record and transcribe on your phone. One-time model download (about 78 MB).

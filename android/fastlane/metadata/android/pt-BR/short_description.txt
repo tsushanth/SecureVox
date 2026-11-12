@@ -1,1 +1,1 @@
-Grave e transcreva offline com Whisper. Seu áudio nunca sai do celular.
+Grave e transcreva no celular. Baixe um modelo uma vez (cerca de 78 MB).

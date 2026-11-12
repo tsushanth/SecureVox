@@ -1,48 +1,46 @@
-SecureVox records your voice and turns it into text on your phone. The transcription runs on-device with OpenAI's Whisper model, so your audio is never uploaded anywhere.
+SecureVox records your voice and turns it into text on your phone. Transcription runs on the device with OpenAI's Whisper models. SecureVox does not upload your audio or transcripts. There is no account and no ads. Optional anonymous crash reports (app version, phone model, error type; never audio or text) are off unless you turn them on in Settings.
 
-WHY SECUREVOX
+BEFORE YOU BUY: SETUP NEEDS INTERNET ONCE
 
-Voice memos, meetings and interviews are often private. Most transcription apps send your audio to a server. SecureVox does not. There is no account, no cloud upload, no analytics and no tracking. The internet is only used once, to download the transcription model you choose.
+The transcription model is not included in the app. The first time you open SecureVox it downloads the default model, Tiny (about 78 MB), from Hugging Face. You cannot record or transcribe until that download finishes. After that, recording and transcription work without a connection.
+
+Better models are optional downloads inside the app: Base (about 148 MB) and Small (about 488 MB). Speaker labels, if you turn them on, need one more download of about 46 MB.
+
+LANGUAGES: BE REALISTIC
+
+The app offers 14 languages plus auto-detect. We measured accuracy on clean read speech, so noisy real-world recordings will do worse than these results.
+- Good with the default Tiny model: English only.
+- Good with Base (148 MB): English, Spanish, Korean.
+- Good with Small (488 MB): English, Spanish, French, German, Italian, Portuguese, Russian, Japanese, Korean.
+- Reduced accuracy even with Small: Dutch, Polish, Chinese (often written in Traditional characters), Arabic.
+- Hindi is experimental. It is poor on every model, so treat the result as a rough draft at best.
+If you mainly record in a language other than English, expect to download Small. It is slower and needs more memory; the app warns you if your phone is short on memory.
 
 WHAT YOU CAN DO
 
-• Transcribe offline - Pick a Whisper model in the app: Tiny (about 78 MB) for speed, Base (about 148 MB) for a balance, or Small (about 488 MB) for the best accuracy. Models are downloaded inside the app.
+- Record, with optional live captions while you speak (a rough preview; the saved transcript is made when you stop).
+- Tap a word in the transcript to jump to that point in the audio.
+- Optional speaker labels (Speaker 1, Speaker 2) for recordings up to 30 minutes. They are approximate.
+- Import audio or video files, or share them into SecureVox from other apps.
+- Export transcripts as TXT, SRT or VTT, or export the audio.
+- Re-transcribe a recording with a different model.
+- Custom dictionary for names and special terms.
+- Favorites, recycle bin, optional app lock, Quick Settings tile, playback speed from 0.5x to 2x, light and dark themes.
+- Read a transcript aloud with an offline voice installed on your phone.
 
-• Live captions while you record - Watch the words appear as you speak. The full transcript is made when you stop.
+WHAT SECUREVOX DOES NOT DO
 
-• Speaker labels (optional) - Turn on Label speakers and the transcript is split into Speaker 1, Speaker 2 and so on. This needs a small extra download and works on recordings up to 30 minutes.
-
-• Share or open audio and video from other apps - Send a voice message, a video or an audio file to SecureVox from any app and it is transcribed on your phone. You can also import files from inside the app.
-
-• Quick start - Add the Quick Settings tile or use the launcher icon shortcut to start recording in one tap.
-
-• Optional app lock - Protect the app with your fingerprint, face or screen lock.
-
-• Export - Save or share transcripts as TXT, SRT or VTT subtitles, or share the audio itself.
-
-• Custom dictionary - Add names and special terms so they are spelled the way you want.
-
-• Re-transcribe - Run a recording again with a different model if you want better accuracy.
-
-• Read aloud - Have a transcript read back to you with a voice that runs on your phone.
-
-• Player with waveform - Drag the waveform to seek, change the speed from 0.5x to 2x, and search across all your transcripts.
-
-• Light and dark themes with a calm, readable design.
-
-LANGUAGES
-
-SecureVox transcribes many languages. Quality varies by language: it is best in widely spoken languages such as English, Spanish, French, German, Italian, Portuguese, Chinese and Japanese, and weaker in languages with less training data. Larger models help.
+- No summaries, AI notes or action items.
+- No translation.
+- No cloud sync and no account.
+- No guarantee of accuracy: check anything important.
 
 GOOD TO KNOW
 
-• Accuracy depends on audio quality, accents and background noise. Check important transcripts before relying on them.
-• Speaker labels are approximate and can mix up voices that sound alike.
-• Larger models are slower and need more memory and storage.
-• Requires Android 8.0 or newer.
+- Needs Android 8.0 or newer and microphone permission.
+- Larger models are slower and need more storage and memory.
+- Long recordings are transcribed in the background with a notification and can take a while.
 
 ONE-TIME PURCHASE
 
-SecureVox is a paid app. No subscription, no ads, no in-app purchases.
-
-More at https://securevox.app
+Paid app. No subscription, no ads, no in-app purchases.
