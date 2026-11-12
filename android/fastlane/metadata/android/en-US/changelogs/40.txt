@@ -1,0 +1,4 @@
+• Get a notification when your transcript is ready
+• Rename recordings and search inside transcripts
+• More accurate time-left while transcribing
+• Recordings with no sound are no longer saved as empty entries
