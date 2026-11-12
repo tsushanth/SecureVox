@@ -315,4 +315,13 @@
     <string name="rename_field_label">ชื่อ</string>
     <string name="save">บันทึก</string>
     <string name="nothing_recorded_toast">ไม่มีการบันทึกเสียง</string>
+    <string name="funnel_settings_title">บนโทรศัพท์เครื่องนี้</string>
+    <string name="funnel_settings_subtitle">สิ่งที่ SecureVox นับจากการใช้งานของตัวเอง ข้อมูลนี้อยู่บนโทรศัพท์ของคุณเท่านั้น</string>
+    <string name="funnel_stays_on_phone">ข้อมูลนี้อยู่บนโทรศัพท์ของคุณเท่านั้น SecureVox ไม่ส่งไปที่ใด ข้อมูลประกอบด้วยจำนวนครั้งและวันที่ของขั้นตอนการตั้งค่าและการใช้งาน ไม่มีเสียง ข้อความ ชื่อเรื่อง หรือชื่อไฟล์ของคุณเลย ข้อมูลจะออกจากโทรศัพท์ก็ต่อเมื่อคุณส่งข้อความ \"รายงานปัญหา\" โดยจะมีสำเนาอยู่ในฉบับร่าง ซึ่งคุณอ่านและแก้ไขได้ก่อนส่ง</string>
+    <string name="funnel_since">นับตั้งแต่ %1$s</string>
+    <string name="funnel_empty">ยังไม่มีอะไรที่นับ</string>
+    <string name="funnel_row_detail">จำนวน %1$d ครั้งแรก %2$s ล่าสุด %3$s</string>
+    <string name="funnel_reset">รีเซ็ต</string>
+    <string name="funnel_reset_title">รีเซ็ตรายการนี้ไหม</string>
+    <string name="funnel_reset_body">การดำเนินการนี้จะล้างจำนวนและวันที่ที่แสดงอยู่ที่นี่ การบันทึกเสียง ข้อความถอดเสียง และการตั้งค่าของคุณจะไม่ได้รับผลกระทบ</string>
 </resources>

@@ -34,6 +34,11 @@ import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.SecureVoxApp
 import com.securevox.app.util.CrashLogger
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.TranscribeFailClass
+import com.securevox.app.util.funnel.Trigger
+import com.securevox.app.util.funnel.funnel
+import com.securevox.app.whisper.WhisperLanguage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.File
@@ -57,6 +62,8 @@ class TranscriptionWorker(
         const val KEY_RECORDING_ID = "recording_id"
         const val KEY_MODEL_NAME = "model_name"
         const val KEY_LANGUAGE = "language"
+        /** What queued this run (see Trigger), for the on-phone usage ledger. Optional. */
+        const val KEY_TRIGGER = "trigger"
         const val KEY_PROGRESS = "progress"
         /** When this run began (epoch ms), reported with every progress update so the list can estimate time left. */
         const val KEY_STARTED_AT = "started_at_ms"
@@ -84,12 +91,14 @@ class TranscriptionWorker(
         fun createWorkRequest(
             recordingId: String,
             modelName: String = "ggml-tiny.bin",
-            language: String = "en"
+            language: String = "en",
+            trigger: String = Trigger.AUTO.code
         ): OneTimeWorkRequest {
             val inputData = workDataOf(
                 KEY_RECORDING_ID to recordingId,
                 KEY_MODEL_NAME to modelName,
-                KEY_LANGUAGE to language
+                KEY_LANGUAGE to language,
+                KEY_TRIGGER to trigger
             )
 
             return OneTimeWorkRequestBuilder<TranscriptionWorker>()
@@ -149,10 +158,15 @@ class TranscriptionWorker(
             val modelManager = SecureVoxApp.instance.modelManager
 
             val whisperModel = WhisperModel.fromFileName(modelName) ?: WhisperModel.TINY
+            // Usage ledger (on this phone only). WorkManager may re-run a killed job, so this is at-least-once.
+            FunnelHooks.onTranscriptionStarted(
+                funnel(), whisperModel, WhisperLanguage.fromCode(language), Trigger.fromCode(inputData.getString(KEY_TRIGGER)), recording.duration
+            )
 
             if (!modelManager.isModelDownloaded(whisperModel)) {
                 Log.e(TAG, "Model not downloaded: ${whisperModel.fileName}")
                 FailureReporter.failure("transcription.run", reason = "model_missing", context = mapOf("model" to whisperModel.fileName))
+                ledgerFailure(whisperModel, TranscribeFailClass.MODEL_MISSING, transcriptionStartedAtMs)
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
@@ -164,6 +178,7 @@ class TranscriptionWorker(
             if (!initialized) {
                 Log.e(TAG, "Failed to initialize Whisper model")
                 FailureReporter.failure("transcription.run", reason = "model_init_failed", context = mapOf("model" to whisperModel.fileName))
+                ledgerFailure(whisperModel, TranscribeFailClass.MODEL_INIT_FAILED, transcriptionStartedAtMs)
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 return@withContext Result.failure()
             }
@@ -173,6 +188,7 @@ class TranscriptionWorker(
             if (wavInfo == null) {
                 Log.e(TAG, "Failed to parse WAV info")
                 FailureReporter.failure("transcription.run", reason = "audio_unreadable")
+                ledgerFailure(whisperModel, TranscribeFailClass.AUDIO_UNREADABLE, transcriptionStartedAtMs)
                 repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
                 whisperLib.release()
                 return@withContext Result.failure()
@@ -266,6 +282,10 @@ class TranscriptionWorker(
 
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
             Log.i(TAG, "Transcription completed: ${allSegments.size} total segments")
+            FunnelHooks.onTranscriptionCompleted(
+                funnel(), whisperModel, System.currentTimeMillis() - transcriptionStartedAtMs,
+                totalAudioSamples * 1000L / 16000L, noSpeech = allSegments.isEmpty()
+            )
 
             // Tell the user it is ready (skipped when notifications are off or they are already looking at it).
             val latestTitle = repository.getRecordingById(recordingId)?.title ?: recording.title
@@ -276,6 +296,7 @@ class TranscriptionWorker(
         } catch (e: OutOfMemoryError) {
             Log.e(TAG, "OOM during transcription — device RAM too low", e)
             FailureReporter.failure("transcription.run", e, reason = "oom", context = progressContext(lastChunkIndexReached, lastTotalChunks, transcriptionStartedAtMs))
+            ledgerFailure(WhisperModel.fromFileName(modelName), TranscribeFailClass.OOM, transcriptionStartedAtMs)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
             logFailureToDisk(
                 recordingId, "OutOfMemoryError", e.message,
@@ -285,6 +306,7 @@ class TranscriptionWorker(
         } catch (e: Exception) {
             Log.e(TAG, "Transcription failed", e)
             FailureReporter.failure("transcription.run", e, context = progressContext(lastChunkIndexReached, lastTotalChunks, transcriptionStartedAtMs))
+            ledgerFailure(WhisperModel.fromFileName(modelName), TranscribeFailClass.OTHER, transcriptionStartedAtMs)
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.FAILED, 0)
             logFailureToDisk(
                 recordingId, e.javaClass.simpleName, e.message,
@@ -309,6 +331,10 @@ class TranscriptionWorker(
         }
         SpeakerPass(applicationContext, repository)
             .run(recordingId, audioPath, SpeakerLabels.chosenCount(applicationContext, recordingId), SpeakerPass.Mode.FIRST_TIME)
+    }
+
+    private fun ledgerFailure(model: WhisperModel?, failure: TranscribeFailClass, startedAtMs: Long) {
+        FunnelHooks.onTranscriptionFailed(funnel(), model, failure, System.currentTimeMillis() - startedAtMs)
     }
 
     /** Counters only (how far it got); nothing from the recording itself. */

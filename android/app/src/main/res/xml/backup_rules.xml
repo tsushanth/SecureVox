@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 11 and older: everything is backed up as before, except the on-phone usage ledger. -->
+<full-backup-content>
+    <exclude domain="sharedpref" path="funnel_local.xml" />
+</full-backup-content>

@@ -315,4 +315,13 @@
     <string name="rename_field_label">Título</string>
     <string name="save">Salvar</string>
     <string name="nothing_recorded_toast">Nada foi gravado.</string>
+    <string name="funnel_settings_title">Neste celular</string>
+    <string name="funnel_settings_subtitle">O que o SecureVox contou sobre o próprio uso. Fica no seu celular.</string>
+    <string name="funnel_stays_on_phone">Isso fica no seu celular. O SecureVox não envia para lugar nenhum. Contém contagens e datas das etapas de configuração e de uso, nunca seu áudio, texto, títulos ou nomes de arquivos. Só sai do seu celular se você enviar uma mensagem de Relatar um problema: uma cópia vai no rascunho, que você pode ler e editar antes de enviar.</string>
+    <string name="funnel_since">Contando desde %1$s</string>
+    <string name="funnel_empty">Nada contado ainda.</string>
+    <string name="funnel_row_detail">Quantidade %1$d. Primeira vez %2$s, última %3$s.</string>
+    <string name="funnel_reset">Redefinir</string>
+    <string name="funnel_reset_title">Redefinir esta lista?</string>
+    <string name="funnel_reset_body">Isso apaga as contagens e as datas mostradas aqui. Suas gravações, transcrições e configurações não são afetadas.</string>
 </resources>

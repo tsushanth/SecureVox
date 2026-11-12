@@ -315,4 +315,13 @@
     <string name="rename_field_label">العنوان</string>
     <string name="save">حفظ</string>
     <string name="nothing_recorded_toast">لم يتم تسجيل أي شيء.</string>
+    <string name="funnel_settings_title">على هذا الهاتف</string>
+    <string name="funnel_settings_subtitle">ما عدّه SecureVox عن استخدامه. يبقى على هاتفك.</string>
+    <string name="funnel_stays_on_phone">يبقى هذا على هاتفك. لا يرسله SecureVox إلى أي مكان. يحتوي على أعداد وتواريخ خطوات الإعداد والاستخدام، ولا يحتوي أبدًا على صوتك أو نصوصك أو عناوينك أو أسماء ملفاتك. لا يغادر هاتفك إلا إذا أرسلت رسالة \"الإبلاغ عن مشكلة\": تُضاف نسخة منه إلى المسودة، ويمكنك قراءتها وتعديلها قبل الإرسال.</string>
+    <string name="funnel_since">العدّ منذ %1$s</string>
+    <string name="funnel_empty">لم يُحسب شيء بعد.</string>
+    <string name="funnel_row_detail">العدد %1$d. الأول %2$s، الأخير %3$s.</string>
+    <string name="funnel_reset">إعادة تعيين</string>
+    <string name="funnel_reset_title">إعادة تعيين هذه القائمة؟</string>
+    <string name="funnel_reset_body">يؤدي هذا إلى مسح الأعداد والتواريخ المعروضة هنا. لا تتأثر تسجيلاتك ونصوصك وإعداداتك.</string>
 </resources>

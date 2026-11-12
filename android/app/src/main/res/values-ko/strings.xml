@@ -315,4 +315,13 @@
     <string name="rename_field_label">제목</string>
     <string name="save">저장</string>
     <string name="nothing_recorded_toast">녹음된 내용이 없습니다.</string>
+    <string name="funnel_settings_title">이 휴대전화에서</string>
+    <string name="funnel_settings_subtitle">SecureVox가 자체 사용에 대해 집계한 내용입니다. 휴대전화 밖으로 나가지 않습니다.</string>
+    <string name="funnel_stays_on_phone">이 정보는 휴대전화에만 남습니다. SecureVox는 이를 어디에도 보내지 않습니다. 설정 및 사용 단계의 횟수와 날짜만 담고 있으며, 오디오, 텍스트, 제목, 파일 이름은 절대 담지 않습니다. \"문제 신고\" 메시지를 보낼 때만 휴대전화 밖으로 나가며, 그 사본이 초안에 포함되어 보내기 전에 읽고 수정할 수 있습니다.</string>
+    <string name="funnel_since">%1$s부터 집계 중</string>
+    <string name="funnel_empty">아직 집계된 항목이 없습니다.</string>
+    <string name="funnel_row_detail">횟수 %1$d. 처음 %2$s, 마지막 %3$s.</string>
+    <string name="funnel_reset">초기화</string>
+    <string name="funnel_reset_title">이 목록을 초기화할까요?</string>
+    <string name="funnel_reset_body">여기에 표시된 횟수와 날짜가 지워집니다. 녹음, 텍스트 변환 결과, 설정에는 영향이 없습니다.</string>
 </resources>

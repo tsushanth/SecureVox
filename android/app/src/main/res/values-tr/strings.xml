@@ -315,4 +315,13 @@
     <string name="rename_field_label">Başlık</string>
     <string name="save">Kaydet</string>
     <string name="nothing_recorded_toast">Hiçbir şey kaydedilmedi.</string>
+    <string name="funnel_settings_title">Bu telefonda</string>
+    <string name="funnel_settings_subtitle">SecureVox\'un kendi kullanımı hakkında saydığı şeyler. Telefonunuzda kalır.</string>
+    <string name="funnel_stays_on_phone">Bu bilgi telefonunuzda kalır. SecureVox bunu hiçbir yere göndermez. Kurulum ve kullanım adımlarının sayılarını ve tarihlerini içerir; ses kayıtlarınızı, metinlerinizi, başlıklarınızı veya dosya adlarınızı asla içermez. Yalnızca bir Sorun Bildir iletisi gönderirseniz telefonunuzdan çıkar: bir kopyası taslağa eklenir ve göndermeden önce okuyup düzenleyebilirsiniz.</string>
+    <string name="funnel_since">%1$s tarihinden beri sayılıyor</string>
+    <string name="funnel_empty">Henüz bir şey sayılmadı.</string>
+    <string name="funnel_row_detail">Sayı %1$d. İlk %2$s, son %3$s.</string>
+    <string name="funnel_reset">Sıfırla</string>
+    <string name="funnel_reset_title">Bu liste sıfırlansın mı?</string>
+    <string name="funnel_reset_body">Burada gösterilen sayılar ve tarihler silinir. Kayıtlarınız, yazıya dökümleriniz ve ayarlarınız etkilenmez.</string>
 </resources>

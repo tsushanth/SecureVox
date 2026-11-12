@@ -315,4 +315,13 @@
     <string name="rename_field_label">タイトル</string>
     <string name="save">保存</string>
     <string name="nothing_recorded_toast">録音されたものがありません。</string>
+    <string name="funnel_settings_title">この端末内</string>
+    <string name="funnel_settings_subtitle">SecureVox が自分の利用について数えた内容です。端末の外には出ません。</string>
+    <string name="funnel_stays_on_phone">この情報は端末内にのみ保存されます。SecureVox がどこかに送信することはありません。セットアップや利用の手順の回数と日付だけが含まれ、音声、テキスト、タイトル、ファイル名は一切含まれません。「問題を報告」のメッセージを送信した場合にのみ端末の外に出ます。そのコピーが下書きに含まれ、送信前に読んだり編集したりできます。</string>
+    <string name="funnel_since">%1$s から集計中</string>
+    <string name="funnel_empty">まだ何も集計されていません。</string>
+    <string name="funnel_row_detail">回数 %1$d。初回 %2$s、最新 %3$s。</string>
+    <string name="funnel_reset">リセット</string>
+    <string name="funnel_reset_title">この一覧をリセットしますか？</string>
+    <string name="funnel_reset_body">ここに表示されている回数と日付が消去されます。録音、文字起こし、設定には影響しません。</string>
 </resources>

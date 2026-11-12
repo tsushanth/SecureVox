@@ -324,4 +324,13 @@
     <string name="rename_field_label">Title</string>
     <string name="save">Save</string>
     <string name="nothing_recorded_toast">Nothing was recorded.</string>
+    <string name="funnel_settings_title">On this phone</string>
+    <string name="funnel_settings_subtitle">What SecureVox has counted about its own use. Stays on your phone.</string>
+    <string name="funnel_stays_on_phone">This stays on your phone. SecureVox does not send it anywhere. It holds counts and dates of setup and usage steps, never your audio, text, titles or file names. It leaves your phone only if you send a Report a Problem message: a copy is included in the draft, which you can read and edit before sending.</string>
+    <string name="funnel_since">Counting since %1$s</string>
+    <string name="funnel_empty">Nothing counted yet.</string>
+    <string name="funnel_row_detail">Count %1$d. First %2$s, last %3$s.</string>
+    <string name="funnel_reset">Reset</string>
+    <string name="funnel_reset_title">Reset this list?</string>
+    <string name="funnel_reset_body">This clears the counts and dates shown here. Your recordings, transcripts and settings are not affected.</string>
 </resources>

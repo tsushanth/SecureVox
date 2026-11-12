@@ -315,4 +315,13 @@
     <string name="rename_field_label">Tiêu đề</string>
     <string name="save">Lưu</string>
     <string name="nothing_recorded_toast">Không có gì được ghi lại.</string>
+    <string name="funnel_settings_title">Trên điện thoại này</string>
+    <string name="funnel_settings_subtitle">Những gì SecureVox đã đếm về việc dùng chính nó. Chỉ nằm trên điện thoại của bạn.</string>
+    <string name="funnel_stays_on_phone">Thông tin này chỉ nằm trên điện thoại của bạn. SecureVox không gửi nó đi đâu cả. Nó chứa số lần và ngày của các bước thiết lập và sử dụng, không bao giờ chứa âm thanh, văn bản, tiêu đề hay tên tệp của bạn. Nó chỉ rời khỏi điện thoại nếu bạn gửi tin nhắn Báo cáo sự cố: một bản sao được đưa vào bản nháp, bạn có thể đọc và chỉnh sửa trước khi gửi.</string>
+    <string name="funnel_since">Đếm từ %1$s</string>
+    <string name="funnel_empty">Chưa đếm được gì.</string>
+    <string name="funnel_row_detail">Số lần %1$d. Đầu tiên %2$s, gần nhất %3$s.</string>
+    <string name="funnel_reset">Đặt lại</string>
+    <string name="funnel_reset_title">Đặt lại danh sách này?</string>
+    <string name="funnel_reset_body">Thao tác này xóa các số lần và ngày hiển thị ở đây. Bản ghi âm, bản chuyển đổi và cài đặt của bạn không bị ảnh hưởng.</string>
 </resources>

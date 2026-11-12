@@ -15,7 +15,10 @@ class NewStringsLocalizedTest {
         "notif_rationale_title", "notif_rationale_body", "not_now", "notif_ready_title", "notif_channel_ready_name",
         "notif_channel_ready_description", "notif_channel_progress_name", "notif_channel_progress_description",
         "notif_progress_title", "notif_progress_text", "rename", "rename_recording_title", "rename_field_label", "save",
-        "search_recordings", "nothing_recorded_toast"
+        "search_recordings", "nothing_recorded_toast",
+        // On this phone (usage ledger) screen
+        "funnel_settings_title", "funnel_settings_subtitle", "funnel_stays_on_phone", "funnel_since", "funnel_empty",
+        "funnel_row_detail", "funnel_reset", "funnel_reset_title", "funnel_reset_body"
     )
 
     private fun res(): File = listOf(File("src/main/res"), File("app/src/main/res")).first { it.isDirectory }

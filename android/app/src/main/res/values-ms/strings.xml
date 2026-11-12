@@ -315,4 +315,13 @@
     <string name="rename_field_label">Tajuk</string>
     <string name="save">Simpan</string>
     <string name="nothing_recorded_toast">Tiada apa yang dirakam.</string>
+    <string name="funnel_settings_title">Pada telefon ini</string>
+    <string name="funnel_settings_subtitle">Apa yang SecureVox kira tentang penggunaannya sendiri. Kekal pada telefon anda.</string>
+    <string name="funnel_stays_on_phone">Ini kekal pada telefon anda. SecureVox tidak menghantarnya ke mana-mana. Ia mengandungi bilangan dan tarikh langkah persediaan dan penggunaan, tidak pernah audio, teks, tajuk atau nama fail anda. Ia hanya meninggalkan telefon anda jika anda menghantar mesej Laporkan Masalah: satu salinan disertakan dalam draf, yang boleh anda baca dan ubah sebelum menghantar.</string>
+    <string name="funnel_since">Dikira sejak %1$s</string>
+    <string name="funnel_empty">Belum ada apa-apa yang dikira.</string>
+    <string name="funnel_row_detail">Bilangan %1$d. Pertama %2$s, terakhir %3$s.</string>
+    <string name="funnel_reset">Tetap semula</string>
+    <string name="funnel_reset_title">Tetap semula senarai ini?</string>
+    <string name="funnel_reset_body">Ini memadamkan bilangan dan tarikh yang dipaparkan di sini. Rakaman, transkrip dan tetapan anda tidak terjejas.</string>
 </resources>

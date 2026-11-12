@@ -19,6 +19,11 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import com.securevox.app.R
 import com.securevox.app.presentation.settings.dataStore
 import com.securevox.app.util.Connectivity
+import com.securevox.app.util.funnel.FunnelModel
+import com.securevox.app.util.funnel.LangBucket
+import com.securevox.app.util.funnel.SetupEntry
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.whisper.DownloadPolicy
 import com.securevox.app.whisper.DownloadProblem
 import com.securevox.app.whisper.DownloadState
@@ -41,6 +46,7 @@ import kotlinx.coroutines.flow.first
 @Composable
 fun SetupScreen(
     modelManager: ModelManager,
+    entry: SetupEntry,
     onSetupComplete: () -> Unit,
     onSkip: () -> Unit
 ) {
@@ -55,6 +61,9 @@ fun SetupScreen(
         if (saved != null) language = WhisperLanguage.fromCode(saved)
     }
     val offer = remember(language) { FirstRunModel.offerFor(language) }
+
+    // Usage ledger (on this phone only): the setup screen was shown, and through which door.
+    LaunchedEffect(Unit) { funnel().step(Step.SETUP_SHOWN, entry) }
 
     // A model the user asked to confirm first (Base / Small), or null.
     var pendingConfirm by remember { mutableStateOf<WhisperModel?>(null) }
@@ -87,9 +96,10 @@ fun SetupScreen(
     }
 
     pendingConfirm?.let { model ->
+        LaunchedEffect(model) { funnel().step(Step.SIZE_CONFIRM_SHOWN, FunnelModel.of(model)) }
         val metered = FirstRunModel.suggestWifi(model, network)
         AlertDialog(
-            onDismissRequest = { pendingConfirm = null },
+            onDismissRequest = { funnel().step(Step.SIZE_CONFIRM_CANCELLED, FunnelModel.of(model)); pendingConfirm = null },
             title = { Text(stringResource(R.string.setup_confirm_title, model.displayName, model.sizeMB)) },
             text = {
                 Text(
@@ -106,7 +116,10 @@ fun SetupScreen(
                 }
             },
             dismissButton = {
-                TextButton(onClick = { pendingConfirm = null }) { Text(stringResource(R.string.cancel)) }
+                TextButton(onClick = {
+                    funnel().step(Step.SIZE_CONFIRM_CANCELLED, FunnelModel.of(model))
+                    pendingConfirm = null
+                }) { Text(stringResource(R.string.cancel)) }
             }
         )
     }
@@ -221,6 +234,7 @@ fun SetupScreen(
                             val partial = remember(state) { modelManager.partialBytes(target) }
 
                             if (offline) {
+                                LaunchedEffect(Unit) { funnel().step(Step.OFFLINE_AT_SETUP) }
                                 OfflineNotice(target)
                                 Spacer(modifier = Modifier.height(16.dp))
                             } else if (showError && error != null) {
@@ -269,6 +283,9 @@ fun SetupScreen(
                                     }
                                 }
                             } else if (offer.offersAlternative) {
+                                LaunchedEffect(offer.suggested, language) {
+                                    funnel().step(Step.LANG_OFFER_SHOWN, LangBucket.of(language, WhisperModel.TINY), FunnelModel.of(offer.suggested))
+                                }
                                 SuggestedModel(
                                     language = language,
                                     offer = offer,
