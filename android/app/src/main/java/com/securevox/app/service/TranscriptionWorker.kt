@@ -42,6 +42,7 @@ import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import com.securevox.app.util.FailureReporter
+import com.securevox.app.notify.TranscriptNotifier
 
 /**
  * WorkManager Worker for background transcription.
@@ -57,11 +58,22 @@ class TranscriptionWorker(
         const val KEY_MODEL_NAME = "model_name"
         const val KEY_LANGUAGE = "language"
         const val KEY_PROGRESS = "progress"
+        /** When this run began (epoch ms), reported with every progress update so the list can estimate time left. */
+        const val KEY_STARTED_AT = "started_at_ms"
+        /** The model file this run uses, reported with progress so the list can look up its measured speed. */
+        const val KEY_MODEL = "model_file"
         const val TAG_TRANSCRIPTION = "transcription"
         const val TAG_RECORDING_PREFIX = "recording:"
 
         private const val NOTIFICATION_CHANNEL_ID = "transcription"
         private const val NOTIFICATION_ID = 9101
+
+        /** Progress as WorkManager reports it to the UI. */
+        fun progressData(progress: Int, startedAtMs: Long, modelFile: String) = workDataOf(
+            KEY_PROGRESS to progress,
+            KEY_STARTED_AT to startedAtMs,
+            KEY_MODEL to modelFile
+        )
 
         // Whisper processes 30-second windows; chunk to this size to avoid OOM on large files.
         // 30s × 16000 samples/s = 480,000 samples ≈ 1.8 MB as FloatArray.
@@ -118,6 +130,9 @@ class TranscriptionWorker(
         // device. Promoting to a foreground service removes that background time limit — long
         // recordings now run for as long as they actually take, with a visible progress
         // notification instead of silently dying partway through.
+        // Published right away (not only after the first chunk) so the list knows when this run began.
+        setProgressAsync(progressData(0, transcriptionStartedAtMs, modelName))
+
         try {
             setForeground(createForegroundInfo(0))
         } catch (e: Exception) {
@@ -198,7 +213,7 @@ class TranscriptionWorker(
                     ChunkRequest(chunkData, language, if (chunkIdx > 0) OVERLAP_SAMPLES * 1000L / 16000L else 0L),
                     onProgress = { chunkProgress ->
                         val overall = ((chunkIdx * 100 + chunkProgress) / totalChunks).coerceIn(0, 99)
-                        setProgressAsync(workDataOf(KEY_PROGRESS to overall))
+                        setProgressAsync(progressData(overall, transcriptionStartedAtMs, whisperModel.fileName))
                     }
                 )
 
@@ -229,7 +244,7 @@ class TranscriptionWorker(
                 }
 
                 val progress = ((chunkIdx + 1) * 100 / totalChunks).coerceIn(0, 99)
-                setProgressAsync(workDataOf(KEY_PROGRESS to progress))
+                setProgressAsync(progressData(progress, transcriptionStartedAtMs, whisperModel.fileName))
                 try {
                     setForeground(createForegroundInfo(progress))
                 } catch (e: Exception) {
@@ -238,6 +253,12 @@ class TranscriptionWorker(
                 Log.i(TAG, "Chunk $chunkIdx/$totalChunks done, ${newSegments.size} segments, progress=$progress%")
             }
 
+            // Remember how fast this phone ran this model, so the next run can show an honest estimate up front.
+            TranscriptionEta.measuredSpeed(
+                processingMs = System.currentTimeMillis() - transcriptionStartedAtMs,
+                audioMs = totalAudioSamples * 1000L / 16000L
+            )?.let { TranscriptionSpeedStore.put(applicationContext, whisperModel.fileName, it) }
+
             // Free the Whisper model before the speaker pass loads its own models.
             activeEngine.close()
             whisperLib.release()
@@ -245,6 +266,10 @@ class TranscriptionWorker(
 
             repository.updateTranscriptionStatus(recordingId, TranscriptionStatus.COMPLETED, 100)
             Log.i(TAG, "Transcription completed: ${allSegments.size} total segments")
+
+            // Tell the user it is ready (skipped when notifications are off or they are already looking at it).
+            val latestTitle = repository.getRecordingById(recordingId)?.title ?: recording.title
+            TranscriptNotifier.notifyReady(applicationContext, recordingId, latestTitle, hasTranscript = allSegments.isNotEmpty())
 
             Result.success()
 
@@ -325,15 +350,15 @@ class TranscriptionWorker(
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(
                 NOTIFICATION_CHANNEL_ID,
-                "Transcription",
+                applicationContext.getString(R.string.notif_channel_progress_name),
                 NotificationManager.IMPORTANCE_LOW
-            ).apply { description = "Shows progress while transcribing a recording" }
+            ).apply { description = applicationContext.getString(R.string.notif_channel_progress_description) }
             notificationManager.createNotificationChannel(channel)
         }
 
         val notification = NotificationCompat.Builder(applicationContext, NOTIFICATION_CHANNEL_ID)
-            .setContentTitle("Transcribing recording")
-            .setContentText("$progress% complete")
+            .setContentTitle(applicationContext.getString(R.string.notif_progress_title))
+            .setContentText(applicationContext.getString(R.string.notif_progress_text, progress))
             .setSmallIcon(R.mipmap.ic_launcher)
             .setOngoing(true)
             .setProgress(100, progress, false)

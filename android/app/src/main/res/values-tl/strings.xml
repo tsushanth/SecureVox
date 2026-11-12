@@ -17,7 +17,7 @@
     <string name="import_label">I-import</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Maghanap ng mga recording</string>
+    <string name="search_recordings">Maghanap sa mga pamagat at transcript</string>
     <string name="close_search">Isara ang paghahanap</string>
     <string name="import_media">Mag-import ng media</string>
     <string name="stop_recording">Ihinto ang recording</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Buksan ang Mga Setting</string>
     <string name="mic_denied_toast">Kailangan ng recording ang access sa mikropono.</string>
     <string name="setup_continue_download">Ituloy ang pag-download (%1$s na lang)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Tina-transcribe\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Tina-transcribe\u2026 %1$d%% \u00b7 mga ~%2$d min na lang</string>
+    <string name="transcribing_estimate_total">Tina-transcribe\u2026 \u00b7 tinatayang ~%1$d min sa kabuuan</string>
+    <string name="retry_transcription">Subukang i-transcribe muli</string>
+    <string name="notif_rationale_title">Malaman kapag tapos na</string>
+    <string name="notif_rationale_body">Maaaring abutin ng ilang minuto ang transcription. Payagan ang mga notification at sasabihan ka ng SecureVox kapag handa na ang transcript, kahit umalis ka na sa app. Maaari kang tumanggi at magagamit mo pa rin ang lahat.</string>
+    <string name="not_now">Huwag muna</string>
+    <string name="notif_ready_title">Handa na ang transcript</string>
+    <string name="notif_channel_ready_name">Handa na ang transcript</string>
+    <string name="notif_channel_ready_description">Sinasabi kapag tapos na ang isang transcript</string>
+    <string name="notif_channel_progress_name">Transcription</string>
+    <string name="notif_channel_progress_description">Ipinapakita ang progress habang tina-transcribe ang isang recording</string>
+    <string name="notif_progress_title">Tina-transcribe ang recording</string>
+    <string name="notif_progress_text">%1$d%% tapos na</string>
+    <string name="rename">Palitan ang pangalan</string>
+    <string name="rename_recording_title">Palitan ang pangalan ng recording</string>
+    <string name="rename_field_label">Pamagat</string>
+    <string name="save">I-save</string>
+    <string name="nothing_recorded_toast">Walang naitala.</string>
 </resources>

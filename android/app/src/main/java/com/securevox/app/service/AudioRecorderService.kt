@@ -218,6 +218,7 @@ class AudioRecorderService(private val context: Context) {
             accumulatedDurationMs += System.currentTimeMillis() - segmentStartMs
         }
         _recordingDuration.value = accumulatedDurationMs
+        val wallClockMs = accumulatedDurationMs
 
         _isRecording.value = false
         _isPaused.value = false
@@ -240,13 +241,15 @@ class AudioRecorderService(private val context: Context) {
         // the loop's final pass added the last segment a second time, storing every recording
         // at about twice its real length.
         file?.let { _recordingDuration.value = durationMsForWavBytes(it.length()) }
-        // A header-only file means the mic delivered nothing: the user thinks they recorded something.
-        if (file != null && file.length() <= 44L) {
+        // A header-only file means the mic delivered nothing. It is deleted and not handed back, so no empty row is
+        // saved or transcribed; it is reported only when the user recorded long enough for that to be a real
+        // microphone problem rather than an accidental tap.
+        val kept = EmptyRecording.settle(file, wallClockMs) {
             FailureReporter.failure("recording.stop", reason = "empty_recording")
         }
 
-        Log.i(TAG, "Recording stopped: ${file?.absolutePath}, size: ${file?.length()} bytes")
-        return file?.absolutePath
+        Log.i(TAG, "Recording stopped: $kept, size: ${file?.length()} bytes")
+        return kept
     }
 
     private suspend fun recordAudioToFile(bufferSize: Int) {

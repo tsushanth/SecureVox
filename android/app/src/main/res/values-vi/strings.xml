@@ -17,7 +17,7 @@
     <string name="import_label">Nhập</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Tìm kiếm bản ghi</string>
+    <string name="search_recordings">Tìm trong tiêu đề và bản chuyển đổi</string>
     <string name="close_search">Đóng tìm kiếm</string>
     <string name="import_media">Nhập phương tiện</string>
     <string name="stop_recording">Dừng ghi</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Mở Cài đặt</string>
     <string name="mic_denied_toast">Ghi âm cần quyền truy cập micro.</string>
     <string name="setup_continue_download">Tiếp tục tải xuống (còn %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Đang chuyển đổi\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Đang chuyển đổi\u2026 %1$d%% \u00b7 còn ~%2$d phút</string>
+    <string name="transcribing_estimate_total">Đang chuyển đổi\u2026 \u00b7 ước tính ~%1$d phút</string>
+    <string name="retry_transcription">Thử chuyển đổi lại</string>
+    <string name="notif_rationale_title">Nhận thông báo khi xong</string>
+    <string name="notif_rationale_body">Việc chuyển đổi có thể mất vài phút. Hãy cho phép thông báo để SecureVox báo cho bạn khi bản chuyển đổi sẵn sàng, kể cả khi bạn đã rời khỏi ứng dụng. Bạn có thể từ chối và vẫn dùng mọi tính năng.</string>
+    <string name="not_now">Để sau</string>
+    <string name="notif_ready_title">Bản chuyển đổi đã sẵn sàng</string>
+    <string name="notif_channel_ready_name">Bản chuyển đổi đã sẵn sàng</string>
+    <string name="notif_channel_ready_description">Báo cho bạn khi một bản chuyển đổi hoàn tất</string>
+    <string name="notif_channel_progress_name">Chuyển đổi</string>
+    <string name="notif_channel_progress_description">Hiển thị tiến trình khi chuyển đổi một bản ghi</string>
+    <string name="notif_progress_title">Đang chuyển đổi bản ghi</string>
+    <string name="notif_progress_text">Hoàn tất %1$d%%</string>
+    <string name="rename">Đổi tên</string>
+    <string name="rename_recording_title">Đổi tên bản ghi</string>
+    <string name="rename_field_label">Tiêu đề</string>
+    <string name="save">Lưu</string>
+    <string name="nothing_recorded_toast">Không có gì được ghi lại.</string>
 </resources>

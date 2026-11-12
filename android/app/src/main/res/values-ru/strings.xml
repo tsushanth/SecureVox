@@ -17,7 +17,7 @@
     <string name="import_label">Импорт</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Поиск записей</string>
+    <string name="search_recordings">Поиск по названиям и транскриптам</string>
     <string name="close_search">Закрыть поиск</string>
     <string name="import_media">Импорт медиа</string>
     <string name="stop_recording">Остановить запись</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Открыть настройки</string>
     <string name="mic_denied_toast">Для записи нужен доступ к микрофону.</string>
     <string name="setup_continue_download">Продолжить загрузку (осталось %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Транскрибирование\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Транскрибирование\u2026 %1$d%% \u00b7 осталось ~%2$d мин</string>
+    <string name="transcribing_estimate_total">Транскрибирование\u2026 \u00b7 всего примерно %1$d мин</string>
+    <string name="retry_transcription">Повторить транскрибирование</string>
+    <string name="notif_rationale_title">Узнайте, когда будет готово</string>
+    <string name="notif_rationale_body">Транскрибирование может занять несколько минут. Разрешите уведомления, и SecureVox сообщит, когда транскрипт будет готов, даже если вы вышли из приложения. Можно отказаться и по-прежнему пользоваться всем.</string>
+    <string name="not_now">Не сейчас</string>
+    <string name="notif_ready_title">Транскрипт готов</string>
+    <string name="notif_channel_ready_name">Транскрипт готов</string>
+    <string name="notif_channel_ready_description">Сообщает, когда транскрипт готов</string>
+    <string name="notif_channel_progress_name">Транскрибирование</string>
+    <string name="notif_channel_progress_description">Показывает ход транскрибирования записи</string>
+    <string name="notif_progress_title">Транскрибирование записи</string>
+    <string name="notif_progress_text">Выполнено: %1$d%%</string>
+    <string name="rename">Переименовать</string>
+    <string name="rename_recording_title">Переименовать запись</string>
+    <string name="rename_field_label">Название</string>
+    <string name="save">Сохранить</string>
+    <string name="nothing_recorded_toast">Ничего не записано.</string>
 </resources>

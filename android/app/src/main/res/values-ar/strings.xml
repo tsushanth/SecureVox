@@ -17,7 +17,7 @@
     <string name="import_label">استيراد</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">البحث في التسجيلات</string>
+    <string name="search_recordings">البحث في العناوين والنصوص</string>
     <string name="close_search">إغلاق البحث</string>
     <string name="import_media">استيراد وسائط</string>
     <string name="stop_recording">إيقاف التسجيل</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">فتح الإعدادات</string>
     <string name="mic_denied_toast">يتطلب التسجيل الوصول إلى الميكروفون.</string>
     <string name="setup_continue_download">متابعة التنزيل (متبقي %1$s)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">جارٍ النسخ\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">جارٍ النسخ\u2026 %1$d%% \u00b7 الوقت المتبقي بالدقائق: ~%2$d</string>
+    <string name="transcribing_estimate_total">جارٍ النسخ\u2026 \u00b7 الوقت التقديري بالدقائق: ~%1$d</string>
+    <string name="retry_transcription">إعادة محاولة النسخ</string>
+    <string name="notif_rationale_title">تنبيه عند الانتهاء</string>
+    <string name="notif_rationale_body">قد يستغرق النسخ بضع دقائق. اسمح بالإشعارات وسيخبرك SecureVox عندما يصبح النص جاهزًا، حتى لو غادرت التطبيق. يمكنك الرفض ومواصلة استخدام كل شيء.</string>
+    <string name="not_now">ليس الآن</string>
+    <string name="notif_ready_title">النص جاهز</string>
+    <string name="notif_channel_ready_name">النص جاهز</string>
+    <string name="notif_channel_ready_description">يخبرك عند اكتمال نسخ تسجيل</string>
+    <string name="notif_channel_progress_name">النسخ</string>
+    <string name="notif_channel_progress_description">يعرض التقدم أثناء نسخ تسجيل</string>
+    <string name="notif_progress_title">جارٍ نسخ التسجيل</string>
+    <string name="notif_progress_text">اكتمل %1$d%%</string>
+    <string name="rename">إعادة تسمية</string>
+    <string name="rename_recording_title">إعادة تسمية التسجيل</string>
+    <string name="rename_field_label">العنوان</string>
+    <string name="save">حفظ</string>
+    <string name="nothing_recorded_toast">لم يتم تسجيل أي شيء.</string>
 </resources>

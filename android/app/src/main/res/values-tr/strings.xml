@@ -17,7 +17,7 @@
     <string name="import_label">İçe Aktar</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Kayıtlarda ara</string>
+    <string name="search_recordings">Başlıklarda ve metinlerde ara</string>
     <string name="close_search">Aramayı kapat</string>
     <string name="import_media">Medya içe aktar</string>
     <string name="stop_recording">Kaydı durdur</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">Ayarları Aç</string>
     <string name="mic_denied_toast">Kayıt için mikrofon erişimi gerekir.</string>
     <string name="setup_continue_download">İndirmeye devam et (%1$s kaldı)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Yazıya dökülüyor\u2026 %%%1$d</string>
+    <string name="transcribing_progress_left">Yazıya dökülüyor\u2026 %%%1$d \u00b7 ~%2$d dk kaldı</string>
+    <string name="transcribing_estimate_total">Yazıya dökülüyor\u2026 \u00b7 toplam ~%1$d dk</string>
+    <string name="retry_transcription">Yazıya dökmeyi yeniden dene</string>
+    <string name="notif_rationale_title">Hazır olunca haber alın</string>
+    <string name="notif_rationale_body">Yazıya dökme birkaç dakika sürebilir. Bildirimlere izin verirseniz SecureVox, uygulamadan ayrılmış olsanız bile, metin hazır olduğunda size haber verir. Reddedebilir ve her şeyi yine de kullanabilirsiniz.</string>
+    <string name="not_now">Şimdi değil</string>
+    <string name="notif_ready_title">Metin hazır</string>
+    <string name="notif_channel_ready_name">Metin hazır</string>
+    <string name="notif_channel_ready_description">Bir yazıya dökme tamamlandığında haber verir</string>
+    <string name="notif_channel_progress_name">Yazıya dökme</string>
+    <string name="notif_channel_progress_description">Bir kaydı yazıya dökerken ilerlemeyi gösterir</string>
+    <string name="notif_progress_title">Kayıt yazıya dökülüyor</string>
+    <string name="notif_progress_text">%%%1$d tamamlandı</string>
+    <string name="rename">Yeniden adlandır</string>
+    <string name="rename_recording_title">Kaydı yeniden adlandır</string>
+    <string name="rename_field_label">Başlık</string>
+    <string name="save">Kaydet</string>
+    <string name="nothing_recorded_toast">Hiçbir şey kaydedilmedi.</string>
 </resources>

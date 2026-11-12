@@ -17,7 +17,7 @@
     <string name="import_label">インポート</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">録音を検索</string>
+    <string name="search_recordings">タイトルと文字起こしを検索</string>
     <string name="close_search">検索を閉じる</string>
     <string name="import_media">メディアをインポート</string>
     <string name="stop_recording">録音を停止</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">設定を開く</string>
     <string name="mic_denied_toast">録音にはマイクへのアクセスが必要です。</string>
     <string name="setup_continue_download">ダウンロードを続ける（残り %1$s）</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">文字起こし中\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">文字起こし中\u2026 %1$d%% \u00b7 残り約%2$d分</string>
+    <string name="transcribing_estimate_total">文字起こし中\u2026 \u00b7 所要時間の目安 約%1$d分</string>
+    <string name="retry_transcription">文字起こしを再試行</string>
+    <string name="notif_rationale_title">完了をお知らせします</string>
+    <string name="notif_rationale_body">文字起こしには数分かかることがあります。通知を許可すると、アプリを閉じていても、文字起こしが完了したときにSecureVoxがお知らせします。許可しなくても、すべての機能をそのまま使えます。</string>
+    <string name="not_now">今はしない</string>
+    <string name="notif_ready_title">文字起こしが完了しました</string>
+    <string name="notif_channel_ready_name">文字起こしが完了しました</string>
+    <string name="notif_channel_ready_description">文字起こしが完了したときにお知らせします</string>
+    <string name="notif_channel_progress_name">文字起こし</string>
+    <string name="notif_channel_progress_description">録音の文字起こし中に進行状況を表示します</string>
+    <string name="notif_progress_title">録音を文字起こし中</string>
+    <string name="notif_progress_text">%1$d%%完了</string>
+    <string name="rename">名前を変更</string>
+    <string name="rename_recording_title">録音の名前を変更</string>
+    <string name="rename_field_label">タイトル</string>
+    <string name="save">保存</string>
+    <string name="nothing_recorded_toast">録音されたものがありません。</string>
 </resources>

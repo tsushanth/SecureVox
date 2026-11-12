@@ -17,7 +17,7 @@
     <string name="import_label">आयात करें</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">रिकॉर्डिंग खोजें</string>
+    <string name="search_recordings">शीर्षक और ट्रांसक्रिप्ट खोजें</string>
     <string name="close_search">खोज बंद करें</string>
     <string name="import_media">मीडिया आयात करें</string>
     <string name="stop_recording">रिकॉर्डिंग रोकें</string>
@@ -294,4 +294,25 @@
     <string name="mic_open_settings">सेटिंग्स खोलें</string>
     <string name="mic_denied_toast">रिकॉर्डिंग के लिए माइक्रोफ़ोन एक्सेस ज़रूरी है।</string>
     <string name="setup_continue_download">डाउनलोड जारी रखें (%1$s बाकी)</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">ट्रांसक्रिप्शन हो रहा है\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">ट्रांसक्रिप्शन हो रहा है\u2026 %1$d%% \u00b7 लगभग %2$d मिनट बाकी</string>
+    <string name="transcribing_estimate_total">ट्रांसक्रिप्शन हो रहा है\u2026 \u00b7 कुल लगभग %1$d मिनट</string>
+    <string name="retry_transcription">ट्रांसक्रिप्शन फिर आज़माएँ</string>
+    <string name="notif_rationale_title">तैयार होने पर सूचना पाएँ</string>
+    <string name="notif_rationale_body">ट्रांसक्रिप्शन में कुछ मिनट लग सकते हैं। सूचनाओं की अनुमति दें, तो ट्रांसक्रिप्ट तैयार होते ही SecureVox आपको बता देगा, भले ही आप ऐप छोड़ चुके हों। आप मना भी कर सकते हैं और सब कुछ पहले की तरह इस्तेमाल कर सकते हैं।</string>
+    <string name="not_now">अभी नहीं</string>
+    <string name="notif_ready_title">ट्रांसक्रिप्ट तैयार है</string>
+    <string name="notif_channel_ready_name">ट्रांसक्रिप्ट तैयार है</string>
+    <string name="notif_channel_ready_description">ट्रांसक्रिप्ट पूरा होने पर बताता है</string>
+    <string name="notif_channel_progress_name">ट्रांसक्रिप्शन</string>
+    <string name="notif_channel_progress_description">रिकॉर्डिंग ट्रांसक्राइब होते समय प्रगति दिखाता है</string>
+    <string name="notif_progress_title">रिकॉर्डिंग ट्रांसक्राइब हो रही है</string>
+    <string name="notif_progress_text">%1$d%% पूरा</string>
+    <string name="rename">नाम बदलें</string>
+    <string name="rename_recording_title">रिकॉर्डिंग का नाम बदलें</string>
+    <string name="rename_field_label">शीर्षक</string>
+    <string name="save">सहेजें</string>
+    <string name="nothing_recorded_toast">कुछ भी रिकॉर्ड नहीं हुआ।</string>
 </resources>

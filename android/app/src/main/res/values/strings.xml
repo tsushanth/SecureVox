@@ -17,7 +17,7 @@
     <string name="import_label">Import</string>
 
     <!-- Recordings Screen -->
-    <string name="search_recordings">Search recordings</string>
+    <string name="search_recordings">Search titles and transcripts</string>
     <string name="close_search">Close search</string>
     <string name="import_media">Import media</string>
     <string name="stop_recording">Stop recording</string>
@@ -303,4 +303,25 @@
     <string name="mic_denied_body">Android will not ask again. Open Settings, choose Permissions, then Microphone, and allow it to record.</string>
     <string name="mic_open_settings">Open Settings</string>
     <string name="mic_denied_toast">Recording needs microphone access.</string>
+
+    <!-- First transcript: progress, ready notification, rename, search -->
+    <string name="transcribing_progress">Transcribing\u2026 %1$d%%</string>
+    <string name="transcribing_progress_left">Transcribing\u2026 %1$d%% \u00b7 ~%2$d min left</string>
+    <string name="transcribing_estimate_total">Transcribing\u2026 \u00b7 Est. ~%1$d min total</string>
+    <string name="retry_transcription">Retry transcription</string>
+    <string name="notif_rationale_title">Get notified when it is ready</string>
+    <string name="notif_rationale_body">Transcribing can take a few minutes. Allow notifications and SecureVox will tell you when the transcript is ready, even if you have left the app. You can say no and still use everything.</string>
+    <string name="not_now">Not now</string>
+    <string name="notif_ready_title">Transcript ready</string>
+    <string name="notif_channel_ready_name">Transcript ready</string>
+    <string name="notif_channel_ready_description">Tells you when a transcript has finished</string>
+    <string name="notif_channel_progress_name">Transcription</string>
+    <string name="notif_channel_progress_description">Shows progress while transcribing a recording</string>
+    <string name="notif_progress_title">Transcribing recording</string>
+    <string name="notif_progress_text">%1$d%% complete</string>
+    <string name="rename">Rename</string>
+    <string name="rename_recording_title">Rename recording</string>
+    <string name="rename_field_label">Title</string>
+    <string name="save">Save</string>
+    <string name="nothing_recorded_toast">Nothing was recorded.</string>
 </resources>

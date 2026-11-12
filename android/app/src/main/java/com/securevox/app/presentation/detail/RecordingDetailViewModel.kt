@@ -258,6 +258,10 @@ class RecordingDetailViewModel(
         }
     }
 
+    fun renameRecording(newTitle: String) {
+        viewModelScope.launch { repository.renameRecording(recordingId, newTitle) }
+    }
+
     fun deleteRecording() {
         viewModelScope.launch {
             recording.value?.let { rec ->
