@@ -1,48 +1,15 @@
-SecureVox registra la tua voce e la trasforma in testo direttamente sul telefono. La trascrizione avviene sul dispositivo con il modello Whisper di OpenAI, quindi il tuo audio non viene caricato da nessuna parte.
+SecureVox registra la tua voce e la trasforma in testo sul telefono. La trascrizione viene eseguita sul dispositivo con i modelli Whisper di OpenAI. SecureVox non carica le tue registrazioni né le trascrizioni. Nessun account, nessuna pubblicità, nessun SDK di analisi.
 
-PERCHÉ SECUREVOX
+PRIMA DI ACQUISTARE: LA CONFIGURAZIONE RICHIEDE INTERNET UNA VOLTA
 
-Memo vocali, riunioni e interviste sono spesso riservati. La maggior parte delle app di trascrizione invia l'audio a un server. SecureVox no. Nessun account, nessun caricamento nel cloud, nessuna analisi, nessun tracciamento. Internet serve una sola volta, per scaricare il modello di trascrizione che scegli.
-
-COSA PUOI FARE
-
-• Trascrivere offline - Scegli un modello Whisper nell'app: Tiny (circa 78 MB) per la velocità, Base (circa 148 MB) come via di mezzo, oppure Small (circa 488 MB) per la massima precisione. I modelli si scaricano dall'app.
-
-• Sottotitoli in tempo reale durante la registrazione - Le parole compaiono mentre parli. La trascrizione completa viene creata quando fermi la registrazione.
-
-• Etichette dei parlanti (facoltativo) - Attiva "Etichetta i parlanti" e la trascrizione viene divisa in Parlante 1, Parlante 2 e così via. Richiede un piccolo download aggiuntivo e funziona con registrazioni fino a 30 minuti.
-
-• Condividere o aprire audio e video da altre app - Invia un messaggio vocale, un video o un file audio a SecureVox da qualsiasi app e viene trascritto sul telefono. Puoi anche importare file dall'app.
-
-• Avvio rapido - Aggiungi il riquadro alle Impostazioni rapide o usa la scorciatoia dell'icona per iniziare a registrare con un tocco.
-
-• Blocco dell'app (facoltativo) - Proteggi l'app con impronta, volto o blocco schermo.
-
-• Esportare - Salva o condividi le trascrizioni in TXT, SRT o VTT (sottotitoli), oppure condividi l'audio stesso.
-
-• Dizionario personalizzato - Aggiungi nomi e termini particolari perché vengano scritti come vuoi tu.
-
-• Ritrascrivere - Rielabora una registrazione con un altro modello se vuoi più precisione.
-
-• Lettura ad alta voce - Ascolta la trascrizione letta da una voce che funziona sul telefono.
-
-• Lettore con forma d'onda - Trascina la forma d'onda per spostarti nell'audio, cambia la velocità da 0,5x a 2x e cerca in tutte le trascrizioni.
-
-• Tema chiaro e scuro, con un design sobrio e leggibile.
+Il modello di trascrizione non è incluso nell'app. Al primo avvio SecureVox scarica il modello predefinito, Tiny (circa 78 MB), da Hugging Face. Finché il download non è completato non puoi registrare né trascrivere. Dopo, registrazione e trascrizione funzionano senza connessione. I modelli Base (circa 148 MB) e Small (circa 488 MB) sono download facoltativi nell'app.
 
 LINGUE
 
-SecureVox trascrive molte lingue. La qualità varia da lingua a lingua: è migliore nelle lingue molto diffuse come inglese, spagnolo, francese, tedesco, italiano, portoghese, cinese e giapponese, e più debole in quelle con meno dati di addestramento. I modelli più grandi aiutano.
+Abbiamo misurato la precisione su parlato letto e pulito; le registrazioni reali con rumore andranno peggio. L'inglese è buono con tutti e tre i modelli. Lo spagnolo è discreto con Tiny e buono con Base e Small. Il francese è debole con Tiny e Base e buono con Small. Tedesco, italiano e portoghese sono discreti con Tiny e Base e buoni con Small. Olandese, polacco, cinese e arabo restano meno precisi anche con Small. L'hindi è sperimentale e scarso con tutti i modelli.
 
-DA SAPERE
+COSA SECUREVOX NON FA
 
-• La precisione dipende dalla qualità dell'audio, dagli accenti e dal rumore di fondo. Controlla le trascrizioni importanti prima di fidartene.
-• Le etichette dei parlanti sono approssimative e possono confondere voci simili.
-• I modelli più grandi sono più lenti e richiedono più memoria e spazio.
-• Richiede Android 8.0 o successivo.
+Niente riassunti, niente note IA, niente traduzione, niente sincronizzazione cloud.
 
-ACQUISTO UNA TANTUM
-
-SecureVox è un'app a pagamento. Nessun abbonamento, nessuna pubblicità, nessun acquisto in-app.
-
-Maggiori informazioni su https://securevox.app
+ACQUISTO UNICO: nessun abbonamento, nessuna pubblicità, nessun acquisto in-app.

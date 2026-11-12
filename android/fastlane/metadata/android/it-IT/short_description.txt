@@ -1,1 +1,1 @@
-Registra e trascrivi offline con Whisper. L'audio non lascia mai il telefono.
+Registra e trascrivi sul telefono. Serve un download del modello (circa 78 MB).

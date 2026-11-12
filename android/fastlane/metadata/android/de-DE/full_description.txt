@@ -1,48 +1,15 @@
-SecureVox nimmt deine Stimme auf und macht auf deinem Handy Text daraus. Die Transkription läuft direkt auf dem Gerät mit OpenAIs Whisper-Modell, deine Audiodaten werden also nirgendwohin hochgeladen.
+SecureVox nimmt Ihre Stimme auf und wandelt sie auf dem Smartphone in Text um. Die Transkription läuft mit OpenAIs Whisper-Modellen direkt auf dem Gerät. SecureVox lädt Ihre Aufnahmen und Transkripte nicht hoch. Es gibt kein Konto, keine Werbung und kein Analyse-SDK.
 
-WARUM SECUREVOX
+VOR DEM KAUF: DIE EINRICHTUNG BRAUCHT EINMAL INTERNET
 
-Sprachmemos, Meetings und Interviews sind oft vertraulich. Die meisten Transkriptions-Apps schicken dein Audio an einen Server. SecureVox nicht. Es gibt kein Konto, keinen Cloud-Upload, keine Analyse und kein Tracking. Das Internet wird nur einmal gebraucht, um das gewählte Transkriptionsmodell herunterzuladen.
-
-DAS KANNST DU TUN
-
-• Offline transkribieren - Wähle in der App ein Whisper-Modell: Tiny (ca. 78 MB) für Tempo, Base (ca. 148 MB) als Mittelweg oder Small (ca. 488 MB) für die beste Genauigkeit. Die Modelle werden in der App heruntergeladen.
-
-• Live-Untertitel während der Aufnahme - Die Wörter erscheinen, während du sprichst. Das vollständige Transkript entsteht, wenn du die Aufnahme beendest.
-
-• Sprecherlabels (optional) - Mit "Sprecher kennzeichnen" wird das Transkript in Sprecher 1, Sprecher 2 usw. aufgeteilt. Dafür ist ein kleiner zusätzlicher Download nötig; es funktioniert bei Aufnahmen bis 30 Minuten.
-
-• Audio und Video aus anderen Apps teilen oder öffnen - Schick eine Sprachnachricht, ein Video oder eine Audiodatei aus einer beliebigen App an SecureVox, und sie wird auf deinem Handy transkribiert. Dateien lassen sich auch in der App importieren.
-
-• Schnell starten - Mit der Kachel in den Schnelleinstellungen oder der Verknüpfung am App-Symbol startest du die Aufnahme mit einem Tipp.
-
-• App-Sperre (optional) - Schütze die App mit Fingerabdruck, Gesicht oder Bildschirmsperre.
-
-• Export - Speichere oder teile Transkripte als TXT, SRT oder VTT (Untertitel) oder teile das Audio selbst.
-
-• Eigenes Wörterbuch - Trage Namen und Fachbegriffe ein, damit sie so geschrieben werden, wie du es willst.
-
-• Erneut transkribieren - Lass eine Aufnahme mit einem anderen Modell noch einmal transkribieren, wenn du mehr Genauigkeit brauchst.
-
-• Vorlesen - Lass dir ein Transkript mit einer Stimme vorlesen, die auf deinem Handy läuft.
-
-• Player mit Wellenform - Zieh an der Wellenform zum Vor- und Zurückspulen, ändere das Tempo von 0,5x bis 2x und durchsuche alle deine Transkripte.
-
-• Helles und dunkles Design, ruhig und gut lesbar.
+Das Sprachmodell ist nicht in der App enthalten. Beim ersten Start lädt SecureVox das Standardmodell Tiny (ca. 78 MB) von Hugging Face herunter. Bis der Download fertig ist, können Sie weder aufnehmen noch transkribieren. Danach funktionieren Aufnahme und Transkription ohne Internet. Die Modelle Base (ca. 148 MB) und Small (ca. 488 MB) sind optionale Downloads in der App.
 
 SPRACHEN
 
-SecureVox transkribiert viele Sprachen. Die Qualität schwankt je nach Sprache: Am besten ist sie bei weit verbreiteten Sprachen wie Englisch, Spanisch, Französisch, Deutsch, Italienisch, Portugiesisch, Chinesisch und Japanisch, schwächer bei Sprachen mit weniger Trainingsdaten. Größere Modelle helfen.
+Wir haben die Genauigkeit mit klar gesprochenen Testaufnahmen gemessen; echte Aufnahmen mit Störgeräuschen sind schlechter. Englisch ist mit allen drei Modellen gut. Deutsch, Italienisch und Portugiesisch sind mit Tiny und Base mittelmäßig und mit Small gut. Französisch ist mit Tiny und Base schwach und mit Small gut. Niederländisch, Polnisch, Chinesisch und Arabisch bleiben auch mit Small ungenauer. Hindi ist experimentell und auf allen Modellen schlecht.
 
-GUT ZU WISSEN
+WAS SECUREVOX NICHT KANN
 
-• Die Genauigkeit hängt von Tonqualität, Akzent und Hintergrundgeräuschen ab. Prüfe wichtige Transkripte, bevor du dich darauf verlässt.
-• Sprecherlabels sind nur eine Näherung und können ähnlich klingende Stimmen verwechseln.
-• Größere Modelle sind langsamer und brauchen mehr Arbeitsspeicher und Speicherplatz.
-• Erfordert Android 8.0 oder neuer.
+Keine Zusammenfassungen, keine KI-Notizen, keine Übersetzung, keine Cloud-Synchronisierung.
 
-EINMALIGER KAUF
-
-SecureVox ist eine kostenpflichtige App. Kein Abo, keine Werbung, keine In-App-Käufe.
-
-Mehr unter https://securevox.app
+EINMALKAUF: kein Abo, keine Werbung, keine In-App-Käufe.

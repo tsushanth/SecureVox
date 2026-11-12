@@ -1,48 +1,15 @@
-SecureVox enregistre votre voix et la transforme en texte sur votre téléphone. La transcription se fait sur l'appareil avec le modèle Whisper d'OpenAI : votre audio n'est envoyé nulle part.
+SecureVox enregistre votre voix et la transforme en texte sur votre téléphone. La transcription s'exécute sur l'appareil avec les modèles Whisper d'OpenAI. SecureVox n'envoie ni vos enregistrements ni vos transcriptions. Pas de compte, pas de publicité, pas de SDK d'analyse.
 
-POURQUOI SECUREVOX
+AVANT D'ACHETER : LA CONFIGURATION NÉCESSITE INTERNET UNE FOIS
 
-Les mémos vocaux, les réunions et les entretiens sont souvent confidentiels. La plupart des applications de transcription envoient votre audio vers un serveur. Pas SecureVox. Pas de compte, pas d'envoi dans le cloud, pas de statistiques, pas de pistage. Internet n'est utilisé qu'une fois, pour télécharger le modèle de transcription que vous choisissez.
-
-CE QUE VOUS POUVEZ FAIRE
-
-• Transcrire hors ligne - Choisissez un modèle Whisper dans l'application : Tiny (environ 78 Mo) pour la rapidité, Base (environ 148 Mo) comme compromis, ou Small (environ 488 Mo) pour la meilleure précision. Les modèles se téléchargent depuis l'application.
-
-• Sous-titres en direct pendant l'enregistrement - Les mots s'affichent pendant que vous parlez. La transcription complète est générée à l'arrêt.
-
-• Étiquettes de locuteurs (facultatif) - Activez « Étiqueter les locuteurs » et la transcription est découpée en Locuteur 1, Locuteur 2, etc. Cela demande un petit téléchargement supplémentaire et fonctionne pour des enregistrements allant jusqu'à 30 minutes.
-
-• Partager ou ouvrir un audio ou une vidéo depuis d'autres applications - Envoyez un message vocal, une vidéo ou un fichier audio à SecureVox depuis n'importe quelle application, il est transcrit sur votre téléphone. Vous pouvez aussi importer des fichiers depuis l'application.
-
-• Démarrage rapide - Ajoutez la tuile aux Réglages rapides ou utilisez le raccourci de l'icône pour lancer un enregistrement en un geste.
-
-• Verrouillage de l'application (facultatif) - Protégez l'application par empreinte, visage ou verrouillage d'écran.
-
-• Export - Enregistrez ou partagez les transcriptions en TXT, SRT ou VTT (sous-titres), ou partagez l'audio lui-même.
-
-• Dictionnaire personnalisé - Ajoutez des noms et des termes spécifiques pour qu'ils soient écrits comme vous le voulez.
-
-• Retranscrire - Relancez un enregistrement avec un autre modèle si vous voulez plus de précision.
-
-• Lecture à voix haute - Écoutez une transcription lue par une voix qui tourne sur votre téléphone.
-
-• Lecteur avec forme d'onde - Faites glisser la forme d'onde pour vous déplacer, réglez la vitesse de 0,5x à 2x et recherchez dans toutes vos transcriptions.
-
-• Thème clair et sombre, avec une interface sobre et lisible.
+Le modèle de transcription n'est pas inclus dans l'application. Au premier lancement, SecureVox télécharge le modèle par défaut, Tiny (environ 78 Mo), depuis Hugging Face. Vous ne pouvez ni enregistrer ni transcrire avant la fin du téléchargement. Ensuite, l'enregistrement et la transcription fonctionnent sans connexion. Les modèles Base (environ 148 Mo) et Small (environ 488 Mo) sont des téléchargements facultatifs dans l'application.
 
 LANGUES
 
-SecureVox transcrit de nombreuses langues. La qualité varie selon la langue : elle est meilleure dans les langues très répandues comme l'anglais, l'espagnol, le français, l'allemand, l'italien, le portugais, le chinois et le japonais, et plus faible dans les langues moins bien représentées dans les données d'entraînement. Les modèles plus grands aident.
+Nous avons mesuré la précision sur de la parole lue et propre ; les enregistrements réels bruités donneront de moins bons résultats. L'anglais est bon avec les trois modèles. L'espagnol est correct avec Tiny et bon avec Base et Small. Le français est faible avec Tiny et Base et bon avec Small. L'allemand, l'italien et le portugais sont corrects avec Tiny et Base et bons avec Small. Le néerlandais, le polonais, le chinois et l'arabe restent moins précis même avec Small. L'hindi est expérimental et mauvais avec tous les modèles.
 
-BON À SAVOIR
+CE QUE SECUREVOX NE FAIT PAS
 
-• La précision dépend de la qualité du son, des accents et du bruit de fond. Relisez les transcriptions importantes avant de vous y fier.
-• Les étiquettes de locuteurs sont approximatives et peuvent confondre des voix proches.
-• Les modèles plus grands sont plus lents et demandent plus de mémoire et d'espace de stockage.
-• Nécessite Android 8.0 ou une version plus récente.
+Pas de résumés, pas de notes IA, pas de traduction, pas de synchronisation cloud.
 
-ACHAT UNIQUE
-
-SecureVox est une application payante. Pas d'abonnement, pas de publicité, pas d'achats intégrés.
-
-Plus d'infos sur https://securevox.app
+ACHAT UNIQUE : pas d'abonnement, pas de publicité, pas d'achats intégrés.

@@ -1,5 +1,19 @@
 default_platform(:android)
 
+# LISTING SAFETY: the Play Store listing (title, short and full description, images,
+# screenshots) is NOT managed from this repo. It is edited through the Play API and the
+# listing-experiment harness, and the files under metadata/android/ are only a mirror of
+# the live listing. Every lane below therefore skips metadata, image and screenshot
+# uploads. Only the release notes (changelogs/<versionCode>.txt) are uploaded, through
+# their own flag (skip_upload_changelogs: false), which in fastlane supply is independent
+# of skip_upload_metadata.
+#
+# Why: on 2026-09-25 the deploy_staged lane was added with skip_upload_metadata: false,
+# and every title.txt in the repo said just "SecureVox". Uploading metadata from here
+# writes those repo files over the live listing, which is the best explanation for the
+# keyworded titles disappearing on 2026-09-26/27 and listing visitors dropping about 80%.
+# Do not flip these flags back to false.
+
 platform :android do
   desc "Upload to the production track and complete the rollout immediately"
   lane :deploy do
@@ -34,8 +48,9 @@ platform :android do
     upload_to_play_store(
       track: "production",
       aab: "app/build/outputs/bundle/release/app-release.aab",
-      # Metadata is uploaded so the changelog in fastlane/metadata reaches Play.
-      skip_upload_metadata: false,
+      # Changelogs still reach Play via skip_upload_changelogs: false below. Do NOT
+      # set skip_upload_metadata to false: it would overwrite the live listing text.
+      skip_upload_metadata: true,
       skip_upload_images: true,
       skip_upload_screenshots: true,
       skip_upload_changelogs: false,

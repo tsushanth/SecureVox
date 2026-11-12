@@ -1,1 +1,1 @@
-Aufnehmen und offline transkribieren mit Whisper. Audio bleibt auf dem Handy.
+Aufnehmen und auf dem Handy transkribieren. Einmaliger Modell-Download (78 MB).

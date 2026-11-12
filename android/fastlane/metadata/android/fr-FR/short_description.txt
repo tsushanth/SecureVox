@@ -1,1 +1,1 @@
-Enregistrez et transcrivez hors ligne avec Whisper. L'audio reste sur le mobile.
+Enregistrez et transcrivez sur votre téléphone. Modèle à télécharger (78 Mo).
