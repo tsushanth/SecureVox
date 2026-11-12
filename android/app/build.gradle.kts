@@ -41,8 +41,8 @@ android {
         applicationId = "com.securevox.app"
         minSdk = 26
         targetSdk = 36
-        versionCode = 36
-        versionName = "1.5.1"
+        versionCode = 39
+        versionName = "1.5.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

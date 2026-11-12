@@ -1,0 +1,4 @@
+• Recordings cut short when the app was swiped away or killed are now recovered and transcribed
+• Removed settings that did nothing (Recycle Bin, Auto-Delete Audio and others)
+• Corrected the FAQ and the favorites hint
+• Setup, crash-report and speaker screens are now translated in all 19 languages
