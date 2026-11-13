@@ -1,15 +1,46 @@
-SecureVox registra la tua voce e la trasforma in testo sul telefono. La trascrizione viene eseguita sul dispositivo con i modelli Whisper di OpenAI. SecureVox non carica le tue registrazioni né le trascrizioni. Nessun account, nessuna pubblicità, nessun SDK di analisi.
+SecureVox registra la tua voce e la trasforma in testo sul telefono. La trascrizione viene eseguita sul dispositivo con i modelli Whisper di OpenAI. SecureVox non carica le tue registrazioni né le trascrizioni. Non c'è alcun account e non ci sono pubblicità. I rapporti anonimi facoltativi sugli arresti anomali (versione dell'app, modello del telefono, tipo di errore; mai audio o testo) sono disattivati a meno che tu non li attivi nelle Impostazioni.
 
 PRIMA DI ACQUISTARE: LA CONFIGURAZIONE RICHIEDE INTERNET UNA VOLTA
 
-Il modello di trascrizione non è incluso nell'app. Al primo avvio SecureVox scarica il modello predefinito, Tiny (circa 78 MB), da Hugging Face. Finché il download non è completato non puoi registrare né trascrivere. Dopo, registrazione e trascrizione funzionano senza connessione. I modelli Base (circa 148 MB) e Small (circa 488 MB) sono download facoltativi nell'app.
+Il modello di trascrizione non è incluso nell'app. La prima volta che apri SecureVox scarica il modello predefinito, Tiny (circa 78 MB), da Hugging Face. Non puoi registrare né trascrivere finché il download non è terminato. Dopo, registrazione e trascrizione funzionano senza connessione.
 
-LINGUE
+Modelli migliori sono download facoltativi nell'app: Base (circa 148 MB) e Small (circa 488 MB). Le etichette dei parlanti, se le attivi, richiedono un altro download di circa 46 MB.
 
-Abbiamo misurato la precisione su parlato letto e pulito; le registrazioni reali con rumore andranno peggio. L'inglese è buono con tutti e tre i modelli. Lo spagnolo è discreto con Tiny e buono con Base e Small. Il francese è debole con Tiny e Base e buono con Small. Tedesco, italiano e portoghese sono discreti con Tiny e Base e buoni con Small. Olandese, polacco, cinese e arabo restano meno precisi anche con Small. L'hindi è sperimentale e scarso con tutti i modelli.
+LINGUE: SIAMO REALISTI
 
-COSA SECUREVOX NON FA
+L'app offre 14 lingue più il rilevamento automatico. Abbiamo misurato l'accuratezza su parlato letto e pulito, quindi le registrazioni reali con rumore saranno peggiori di questi risultati.
+- Buona con il modello predefinito Tiny: solo l'inglese.
+- Buona con Base (148 MB): inglese, spagnolo, coreano.
+- Buona con Small (488 MB): inglese, spagnolo, francese, tedesco, italiano, portoghese, russo, giapponese, coreano.
+- Accuratezza ridotta anche con Small: olandese, polacco, cinese (spesso scritto in caratteri tradizionali), arabo.
+- L'hindi è sperimentale. È scarso con ogni modello, quindi considera il risultato al massimo una bozza approssimativa.
+Se registri soprattutto in una lingua diversa dall'inglese, aspettati di dover scaricare Small. È più lento e richiede più memoria; l'app ti avvisa se al telefono manca memoria.
 
-Niente riassunti, niente note IA, niente traduzione, niente sincronizzazione cloud.
+COSA PUOI FARE
 
-ACQUISTO UNICO: nessun abbonamento, nessuna pubblicità, nessun acquisto in-app.
+- Registrare, con sottotitoli in tempo reale facoltativi mentre parli (un'anteprima approssimativa; la trascrizione salvata viene creata quando fermi la registrazione).
+- Toccare una parola nella trascrizione per saltare a quel punto dell'audio.
+- Etichette dei parlanti facoltative (Parlante 1, Parlante 2) per registrazioni fino a 30 minuti. Sono approssimative.
+- Importare file audio o video, oppure condividerli con SecureVox da altre app.
+- Esportare le trascrizioni come TXT, SRT o VTT, oppure esportare l'audio.
+- Ritrascrivere una registrazione con un modello diverso.
+- Dizionario personalizzato per nomi e termini speciali.
+- Preferiti, blocco app facoltativo, riquadro nelle Impostazioni rapide, velocità di riproduzione da 0,5x a 2x, temi chiaro e scuro.
+- Leggere ad alta voce una trascrizione con una voce offline installata sul telefono.
+
+COSA NON FA SECUREVOX
+
+- Nessun riassunto, nessuna nota IA né elenco di azioni.
+- Nessuna traduzione.
+- Nessuna sincronizzazione cloud e nessun account.
+- Nessuna garanzia di accuratezza: controlla ciò che è importante.
+
+DA SAPERE
+
+- Richiede Android 8.0 o successivo e il permesso per il microfono.
+- I modelli più grandi sono più lenti e richiedono più spazio di archiviazione e memoria.
+- Le registrazioni lunghe vengono trascritte in background con una notifica e possono richiedere un po' di tempo.
+
+ACQUISTO UNICO
+
+App a pagamento. Nessun abbonamento, nessuna pubblicità, nessun acquisto in-app.

@@ -1,15 +1,46 @@
-SecureVox nimmt Ihre Stimme auf und wandelt sie auf dem Smartphone in Text um. Die Transkription läuft mit OpenAIs Whisper-Modellen direkt auf dem Gerät. SecureVox lädt Ihre Aufnahmen und Transkripte nicht hoch. Es gibt kein Konto, keine Werbung und kein Analyse-SDK.
+SecureVox nimmt Ihre Stimme auf und wandelt sie auf dem Smartphone in Text um. Die Transkription läuft mit OpenAIs Whisper-Modellen direkt auf dem Gerät. SecureVox lädt Ihre Aufnahmen und Transkripte nicht hoch. Es gibt kein Konto und keine Werbung. Optionale anonyme Absturzberichte (App-Version, Handymodell, Fehlertyp; niemals Audio oder Text) sind aus, solange Sie sie nicht in den Einstellungen einschalten.
 
 VOR DEM KAUF: DIE EINRICHTUNG BRAUCHT EINMAL INTERNET
 
-Das Sprachmodell ist nicht in der App enthalten. Beim ersten Start lädt SecureVox das Standardmodell Tiny (ca. 78 MB) von Hugging Face herunter. Bis der Download fertig ist, können Sie weder aufnehmen noch transkribieren. Danach funktionieren Aufnahme und Transkription ohne Internet. Die Modelle Base (ca. 148 MB) und Small (ca. 488 MB) sind optionale Downloads in der App.
+Das Transkriptionsmodell ist nicht in der App enthalten. Beim ersten Öffnen lädt SecureVox das Standardmodell Tiny (ca. 78 MB) von Hugging Face herunter. Bis der Download abgeschlossen ist, können Sie weder aufnehmen noch transkribieren. Danach funktionieren Aufnahme und Transkription ohne Verbindung.
 
-SPRACHEN
+Bessere Modelle sind optionale Downloads in der App: Base (ca. 148 MB) und Small (ca. 488 MB). Sprecherbeschriftungen benötigen, wenn Sie sie einschalten, einen weiteren Download von ca. 46 MB.
 
-Wir haben die Genauigkeit mit klar gesprochenen Testaufnahmen gemessen; echte Aufnahmen mit Störgeräuschen sind schlechter. Englisch ist mit allen drei Modellen gut. Deutsch, Italienisch und Portugiesisch sind mit Tiny und Base mittelmäßig und mit Small gut. Französisch ist mit Tiny und Base schwach und mit Small gut. Niederländisch, Polnisch, Chinesisch und Arabisch bleiben auch mit Small ungenauer. Hindi ist experimentell und auf allen Modellen schlecht.
+SPRACHEN: SEIEN WIR REALISTISCH
+
+Die App bietet 14 Sprachen plus automatische Erkennung. Wir haben die Genauigkeit an klar gesprochenen Lesetexten gemessen; verrauschte Aufnahmen aus dem Alltag schneiden schlechter ab als diese Ergebnisse.
+- Gut mit dem Standardmodell Tiny: nur Englisch.
+- Gut mit Base (148 MB): Englisch, Spanisch, Koreanisch.
+- Gut mit Small (488 MB): Englisch, Spanisch, Französisch, Deutsch, Italienisch, Portugiesisch, Russisch, Japanisch, Koreanisch.
+- Eingeschränkte Genauigkeit selbst mit Small: Niederländisch, Polnisch, Chinesisch (oft in traditionellen Schriftzeichen), Arabisch.
+- Hindi ist experimentell. Es ist mit jedem Modell schlecht, das Ergebnis ist bestenfalls ein grober Entwurf.
+Wenn Sie hauptsächlich in einer anderen Sprache als Englisch aufnehmen, sollten Sie Small herunterladen. Es ist langsamer und braucht mehr Arbeitsspeicher; die App warnt Sie, wenn Ihrem Handy der Speicher knapp wird.
+
+WAS SIE TUN KÖNNEN
+
+- Aufnehmen, auf Wunsch mit Live-Untertiteln während des Sprechens (eine grobe Vorschau; das gespeicherte Transkript entsteht, wenn Sie stoppen).
+- Auf ein Wort im Transkript tippen, um zu dieser Stelle im Audio zu springen.
+- Optionale Sprecherbeschriftungen (Sprecher 1, Sprecher 2) für Aufnahmen bis zu 30 Minuten. Sie sind nur ungefähr.
+- Audio- oder Videodateien importieren oder aus anderen Apps mit SecureVox teilen.
+- Transkripte als TXT, SRT oder VTT exportieren, oder das Audio exportieren.
+- Eine Aufnahme mit einem anderen Modell erneut transkribieren.
+- Eigenes Wörterbuch für Namen und Fachbegriffe.
+- Favoriten, optionale App-Sperre, Schnelleinstellungs-Kachel, Wiedergabegeschwindigkeit von 0,5x bis 2x, helles und dunkles Design.
+- Ein Transkript mit einer Offline-Stimme vorlesen lassen, die auf Ihrem Handy installiert ist.
 
 WAS SECUREVOX NICHT KANN
 
-Keine Zusammenfassungen, keine KI-Notizen, keine Übersetzung, keine Cloud-Synchronisierung.
+- Keine Zusammenfassungen, keine KI-Notizen und keine Aufgabenlisten.
+- Keine Übersetzung.
+- Keine Cloud-Synchronisierung und kein Konto.
+- Keine Garantie für Genauigkeit: Prüfen Sie wichtige Inhalte.
 
-EINMALKAUF: kein Abo, keine Werbung, keine In-App-Käufe.
+GUT ZU WISSEN
+
+- Benötigt Android 8.0 oder neuer und die Berechtigung für das Mikrofon.
+- Größere Modelle sind langsamer und brauchen mehr Speicherplatz und Arbeitsspeicher.
+- Lange Aufnahmen werden im Hintergrund mit einer Benachrichtigung transkribiert und können eine Weile dauern.
+
+EINMALKAUF
+
+Bezahlte App. Kein Abo, keine Werbung, keine In-App-Käufe.
