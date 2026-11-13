@@ -315,4 +315,13 @@
     <string name="rename_field_label">Название</string>
     <string name="save">Сохранить</string>
     <string name="nothing_recorded_toast">Ничего не записано.</string>
+    <string name="funnel_settings_title">На этом телефоне</string>
+    <string name="funnel_settings_subtitle">Что SecureVox подсчитал о собственном использовании. Остаётся на вашем телефоне.</string>
+    <string name="funnel_stays_on_phone">Это остаётся на вашем телефоне. SecureVox никуда это не отправляет. Здесь хранятся количества и даты шагов настройки и использования, но никогда ваше аудио, тексты, названия или имена файлов. Данные покидают телефон, только если вы отправите сообщение «Сообщить о проблеме»: копия входит в черновик, который вы можете прочитать и изменить перед отправкой.</string>
+    <string name="funnel_since">Подсчёт с %1$s</string>
+    <string name="funnel_empty">Пока ничего не подсчитано.</string>
+    <string name="funnel_row_detail">Количество: %1$d. Первый раз: %2$s, последний: %3$s.</string>
+    <string name="funnel_reset">Сбросить</string>
+    <string name="funnel_reset_title">Сбросить этот список?</string>
+    <string name="funnel_reset_body">Будут удалены показанные здесь количества и даты. Ваши записи, расшифровки и настройки не затрагиваются.</string>
 </resources>

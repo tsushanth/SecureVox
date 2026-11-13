@@ -24,6 +24,9 @@ import java.io.RandomAccessFile
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.StartFailClass
+import com.securevox.app.util.funnel.funnel
 
 /**
  * Service for recording audio using AudioRecord.
@@ -104,6 +107,7 @@ class AudioRecorderService(private val context: Context) {
 
         if (!hasPermission()) {
             Log.e(TAG, "No microphone permission")
+            funnel().step(Step.RECORDING_START_FAILED, StartFailClass.NO_PERMISSION)
             return false
         }
 
@@ -111,6 +115,7 @@ class AudioRecorderService(private val context: Context) {
         if (minBuffer == AudioRecord.ERROR || minBuffer == AudioRecord.ERROR_BAD_VALUE) {
             Log.e(TAG, "Invalid buffer size: $minBuffer")
             FailureReporter.failure("recording.start", reason = "invalid_buffer_size", context = mapOf("code" to minBuffer.toString()))
+            funnel().step(Step.RECORDING_START_FAILED, StartFailClass.BAD_BUFFER)
             return false
         }
         // Use at least 2× min buffer; round up to next power-of-two for compatibility
@@ -141,6 +146,7 @@ class AudioRecorderService(private val context: Context) {
                 audioRecord = null
                 // Mic busy (another app or a call holds it), blocked by the OS, or no input device.
                 FailureReporter.failure("recording.start", reason = "mic_unavailable")
+                funnel().step(Step.RECORDING_START_FAILED, StartFailClass.MIC_UNAVAILABLE)
                 return false
             }
 
@@ -170,10 +176,12 @@ class AudioRecorderService(private val context: Context) {
         } catch (e: SecurityException) {
             Log.e(TAG, "Security exception starting recording", e)
             FailureReporter.failure("recording.start", e, reason = "security_exception")
+            funnel().step(Step.RECORDING_START_FAILED, StartFailClass.NO_PERMISSION)
             return false
         } catch (e: Exception) {
             Log.e(TAG, "Error starting recording", e)
             FailureReporter.failure("recording.start", e)
+            funnel().step(Step.RECORDING_START_FAILED, StartFailClass.EXCEPTION)
             audioRecord?.release()
             audioRecord = null
             return false

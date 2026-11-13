@@ -35,6 +35,10 @@ import com.securevox.app.presentation.settings.dataStore
 import com.securevox.app.presentation.theme.SecureVoxTheme
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.kreativekoala.ratingkit.RatingKit
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.OpenSource
+import com.securevox.app.util.funnel.funnel
+import java.time.ZoneId
 import kotlinx.coroutines.flow.map
 
 class MainActivity : AppCompatActivity() {
@@ -106,9 +110,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        recordAppOpen()
         if (stoppedAt != 0L && SystemClock.elapsedRealtime() - stoppedAt > AppLock.RELOCK_AFTER_MS) {
             unlocked = false
         }
+    }
+
+    /** First open (and how it was opened) and the day 1 / 7 / 30 "came back" steps; see FunnelHooks. */
+    private fun recordAppOpen() {
+        val info = runCatching { packageManager.getPackageInfo(packageName, 0) }.getOrNull() ?: return
+        val launchedAs = when (IncomingActions.pending.value) {
+            is IncomingAction.ImportMedia -> OpenSource.SHARE
+            IncomingAction.StartRecording -> OpenSource.TILE
+            else -> OpenSource.LAUNCHER
+        }
+        FunnelHooks.onAppOpened(
+            funnel(), info.firstInstallTime, info.lastUpdateTime, launchedAs, System.currentTimeMillis(), ZoneId.systemDefault()
+        )
     }
 
     private fun promptUnlock() {

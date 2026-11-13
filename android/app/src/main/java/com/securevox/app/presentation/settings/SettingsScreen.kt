@@ -27,6 +27,12 @@ import com.securevox.app.AppLock
 import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.R
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.util.funnel.FunnelHolder
+import com.securevox.app.util.funnel.LedgerSummary
+import com.securevox.app.util.funnel.ProblemReportText
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
+import java.time.ZoneId
 import com.securevox.app.whisper.DownloadState
 import com.securevox.app.whisper.LanguageAdvice
 import com.securevox.app.whisper.LanguageQuality
@@ -40,6 +46,7 @@ fun SettingsScreen(
     onNavigateBack: () -> Unit,
     onNavigateToFAQ: () -> Unit = {},
     onNavigateToCustomDictionary: () -> Unit = {},
+    onNavigateToOnThisPhone: () -> Unit = {},
     viewModel: SettingsViewModel = viewModel()
 ) {
     val context = LocalContext.current
@@ -312,6 +319,15 @@ fun SettingsScreen(
 
             item {
                 SettingsCard(
+                    title = stringResource(R.string.funnel_settings_title),
+                    subtitle = stringResource(R.string.funnel_settings_subtitle),
+                    icon = Icons.Default.Insights,
+                    onClick = onNavigateToOnThisPhone
+                )
+            }
+
+            item {
+                SettingsCard(
                     title = stringResource(R.string.send_feedback),
                     subtitle = stringResource(R.string.send_feedback_subtitle),
                     icon = Icons.Default.Feedback,
@@ -334,6 +350,13 @@ fun SettingsScreen(
                     onClick = {
                         val logFile = CrashLogger.logFile(context)
                         val logText = if (logFile.exists()) logFile.readText() else ""
+                        // The on-phone usage summary goes into the message the user is about to review and send
+                        // themselves: step names, counts and dates only (see LedgerSummary.reportText).
+                        funnel().step(Step.REPORT_PROBLEM_OPENED)
+                        val summary = FunnelHolder.ledger?.let {
+                            LedgerSummary.reportText(it.snapshot(), appVersionName(context), ZoneId.systemDefault())
+                        }.orEmpty()
+                        val body = ProblemReportText.build(summary, logText)
 
                         val intent = Intent(Intent.ACTION_SEND).apply {
                             type = "text/plain"
@@ -342,10 +365,8 @@ fun SettingsScreen(
 
                             // Small logs go straight in the body; larger ones are attached via the
                             // app's existing FileProvider so the intent doesn't hit a TransactionTooLargeException.
-                            if (logText.isNotBlank() && logText.length <= 20_000) {
-                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.\n\n---\nDiagnostic log:\n\n$logText")
-                            } else {
-                                putExtra(Intent.EXTRA_TEXT, "Please describe the problem below.")
+                            putExtra(Intent.EXTRA_TEXT, body.text)
+                            if (!body.logInline) {
                                 if (logFile.exists()) {
                                     val uri = FileProvider.getUriForFile(context, "${context.packageName}.provider", logFile)
                                     putExtra(Intent.EXTRA_STREAM, uri)

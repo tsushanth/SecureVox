@@ -315,4 +315,13 @@
     <string name="rename_field_label">शीर्षक</string>
     <string name="save">सहेजें</string>
     <string name="nothing_recorded_toast">कुछ भी रिकॉर्ड नहीं हुआ।</string>
+    <string name="funnel_settings_title">इस फ़ोन पर</string>
+    <string name="funnel_settings_subtitle">SecureVox ने अपने इस्तेमाल के बारे में जो गिना है। यह आपके फ़ोन पर ही रहता है।</string>
+    <string name="funnel_stays_on_phone">यह आपके फ़ोन पर ही रहता है। SecureVox इसे कहीं नहीं भेजता। इसमें सेटअप और इस्तेमाल के चरणों की गिनती और तारीखें होती हैं, आपकी ऑडियो, टेक्स्ट, शीर्षक या फ़ाइल नाम कभी नहीं। यह तभी आपके फ़ोन से बाहर जाता है जब आप \"समस्या की रिपोर्ट करें\" संदेश भेजते हैं: उसके ड्राफ़्ट में इसकी एक प्रति शामिल होती है, जिसे आप भेजने से पहले पढ़ और बदल सकते हैं।</string>
+    <string name="funnel_since">%1$s से गिनती जारी है</string>
+    <string name="funnel_empty">अभी तक कुछ नहीं गिना गया।</string>
+    <string name="funnel_row_detail">गिनती %1$d। पहली बार %2$s, आख़िरी बार %3$s।</string>
+    <string name="funnel_reset">रीसेट करें</string>
+    <string name="funnel_reset_title">यह सूची रीसेट करें?</string>
+    <string name="funnel_reset_body">इससे यहाँ दिखाई गई गिनती और तारीखें साफ़ हो जाएँगी। आपकी रिकॉर्डिंग, ट्रांसक्रिप्ट और सेटिंग्स पर कोई असर नहीं पड़ेगा।</string>
 </resources>

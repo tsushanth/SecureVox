@@ -23,6 +23,12 @@ import android.provider.Settings
 import android.widget.Toast
 import com.securevox.app.util.MicPermission
 import com.securevox.app.util.MicStep
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.InputVia
+import com.securevox.app.util.funnel.NotifResult
+import com.securevox.app.util.funnel.SetupEntry
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.notify.NotificationPermission
 import com.securevox.app.service.TranscriptionEta
 import com.securevox.app.service.TranscriptionRun
@@ -67,7 +73,7 @@ import java.util.*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecordingsScreen(
-    onOpenSetup: () -> Unit,
+    onOpenSetup: (SetupEntry) -> Unit,
     onRecordingClick: (String) -> Unit,
     onSettingsClick: () -> Unit,
     viewModel: RecordingsViewModel = viewModel()
@@ -114,6 +120,7 @@ fun RecordingsScreen(
     var showNeedModel by remember { mutableStateOf(false) }
 
     val micLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        funnel().step(Step.MIC_RESULT, FunnelHooks.micResultFromDialog(granted))
         if (granted) {
             if (!isRecording) viewModel.startRecording()
         } else {
@@ -124,7 +131,9 @@ fun RecordingsScreen(
     // Notification permission (Android 13+): offered once, when the first transcription starts, with the reason first.
     // Declining never blocks anything; the transcript is simply not announced.
     var showNotifRationale by remember { mutableStateOf(false) }
-    val notifLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { }
+    val notifLauncher = rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+        funnel().step(Step.NOTIF_PERMISSION, FunnelHooks.notifResultFromDialog(granted))
+    }
     fun offerNotifications() {
         val granted = Build.VERSION.SDK_INT < NotificationPermission.FIRST_SDK_WITH_PERMISSION ||
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
@@ -146,6 +155,7 @@ fun RecordingsScreen(
 
     fun beginRecording() {
         if (!hasModel) {
+            funnel().step(Step.RECORD_BLOCKED_NO_MODEL, InputVia.RECORD)
             showNeedModel = true
             return
         }
@@ -155,9 +165,14 @@ fun RecordingsScreen(
         val rationale = context.findActivity()?.let {
             androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale(it, Manifest.permission.RECORD_AUDIO)
         } ?: false
-        when (MicPermission.decide(granted, rationale, prefs.getBoolean(KEY_MIC_ASKED, false))) {
+        val micStep = MicPermission.decide(granted, rationale, prefs.getBoolean(KEY_MIC_ASKED, false))
+        FunnelHooks.micResultForTap(micStep)?.let { funnel().step(Step.MIC_RESULT, it) }
+        when (micStep) {
             MicStep.PROCEED -> if (!isRecording) viewModel.startRecording()
-            MicStep.EXPLAIN_THEN_ASK -> showMicRationale = true
+            MicStep.EXPLAIN_THEN_ASK -> {
+                funnel().step(Step.MIC_RATIONALE_SHOWN)
+                showMicRationale = true
+            }
             MicStep.OPEN_SETTINGS -> showMicSettings = true
         }
     }
@@ -170,7 +185,7 @@ fun RecordingsScreen(
         val action = incoming ?: return@LaunchedEffect
         when (action) {
             // A shared file is always imported; without a model it waits for Retry once one is installed.
-            is IncomingAction.ImportMedia -> viewModel.importMedia(action.uri)
+            is IncomingAction.ImportMedia -> viewModel.importMedia(action.uri, InputVia.IMPORT_SHARE)
             IncomingAction.StartRecording -> beginRecording()
             // Handled by the navigation host, which can open the recording from any screen.
             is IncomingAction.OpenRecording -> return@LaunchedEffect
@@ -180,7 +195,10 @@ fun RecordingsScreen(
 
     if (showMicRationale) {
         AlertDialog(
-            onDismissRequest = { showMicRationale = false },
+            onDismissRequest = {
+                funnel().step(Step.MIC_RATIONALE_CANCELLED)
+                showMicRationale = false
+            },
             title = { Text(stringResource(R.string.mic_rationale_title)) },
             text = { Text(stringResource(R.string.mic_rationale_body)) },
             confirmButton = {
@@ -191,7 +209,10 @@ fun RecordingsScreen(
                 }) { Text(stringResource(R.string.mic_rationale_continue)) }
             },
             dismissButton = {
-                TextButton(onClick = { showMicRationale = false }) { Text(stringResource(R.string.cancel)) }
+                TextButton(onClick = {
+                    funnel().step(Step.MIC_RATIONALE_CANCELLED)
+                    showMicRationale = false
+                }) { Text(stringResource(R.string.cancel)) }
             }
         )
     }
@@ -200,6 +221,7 @@ fun RecordingsScreen(
         // Asked once: whichever button is tapped, we do not raise this again.
         AlertDialog(
             onDismissRequest = {
+                funnel().step(Step.NOTIF_PERMISSION, NotifResult.NOT_NOW)
                 showNotifRationale = false
                 prefs.edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
             },
@@ -214,6 +236,7 @@ fun RecordingsScreen(
             },
             dismissButton = {
                 TextButton(onClick = {
+                    funnel().step(Step.NOTIF_PERMISSION, NotifResult.NOT_NOW)
                     showNotifRationale = false
                     prefs.edit().putBoolean(KEY_NOTIF_ASKED, true).apply()
                 }) { Text(stringResource(R.string.not_now)) }
@@ -247,7 +270,7 @@ fun RecordingsScreen(
             title = { Text(stringResource(R.string.no_model_dialog_title)) },
             text = { Text(stringResource(R.string.no_model_dialog_body, WhisperModel.TINY.sizeMB)) },
             confirmButton = {
-                TextButton(onClick = { showNeedModel = false; onOpenSetup() }) {
+                TextButton(onClick = { showNeedModel = false; onOpenSetup(SetupEntry.RECORD_TAP) }) {
                     Text(stringResource(R.string.no_model_banner_action))
                 }
             },
@@ -263,7 +286,7 @@ fun RecordingsScreen(
     val filePickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
-        uri?.let { viewModel.importMedia(it) }
+        uri?.let { viewModel.importMedia(it, InputVia.IMPORT_PICKER) }
     }
 
     Scaffold(
@@ -305,7 +328,10 @@ fun RecordingsScreen(
                         IconButton(
                             onClick = {
                                 if (hasModel) filePickerLauncher.launch(MediaImportService.getSupportedMimeTypes())
-                                else showNeedModel = true
+                                else {
+                                    funnel().step(Step.RECORD_BLOCKED_NO_MODEL, InputVia.IMPORT_PICKER)
+                                    showNeedModel = true
+                                }
                             },
                             enabled = !isImporting
                         ) {
@@ -353,7 +379,7 @@ fun RecordingsScreen(
             if (!hasModel) {
                 NoModelBanner(
                     downloading = modelDownload as? DownloadState.Downloading,
-                    onSetup = onOpenSetup
+                    onSetup = { onOpenSetup(SetupEntry.BANNER) }
                 )
             }
 
@@ -584,9 +610,10 @@ private fun ReportsPromptCard(onTurnOn: () -> Unit, onNoThanks: () -> Unit) {
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(8.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(onClick = onTurnOn) { Text(stringResource(R.string.reports_prompt_accept)) }
-            TextButton(onClick = onNoThanks) { Text(stringResource(R.string.reports_prompt_decline)) }
+        // Equal weight on purpose: same button style and width, neither one preselected or visually favoured.
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
+            OutlinedButton(onClick = onTurnOn, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.reports_prompt_accept)) }
+            OutlinedButton(onClick = onNoThanks, modifier = Modifier.weight(1f)) { Text(stringResource(R.string.reports_prompt_decline)) }
         }
     }
 }

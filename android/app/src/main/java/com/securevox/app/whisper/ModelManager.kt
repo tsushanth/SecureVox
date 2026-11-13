@@ -19,6 +19,11 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.util.concurrent.ConcurrentHashMap
 import com.securevox.app.util.FailureReporter
+import com.securevox.app.util.funnel.DlProblem
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.FunnelModel
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.util.FailureSanitizer
 
 /**
@@ -194,6 +199,7 @@ class ModelManager(private val context: Context) {
         val problem = DownloadPolicy.classify(e)
         Log.e(TAG, "Failed to download model: ${model.fileName} ($problem)", e)
         _downloadState.value = DownloadState.Error(model, e.message ?: "Download failed", problem)
+        funnel().step(Step.DOWNLOAD_FAILED, DlProblem.of(problem), FunnelModel.of(model))
         return Result.failure(e)
     }
 
@@ -217,6 +223,7 @@ class ModelManager(private val context: Context) {
         if (resumeFrom == model.sizeBytes) {
             if (ModelIntegrity.verify(partFile, model, appVersion) && promote(partFile, file, model)) {
                 _downloadState.value = DownloadState.Completed(model)
+                FunnelHooks.onDownloadCompleted(funnel(), model, null)
                 refreshModelList()
                 return Result.success(file)
             }
@@ -235,6 +242,9 @@ class ModelManager(private val context: Context) {
         }
 
         _downloadState.value = DownloadState.Downloading(model, resumeFrom, model.sizeBytes)
+        // Usage ledger (on this phone only): a real attempt began, and how long it takes to finish.
+        val attemptStartedAtMs = System.currentTimeMillis()
+        FunnelHooks.onDownloadStarted(funnel(), model, resumeFrom)
 
         return try {
             var connection = openConnection(model, resumeFrom)
@@ -308,6 +318,7 @@ class ModelManager(private val context: Context) {
 
             Log.i(TAG, "Model downloaded successfully: ${model.fileName}")
             _downloadState.value = DownloadState.Completed(model)
+            FunnelHooks.onDownloadCompleted(funnel(), model, System.currentTimeMillis() - attemptStartedAtMs)
             refreshModelList()
 
             Result.success(file)

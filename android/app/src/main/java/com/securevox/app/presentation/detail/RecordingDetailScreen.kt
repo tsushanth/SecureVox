@@ -39,6 +39,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.ValueKind
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.speakers.SpeakerLabels
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -108,6 +111,13 @@ fun RecordingDetailScreen(
     val listState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
+    // Usage ledger (on this phone only): a finished transcript with text is on screen. Keyed on that condition,
+    // so recomposition does not count it twice.
+    val finishedTranscriptShown = recording?.transcriptionStatus == TranscriptionStatus.COMPLETED && segments.isNotEmpty()
+    LaunchedEffect(finishedTranscriptShown) {
+        if (finishedTranscriptShown) funnel().step(Step.TRANSCRIPT_VIEWED)
+    }
+
     // Auto-scroll to active segment
     LaunchedEffect(activeSegment) {
         activeSegment?.let { segment ->
@@ -148,6 +158,7 @@ fun RecordingDetailScreen(
                                 val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                                 val clip = ClipData.newPlainText("Transcript", viewModel.getFullTranscript())
                                 clipboard.setPrimaryClip(clip)
+                                funnel().step(Step.VALUE_ACTION, ValueKind.COPY)
                                 Toast.makeText(context, context.getString(R.string.copied_to_clipboard), Toast.LENGTH_SHORT).show()
                             }
                         )
@@ -192,6 +203,7 @@ fun RecordingDetailScreen(
                                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                                     }
                                     context.startActivity(Intent.createChooser(shareIntent, context.getString(R.string.export_audio)))
+                                    funnel().step(Step.VALUE_ACTION, ValueKind.SHARE_AUDIO)
                                 } catch (e: Exception) {
                                     Toast.makeText(context, context.getString(R.string.export_failed), Toast.LENGTH_SHORT).show()
                                 }

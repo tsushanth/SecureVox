@@ -23,6 +23,12 @@ import com.securevox.app.SecureVoxApp
 import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
+import com.securevox.app.util.funnel.Buckets
+import com.securevox.app.util.funnel.FunnelModel
+import com.securevox.app.util.funnel.LangBucket
+import com.securevox.app.util.funnel.SettingWhich
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -83,6 +89,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         .stateIn(viewModelScope, SharingStarted.Eagerly, true)
 
     fun setLiveCaptionsEnabled(enabled: Boolean) {
+        funnel().step(Step.SETTING_CHANGED, SettingWhich.LIVE_CAPTIONS, Buckets.toggle(enabled))
         viewModelScope.launch {
             dataStore.edit { prefs -> prefs[LiveTranscriber.KEY_ENABLED] = enabled }
         }
@@ -103,6 +110,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             if (!enabled) {
                 dataStore.edit { it[SpeakerLabels.KEY_ENABLED] = false }
+                funnel().step(Step.SETTING_CHANGED, SettingWhich.SPEAKERS, Buckets.toggle(false))
                 return@launch
             }
             val dir = SpeakerLabels.modelDir(getApplication())
@@ -121,6 +129,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 }
             }
             dataStore.edit { it[SpeakerLabels.KEY_ENABLED] = true }
+            funnel().step(Step.SETTING_CHANGED, SettingWhich.SPEAKERS, Buckets.toggle(true))
         }
     }
 
@@ -129,6 +138,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
         .stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
     fun setAppLockEnabled(enabled: Boolean) {
+        funnel().step(Step.SETTING_CHANGED, SettingWhich.APP_LOCK, Buckets.toggle(enabled))
         viewModelScope.launch {
             dataStore.edit { prefs -> prefs[AppLock.KEY_ENABLED] = enabled }
         }
@@ -145,6 +155,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
                 dataStore.edit { prefs ->
                     prefs[KEY_SELECTED_MODEL] = model.fileName
                 }
+                funnel().step(Step.SETTING_CHANGED, SettingWhich.MODEL, FunnelModel.of(model))
             }
         }
     }
@@ -154,6 +165,8 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
             dataStore.edit { prefs ->
                 prefs[KEY_SELECTED_LANGUAGE] = language.code
             }
+            // Which language is never recorded, only how well the model in use handles it.
+            funnel().step(Step.SETTING_CHANGED, SettingWhich.LANGUAGE, LangBucket.of(language, selectedModel.value))
             // Move off a model that is POOR for this language if a better one is already downloaded
             val downloaded = WhisperModel.entries.filter { modelManager.isModelDownloaded(it) }.toSet()
             LanguageQuality.autoUpgrade(language, selectedModel.value, downloaded)?.let { upgrade ->
@@ -177,6 +190,7 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun deleteModel(model: WhisperModel) {
+        funnel().step(Step.SETTING_CHANGED, SettingWhich.MODEL_DELETE, FunnelModel.of(model))
         // If deleting the currently selected model, switch to another
         if (selectedModel.value == model) {
             val alternative = WhisperModel.entries

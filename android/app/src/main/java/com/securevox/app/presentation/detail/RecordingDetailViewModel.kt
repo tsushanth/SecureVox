@@ -24,6 +24,11 @@ import com.securevox.app.speakers.SpeakerLabels
 import com.securevox.app.speakers.SpeakerModels
 import com.securevox.app.service.SpeakerRelabelWorker
 import com.securevox.app.util.MemoryPolicy
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.Trigger
+import com.securevox.app.util.funnel.ValueKind
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.whisper.WhisperModel
 import com.securevox.app.whisper.WhisperLanguage
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -252,13 +257,15 @@ class RecordingDetailViewModel(
             val workRequest = TranscriptionWorker.createWorkRequest(
                 recordingId = rec.id,
                 modelName = model.fileName,
-                language = currentLanguageCode
+                language = currentLanguageCode,
+                trigger = Trigger.RETRANSCRIBE.code
             )
             WorkManager.getInstance(getApplication()).enqueue(workRequest)
         }
     }
 
     fun renameRecording(newTitle: String) {
+        funnel().step(Step.VALUE_ACTION, ValueKind.RENAME)
         viewModelScope.launch { repository.renameRecording(recordingId, newTitle) }
     }
 
@@ -278,7 +285,9 @@ class RecordingDetailViewModel(
         val rec = recording.value ?: return null
         val segs = segments.value
         if (segs.isEmpty()) return null
-        return exportService.exportToFile(segs, format, rec.title)
+        val intent = exportService.exportToFile(segs, format, rec.title)
+        if (intent != null) FunnelHooks.valueKindForExport(format.extension)?.let { funnel().step(Step.VALUE_ACTION, it) }
+        return intent
     }
 
     override fun onCleared() {

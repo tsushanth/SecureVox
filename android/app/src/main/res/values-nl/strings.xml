@@ -315,4 +315,13 @@
     <string name="rename_field_label">Titel</string>
     <string name="save">Opslaan</string>
     <string name="nothing_recorded_toast">Er is niets opgenomen.</string>
+    <string name="funnel_settings_title">Op deze telefoon</string>
+    <string name="funnel_settings_subtitle">Wat SecureVox heeft geteld over het eigen gebruik. Blijft op je telefoon.</string>
+    <string name="funnel_stays_on_phone">Dit blijft op je telefoon. SecureVox stuurt het nergens naartoe. Het bevat aantallen en datums van installatie- en gebruiksstappen, nooit je audio, tekst, titels of bestandsnamen. Het verlaat je telefoon alleen als je een probleemmelding verstuurt: een kopie staat in het concept, dat je kunt lezen en aanpassen voordat je het verstuurt.</string>
+    <string name="funnel_since">Geteld sinds %1$s</string>
+    <string name="funnel_empty">Nog niets geteld.</string>
+    <string name="funnel_row_detail">Aantal %1$d. Eerste keer %2$s, laatste keer %3$s.</string>
+    <string name="funnel_reset">Resetten</string>
+    <string name="funnel_reset_title">Deze lijst resetten?</string>
+    <string name="funnel_reset_body">Hiermee worden de aantallen en datums die hier staan gewist. Je opnames, transcripties en instellingen blijven ongewijzigd.</string>
 </resources>

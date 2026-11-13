@@ -315,4 +315,13 @@
     <string name="rename_field_label">Pamagat</string>
     <string name="save">I-save</string>
     <string name="nothing_recorded_toast">Walang naitala.</string>
+    <string name="funnel_settings_title">Sa teleponong ito</string>
+    <string name="funnel_settings_subtitle">Kung ano ang binilang ng SecureVox tungkol sa sarili nitong paggamit. Nananatili sa telepono mo.</string>
+    <string name="funnel_stays_on_phone">Nananatili ito sa telepono mo. Hindi ito ipinapadala ng SecureVox kahit saan. Naglalaman ito ng bilang at petsa ng mga hakbang sa setup at paggamit, hindi kailanman ng audio, teksto, pamagat o pangalan ng file mo. Lalabas lang ito sa telepono mo kung magpapadala ka ng mensaheng Mag-ulat ng Problema: may kasamang kopya sa draft, na mababasa at mae-edit mo bago ipadala.</string>
+    <string name="funnel_since">Binibilang mula %1$s</string>
+    <string name="funnel_empty">Wala pang nabibilang.</string>
+    <string name="funnel_row_detail">Bilang %1$d. Una %2$s, huli %3$s.</string>
+    <string name="funnel_reset">I-reset</string>
+    <string name="funnel_reset_title">I-reset ang listahang ito?</string>
+    <string name="funnel_reset_body">Buburahin nito ang mga bilang at petsang nakikita rito. Hindi maaapektuhan ang mga recording, transcript at setting mo.</string>
 </resources>

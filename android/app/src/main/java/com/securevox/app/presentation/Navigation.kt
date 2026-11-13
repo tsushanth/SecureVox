@@ -17,7 +17,11 @@ import com.securevox.app.presentation.onboarding.SetupScreen
 import com.securevox.app.presentation.recordings.RecordingsScreen
 import com.securevox.app.presentation.settings.CustomDictionaryScreen
 import com.securevox.app.presentation.settings.FAQScreen
+import com.securevox.app.presentation.settings.OnThisPhoneScreen
 import com.securevox.app.presentation.settings.SettingsScreen
+import com.securevox.app.util.funnel.SetupEntry
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.funnel
 import com.securevox.app.whisper.SetupGate
 
 sealed class Screen(val route: String) {
@@ -29,6 +33,7 @@ sealed class Screen(val route: String) {
     object Settings : Screen("settings")
     object FAQ : Screen("faq")
     object CustomDictionary : Screen("custom_dictionary")
+    object OnThisPhone : Screen("on_this_phone")
 }
 
 private const val KEY_SETUP_SKIPPED = "setup_skipped"
@@ -47,6 +52,9 @@ fun SecureVoxNavHost() {
             skipped = prefs.getBoolean(KEY_SETUP_SKIPPED, false)
         )
     }
+
+    // Which door led to the setup screen (for the on-phone usage ledger only).
+    var setupEntry by remember { mutableStateOf(if (needsSetup) SetupEntry.FIRST_RUN else SetupEntry.BANNER) }
 
     val startDestination = if (needsSetup) Screen.Setup.route else Screen.Recordings.route
 
@@ -79,8 +87,10 @@ fun SecureVoxNavHost() {
         composable(Screen.Setup.route) {
             SetupScreen(
                 modelManager = modelManager,
+                entry = setupEntry,
                 onSetupComplete = { leaveSetup() },
                 onSkip = {
+                    funnel().step(Step.SETUP_SKIPPED)
                     prefs.edit().putBoolean(KEY_SETUP_SKIPPED, true).apply()
                     leaveSetup()
                 }
@@ -89,7 +99,10 @@ fun SecureVoxNavHost() {
 
         composable(Screen.Recordings.route) {
             RecordingsScreen(
-                onOpenSetup = { navController.navigate(Screen.Setup.route) { launchSingleTop = true } },
+                onOpenSetup = { entry ->
+                    setupEntry = entry
+                    navController.navigate(Screen.Setup.route) { launchSingleTop = true }
+                },
                 onRecordingClick = { recordingId ->
                     navController.navigate(Screen.RecordingDetail.createRoute(recordingId))
                 },
@@ -116,12 +129,19 @@ fun SecureVoxNavHost() {
             SettingsScreen(
                 onNavigateBack = { navController.popBackStack() },
                 onNavigateToFAQ = { navController.navigate(Screen.FAQ.route) },
-                onNavigateToCustomDictionary = { navController.navigate(Screen.CustomDictionary.route) }
+                onNavigateToCustomDictionary = { navController.navigate(Screen.CustomDictionary.route) },
+                onNavigateToOnThisPhone = { navController.navigate(Screen.OnThisPhone.route) }
             )
         }
 
         composable(Screen.FAQ.route) {
             FAQScreen(
+                onNavigateBack = { navController.popBackStack() }
+            )
+        }
+
+        composable(Screen.OnThisPhone.route) {
+            OnThisPhoneScreen(
                 onNavigateBack = { navController.popBackStack() }
             )
         }

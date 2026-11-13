@@ -315,4 +315,13 @@
     <string name="rename_field_label">Titel</string>
     <string name="save">Speichern</string>
     <string name="nothing_recorded_toast">Es wurde nichts aufgenommen.</string>
+    <string name="funnel_settings_title">Auf diesem Telefon</string>
+    <string name="funnel_settings_subtitle">Was SecureVox über die eigene Nutzung gezählt hat. Bleibt auf Ihrem Telefon.</string>
+    <string name="funnel_stays_on_phone">Das bleibt auf Ihrem Telefon. SecureVox sendet es nirgendwohin. Es enthält Anzahl und Datum von Einrichtungs- und Nutzungsschritten, niemals Ihre Audioaufnahmen, Texte, Titel oder Dateinamen. Es verlässt Ihr Telefon nur, wenn Sie eine Problemmeldung senden: Eine Kopie steht im Entwurf, den Sie vor dem Senden lesen und bearbeiten können.</string>
+    <string name="funnel_since">Gezählt seit %1$s</string>
+    <string name="funnel_empty">Noch nichts gezählt.</string>
+    <string name="funnel_row_detail">Anzahl %1$d. Erstes Mal %2$s, zuletzt %3$s.</string>
+    <string name="funnel_reset">Zurücksetzen</string>
+    <string name="funnel_reset_title">Diese Liste zurücksetzen?</string>
+    <string name="funnel_reset_body">Dadurch werden die hier angezeigten Zahlen und Daten gelöscht. Ihre Aufnahmen, Transkripte und Einstellungen bleiben unberührt.</string>
 </resources>

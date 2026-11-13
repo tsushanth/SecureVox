@@ -7,6 +7,16 @@ import android.util.Log
 import com.securevox.app.util.FailureReporter
 import com.securevox.app.util.MemoryPolicy
 import com.securevox.app.util.ReportConsent
+import com.securevox.app.util.funnel.Buckets
+import com.securevox.app.util.funnel.FunnelHooks
+import com.securevox.app.util.funnel.ImportFailClass
+import com.securevox.app.util.funnel.InputVia
+import com.securevox.app.util.funnel.LiveState
+import com.securevox.app.util.funnel.Step
+import com.securevox.app.util.funnel.Trigger
+import com.securevox.app.util.funnel.YesNo
+import com.securevox.app.util.funnel.funnel
+import java.time.ZoneId
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.work.WorkInfo
@@ -270,7 +280,11 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     private fun startLiveCaptions() {
         viewModelScope.launch {
             val enabled = dataStore.data.first()[LiveTranscriber.KEY_ENABLED] ?: true
-            if (!enabled || !audioRecorder.isRecording.value) return@launch
+            if (!audioRecorder.isRecording.value) return@launch
+            if (!enabled) {
+                funnel().step(Step.LIVE_CAPTIONS, LiveState.OFF)
+                return@launch
+            }
             val models = SecureVoxApp.instance.modelManager
             // Live captions load a second Whisper context, so on a tight phone use Tiny only or none.
             val snapshot = MemoryPolicy.read(getApplication())
@@ -278,6 +292,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
             if (largest == null) {
                 Log.i("RecordingsVM", "Live captions off for this recording: low memory " +
                     "(avail=${snapshot.availBytes / 1_000_000} MB, lowMemory=${snapshot.lowMemory})")
+                funnel().step(Step.LIVE_CAPTIONS, LiveState.SKIPPED_LOW_MEMORY)
                 return@launch
             }
             val model = listOf(WhisperModel.BASE, WhisperModel.TINY)
@@ -292,6 +307,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
                 scope = viewModelScope
             )
             liveTranscriber = transcriber
+            funnel().step(Step.LIVE_CAPTIONS, LiveState.ON)
             liveCaptionJob = launch { transcriber.caption.collect { _liveCaption.value = it } }
             transcriber.start()
         }
@@ -319,6 +335,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
                 transcriptionStatus = TranscriptionStatus.PENDING
             )
             _currentRecordingId.value = recording.id
+            FunnelHooks.onRecordingStarted(funnel(), System.currentTimeMillis(), ZoneId.systemDefault())
 
             pendingRowSave = viewModelScope.launch {
                 repository.saveRecording(recording)
@@ -352,9 +369,16 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
         viewModelScope.launch {
             // The row is saved when recording starts; wait for it so an instant stop cannot leave it behind.
             pendingRowSave?.join()
-            when (stopper.onStopped(recordingId, filePath, audioRecorder.recordingDuration.value)) {
-                RecordingStopper.Result.KEPT -> _transcriptionQueued.tryEmit(Unit)
-                RecordingStopper.Result.DISCARDED -> _nothingRecorded.tryEmit(Unit)
+            val recordedMs = audioRecorder.recordingDuration.value
+            when (stopper.onStopped(recordingId, filePath, recordedMs)) {
+                RecordingStopper.Result.KEPT -> {
+                    funnel().step(Step.RECORDING_STOPPED, Buckets.dur(recordedMs), YesNo.NO)
+                    _transcriptionQueued.tryEmit(Unit)
+                }
+                RecordingStopper.Result.DISCARDED -> {
+                    funnel().step(Step.RECORDING_STOPPED, Buckets.dur(recordedMs), YesNo.YES)
+                    _nothingRecorded.tryEmit(Unit)
+                }
                 RecordingStopper.Result.IGNORED -> Unit
             }
         }
@@ -380,11 +404,17 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     private val _nothingRecorded = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val nothingRecorded: SharedFlow<Unit> = _nothingRecorded.asSharedFlow()
 
-    fun startTranscription(recordingId: String, language: String = WhisperLanguage.fromDeviceLocale().code, modelName: String = "ggml-tiny.bin") {
+    fun startTranscription(
+        recordingId: String,
+        language: String = WhisperLanguage.fromDeviceLocale().code,
+        modelName: String = "ggml-tiny.bin",
+        trigger: Trigger = Trigger.AUTO
+    ) {
         val workRequest = TranscriptionWorker.createWorkRequest(
             recordingId = recordingId,
             modelName = modelName,
-            language = language
+            language = language,
+            trigger = trigger.code
         )
         workManager.enqueue(workRequest)
     }
@@ -392,7 +422,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     fun retryTranscription(recording: Recording) {
         viewModelScope.launch {
             repository.updateTranscriptionStatus(recording.id, TranscriptionStatus.PENDING, 0)
-            startTranscription(recording.id, getSelectedLanguageCode(), getSelectedModelName())
+            startTranscription(recording.id, getSelectedLanguageCode(), getSelectedModelName(), Trigger.RETRY)
         }
     }
 
@@ -419,8 +449,9 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     /**
      * Import a media file from URI
      */
-    fun importMedia(uri: Uri) {
+    fun importMedia(uri: Uri, via: InputVia = InputVia.IMPORT_PICKER) {
         viewModelScope.launch {
+            FunnelHooks.onImportStarted(funnel(), via)
             _isImporting.value = true
             _importProgress.value = 0f
             _importError.value = null
@@ -446,10 +477,11 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
                     repository.saveRecording(recording)
 
                     // Start transcription with the user's selected language and model
-                    startTranscription(recording.id, getSelectedLanguageCode(), getSelectedModelName())
+                    startTranscription(recording.id, getSelectedLanguageCode(), getSelectedModelName(), Trigger.IMPORT)
                     _transcriptionQueued.tryEmit(Unit)
                 }
                 is ImportResult.Error -> {
+                    funnel().step(Step.IMPORT_FAILED, ImportFailClass.classify(result.message), via)
                     _importError.value = result.message
                 }
             }
@@ -478,7 +510,7 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
             if (modelManager.isAnyModelInstalled()) {
                 val language = getSelectedLanguageCode()
                 val model = getSelectedModelName()
-                recovered.forEach { startTranscription(it.id, language, model) }
+                recovered.forEach { startTranscription(it.id, language, model, Trigger.RECOVERY) }
             } else {
                 // No model to transcribe with: show it as failed so the retry button is there once one is installed.
                 recovered.forEach { repository.updateTranscriptionStatus(it.id, TranscriptionStatus.FAILED, 0) }

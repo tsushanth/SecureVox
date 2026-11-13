@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 12 and newer: everything is backed up / transferred as before, except the on-phone usage ledger. -->
+<data-extraction-rules>
+    <cloud-backup>
+        <exclude domain="sharedpref" path="funnel_local.xml" />
+    </cloud-backup>
+    <device-transfer>
+        <exclude domain="sharedpref" path="funnel_local.xml" />
+    </device-transfer>
+</data-extraction-rules>

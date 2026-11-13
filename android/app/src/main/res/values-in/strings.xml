@@ -315,4 +315,13 @@
     <string name="rename_field_label">Judul</string>
     <string name="save">Simpan</string>
     <string name="nothing_recorded_toast">Tidak ada yang direkam.</string>
+    <string name="funnel_settings_title">Di ponsel ini</string>
+    <string name="funnel_settings_subtitle">Apa yang dihitung SecureVox tentang pemakaiannya sendiri. Tetap di ponsel Anda.</string>
+    <string name="funnel_stays_on_phone">Data ini tetap di ponsel Anda. SecureVox tidak mengirimkannya ke mana pun. Isinya jumlah dan tanggal langkah penyiapan dan pemakaian, tidak pernah audio, teks, judul, atau nama file Anda. Data ini hanya keluar dari ponsel jika Anda mengirim pesan Laporkan Masalah: salinannya disertakan di draf, yang bisa Anda baca dan ubah sebelum dikirim.</string>
+    <string name="funnel_since">Dihitung sejak %1$s</string>
+    <string name="funnel_empty">Belum ada yang dihitung.</string>
+    <string name="funnel_row_detail">Jumlah %1$d. Pertama %2$s, terakhir %3$s.</string>
+    <string name="funnel_reset">Atur ulang</string>
+    <string name="funnel_reset_title">Atur ulang daftar ini?</string>
+    <string name="funnel_reset_body">Ini menghapus jumlah dan tanggal yang ditampilkan di sini. Rekaman, transkrip, dan pengaturan Anda tidak terpengaruh.</string>
 </resources>
