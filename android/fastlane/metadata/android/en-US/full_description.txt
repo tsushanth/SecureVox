@@ -25,7 +25,7 @@ WHAT YOU CAN DO
 - Export transcripts as TXT, SRT or VTT, or export the audio.
 - Re-transcribe a recording with a different model.
 - Custom dictionary for names and special terms.
-- Favorites, recycle bin, optional app lock, Quick Settings tile, playback speed from 0.5x to 2x, light and dark themes.
+- Favorites, optional app lock, Quick Settings tile, playback speed from 0.5x to 2x, light and dark themes.
 - Read a transcript aloud with an offline voice installed on your phone.
 
 WHAT SECUREVOX DOES NOT DO
