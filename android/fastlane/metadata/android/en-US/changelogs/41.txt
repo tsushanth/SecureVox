@@ -1,0 +1,3 @@
+• New "On this phone" screen in Settings: see the setup and usage counts SecureVox keeps about itself
+• These counts stay on your phone, never include your audio, text or titles, and can be reset any time
+• They are shared only if you choose to send a Report a Problem message, where you can read and edit them first
