@@ -1,5 +1,7 @@
 package com.securevox.app.whisper
 
+import androidx.annotation.StringRes
+import com.securevox.app.R
 import com.securevox.app.whisper.QualityTier.FAIR
 import com.securevox.app.whisper.QualityTier.GOOD
 import com.securevox.app.whisper.QualityTier.POOR
@@ -13,36 +15,36 @@ enum class WhisperModel(
     val displayName: String,
     val sizeBytes: Long,
     val sha256: String,
-    val description: String,
-    val accuracy: String,
-    val speed: String
+    @StringRes val descriptionRes: Int,
+    @StringRes val accuracyRes: Int,
+    @StringRes val speedRes: Int
 ) {
     TINY(
         fileName = "ggml-tiny.bin",
         displayName = "Tiny",
         sizeBytes = 77_691_713L,
         sha256 = "be07e048e1e599ad46341c8d2a135645097a538221678b7acdd1b1919c6e1b21",
-        description = "Fast transcription, good for quick notes",
-        accuracy = "Good",
-        speed = "~1x realtime"
+        descriptionRes = R.string.model_desc_tiny,
+        accuracyRes = R.string.model_accuracy_good,
+        speedRes = R.string.model_speed_tiny
     ),
     BASE(
         fileName = "ggml-base.bin",
         displayName = "Base",
         sizeBytes = 147_951_465L,
         sha256 = "60ed5bc3dd14eea856493d334349b405782ddcaf0028d4b5df4088345fba2efe",
-        description = "Balanced speed and accuracy",
-        accuracy = "Better",
-        speed = "~2-3x realtime"
+        descriptionRes = R.string.model_desc_base,
+        accuracyRes = R.string.model_accuracy_better,
+        speedRes = R.string.model_speed_base
     ),
     SMALL(
         fileName = "ggml-small.bin",
         displayName = "Small",
         sizeBytes = 487_601_967L,
         sha256 = "1be3a9b2063867b937e64e2ec7483364a79917e157fa98c5d94b5c1fffea987b",
-        description = "Best accuracy for mobile devices",
-        accuracy = "Best",
-        speed = "~5-8x realtime"
+        descriptionRes = R.string.model_desc_small,
+        accuracyRes = R.string.model_accuracy_best,
+        speedRes = R.string.model_speed_small
     );
 
     /** Size in whole MB (1 MB = 1,000,000 bytes), rounded to nearest: Tiny 77.7 MB reads 78. */

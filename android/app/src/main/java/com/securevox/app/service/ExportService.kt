@@ -11,10 +11,10 @@ import com.securevox.app.util.FailureReporter
 /**
  * Export format options matching iOS
  */
-enum class ExportFormat(val extension: String, val mimeType: String, val displayName: String) {
-    TXT("txt", "text/plain", "Plain Text (.txt)"),
-    SRT("srt", "application/x-subrip", "SubRip Subtitle (.srt)"),
-    VTT("vtt", "text/vtt", "WebVTT (.vtt)")
+enum class ExportFormat(val extension: String, val mimeType: String, @androidx.annotation.StringRes val labelRes: Int) {
+    TXT("txt", "text/plain", com.securevox.app.R.string.export_format_txt),
+    SRT("srt", "application/x-subrip", com.securevox.app.R.string.export_format_srt),
+    VTT("vtt", "text/vtt", com.securevox.app.R.string.export_format_vtt)
 }
 
 /**

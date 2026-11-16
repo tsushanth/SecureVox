@@ -165,7 +165,7 @@ fun RecordingDetailScreen(
                         )
                         if (viewModel.getFullTranscript().isNotBlank()) {
                             DropdownMenuItem(
-                                text = { Text("Read Aloud") },
+                                text = { Text(stringResource(R.string.read_aloud)) },
                                 leadingIcon = { Icon(Icons.Default.VolumeUp, null) },
                                 onClick = {
                                     showMenu = false
@@ -259,7 +259,7 @@ fun RecordingDetailScreen(
                     ) {
                         ExportFormat.entries.forEach { format ->
                             DropdownMenuItem(
-                                text = { Text(format.displayName) },
+                                text = { Text(stringResource(format.labelRes)) },
                                 onClick = {
                                     showExportMenu = false
                                     val intent = viewModel.exportTranscript(format)
@@ -492,7 +492,7 @@ fun RecordingDetailScreen(
                                     fontWeight = FontWeight.Medium
                                 )
                                 Text(
-                                    text = "${model.accuracy} accuracy · ${model.speed}",
+                                    text = stringResource(R.string.model_accuracy_speed, stringResource(model.accuracyRes), stringResource(model.speedRes)),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
