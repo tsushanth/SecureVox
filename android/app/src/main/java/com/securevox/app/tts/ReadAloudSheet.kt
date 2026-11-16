@@ -39,6 +39,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import com.securevox.app.R
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -102,7 +104,7 @@ fun ReadAloudSheet(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(Icons.Filled.VolumeUp, contentDescription = null)
                 Spacer(Modifier.width(12.dp))
-                Text("Read Aloud", style = MaterialTheme.typography.titleLarge)
+                Text(stringResource(R.string.read_aloud), style = MaterialTheme.typography.titleLarge)
             }
 
             // Voice picker
@@ -112,7 +114,7 @@ fun ReadAloudSheet(
                     enabled = voices.isNotEmpty(),
                     modifier = Modifier.fillMaxWidth(),
                 ) {
-                    Text(activeVoice?.displayName ?: "Loading voices…")
+                    Text(activeVoice?.displayName ?: stringResource(R.string.read_aloud_loading_voices))
                 }
                 DropdownMenu(
                     expanded = voiceMenuOpen,
@@ -136,14 +138,14 @@ fun ReadAloudSheet(
             when (val s = state) {
                 TtsState.Idle, TtsState.Ready -> {
                     Text(
-                        if (voices.isEmpty()) "Preparing…"
-                        else "Tap Read to start.",
+                        if (voices.isEmpty()) stringResource(R.string.read_aloud_preparing)
+                        else stringResource(R.string.read_aloud_tap_read),
                         style = MaterialTheme.typography.bodySmall,
                     )
                 }
                 TtsState.Preparing -> {
                     LinearProgressIndicator(modifier = Modifier.fillMaxWidth())
-                    Text("Preparing voice engine…", style = MaterialTheme.typography.bodySmall)
+                    Text(stringResource(R.string.read_aloud_preparing_engine), style = MaterialTheme.typography.bodySmall)
                 }
                 is TtsState.Speaking -> {
                     @Suppress("DEPRECATION")
@@ -151,11 +153,11 @@ fun ReadAloudSheet(
                         progress = s.progressFraction,
                         modifier = Modifier.fillMaxWidth(),
                     )
-                    Text("Reading… ${(s.progressFraction * 100).toInt()}%",
+                    Text(stringResource(R.string.read_aloud_progress, (s.progressFraction * 100).toInt()),
                         style = MaterialTheme.typography.bodySmall)
                 }
                 TtsState.Paused -> {
-                    Text("Paused — tap Resume to continue.",
+                    Text(stringResource(R.string.read_aloud_paused),
                         style = MaterialTheme.typography.bodySmall)
                 }
                 is TtsState.Failed -> {
@@ -178,7 +180,7 @@ fun ReadAloudSheet(
                             Icon(Icons.Filled.Stop, contentDescription = null,
                                 modifier = Modifier.size(18.dp))
                             Spacer(Modifier.width(6.dp))
-                            Text("Stop")
+                            Text(stringResource(R.string.read_aloud_stop))
                         }
                     }
                 }
@@ -195,7 +197,7 @@ fun ReadAloudSheet(
                         Icon(Icons.Filled.PlayArrow, contentDescription = null,
                             modifier = Modifier.size(18.dp))
                         Spacer(Modifier.width(6.dp))
-                        Text("Read")
+                        Text(stringResource(R.string.read_aloud_read))
                     }
                 }
             }
@@ -207,7 +209,7 @@ fun ReadAloudSheet(
                 },
                 modifier = Modifier.align(Alignment.End),
             ) {
-                Text("Done")
+                Text(stringResource(R.string.read_aloud_done))
             }
 
             Spacer(Modifier.padding(WindowInsetsBottom()))
