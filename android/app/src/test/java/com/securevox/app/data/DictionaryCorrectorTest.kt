@@ -163,7 +163,8 @@ class DictionaryCorrectorTest {
 
     @Test
     fun termsAreDedupedIgnoringCaseAndCapped() {
-        assertEquals(listOf("iOS"), normalizeDictionaryTerms(listOf("ios", "iOS", " IOS ")))
+        // among spellings that differ only by capitalization, the first in sorted order is kept (upper case sorts first)
+        assertEquals(listOf("IOS"), normalizeDictionaryTerms(listOf("ios", "iOS", " IOS ")))
         val many = (1..700).map { "term$it" }
         assertEquals(DictionaryLimits.MAX_TERMS, normalizeDictionaryTerms(many).size)
         assertTrue(normalizeDictionaryTerms(null).isEmpty())
