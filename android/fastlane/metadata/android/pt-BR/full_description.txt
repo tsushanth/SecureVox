@@ -1,8 +1,8 @@
-O SecureVox grava sua voz e a transforma em texto no seu celular. A transcrição roda no aparelho com os modelos Whisper da OpenAI. O SecureVox não envia seus áudios nem suas transcrições. Não há conta e não há anúncios. Relatórios anônimos de falhas, opcionais (versão do app, modelo do celular, tipo de erro; nunca áudio ou texto), ficam desativados a menos que você os ative em Configurações.
+O SecureVox grava sua voz e a transforma em texto no seu celular. A transcrição roda no aparelho. O SecureVox não envia seus áudios nem suas transcrições. Não há conta e não há anúncios. Relatórios anônimos de falhas, opcionais (versão do app, modelo do celular, tipo de erro; nunca áudio ou texto), ficam desativados a menos que você os ative em Configurações.
 
 ANTES DE COMPRAR: A CONFIGURAÇÃO PRECISA DE INTERNET UMA VEZ
 
-O modelo de transcrição não vem incluído no app. Na primeira vez que você abre o SecureVox, ele baixa o modelo padrão, Tiny (cerca de 78 MB), do Hugging Face. Você não consegue gravar nem transcrever até que o download termine. Depois disso, gravar e transcrever funcionam sem conexão.
+O modelo de transcrição não vem incluído no app. Na primeira vez que você abre o SecureVox, ele baixa o modelo padrão, Tiny (cerca de 78 MB), de uma plataforma pública de modelos. Você não consegue gravar nem transcrever até que o download termine. Depois disso, gravar e transcrever funcionam sem conexão.
 
 Modelos melhores são downloads opcionais dentro do app: Base (cerca de 148 MB) e Small (cerca de 488 MB). Os rótulos de falantes, se você os ativar, exigem mais um download de cerca de 46 MB.
 
@@ -22,6 +22,7 @@ O QUE VOCÊ PODE FAZER
 - Tocar em uma palavra da transcrição para ir até aquele ponto do áudio.
 - Rótulos de falantes opcionais (Falante 1, Falante 2) para gravações de até 30 minutos. Eles são aproximados.
 - Importar arquivos de áudio ou vídeo, ou compartilhá-los com o SecureVox a partir de outros apps.
+- Receba uma notificação quando a transcrição estiver pronta. Renomeie gravações e pesquise dentro das transcrições.
 - Exportar transcrições em TXT, SRT ou VTT, ou exportar o áudio.
 - Transcrever uma gravação de novo com outro modelo.
 - Dicionário personalizado para nomes e termos especiais.

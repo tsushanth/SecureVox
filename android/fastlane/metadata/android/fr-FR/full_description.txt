@@ -1,8 +1,8 @@
-SecureVox enregistre votre voix et la transforme en texte sur votre téléphone. La transcription s'exécute sur l'appareil avec les modèles Whisper d'OpenAI. SecureVox n'envoie pas vos enregistrements ni vos transcriptions. Il n'y a ni compte ni publicité. Les rapports de plantage anonymes facultatifs (version de l'appli, modèle du téléphone, type d'erreur ; jamais d'audio ni de texte) sont désactivés tant que vous ne les activez pas dans les Réglages.
+SecureVox enregistre votre voix et la transforme en texte sur votre téléphone. La transcription s'exécute sur l'appareil. SecureVox n'envoie pas vos enregistrements ni vos transcriptions. Il n'y a ni compte ni publicité. Les rapports de plantage anonymes facultatifs (version de l'appli, modèle du téléphone, type d'erreur ; jamais d'audio ni de texte) sont désactivés tant que vous ne les activez pas dans les Réglages.
 
 AVANT D'ACHETER : LA CONFIGURATION NÉCESSITE INTERNET UNE FOIS
 
-Le modèle de transcription n'est pas inclus dans l'appli. À la première ouverture, SecureVox télécharge le modèle par défaut, Tiny (environ 78 Mo), depuis Hugging Face. Vous ne pouvez ni enregistrer ni transcrire tant que ce téléchargement n'est pas terminé. Ensuite, l'enregistrement et la transcription fonctionnent sans connexion.
+Le modèle de transcription n'est pas inclus dans l'appli. À la première ouverture, SecureVox télécharge le modèle par défaut, Tiny (environ 78 Mo), depuis une plateforme publique de modèles. Vous ne pouvez ni enregistrer ni transcrire tant que ce téléchargement n'est pas terminé. Ensuite, l'enregistrement et la transcription fonctionnent sans connexion.
 
 Des modèles plus performants sont des téléchargements facultatifs dans l'appli : Base (environ 148 Mo) et Small (environ 488 Mo). Les étiquettes de locuteur, si vous les activez, nécessitent un téléchargement supplémentaire d'environ 46 Mo.
 
@@ -22,6 +22,7 @@ CE QUE VOUS POUVEZ FAIRE
 - Toucher un mot de la transcription pour aller à ce moment de l'audio.
 - Étiquettes de locuteur facultatives (Locuteur 1, Locuteur 2) pour les enregistrements jusqu'à 30 minutes. Elles sont approximatives.
 - Importer des fichiers audio ou vidéo, ou les partager vers SecureVox depuis d'autres applis.
+- Recevez une notification quand votre transcription est prête. Renommez les enregistrements et cherchez dans les transcriptions.
 - Exporter les transcriptions en TXT, SRT ou VTT, ou exporter l'audio.
 - Retranscrire un enregistrement avec un autre modèle.
 - Dictionnaire personnalisé pour les noms et les termes spécifiques.

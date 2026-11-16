@@ -1,8 +1,8 @@
-SecureVox records your voice and turns it into text on your phone. Transcription runs on the device with OpenAI's Whisper models. SecureVox does not upload your audio or transcripts. There is no account and no ads. Optional anonymous crash reports (app version, phone model, error type; never audio or text) are off unless you turn them on in Settings.
+SecureVox records your voice and turns it into text on your phone. Transcription runs on the device. SecureVox does not upload your audio or transcripts. There is no account and no ads. Optional anonymous crash reports (app version, phone model, error type; never audio or text) are off unless you turn them on in Settings.
 
 BEFORE YOU BUY: SETUP NEEDS INTERNET ONCE
 
-The transcription model is not included in the app. The first time you open SecureVox it downloads the default model, Tiny (about 78 MB), from Hugging Face. You cannot record or transcribe until that download finishes. After that, recording and transcription work without a connection.
+The transcription model is not included in the app. The first time you open SecureVox it downloads the default model, Tiny (about 78 MB), from a public model-hosting site. You cannot record or transcribe until that download finishes. After that, recording and transcription work without a connection.
 
 Better models are optional downloads inside the app: Base (about 148 MB) and Small (about 488 MB). Speaker labels, if you turn them on, need one more download of about 46 MB.
 
@@ -22,6 +22,7 @@ WHAT YOU CAN DO
 - Tap a word in the transcript to jump to that point in the audio.
 - Optional speaker labels (Speaker 1, Speaker 2) for recordings up to 30 minutes. They are approximate.
 - Import audio or video files, or share them into SecureVox from other apps.
+- Get a notification when your transcript is ready. Rename recordings and search inside transcripts.
 - Export transcripts as TXT, SRT or VTT, or export the audio.
 - Re-transcribe a recording with a different model.
 - Custom dictionary for names and special terms.
