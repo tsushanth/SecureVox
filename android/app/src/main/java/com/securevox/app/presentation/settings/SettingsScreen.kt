@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.settings
 
+import com.securevox.app.util.mirrorInRtl
 import android.content.Intent
 import android.net.Uri
 import android.text.format.Formatter
@@ -75,7 +76,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 }
             )
@@ -803,6 +804,7 @@ private fun SettingsCard(
             Icon(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
+                modifier = Modifier.mirrorInRtl(),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }

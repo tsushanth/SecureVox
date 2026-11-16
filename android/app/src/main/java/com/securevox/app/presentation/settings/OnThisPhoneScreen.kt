@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.settings
 
+import com.securevox.app.util.mirrorInRtl
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -74,7 +75,7 @@ fun OnThisPhoneScreen(onNavigateBack: () -> Unit) {
                 title = { Text(stringResource(R.string.funnel_settings_title)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 }
             )

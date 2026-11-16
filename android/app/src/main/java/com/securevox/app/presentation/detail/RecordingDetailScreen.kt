@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.detail
 
+import com.securevox.app.util.mirrorInRtl
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -139,7 +140,7 @@ fun RecordingDetailScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 },
                 actions = {

@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.settings
 
+import com.securevox.app.util.mirrorInRtl
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -72,7 +73,7 @@ fun FAQScreen(
                 title = { Text(stringResource(R.string.faq_and_help)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 }
             )

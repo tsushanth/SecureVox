@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.recordings
 
+import com.securevox.app.util.mirrorInRtl
 import com.securevox.app.presentation.theme.FavoriteAmber
 import android.Manifest
 import android.app.Activity
@@ -931,7 +932,7 @@ private fun SearchBar(
         },
         navigationIcon = {
             IconButton(onClick = onClose) {
-                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.close_search))
+                Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.close_search), modifier = Modifier.mirrorInRtl())
             }
         },
         actions = {
