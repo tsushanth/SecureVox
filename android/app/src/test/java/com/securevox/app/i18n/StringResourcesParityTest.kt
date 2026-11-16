@@ -48,7 +48,8 @@ class StringResourcesParityTest {
     /** CLDR categories a language needs (at least these). */
     private fun required(folder: String): Set<String> = when (folder) {
         "values-ar" -> setOf("zero", "one", "two", "few", "many", "other")
-        "values-ru", "values-pl" -> setOf("one", "few", "many", "other")
+        "values-ru", "values-pl", "values-cs", "values-uk" -> setOf("one", "few", "many", "other")
+        "values-ro" -> setOf("one", "few", "other")
         "values-ja", "values-ko", "values-zh-rCN", "values-th", "values-vi", "values-in", "values-ms" -> setOf("other")
         else -> setOf("one", "other")
     }
@@ -57,7 +58,11 @@ class StringResourcesParityTest {
     fun everyLocaleHasTheSameKeysAndPlaceholdersAsEnglish() {
         val english = parse(File(res(), "values/strings.xml"))
         val locales = locales()
-        assertTrue("expected the 19 translated locales, found ${locales.size}", locales.size >= 19)
+        assertTrue("expected the 26 translated locales, found ${locales.size}", locales.size >= 26)
+        val folders = locales.map { it.name }
+        for (f in listOf("values-cs", "values-el", "values-fi", "values-hu", "values-ro", "values-sv", "values-uk")) {
+            assertTrue("$f is missing", f in folders)
+        }
         for (dir in locales) {
             val t = parse(File(dir, "strings.xml"))
             assertEquals("${dir.name} string keys", english.strings.keys.sorted(), t.strings.keys.sorted())
@@ -89,12 +94,12 @@ class StringResourcesParityTest {
     }
 
     @Test
-    fun noVendorOrModelNamesInTheNewFaqAndLabels() {
+    fun noVendorOrModelNamesInAnyUserVisibleString() {
         val files = listOf(File(res(), "values/strings.xml")) + locales().map { File(it, "strings.xml") }
-        val keys = Regex("""faq_\d\d_[qa]|model_desc_.*|read_aloud.*""")
+        val banned = Regex("Whisper|OpenAI|NeMo|SenseVoice", RegexOption.IGNORE_CASE)
         for (f in files) {
-            parse(f).strings.filterKeys { keys.matches(it) }.forEach { (k, v) ->
-                assertTrue("${f.parentFile.name} $k names a model or vendor", !Regex("Whisper|OpenAI", RegexOption.IGNORE_CASE).containsMatchIn(v))
+            parse(f).strings.forEach { (k, v) ->
+                assertTrue("${f.parentFile.name} $k names a model or vendor", !banned.containsMatchIn(v))
             }
         }
     }
