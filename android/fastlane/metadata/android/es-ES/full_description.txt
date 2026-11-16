@@ -1,8 +1,8 @@
-SecureVox graba tu voz y la convierte en texto en tu teléfono. La transcripción se ejecuta en el dispositivo con los modelos Whisper de OpenAI. SecureVox no sube tus audios ni tus transcripciones. No hay cuenta ni anuncios. Los informes de fallos anónimos opcionales (versión de la app, modelo del teléfono, tipo de error; nunca audio ni texto) están desactivados salvo que los actives en Ajustes.
+SecureVox graba tu voz y la convierte en texto en tu teléfono. La transcripción se ejecuta en el dispositivo. SecureVox no sube tus audios ni tus transcripciones. No hay cuenta ni anuncios. Los informes de fallos anónimos opcionales (versión de la app, modelo del teléfono, tipo de error; nunca audio ni texto) están desactivados salvo que los actives en Ajustes.
 
 ANTES DE COMPRAR: LA CONFIGURACIÓN NECESITA INTERNET UNA VEZ
 
-El modelo de transcripción no viene incluido en la app. La primera vez que abres SecureVox, descarga el modelo predeterminado, Tiny (unos 78 MB), desde Hugging Face. No puedes grabar ni transcribir hasta que termine la descarga. Después, grabar y transcribir funciona sin conexión.
+El modelo de transcripción no viene incluido en la app. La primera vez que abres SecureVox, descarga el modelo predeterminado, Tiny (unos 78 MB), desde una plataforma pública de modelos. No puedes grabar ni transcribir hasta que termine la descarga. Después, grabar y transcribir funciona sin conexión.
 
 Los modelos mejores son descargas opcionales dentro de la app: Base (unos 148 MB) y Small (unos 488 MB). Las etiquetas de hablante, si las activas, necesitan una descarga más de unos 46 MB.
 
@@ -22,6 +22,7 @@ LO QUE PUEDES HACER
 - Tocar una palabra de la transcripción para saltar a ese punto del audio.
 - Etiquetas de hablante opcionales (Hablante 1, Hablante 2) para grabaciones de hasta 30 minutos. Son aproximadas.
 - Importar archivos de audio o vídeo, o compartirlos con SecureVox desde otras apps.
+- Recibe una notificación cuando tu transcripción esté lista. Cambia el nombre de las grabaciones y busca dentro de las transcripciones.
 - Exportar transcripciones como TXT, SRT o VTT, o exportar el audio.
 - Volver a transcribir una grabación con otro modelo.
 - Diccionario personalizado para nombres y términos especiales.

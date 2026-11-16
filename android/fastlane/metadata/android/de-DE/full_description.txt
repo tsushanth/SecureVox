@@ -1,8 +1,8 @@
-SecureVox nimmt Ihre Stimme auf und wandelt sie auf dem Smartphone in Text um. Die Transkription läuft mit OpenAIs Whisper-Modellen direkt auf dem Gerät. SecureVox lädt Ihre Aufnahmen und Transkripte nicht hoch. Es gibt kein Konto und keine Werbung. Optionale anonyme Absturzberichte (App-Version, Handymodell, Fehlertyp; niemals Audio oder Text) sind aus, solange Sie sie nicht in den Einstellungen einschalten.
+SecureVox nimmt Ihre Stimme auf und wandelt sie auf dem Smartphone in Text um. Die Transkription läuft direkt auf dem Gerät. SecureVox lädt Ihre Aufnahmen und Transkripte nicht hoch. Es gibt kein Konto und keine Werbung. Optionale anonyme Absturzberichte (App-Version, Handymodell, Fehlertyp; niemals Audio oder Text) sind aus, solange Sie sie nicht in den Einstellungen einschalten.
 
 VOR DEM KAUF: DIE EINRICHTUNG BRAUCHT EINMAL INTERNET
 
-Das Transkriptionsmodell ist nicht in der App enthalten. Beim ersten Öffnen lädt SecureVox das Standardmodell Tiny (ca. 78 MB) von Hugging Face herunter. Bis der Download abgeschlossen ist, können Sie weder aufnehmen noch transkribieren. Danach funktionieren Aufnahme und Transkription ohne Verbindung.
+Das Transkriptionsmodell ist nicht in der App enthalten. Beim ersten Öffnen lädt SecureVox das Standardmodell Tiny (ca. 78 MB) von einer öffentlichen Modell-Plattform herunter. Bis der Download abgeschlossen ist, können Sie weder aufnehmen noch transkribieren. Danach funktionieren Aufnahme und Transkription ohne Verbindung.
 
 Bessere Modelle sind optionale Downloads in der App: Base (ca. 148 MB) und Small (ca. 488 MB). Sprecherbeschriftungen benötigen, wenn Sie sie einschalten, einen weiteren Download von ca. 46 MB.
 
@@ -22,6 +22,7 @@ WAS SIE TUN KÖNNEN
 - Auf ein Wort im Transkript tippen, um zu dieser Stelle im Audio zu springen.
 - Optionale Sprecherbeschriftungen (Sprecher 1, Sprecher 2) für Aufnahmen bis zu 30 Minuten. Sie sind nur ungefähr.
 - Audio- oder Videodateien importieren oder aus anderen Apps mit SecureVox teilen.
+- Benachrichtigung, wenn Ihr Transkript fertig ist. Aufnahmen umbenennen und in Transkripten suchen.
 - Transkripte als TXT, SRT oder VTT exportieren, oder das Audio exportieren.
 - Eine Aufnahme mit einem anderen Modell erneut transkribieren.
 - Eigenes Wörterbuch für Namen und Fachbegriffe.
