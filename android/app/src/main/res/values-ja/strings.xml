@@ -76,7 +76,7 @@
     <string name="smart_capitalization">スマート大文字化</string>
     <string name="smart_capitalization_subtitle">文頭や固有名詞を大文字にする</string>
     <string name="custom_dictionary">カスタム辞書</string>
-    <string name="custom_dictionary_subtitle">文字起こしの精度を向上させる単語を追加</string>
+    <string name="custom_dictionary_subtitle">名前や用語を SecureVox に教えて、思いどおりの表記にします</string>
     <string name="sound_effects">効果音</string>
     <string name="sound_effects_subtitle">録音の開始/停止時にサウンドを再生</string>
     <string name="haptic_feedback">触覚フィードバック</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">すべて削除</string>
     <string name="search_words">単語を検索\u2026</string>
     <string name="no_custom_words_yet">カスタム単語はまだありません</string>
-    <string name="custom_words_empty_hint">名前、専門用語、略語など、よく誤認識される単語を追加してください。</string>
+    <string name="custom_words_empty_hint">名前、専門用語、略語を追加します。文字起こしの手がかりになり、アプリが文字起こし内の大文字・小文字とスペースを整えます。</string>
+    <string name="word_not_usable">この単語を追加できませんでした。1語は最大%1$d文字、辞書には最大%2$d語まで登録できます。</string>
     <string name="add_word_button">単語を追加</string>
     <string name="no_words_found">単語が見つかりません</string>
     <string name="delete_word_title">単語を削除しますか？</string>

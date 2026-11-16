@@ -259,12 +259,19 @@ fun CustomDictionaryScreen(
             onDismiss = { showAddDialog = false },
             onAdd = { word ->
                 scope.launch {
-                    val added = dictionaryService.addWord(word)
-                    if (added) {
-                        Toast.makeText(context, context.getString(R.string.word_added), Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, context.getString(R.string.word_already_exists), Toast.LENGTH_SHORT).show()
+                    val usable = com.securevox.app.data.sanitizeDictionaryTerm(word) != null
+                    val full = dictionaryService.getWordCount() >= com.securevox.app.data.DictionaryLimits.MAX_TERMS
+                    val added = usable && dictionaryService.addWord(word)
+                    val message = when {
+                        added -> context.getString(R.string.word_added)
+                        !usable || full -> context.getString(
+                            R.string.word_not_usable,
+                            com.securevox.app.data.DictionaryLimits.MAX_TERM_CODE_POINTS,
+                            com.securevox.app.data.DictionaryLimits.MAX_TERMS
+                        )
+                        else -> context.getString(R.string.word_already_exists)
                     }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
                 showAddDialog = false
             }

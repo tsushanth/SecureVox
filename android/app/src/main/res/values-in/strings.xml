@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Kapitalisasi Cerdas</string>
     <string name="smart_capitalization_subtitle">Mengkapitalkan kalimat dan kata benda khusus</string>
     <string name="custom_dictionary">Kamus Kustom</string>
-    <string name="custom_dictionary_subtitle">Tambahkan kata untuk meningkatkan akurasi transkripsi</string>
+    <string name="custom_dictionary_subtitle">Ajari SecureVox nama dan istilah agar ditulis sesuai keinginan Anda</string>
     <string name="sound_effects">Efek Suara</string>
     <string name="sound_effects_subtitle">Putar suara saat memulai/menghentikan rekaman</string>
     <string name="haptic_feedback">Umpan Balik Haptik</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Hapus semua</string>
     <string name="search_words">Cari kata\u2026</string>
     <string name="no_custom_words_yet">Belum ada kata kustom</string>
-    <string name="custom_words_empty_hint">Tambahkan kata yang sering salah dikenali, seperti nama, istilah teknis, atau singkatan.</string>
+    <string name="custom_words_empty_hint">Tambahkan nama, istilah teknis, atau singkatan. Kata-kata ini memandu transkripsi, dan aplikasi memperbaiki huruf besar-kecil serta spasinya di transkrip.</string>
+    <string name="word_not_usable">Kata tidak dapat ditambahkan. Satu kata maksimal %1$d karakter dan kamus menampung maksimal %2$d kata.</string>
     <string name="add_word_button">Tambah Kata</string>
     <string name="no_words_found">Tidak ada kata ditemukan</string>
     <string name="delete_word_title">Hapus Kata?</string>

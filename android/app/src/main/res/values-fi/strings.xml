@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Älykkäät isot kirjaimet</string>
     <string name="smart_capitalization_subtitle">Isot alkukirjaimet lauseisiin ja erisnimiin</string>
     <string name="custom_dictionary">Oma sanakirja</string>
-    <string name="custom_dictionary_subtitle">Lisää sanoja litteroinnin tarkkuuden parantamiseksi</string>
+    <string name="custom_dictionary_subtitle">Opeta SecureVoxille nimiä ja termejä, jotta se kirjoittaa ne omalla tavallasi</string>
     <string name="sound_effects">Äänitehosteet</string>
     <string name="sound_effects_subtitle">Toista äänet tallennuksen alkaessa ja päättyessä</string>
     <string name="haptic_feedback">Haptinen palaute</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Poista kaikki</string>
     <string name="search_words">Hae sanoja…</string>
     <string name="no_custom_words_yet">Ei vielä omia sanoja</string>
-    <string name="custom_words_empty_hint">Lisää sanoja, jotka tunnistetaan usein väärin, kuten nimiä, erikoistermejä tai lyhenteitä.</string>
+    <string name="custom_words_empty_hint">Lisää nimiä, ammattitermejä tai lyhenteitä. Ne ohjaavat litterointia, ja sovellus korjaa niiden isot ja pienet kirjaimet sekä välilyönnit tekstissä.</string>
+    <string name="word_not_usable">Sanaa ei voitu lisätä. Sana voi olla enintään %1$d merkkiä pitkä, ja sanakirjaan mahtuu enintään %2$d sanaa.</string>
     <string name="add_word_button">Lisää sana</string>
     <string name="no_words_found">Sanoja ei löytynyt</string>
     <string name="delete_word_title">Poistetaanko sana?</string>

@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Akıllı Büyük Harf</string>
     <string name="smart_capitalization_subtitle">Cümleleri ve özel isimleri büyük harfle yaz</string>
     <string name="custom_dictionary">Özel Sözlük</string>
-    <string name="custom_dictionary_subtitle">Yazıya dökme doğruluğunu artırmak için kelime ekleyin</string>
+    <string name="custom_dictionary_subtitle">SecureVox\'a ad ve terimleri öğretin, sizin yazdığınız gibi yazsın</string>
     <string name="sound_effects">Ses Efektleri</string>
     <string name="sound_effects_subtitle">Kaydı başlatırken/durdururken ses çal</string>
     <string name="haptic_feedback">Dokunsal Geri Bildirim</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Tümünü sil</string>
     <string name="search_words">Kelime ara\u2026</string>
     <string name="no_custom_words_yet">Henüz özel kelime yok</string>
-    <string name="custom_words_empty_hint">Sıkça yanlış tanınan kelimeleri ekleyin; isimler, teknik terimler veya kısaltmalar gibi.</string>
+    <string name="custom_words_empty_hint">Ad, teknik terim veya kısaltma ekleyin. Bunlar yazıya dökmeyi yönlendirir; uygulama da transkriptte bunların büyük/küçük harflerini ve boşluklarını düzeltir.</string>
+    <string name="word_not_usable">Kelime eklenemedi. Bir kelime en fazla %1$d karakter olabilir, sözlüğe en fazla %2$d kelime sığar.</string>
     <string name="add_word_button">Kelime Ekle</string>
     <string name="no_words_found">Kelime bulunamadı</string>
     <string name="delete_word_title">Kelime Silinsin mi?</string>

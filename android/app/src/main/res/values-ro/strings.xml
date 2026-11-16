@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Majuscule inteligente</string>
     <string name="smart_capitalization_subtitle">Majusculă la începutul propozițiilor și la substantivele proprii</string>
     <string name="custom_dictionary">Dicționar personalizat</string>
-    <string name="custom_dictionary_subtitle">Adaugă cuvinte pentru a îmbunătăți acuratețea transcrierii</string>
+    <string name="custom_dictionary_subtitle">Învață SecureVox nume și termeni ca să le scrie în felul tău</string>
     <string name="sound_effects">Efecte sonore</string>
     <string name="sound_effects_subtitle">Redă sunete la pornirea/oprirea înregistrării</string>
     <string name="haptic_feedback">Feedback haptic</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Șterge tot</string>
     <string name="search_words">Caută cuvinte…</string>
     <string name="no_custom_words_yet">Încă nu ai cuvinte personalizate</string>
-    <string name="custom_words_empty_hint">Adaugă cuvinte recunoscute adesea greșit, cum ar fi nume, termeni tehnici sau abrevieri.</string>
+    <string name="custom_words_empty_hint">Adaugă nume, termeni tehnici sau abrevieri. Ele orientează transcrierea, iar aplicația corectează în transcriere literele mari/mici și spațiile lor.</string>
+    <string name="word_not_usable">Cuvântul nu a putut fi adăugat. Un cuvânt poate avea cel mult %1$d caractere, iar dicționarul cuprinde cel mult %2$d cuvinte.</string>
     <string name="add_word_button">Adaugă cuvânt</string>
     <string name="no_words_found">Nu s-au găsit cuvinte</string>
     <string name="delete_word_title">Ștergi cuvântul?</string>

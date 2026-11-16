@@ -76,7 +76,7 @@
     <string name="smart_capitalization">ตัวพิมพ์ใหญ่อัจฉริยะ</string>
     <string name="smart_capitalization_subtitle">ทำตัวพิมพ์ใหญ่ประโยคและคำนามเฉพาะ</string>
     <string name="custom_dictionary">พจนานุกรมกำหนดเอง</string>
-    <string name="custom_dictionary_subtitle">เพิ่มคำเพื่อปรับปรุงความแม่นยำของการถอดเสียง</string>
+    <string name="custom_dictionary_subtitle">สอนชื่อและคำศัพท์ให้ SecureVox เพื่อให้เขียนตามแบบที่คุณต้องการ</string>
     <string name="sound_effects">เอฟเฟกต์เสียง</string>
     <string name="sound_effects_subtitle">เล่นเสียงเมื่อเริ่ม/หยุดบันทึก</string>
     <string name="haptic_feedback">การตอบสนองสัมผัส</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">ลบทั้งหมด</string>
     <string name="search_words">ค้นหาคำ\u2026</string>
     <string name="no_custom_words_yet">ยังไม่มีคำที่กำหนดเอง</string>
-    <string name="custom_words_empty_hint">เพิ่มคำที่มักถูกรู้จำผิด เช่น ชื่อ คำศัพท์ทางเทคนิค หรือตัวย่อ</string>
+    <string name="custom_words_empty_hint">เพิ่มชื่อ ศัพท์เทคนิค หรือคำย่อ คำเหล่านี้ช่วยนำทางการถอดเสียง และแอปจะแก้ตัวพิมพ์ใหญ่-เล็กและช่องว่างของคำเหล่านั้นในบทถอดเสียง</string>
+    <string name="word_not_usable">เพิ่มคำนี้ไม่ได้ คำหนึ่งยาวได้ไม่เกิน %1$d อักขระ และพจนานุกรมใส่ได้ไม่เกิน %2$d คำ</string>
     <string name="add_word_button">เพิ่มคำ</string>
     <string name="no_words_found">ไม่พบคำ</string>
     <string name="delete_word_title">ลบคำ?</string>

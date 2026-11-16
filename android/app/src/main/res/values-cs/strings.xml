@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Chytrá velká písmena</string>
     <string name="smart_capitalization_subtitle">Velká písmena na začátku vět a u vlastních jmen</string>
     <string name="custom_dictionary">Vlastní slovník</string>
-    <string name="custom_dictionary_subtitle">Přidejte slova pro zlepšení přesnosti přepisu</string>
+    <string name="custom_dictionary_subtitle">Naučte SecureVox jména a pojmy, aby je psal po vašem</string>
     <string name="sound_effects">Zvukové efekty</string>
     <string name="sound_effects_subtitle">Přehrát zvuk při spuštění a zastavení nahrávání</string>
     <string name="haptic_feedback">Haptická odezva</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Smazat vše</string>
     <string name="search_words">Hledat slova…</string>
     <string name="no_custom_words_yet">Zatím žádná vlastní slova</string>
-    <string name="custom_words_empty_hint">Přidejte slova, která se často špatně rozpoznávají, například jména, odborné výrazy nebo zkratky.</string>
+    <string name="custom_words_empty_hint">Přidejte jména, odborné pojmy nebo zkratky. Pomáhají přepisu a aplikace v přepisu opraví jejich velikost písmen a mezery.</string>
+    <string name="word_not_usable">Slovo se nepodařilo přidat. Slovo může mít nejvýše %1$d znaků a slovník pojme nejvýše %2$d slov.</string>
     <string name="add_word_button">Přidat slovo</string>
     <string name="no_words_found">Žádná slova nenalezena</string>
     <string name="delete_word_title">Smazat slovo?</string>

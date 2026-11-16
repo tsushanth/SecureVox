@@ -76,7 +76,7 @@
     <string name="smart_capitalization">स्मार्ट कैपिटलाइज़ेशन</string>
     <string name="smart_capitalization_subtitle">वाक्यों और व्यक्तिवाचक संज्ञाओं को बड़े अक्षरों में लिखें</string>
     <string name="custom_dictionary">कस्टम शब्दकोश</string>
-    <string name="custom_dictionary_subtitle">ट्रांसक्रिप्शन सटीकता बेहतर करने के लिए शब्द जोड़ें</string>
+    <string name="custom_dictionary_subtitle">SecureVox को नाम और शब्द सिखाएँ ताकि वह उन्हें आपके तरीके से लिखे</string>
     <string name="sound_effects">ध्वनि प्रभाव</string>
     <string name="sound_effects_subtitle">रिकॉर्डिंग शुरू/बंद करते समय ध्वनि बजाएँ</string>
     <string name="haptic_feedback">हैप्टिक फ़ीडबैक</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">सभी हटाएँ</string>
     <string name="search_words">शब्द खोजें\u2026</string>
     <string name="no_custom_words_yet">अभी तक कोई कस्टम शब्द नहीं</string>
-    <string name="custom_words_empty_hint">अक्सर गलत पहचाने जाने वाले शब्द जोड़ें, जैसे नाम, तकनीकी शब्द या संक्षिप्त रूप।</string>
+    <string name="custom_words_empty_hint">नाम, तकनीकी शब्द या संक्षिप्त रूप जोड़ें। ये ट्रांसक्रिप्शन को दिशा देते हैं, और ऐप ट्रांसक्रिप्ट में उनके अक्षरों का रूप (बड़े/छोटे) और स्पेस ठीक करता है।</string>
+    <string name="word_not_usable">यह शब्द जोड़ा नहीं जा सका। एक शब्द में अधिकतम %1$d वर्ण हो सकते हैं और शब्दकोश में अधिकतम %2$d शब्द आ सकते हैं।</string>
     <string name="add_word_button">शब्द जोड़ें</string>
     <string name="no_words_found">कोई शब्द नहीं मिला</string>
     <string name="delete_word_title">शब्द हटाएँ?</string>

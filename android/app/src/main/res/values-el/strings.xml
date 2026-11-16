@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Έξυπνα κεφαλαία</string>
     <string name="smart_capitalization_subtitle">Κεφαλαία στις προτάσεις και στα κύρια ονόματα</string>
     <string name="custom_dictionary">Προσαρμοσμένο λεξικό</string>
-    <string name="custom_dictionary_subtitle">Προσθέστε λέξεις για καλύτερη ακρίβεια απομαγνητοφώνησης</string>
+    <string name="custom_dictionary_subtitle">Μάθετε στο SecureVox ονόματα και όρους ώστε να γράφονται όπως θέλετε</string>
     <string name="sound_effects">Ηχητικά εφέ</string>
     <string name="sound_effects_subtitle">Αναπαραγωγή ήχων κατά την έναρξη/διακοπή της εγγραφής</string>
     <string name="haptic_feedback">Απτική ανάδραση</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Διαγραφή όλων</string>
     <string name="search_words">Αναζήτηση λέξεων…</string>
     <string name="no_custom_words_yet">Δεν υπάρχουν προσαρμοσμένες λέξεις ακόμη</string>
-    <string name="custom_words_empty_hint">Προσθέστε λέξεις που συχνά αναγνωρίζονται λάθος, όπως ονόματα, τεχνικούς όρους ή συντομογραφίες.</string>
+    <string name="custom_words_empty_hint">Προσθέστε ονόματα, τεχνικούς όρους ή συντομογραφίες. Καθοδηγούν τη μεταγραφή και η εφαρμογή διορθώνει τα κεφαλαία/πεζά και τα κενά τους στο κείμενο.</string>
+    <string name="word_not_usable">Δεν ήταν δυνατή η προσθήκη της λέξης. Οι λέξεις μπορούν να έχουν έως %1$d χαρακτήρες και το λεξικό χωράει έως %2$d λέξεις.</string>
     <string name="add_word_button">Προσθήκη λέξης</string>
     <string name="no_words_found">Δεν βρέθηκαν λέξεις</string>
     <string name="delete_word_title">Διαγραφή λέξης;</string>

@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Okos nagybetűzés</string>
     <string name="smart_capitalization_subtitle">Nagybetű a mondatok elején és a tulajdonneveknél</string>
     <string name="custom_dictionary">Egyéni szótár</string>
-    <string name="custom_dictionary_subtitle">Adjon hozzá szavakat az átírás pontosságának javításához</string>
+    <string name="custom_dictionary_subtitle">Tanítsd meg a SecureVoxnak a neveket és kifejezéseket, hogy úgy írja őket, ahogy te szeretnéd</string>
     <string name="sound_effects">Hangeffektek</string>
     <string name="sound_effects_subtitle">Hang lejátszása a felvétel indításakor és leállításakor</string>
     <string name="haptic_feedback">Haptikus visszajelzés</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Összes törlése</string>
     <string name="search_words">Szavak keresése…</string>
     <string name="no_custom_words_yet">Még nincsenek egyéni szavak</string>
-    <string name="custom_words_empty_hint">Adjon hozzá gyakran félreismert szavakat, például neveket, szakkifejezéseket vagy rövidítéseket.</string>
+    <string name="custom_words_empty_hint">Adj hozzá neveket, szakkifejezéseket vagy rövidítéseket. Segítik az átírást, az alkalmazás pedig kijavítja a nagybetűs írásmódjukat és a szóközeiket az átiratban.</string>
+    <string name="word_not_usable">A szót nem sikerült hozzáadni. Egy szó legfeljebb %1$d karakter lehet, a szótár legfeljebb %2$d szót tartalmaz.</string>
     <string name="add_word_button">Szó hozzáadása</string>
     <string name="no_words_found">Nem található szó</string>
     <string name="delete_word_title">Törli a szót?</string>

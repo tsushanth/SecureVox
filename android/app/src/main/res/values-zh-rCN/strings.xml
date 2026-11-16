@@ -76,7 +76,7 @@
     <string name="smart_capitalization">智能大写</string>
     <string name="smart_capitalization_subtitle">自动大写句首和专有名词</string>
     <string name="custom_dictionary">自定义词典</string>
-    <string name="custom_dictionary_subtitle">添加词汇以提高转录准确性</string>
+    <string name="custom_dictionary_subtitle">把姓名和术语教给 SecureVox，让它按你的写法书写</string>
     <string name="sound_effects">音效</string>
     <string name="sound_effects_subtitle">开始/停止录音时播放声音</string>
     <string name="haptic_feedback">触觉反馈</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">全部删除</string>
     <string name="search_words">搜索词汇\u2026</string>
     <string name="no_custom_words_yet">还没有自定义词汇</string>
-    <string name="custom_words_empty_hint">添加经常被错误识别的词汇，如姓名、专业术语或缩写。</string>
+    <string name="custom_words_empty_hint">添加姓名、专业术语或缩写。它们会引导转写，应用也会在转写文本中修正它们的大小写和空格。</string>
+    <string name="word_not_usable">无法添加这个词。每个词最多 %1$d 个字符，词典最多容纳 %2$d 个词。</string>
     <string name="add_word_button">添加词汇</string>
     <string name="no_words_found">未找到词汇</string>
     <string name="delete_word_title">删除词汇？</string>

@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Smarta versaler</string>
     <string name="smart_capitalization_subtitle">Versaler i början av meningar och i egennamn</string>
     <string name="custom_dictionary">Egen ordlista</string>
-    <string name="custom_dictionary_subtitle">Lägg till ord för att förbättra transkriptionens noggrannhet</string>
+    <string name="custom_dictionary_subtitle">Lär SecureVox namn och termer så att de skrivs på ditt sätt</string>
     <string name="sound_effects">Ljudeffekter</string>
     <string name="sound_effects_subtitle">Spela upp ljud när inspelningen startar/stoppas</string>
     <string name="haptic_feedback">Haptisk återkoppling</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Radera alla</string>
     <string name="search_words">Sök ord…</string>
     <string name="no_custom_words_yet">Inga egna ord ännu</string>
-    <string name="custom_words_empty_hint">Lägg till ord som ofta tolkas fel, till exempel namn, facktermer eller förkortningar.</string>
+    <string name="custom_words_empty_hint">Lägg till namn, facktermer eller förkortningar. De vägleder transkriberingen, och appen rättar deras versaler och mellanslag i transkriptionen.</string>
+    <string name="word_not_usable">Ordet kunde inte läggas till. Ett ord får vara upp till %1$d tecken och ordlistan rymmer upp till %2$d ord.</string>
     <string name="add_word_button">Lägg till ord</string>
     <string name="no_words_found">Inga ord hittades</string>
     <string name="delete_word_title">Radera ordet?</string>

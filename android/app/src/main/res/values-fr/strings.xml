@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Capitalisation intelligente</string>
     <string name="smart_capitalization_subtitle">Mettre en majuscule les phrases et les noms propres</string>
     <string name="custom_dictionary">Dictionnaire personnalisé</string>
-    <string name="custom_dictionary_subtitle">Ajoutez des mots pour améliorer la précision de la transcription</string>
+    <string name="custom_dictionary_subtitle">Apprenez à SecureVox des noms et des termes pour qu\'il les écrive à votre façon</string>
     <string name="sound_effects">Effets sonores</string>
     <string name="sound_effects_subtitle">Jouer des sons au démarrage/arrêt de l\'enregistrement</string>
     <string name="haptic_feedback">Retour haptique</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Tout supprimer</string>
     <string name="search_words">Rechercher des mots\u2026</string>
     <string name="no_custom_words_yet">Aucun mot personnalisé pour le moment</string>
-    <string name="custom_words_empty_hint">Ajoutez des mots souvent mal reconnus, comme des noms, des termes techniques ou des abréviations.</string>
+    <string name="custom_words_empty_hint">Ajoutez des noms, des termes techniques ou des abréviations. Ils guident la transcription, et l\'app corrige leurs majuscules et leurs espaces dans la transcription.</string>
+    <string name="word_not_usable">Impossible d\'ajouter ce mot. Un mot peut compter jusqu\'à %1$d caractères et le dictionnaire contient jusqu\'à %2$d mots.</string>
     <string name="add_word_button">Ajouter un mot</string>
     <string name="no_words_found">Aucun mot trouvé</string>
     <string name="delete_word_title">Supprimer le mot ?</string>

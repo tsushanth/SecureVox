@@ -72,7 +72,7 @@
     <string name="smart_capitalization">Розумні великі літери</string>
     <string name="smart_capitalization_subtitle">Великі літери на початку речень і у власних назвах</string>
     <string name="custom_dictionary">Власний словник</string>
-    <string name="custom_dictionary_subtitle">Додайте слова, щоб підвищити точність транскрибування</string>
+    <string name="custom_dictionary_subtitle">Навчіть SecureVox іменам і термінам, щоб він писав їх по-вашому</string>
     <string name="sound_effects">Звукові ефекти</string>
     <string name="sound_effects_subtitle">Відтворювати звуки на початку й наприкінці запису</string>
     <string name="haptic_feedback">Тактильний відгук</string>
@@ -147,7 +147,8 @@
     <string name="delete_all">Видалити все</string>
     <string name="search_words">Пошук слів…</string>
     <string name="no_custom_words_yet">Власних слів ще немає</string>
-    <string name="custom_words_empty_hint">Додайте слова, які часто розпізнаються неправильно, наприклад імена, технічні терміни чи абревіатури.</string>
+    <string name="custom_words_empty_hint">Додайте імена, технічні терміни або скорочення. Вони підказують розпізнаванню, а застосунок виправляє в розшифровці їхній регістр і пропуски.</string>
+    <string name="word_not_usable">Не вдалося додати слово. Слово може мати до %1$d символів, а словник вміщує до %2$d слів.</string>
     <string name="add_word_button">Додати слово</string>
     <string name="no_words_found">Слів не знайдено</string>
     <string name="delete_word_title">Видалити слово?</string>

@@ -82,7 +82,7 @@
     <string name="smart_capitalization">Smart Capitalization</string>
     <string name="smart_capitalization_subtitle">Capitalize sentences and proper nouns</string>
     <string name="custom_dictionary">Custom Dictionary</string>
-    <string name="custom_dictionary_subtitle">Add words to improve transcription accuracy</string>
+    <string name="custom_dictionary_subtitle">Teach SecureVox names and terms so they are written your way</string>
     <string name="sound_effects">Sound Effects</string>
     <string name="sound_effects_subtitle">Play sounds when starting/stopping recording</string>
     <string name="haptic_feedback">Haptic Feedback</string>
@@ -169,7 +169,8 @@
     <string name="delete_all">Delete all</string>
     <string name="search_words">Search words\u2026</string>
     <string name="no_custom_words_yet">No custom words yet</string>
-    <string name="custom_words_empty_hint">Add words that are commonly misrecognized, like names, technical terms, or abbreviations.</string>
+    <string name="custom_words_empty_hint">Add names, technical terms or abbreviations. They guide the transcription, and the app fixes their capitalization and spacing in the transcript.</string>
+    <string name="word_not_usable">Could not add this word. Words can be up to %1$d characters and the dictionary holds up to %2$d words.</string>
     <string name="add_word_button">Add Word</string>
     <string name="no_words_found">No words found</string>
     <string name="delete_word_title">Delete Word?</string>

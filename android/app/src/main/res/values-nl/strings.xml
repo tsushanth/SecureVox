@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Slimme hoofdletters</string>
     <string name="smart_capitalization_subtitle">Hoofdletters voor zinnen en eigennamen</string>
     <string name="custom_dictionary">Aangepast woordenboek</string>
-    <string name="custom_dictionary_subtitle">Voeg woorden toe om de transcriptienauwkeurigheid te verbeteren</string>
+    <string name="custom_dictionary_subtitle">Leer SecureVox namen en termen, zodat ze op jouw manier worden geschreven</string>
     <string name="sound_effects">Geluidseffecten</string>
     <string name="sound_effects_subtitle">Geluiden afspelen bij starten/stoppen van opname</string>
     <string name="haptic_feedback">Haptische feedback</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Alles verwijderen</string>
     <string name="search_words">Woorden zoeken\u2026</string>
     <string name="no_custom_words_yet">Nog geen aangepaste woorden</string>
-    <string name="custom_words_empty_hint">Voeg woorden toe die vaak verkeerd worden herkend, zoals namen, technische termen of afkortingen.</string>
+    <string name="custom_words_empty_hint">Voeg namen, vaktermen of afkortingen toe. Ze sturen de transcriptie bij en de app corrigeert hun hoofdletters en spaties in het transcript.</string>
+    <string name="word_not_usable">Het woord kon niet worden toegevoegd. Een woord mag maximaal %1$d tekens hebben en het woordenboek bevat maximaal %2$d woorden.</string>
     <string name="add_word_button">Woord toevoegen</string>
     <string name="no_words_found">Geen woorden gevonden</string>
     <string name="delete_word_title">Woord verwijderen?</string>

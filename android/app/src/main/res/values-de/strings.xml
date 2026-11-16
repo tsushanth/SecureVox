@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Intelligente Großschreibung</string>
     <string name="smart_capitalization_subtitle">Satzanfänge und Eigennamen großschreiben</string>
     <string name="custom_dictionary">Benutzerwörterbuch</string>
-    <string name="custom_dictionary_subtitle">Wörter hinzufügen, um die Transkriptionsgenauigkeit zu verbessern</string>
+    <string name="custom_dictionary_subtitle">Bringe SecureVox Namen und Begriffe bei, damit sie so geschrieben werden, wie du es willst</string>
     <string name="sound_effects">Soundeffekte</string>
     <string name="sound_effects_subtitle">Töne beim Starten/Stoppen der Aufnahme abspielen</string>
     <string name="haptic_feedback">Haptisches Feedback</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Alle löschen</string>
     <string name="search_words">Wörter suchen\u2026</string>
     <string name="no_custom_words_yet">Noch keine benutzerdefinierten Wörter</string>
-    <string name="custom_words_empty_hint">Fügen Sie häufig falsch erkannte Wörter hinzu, wie Namen, Fachbegriffe oder Abkürzungen.</string>
+    <string name="custom_words_empty_hint">Füge Namen, Fachbegriffe oder Abkürzungen hinzu. Sie steuern die Transkription, und die App korrigiert im Transkript ihre Groß- und Kleinschreibung sowie die Leerzeichen.</string>
+    <string name="word_not_usable">Das Wort konnte nicht hinzugefügt werden. Wörter dürfen bis zu %1$d Zeichen lang sein, das Wörterbuch fasst bis zu %2$d Wörter.</string>
     <string name="add_word_button">Wort hinzufügen</string>
     <string name="no_words_found">Keine Wörter gefunden</string>
     <string name="delete_word_title">Wort löschen?</string>

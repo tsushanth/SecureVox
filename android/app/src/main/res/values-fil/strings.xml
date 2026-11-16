@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Smart na Capitalization</string>
     <string name="smart_capitalization_subtitle">I-capitalize ang mga pangungusap at pangngalang pantangi</string>
     <string name="custom_dictionary">Custom na Diksiyonaryo</string>
-    <string name="custom_dictionary_subtitle">Magdagdag ng mga salita para mapabuti ang katumpakan ng transcription</string>
+    <string name="custom_dictionary_subtitle">Turuan ang SecureVox ng mga pangalan at termino para isulat ang mga ito ayon sa gusto mo</string>
     <string name="sound_effects">Mga Sound Effect</string>
     <string name="sound_effects_subtitle">Mag-play ng tunog kapag nagsisimula/humihinto ang recording</string>
     <string name="haptic_feedback">Haptic Feedback</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">I-delete lahat</string>
     <string name="search_words">Maghanap ng mga salita\u2026</string>
     <string name="no_custom_words_yet">Wala pang mga custom na salita</string>
-    <string name="custom_words_empty_hint">Magdagdag ng mga salitang madalas na mali ang pagkakilala, tulad ng mga pangalan, teknikal na termino, o mga abbreviation.</string>
+    <string name="custom_words_empty_hint">Magdagdag ng mga pangalan, teknikal na termino o daglat. Ginagabayan nila ang transkripsyon, at inaayos ng app ang malaking titik at espasyo ng mga ito sa transcript.</string>
+    <string name="word_not_usable">Hindi naidagdag ang salita. Hanggang %1$d na character ang puwede sa isang salita, at hanggang %2$d na salita ang kasya sa diksyunaryo.</string>
     <string name="add_word_button">Magdagdag ng Salita</string>
     <string name="no_words_found">Walang nahanap na salita</string>
     <string name="delete_word_title">I-delete ang Salita?</string>

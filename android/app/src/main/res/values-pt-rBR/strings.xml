@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Capitalização inteligente</string>
     <string name="smart_capitalization_subtitle">Capitalizar frases e nomes próprios</string>
     <string name="custom_dictionary">Dicionário personalizado</string>
-    <string name="custom_dictionary_subtitle">Adicione palavras para melhorar a precisão da transcrição</string>
+    <string name="custom_dictionary_subtitle">Ensine nomes e termos ao SecureVox para que ele os escreva do seu jeito</string>
     <string name="sound_effects">Efeitos sonoros</string>
     <string name="sound_effects_subtitle">Reproduzir sons ao iniciar/parar gravação</string>
     <string name="haptic_feedback">Feedback háptico</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Excluir tudo</string>
     <string name="search_words">Pesquisar palavras\u2026</string>
     <string name="no_custom_words_yet">Nenhuma palavra personalizada ainda</string>
-    <string name="custom_words_empty_hint">Adicione palavras frequentemente mal reconhecidas, como nomes, termos técnicos ou abreviações.</string>
+    <string name="custom_words_empty_hint">Adicione nomes, termos técnicos ou abreviações. Eles orientam a transcrição, e o app corrige no texto as maiúsculas e os espaços deles.</string>
+    <string name="word_not_usable">Não foi possível adicionar a palavra. Uma palavra pode ter até %1$d caracteres e o dicionário comporta até %2$d palavras.</string>
     <string name="add_word_button">Adicionar palavra</string>
     <string name="no_words_found">Nenhuma palavra encontrada</string>
     <string name="delete_word_title">Excluir palavra?</string>

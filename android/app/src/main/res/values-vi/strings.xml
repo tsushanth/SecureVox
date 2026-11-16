@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Viết hoa thông minh</string>
     <string name="smart_capitalization_subtitle">Viết hoa câu và danh từ riêng</string>
     <string name="custom_dictionary">Từ điển tùy chỉnh</string>
-    <string name="custom_dictionary_subtitle">Thêm từ để cải thiện độ chính xác chuyển đổi</string>
+    <string name="custom_dictionary_subtitle">Dạy SecureVox tên và thuật ngữ để ghi đúng theo cách của bạn</string>
     <string name="sound_effects">Hiệu ứng âm thanh</string>
     <string name="sound_effects_subtitle">Phát âm thanh khi bắt đầu/dừng ghi</string>
     <string name="haptic_feedback">Phản hồi rung</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Xóa tất cả</string>
     <string name="search_words">Tìm từ\u2026</string>
     <string name="no_custom_words_yet">Chưa có từ tùy chỉnh</string>
-    <string name="custom_words_empty_hint">Thêm các từ thường bị nhận dạng sai, như tên, thuật ngữ kỹ thuật, hoặc viết tắt.</string>
+    <string name="custom_words_empty_hint">Thêm tên, thuật ngữ chuyên môn hoặc từ viết tắt. Chúng giúp định hướng quá trình chuyển giọng nói thành văn bản, và ứng dụng sẽ sửa chữ hoa/chữ thường và khoảng cách của chúng trong bản ghi.</string>
+    <string name="word_not_usable">Không thể thêm từ này. Mỗi từ dài tối đa %1$d ký tự và từ điển chứa tối đa %2$d từ.</string>
     <string name="add_word_button">Thêm từ</string>
     <string name="no_words_found">Không tìm thấy từ</string>
     <string name="delete_word_title">Xóa từ?</string>

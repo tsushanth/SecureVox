@@ -76,7 +76,7 @@
     <string name="smart_capitalization">Умные заглавные буквы</string>
     <string name="smart_capitalization_subtitle">Использование заглавных букв в начале предложений и именах</string>
     <string name="custom_dictionary">Пользовательский словарь</string>
-    <string name="custom_dictionary_subtitle">Добавьте слова для улучшения точности транскрибирования</string>
+    <string name="custom_dictionary_subtitle">Научите SecureVox именам и терминам, чтобы он писал их по-вашему</string>
     <string name="sound_effects">Звуковые эффекты</string>
     <string name="sound_effects_subtitle">Воспроизведение звуков при начале/остановке записи</string>
     <string name="haptic_feedback">Тактильная обратная связь</string>
@@ -133,7 +133,8 @@
     <string name="delete_all">Удалить все</string>
     <string name="search_words">Поиск слов\u2026</string>
     <string name="no_custom_words_yet">Пользовательских слов пока нет</string>
-    <string name="custom_words_empty_hint">Добавьте слова, которые часто распознаются неправильно, например имена, технические термины или аббревиатуры.</string>
+    <string name="custom_words_empty_hint">Добавьте имена, технические термины или сокращения. Они подсказывают распознаванию, а приложение исправляет в расшифровке их регистр и пробелы.</string>
+    <string name="word_not_usable">Не удалось добавить слово. Слово может содержать до %1$d символов, а в словаре помещается до %2$d слов.</string>
     <string name="add_word_button">Добавить слово</string>
     <string name="no_words_found">Слова не найдены</string>
     <string name="delete_word_title">Удалить слово?</string>
