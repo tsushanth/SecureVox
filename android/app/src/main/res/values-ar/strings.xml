@@ -88,7 +88,7 @@
     <string name="faq_and_help">الأسئلة الشائعة والمساعدة</string>
     <string name="faq_subtitle">أسئلة شائعة واستكشاف الأخطاء وإصلاحها</string>
     <string name="about_version">الإصدار %1$s</string>
-    <string name="about_description">نسخ صوتي يضع الخصوصية أولاً مدعوم بتقنية Whisper AI. تتم جميع المعالجة على جهازك - لا يغادر صوتك هاتفك أبدًا.</string>
+    <string name="about_description">نسخ صوتي يضع الخصوصية أولاً ويعمل على جهازك. تتم جميع المعالجة على جهازك - لا يغادر صوتك هاتفك أبدًا.</string>
     <string name="select_language">اختر اللغة</string>
     <string name="select_theme">اختر المظهر</string>
     <string name="theme_follow_system">اتباع إعدادات النظام</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">مرحبًا بك في SecureVox</string>
     <string name="welcome_subtitle">نسخ صوتي يضع الخصوصية أولاً</string>
     <string name="download_ai_model">تنزيل نموذج الذكاء الاصطناعي</string>
-    <string name="download_model_description">يحتاج SecureVox إلى تنزيل نموذج Whisper AI (~%1$d ميغابايت) لنسخ تسجيلاتك الصوتية على الجهاز.</string>
+    <string name="download_model_description">يحتاج SecureVox إلى تنزيل نموذج الكلام (~%1$d ميغابايت) لنسخ تسجيلاتك الصوتية على الجهاز.</string>
     <string name="download_with_size">تنزيل (%1$d ميغابايت)</string>
     <string name="downloading_progress">جارٍ التنزيل\u2026 %1$d%%</string>
     <string name="download_complete">اكتمل التنزيل!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">أدوات تعرّف اختيارية لبعض اللغات. لا يُنزَّل شيء حتى تضغط على تنزيل، ويعمل كل منها دون اتصال.</string>
     <string name="engines_suggestion">يتوفر محرك أفضل للغة %2$s: %1$s (تنزيل %3$d ميغابايت). اضغط على تنزيل لتثبيته.</string>
     <string name="engines_use_alternative">استخدام هذه المحركات عند تثبيتها</string>
-    <string name="engines_use_alternative_subtitle">أوقف التشغيل لاستخدام نموذج Whisper المحدد أعلاه دائمًا.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">الألمانية والإسبانية والفرنسية. بدقة تقارب Whisper Small، لكنه أسرع بكثير وأخف.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">الصينية. أدق بكثير من Whisper Base للغة الماندرين.</string>
+    <string name="engines_use_alternative_subtitle">أوقف التشغيل لاستخدام نموذج الكلام المحدد أعلاه دائمًا.</string>
+    <string name="engine_nemo_name">محرك سريع للألمانية والإسبانية والفرنسية</string>
+    <string name="engine_nemo_desc">الألمانية والإسبانية والفرنسية. بدقة تقارب النموذج الصغير، لكنه أسرع بكثير وأخف.</string>
+    <string name="engine_sense_voice_name">محرك اللغة الصينية</string>
+    <string name="engine_sense_voice_desc">الصينية. أدق بكثير من النموذج الأساسي للغة الماندرين.</string>
+    <string name="engine_default_name">نموذج الكلام القياسي</string>
     <string name="engine_size_format">%1$d ميغابايت</string>
     <string name="engine_installed">مثبّت</string>
     <string name="engine_downloading">جارٍ التنزيل\u2026 %1$d%%</string>

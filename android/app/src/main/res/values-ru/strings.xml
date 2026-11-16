@@ -88,7 +88,7 @@
     <string name="faq_and_help">Вопросы и помощь</string>
     <string name="faq_subtitle">Частые вопросы и устранение неполадок</string>
     <string name="about_version">Версия %1$s</string>
-    <string name="about_description">Конфиденциальное голосовое транскрибирование на базе Whisper AI. Вся обработка происходит на вашем устройстве — аудио никогда не покидает ваш телефон.</string>
+    <string name="about_description">Конфиденциальное голосовое транскрибирование, которое работает на вашем устройстве. Вся обработка происходит на вашем устройстве — аудио никогда не покидает ваш телефон.</string>
     <string name="select_language">Выберите язык</string>
     <string name="select_theme">Выберите тему</string>
     <string name="theme_follow_system">Следовать настройкам системы</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Добро пожаловать в SecureVox</string>
     <string name="welcome_subtitle">Конфиденциальное голосовое транскрибирование</string>
     <string name="download_ai_model">Загрузить модель ИИ</string>
-    <string name="download_model_description">SecureVox необходимо загрузить модель Whisper AI (~%1$d МБ) для транскрибирования голосовых записей на устройстве.</string>
+    <string name="download_model_description">SecureVox необходимо загрузить речевую модель (~%1$d МБ) для транскрибирования голосовых записей на устройстве.</string>
     <string name="download_with_size">Загрузить (%1$d МБ)</string>
     <string name="downloading_progress">Загрузка\u2026 %1$d%%</string>
     <string name="download_complete">Загрузка завершена!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Дополнительные распознаватели для некоторых языков. Ничего не загружается, пока вы не нажмёте «Загрузить», и каждый работает офлайн.</string>
     <string name="engines_suggestion">Для языка %2$s доступен более точный движок: %1$s (загрузка %3$d МБ). Нажмите «Загрузить», чтобы установить его.</string>
     <string name="engines_use_alternative">Использовать эти движки, когда установлены</string>
-    <string name="engines_use_alternative_subtitle">Отключите, чтобы всегда использовать модель Whisper, выбранную выше.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Немецкий, испанский, французский. По точности примерно как Whisper Small, но намного быстрее и легче.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Китайский. Для мандаринского намного точнее, чем Whisper Base.</string>
+    <string name="engines_use_alternative_subtitle">Отключите, чтобы всегда использовать речевую модель, выбранную выше.</string>
+    <string name="engine_nemo_name">Быстрый движок для немецкого, испанского и французского</string>
+    <string name="engine_nemo_desc">Немецкий, испанский, французский. По точности примерно как модель Small, но намного быстрее и легче.</string>
+    <string name="engine_sense_voice_name">Движок для китайского</string>
+    <string name="engine_sense_voice_desc">Китайский. Для мандаринского намного точнее, чем модель Base.</string>
+    <string name="engine_default_name">Стандартная речевая модель</string>
     <string name="engine_size_format">%1$d МБ</string>
     <string name="engine_installed">Установлено</string>
     <string name="engine_downloading">Загрузка\u2026 %1$d%%</string>

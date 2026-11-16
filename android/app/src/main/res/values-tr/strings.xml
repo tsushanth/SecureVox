@@ -88,7 +88,7 @@
     <string name="faq_and_help">SSS &amp; Yardım</string>
     <string name="faq_subtitle">Sık sorulan sorular ve sorun giderme</string>
     <string name="about_version">Sürüm %1$s</string>
-    <string name="about_description">Whisper AI ile güçlendirilmiş gizlilik öncelikli ses yazıya dökme. Tüm işlemler cihazınızda gerçekleşir - sesiniz asla telefonunuzdan çıkmaz.</string>
+    <string name="about_description">Cihazınızda çalışan, gizlilik öncelikli ses yazıya dökme. Tüm işlemler cihazınızda gerçekleşir - sesiniz asla telefonunuzdan çıkmaz.</string>
     <string name="select_language">Dil Seçin</string>
     <string name="select_theme">Tema Seçin</string>
     <string name="theme_follow_system">Sistem ayarlarını takip et</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">SecureVox\'a Hoş Geldiniz</string>
     <string name="welcome_subtitle">Gizlilik öncelikli ses yazıya dökme</string>
     <string name="download_ai_model">Yapay Zeka Modelini İndir</string>
-    <string name="download_model_description">SecureVox, ses kayıtlarınızı cihazınızda yazıya dökmek için Whisper AI modelini (~%1$d MB) indirmesi gerekiyor.</string>
+    <string name="download_model_description">SecureVox, ses kayıtlarınızı cihazınızda yazıya dökmek için konuşma modelini (~%1$d MB) indirmesi gerekiyor.</string>
     <string name="download_with_size">İndir (%1$d MB)</string>
     <string name="downloading_progress">İndiriliyor\u2026 %1$d%%</string>
     <string name="download_complete">İndirme tamamlandı!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Bazı diller için isteğe bağlı tanıyıcılar. İndir düğmesine dokunmadıkça hiçbir şey indirilmez ve her biri çevrimdışı çalışır.</string>
     <string name="engines_suggestion">%2$s dili için daha iyi bir motor var: %1$s (%3$d MB indirme). Yüklemek için İndir düğmesine dokunun.</string>
     <string name="engines_use_alternative">Yüklüyse bu motorları kullan</string>
-    <string name="engines_use_alternative_subtitle">Yukarıda seçilen Whisper modelini her zaman kullanmak için kapatın.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Almanca, İspanyolca, Fransızca. Whisper Small kadar doğru, ama çok daha hızlı ve hafif.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Çince. Mandarin için Whisper Base modelinden çok daha doğru.</string>
+    <string name="engines_use_alternative_subtitle">Yukarıda seçilen konuşma modelini her zaman kullanmak için kapatın.</string>
+    <string name="engine_nemo_name">Almanca, İspanyolca ve Fransızca için hızlı motor</string>
+    <string name="engine_nemo_desc">Almanca, İspanyolca, Fransızca. Small modeli kadar doğru, ama çok daha hızlı ve hafif.</string>
+    <string name="engine_sense_voice_name">Çince motoru</string>
+    <string name="engine_sense_voice_desc">Çince. Mandarin için Base modelinden çok daha doğru.</string>
+    <string name="engine_default_name">Standart konuşma modeli</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Yüklendi</string>
     <string name="engine_downloading">İndiriliyor\u2026 %1$d%%</string>

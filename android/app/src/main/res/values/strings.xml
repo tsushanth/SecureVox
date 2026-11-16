@@ -94,7 +94,7 @@
     <string name="faq_and_help">FAQ &amp; Help</string>
     <string name="faq_subtitle">Common questions and troubleshooting</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_description">Privacy-first voice transcription powered by Whisper AI. All processing happens on your device - your audio never leaves your phone.</string>
+    <string name="about_description">Privacy-first voice transcription that runs on your device. All processing happens on your device - your audio never leaves your phone.</string>
     <string name="select_language">Select Language</string>
     <string name="select_theme">Select Theme</string>
     <string name="theme_follow_system">Follow system settings</string>
@@ -125,7 +125,7 @@
     <string name="welcome_title">Welcome to SecureVox</string>
     <string name="welcome_subtitle">Privacy-first voice transcription</string>
     <string name="download_ai_model">Download AI Model</string>
-    <string name="download_model_description">SecureVox needs to download the Whisper AI model (about %1$d MB) to transcribe your voice recordings on-device.</string>
+    <string name="download_model_description">SecureVox needs to download the speech model (about %1$d MB) to transcribe your voice recordings on-device.</string>
     <string name="download_with_size">Download (%1$d MB)</string>
     <string name="setup_continue_download">Continue download (%1$s left)</string>
     <string name="downloading_progress">Downloading\u2026 %1$d%%</string>
@@ -222,11 +222,12 @@
     <string name="engines_subtitle">Optional recognizers for some languages. Nothing downloads until you tap Download, and each works offline.</string>
     <string name="engines_suggestion">A better engine for %2$s is available: %1$s (%3$d MB download). Tap Download to install it.</string>
     <string name="engines_use_alternative">Use these engines when installed</string>
-    <string name="engines_use_alternative_subtitle">Turn off to always use the Whisper model selected above.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">German, Spanish, French. About as accurate as Whisper Small, much faster and lighter.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Chinese. Far more accurate than Whisper Base for Mandarin.</string>
+    <string name="engines_use_alternative_subtitle">Turn off to always use the speech model selected above.</string>
+    <string name="engine_nemo_name">Fast engine for German, Spanish and French</string>
+    <string name="engine_nemo_desc">German, Spanish, French. About as accurate as the Small model, much faster and lighter.</string>
+    <string name="engine_sense_voice_name">Chinese engine</string>
+    <string name="engine_sense_voice_desc">Chinese. Far more accurate than the Base model for Mandarin.</string>
+    <string name="engine_default_name">Standard speech model</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Installed</string>
     <string name="engine_downloading">Downloading… %1$d%%</string>

@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; 도움말</string>
     <string name="faq_subtitle">자주 묻는 질문과 문제 해결</string>
     <string name="about_version">버전 %1$s</string>
-    <string name="about_description">Whisper AI로 구동되는 개인정보 보호 우선 음성 텍스트 변환. 모든 처리는 기기에서 이루어지며 \u2013 오디오가 휴대폰 밖으로 나가지 않습니다.</string>
+    <string name="about_description">기기에서 실행되는 개인정보 보호 우선 음성 텍스트 변환. 모든 처리는 기기에서 이루어지며 \u2013 오디오가 휴대폰 밖으로 나가지 않습니다.</string>
     <string name="select_language">언어 선택</string>
     <string name="select_theme">테마 선택</string>
     <string name="theme_follow_system">시스템 설정 따르기</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">SecureVox에 오신 것을 환영합니다</string>
     <string name="welcome_subtitle">개인정보 보호 우선 음성 텍스트 변환</string>
     <string name="download_ai_model">AI 모델 다운로드</string>
-    <string name="download_model_description">SecureVox는 기기에서 음성 녹음을 텍스트로 변환하기 위해 Whisper AI 모델(약 %1$d MB)을 다운로드해야 합니다.</string>
+    <string name="download_model_description">SecureVox는 기기에서 음성 녹음을 텍스트로 변환하기 위해 음성 모델(약 %1$d MB)을 다운로드해야 합니다.</string>
     <string name="download_with_size">다운로드 (%1$d MB)</string>
     <string name="downloading_progress">다운로드 중\u2026 %1$d%%</string>
     <string name="download_complete">다운로드 완료!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">일부 언어를 위한 선택형 인식기입니다. 다운로드를 탭하기 전에는 아무것도 다운로드되지 않으며, 각각 오프라인에서 작동합니다.</string>
     <string name="engines_suggestion">%2$s에 더 좋은 엔진이 있습니다: %1$s (다운로드 %3$d MB). 다운로드를 탭하여 설치하세요.</string>
     <string name="engines_use_alternative">설치된 엔진 사용</string>
-    <string name="engines_use_alternative_subtitle">끄면 항상 위에서 선택한 Whisper 모델을 사용합니다.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">독일어, 스페인어, 프랑스어. Whisper Small과 비슷한 정확도에 훨씬 빠르고 가볍습니다.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">중국어. 표준 중국어에서 Whisper Base보다 훨씬 정확합니다.</string>
+    <string name="engines_use_alternative_subtitle">끄면 항상 위에서 선택한 음성 모델을 사용합니다.</string>
+    <string name="engine_nemo_name">독일어, 스페인어, 프랑스어용 빠른 엔진</string>
+    <string name="engine_nemo_desc">독일어, 스페인어, 프랑스어. Small 모델과 비슷한 정확도에 훨씬 빠르고 가볍습니다.</string>
+    <string name="engine_sense_voice_name">중국어 엔진</string>
+    <string name="engine_sense_voice_desc">중국어. 표준 중국어에서 Base 모델보다 훨씬 정확합니다.</string>
+    <string name="engine_default_name">기본 음성 모델</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">설치됨</string>
     <string name="engine_downloading">다운로드 중\u2026 %1$d%%</string>

@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; ヘルプ</string>
     <string name="faq_subtitle">よくある質問とトラブルシューティング</string>
     <string name="about_version">バージョン %1$s</string>
-    <string name="about_description">Whisper AIを搭載したプライバシー重視の音声文字起こし。すべての処理はデバイス上で行われます \u2013 音声がスマートフォンから外に出ることはありません。</string>
+    <string name="about_description">デバイス上で動作するプライバシー重視の音声文字起こし。すべての処理はデバイス上で行われます \u2013 音声がスマートフォンから外に出ることはありません。</string>
     <string name="select_language">言語を選択</string>
     <string name="select_theme">テーマを選択</string>
     <string name="theme_follow_system">システム設定に従う</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">SecureVoxへようこそ</string>
     <string name="welcome_subtitle">プライバシー重視の音声文字起こし</string>
     <string name="download_ai_model">AIモデルをダウンロード</string>
-    <string name="download_model_description">SecureVoxは音声録音をデバイス上で文字起こしするために、Whisper AIモデル（約%1$d MB）をダウンロードする必要があります。</string>
+    <string name="download_model_description">SecureVoxは音声録音をデバイス上で文字起こしするために、音声モデル（約%1$d MB）をダウンロードする必要があります。</string>
     <string name="download_with_size">ダウンロード (%1$d MB)</string>
     <string name="downloading_progress">ダウンロード中\u2026 %1$d%%</string>
     <string name="download_complete">ダウンロード完了！</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">一部の言語向けのオプションの認識エンジンです。「ダウンロード」をタップするまで何もダウンロードされず、どれもオフラインで動作します。</string>
     <string name="engines_suggestion">%2$s向けのより良いエンジンがあります: %1$s（ダウンロード%3$d MB）。「ダウンロード」をタップしてインストールしてください。</string>
     <string name="engines_use_alternative">インストール済みのエンジンを使用</string>
-    <string name="engines_use_alternative_subtitle">オフにすると、常に上で選択したWhisperモデルを使用します。</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">ドイツ語、スペイン語、フランス語。Whisper Smallと同程度の精度で、はるかに高速かつ軽量です。</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">中国語。標準中国語ではWhisper Baseよりはるかに高精度です。</string>
+    <string name="engines_use_alternative_subtitle">オフにすると、常に上で選択した音声モデルを使用します。</string>
+    <string name="engine_nemo_name">ドイツ語・スペイン語・フランス語用の高速エンジン</string>
+    <string name="engine_nemo_desc">ドイツ語、スペイン語、フランス語。Smallモデルと同程度の精度で、はるかに高速かつ軽量です。</string>
+    <string name="engine_sense_voice_name">中国語エンジン</string>
+    <string name="engine_sense_voice_desc">中国語。標準中国語ではBaseモデルよりはるかに高精度です。</string>
+    <string name="engine_default_name">標準の音声モデル</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">インストール済み</string>
     <string name="engine_downloading">ダウンロード中\u2026 %1$d%%</string>

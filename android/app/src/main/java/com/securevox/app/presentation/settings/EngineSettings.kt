@@ -180,7 +180,7 @@ fun EngineSettingsSection(languageCode: String, languageName: String) {
 private fun engineName(id: EngineId): String = when (id) {
     EngineId.NEMO_FAST_CONFORMER -> stringResource(R.string.engine_nemo_name)
     EngineId.SENSE_VOICE -> stringResource(R.string.engine_sense_voice_name)
-    EngineId.WHISPER -> id.displayName
+    EngineId.WHISPER -> stringResource(R.string.engine_default_name)
 }
 
 private fun engineDescription(id: EngineId): Int = when (id) {

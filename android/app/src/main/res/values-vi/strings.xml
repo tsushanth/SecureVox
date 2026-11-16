@@ -88,7 +88,7 @@
     <string name="faq_and_help">Câu hỏi thường gặp &amp; Trợ giúp</string>
     <string name="faq_subtitle">Câu hỏi thường gặp và khắc phục sự cố</string>
     <string name="about_version">Phiên bản %1$s</string>
-    <string name="about_description">Chuyển đổi giọng nói ưu tiên quyền riêng tư được hỗ trợ bởi Whisper AI. Tất cả xử lý diễn ra trên thiết bị của bạn - âm thanh không bao giờ rời khỏi điện thoại.</string>
+    <string name="about_description">Chuyển đổi giọng nói ưu tiên quyền riêng tư, chạy ngay trên thiết bị của bạn. Tất cả xử lý diễn ra trên thiết bị của bạn - âm thanh không bao giờ rời khỏi điện thoại.</string>
     <string name="select_language">Chọn ngôn ngữ</string>
     <string name="select_theme">Chọn chủ đề</string>
     <string name="theme_follow_system">Theo cài đặt hệ thống</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Chào mừng đến SecureVox</string>
     <string name="welcome_subtitle">Chuyển đổi giọng nói ưu tiên quyền riêng tư</string>
     <string name="download_ai_model">Tải mô hình AI</string>
-    <string name="download_model_description">SecureVox cần tải mô hình Whisper AI (~%1$d MB) để chuyển đổi bản ghi âm trên thiết bị.</string>
+    <string name="download_model_description">SecureVox cần tải mô hình giọng nói (~%1$d MB) để chuyển đổi bản ghi âm trên thiết bị.</string>
     <string name="download_with_size">Tải xuống (%1$d MB)</string>
     <string name="downloading_progress">Đang tải\u2026 %1$d%%</string>
     <string name="download_complete">Tải xuống hoàn tất!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Bộ nhận dạng tùy chọn cho một số ngôn ngữ. Không có gì được tải cho đến khi bạn nhấn Tải xuống, và mỗi bộ đều hoạt động ngoại tuyến.</string>
     <string name="engines_suggestion">Có bộ máy tốt hơn cho %2$s: %1$s (tải %3$d MB). Nhấn Tải xuống để cài đặt.</string>
     <string name="engines_use_alternative">Dùng các bộ máy này khi đã cài</string>
-    <string name="engines_use_alternative_subtitle">Tắt để luôn dùng mô hình Whisper đã chọn ở trên.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Tiếng Đức, Tây Ban Nha, Pháp. Chính xác gần bằng Whisper Small, nhanh và nhẹ hơn nhiều.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Tiếng Trung. Chính xác hơn nhiều so với Whisper Base cho tiếng Quan Thoại.</string>
+    <string name="engines_use_alternative_subtitle">Tắt để luôn dùng mô hình giọng nói đã chọn ở trên.</string>
+    <string name="engine_nemo_name">Bộ máy nhanh cho tiếng Đức, Tây Ban Nha và Pháp</string>
+    <string name="engine_nemo_desc">Tiếng Đức, Tây Ban Nha, Pháp. Chính xác gần bằng mô hình Small, nhanh và nhẹ hơn nhiều.</string>
+    <string name="engine_sense_voice_name">Bộ máy tiếng Trung</string>
+    <string name="engine_sense_voice_desc">Tiếng Trung. Chính xác hơn nhiều so với mô hình Base cho tiếng Quan Thoại.</string>
+    <string name="engine_default_name">Mô hình giọng nói tiêu chuẩn</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Đã cài đặt</string>
     <string name="engine_downloading">Đang tải\u2026 %1$d%%</string>

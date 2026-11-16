@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; Hilfe</string>
     <string name="faq_subtitle">Häufige Fragen und Fehlerbehebung</string>
     <string name="about_version">Version %1$s</string>
-    <string name="about_description">Datenschutzorientierte Sprachtranskription mit Whisper AI. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät \u2013 Ihre Audiodaten verlassen nie Ihr Telefon.</string>
+    <string name="about_description">Datenschutzorientierte Sprachtranskription, die auf Ihrem Gerät läuft. Die gesamte Verarbeitung erfolgt auf Ihrem Gerät \u2013 Ihre Audiodaten verlassen nie Ihr Telefon.</string>
     <string name="select_language">Sprache auswählen</string>
     <string name="select_theme">Design auswählen</string>
     <string name="theme_follow_system">Systemeinstellungen folgen</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Willkommen bei SecureVox</string>
     <string name="welcome_subtitle">Datenschutzorientierte Sprachtranskription</string>
     <string name="download_ai_model">KI-Modell herunterladen</string>
-    <string name="download_model_description">SecureVox muss das Whisper-AI-Modell (~%1$d MB) herunterladen, um Ihre Sprachaufnahmen auf dem Gerät zu transkribieren.</string>
+    <string name="download_model_description">SecureVox muss das Sprachmodell (~%1$d MB) herunterladen, um Ihre Sprachaufnahmen auf dem Gerät zu transkribieren.</string>
     <string name="download_with_size">Herunterladen (%1$d MB)</string>
     <string name="downloading_progress">Herunterladen\u2026 %1$d%%</string>
     <string name="download_complete">Download abgeschlossen!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Optionale Erkenner für einige Sprachen. Nichts wird heruntergeladen, bis Sie auf Herunterladen tippen, und jeder funktioniert offline.</string>
     <string name="engines_suggestion">Für %2$s ist eine bessere Engine verfügbar: %1$s (Download: %3$d MB). Tippen Sie auf Herunterladen, um sie zu installieren.</string>
     <string name="engines_use_alternative">Diese Engines verwenden, wenn installiert</string>
-    <string name="engines_use_alternative_subtitle">Ausschalten, um immer das oben ausgewählte Whisper-Modell zu verwenden.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Deutsch, Spanisch, Französisch. Etwa so genau wie Whisper Small, aber viel schneller und leichter.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Chinesisch. Für Mandarin deutlich genauer als Whisper Base.</string>
+    <string name="engines_use_alternative_subtitle">Ausschalten, um immer das oben ausgewählte Sprachmodell zu verwenden.</string>
+    <string name="engine_nemo_name">Schnelle Engine für Deutsch, Spanisch und Französisch</string>
+    <string name="engine_nemo_desc">Deutsch, Spanisch, Französisch. Etwa so genau wie das Modell Small, aber viel schneller und leichter.</string>
+    <string name="engine_sense_voice_name">Chinesisch-Engine</string>
+    <string name="engine_sense_voice_desc">Chinesisch. Für Mandarin deutlich genauer als das Modell Base.</string>
+    <string name="engine_default_name">Standard-Sprachmodell</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Installiert</string>
     <string name="engine_downloading">Herunterladen\u2026 %1$d%%</string>

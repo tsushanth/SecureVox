@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; सहायता</string>
     <string name="faq_subtitle">सामान्य प्रश्न और समस्या निवारण</string>
     <string name="about_version">संस्करण %1$s</string>
-    <string name="about_description">Whisper AI द्वारा संचालित गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन। सारी प्रोसेसिंग आपके डिवाइस पर होती है \u2013 आपका ऑडियो कभी भी आपके फ़ोन से बाहर नहीं जाता।</string>
+    <string name="about_description">गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन जो आपके डिवाइस पर चलता है। सारी प्रोसेसिंग आपके डिवाइस पर होती है \u2013 आपका ऑडियो कभी भी आपके फ़ोन से बाहर नहीं जाता।</string>
     <string name="select_language">भाषा चुनें</string>
     <string name="select_theme">थीम चुनें</string>
     <string name="theme_follow_system">सिस्टम सेटिंग्स का पालन करें</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">SecureVox में आपका स्वागत है</string>
     <string name="welcome_subtitle">गोपनीयता-प्रथम वॉइस ट्रांसक्रिप्शन</string>
     <string name="download_ai_model">AI मॉडल डाउनलोड करें</string>
-    <string name="download_model_description">SecureVox को आपकी वॉइस रिकॉर्डिंग को डिवाइस पर ट्रांसक्राइब करने के लिए Whisper AI मॉडल (~%1$d MB) डाउनलोड करना होगा।</string>
+    <string name="download_model_description">SecureVox को आपकी वॉइस रिकॉर्डिंग को डिवाइस पर ट्रांसक्राइब करने के लिए स्पीच मॉडल (~%1$d MB) डाउनलोड करना होगा।</string>
     <string name="download_with_size">डाउनलोड करें (%1$d MB)</string>
     <string name="downloading_progress">डाउनलोड हो रहा है\u2026 %1$d%%</string>
     <string name="download_complete">डाउनलोड पूर्ण!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">कुछ भाषाओं के लिए वैकल्पिक रिकग्नाइज़र। जब तक आप डाउनलोड पर टैप नहीं करते, कुछ डाउनलोड नहीं होता, और हर एक ऑफ़लाइन काम करता है।</string>
     <string name="engines_suggestion">%2$s के लिए बेहतर इंजन उपलब्ध है: %1$s (%3$d MB डाउनलोड)। इंस्टॉल करने के लिए डाउनलोड पर टैप करें।</string>
     <string name="engines_use_alternative">इंस्टॉल होने पर इन इंजनों का उपयोग करें</string>
-    <string name="engines_use_alternative_subtitle">ऊपर चुना गया Whisper मॉडल ही हमेशा इस्तेमाल करने के लिए बंद करें।</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">जर्मन, स्पेनिश, फ़्रेंच। लगभग Whisper Small जितना सटीक, काफ़ी तेज़ और हल्का।</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">चीनी। मैंडरिन के लिए Whisper Base से कहीं ज़्यादा सटीक।</string>
+    <string name="engines_use_alternative_subtitle">ऊपर चुना गया स्पीच मॉडल ही हमेशा इस्तेमाल करने के लिए बंद करें।</string>
+    <string name="engine_nemo_name">जर्मन, स्पेनिश और फ़्रेंच के लिए तेज़ इंजन</string>
+    <string name="engine_nemo_desc">जर्मन, स्पेनिश, फ़्रेंच। लगभग Small मॉडल जितना सटीक, काफ़ी तेज़ और हल्का।</string>
+    <string name="engine_sense_voice_name">चीनी भाषा का इंजन</string>
+    <string name="engine_sense_voice_desc">चीनी। मैंडरिन के लिए Base मॉडल से कहीं ज़्यादा सटीक।</string>
+    <string name="engine_default_name">मानक स्पीच मॉडल</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">इंस्टॉल हो गया</string>
     <string name="engine_downloading">डाउनलोड हो रहा है\u2026 %1$d%%</string>

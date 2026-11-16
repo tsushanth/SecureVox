@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; Help</string>
     <string name="faq_subtitle">Veelgestelde vragen en probleemoplossing</string>
     <string name="about_version">Versie %1$s</string>
-    <string name="about_description">Privacy-first spraaktranscriptie aangedreven door Whisper AI. Alle verwerking gebeurt op je apparaat - je audio verlaat nooit je telefoon.</string>
+    <string name="about_description">Privacy-first spraaktranscriptie die op je apparaat draait. Alle verwerking gebeurt op je apparaat - je audio verlaat nooit je telefoon.</string>
     <string name="select_language">Selecteer taal</string>
     <string name="select_theme">Selecteer thema</string>
     <string name="theme_follow_system">Systeeminstellingen volgen</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Welkom bij SecureVox</string>
     <string name="welcome_subtitle">Privacy-first spraaktranscriptie</string>
     <string name="download_ai_model">AI-model downloaden</string>
-    <string name="download_model_description">SecureVox moet het Whisper AI-model (~%1$d MB) downloaden om je spraakopnames op het apparaat te transcriberen.</string>
+    <string name="download_model_description">SecureVox moet het spraakmodel (~%1$d MB) downloaden om je spraakopnames op het apparaat te transcriberen.</string>
     <string name="download_with_size">Downloaden (%1$d MB)</string>
     <string name="downloading_progress">Downloaden\u2026 %1$d%%</string>
     <string name="download_complete">Download voltooid!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Optionele herkenners voor sommige talen. Er wordt niets gedownload totdat je op Downloaden tikt, en elk werkt offline.</string>
     <string name="engines_suggestion">Er is een betere engine voor %2$s beschikbaar: %1$s (download van %3$d MB). Tik op Downloaden om te installeren.</string>
     <string name="engines_use_alternative">Deze engines gebruiken wanneer geïnstalleerd</string>
-    <string name="engines_use_alternative_subtitle">Zet uit om altijd het hierboven geselecteerde Whisper-model te gebruiken.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Duits, Spaans, Frans. Ongeveer even nauwkeurig als Whisper Small, veel sneller en lichter.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Chinees. Veel nauwkeuriger dan Whisper Base voor Mandarijn.</string>
+    <string name="engines_use_alternative_subtitle">Zet uit om altijd het hierboven geselecteerde spraakmodel te gebruiken.</string>
+    <string name="engine_nemo_name">Snelle engine voor Duits, Spaans en Frans</string>
+    <string name="engine_nemo_desc">Duits, Spaans, Frans. Ongeveer even nauwkeurig als het model Small, veel sneller en lichter.</string>
+    <string name="engine_sense_voice_name">Chinese engine</string>
+    <string name="engine_sense_voice_desc">Chinees. Veel nauwkeuriger dan het model Base voor Mandarijn.</string>
+    <string name="engine_default_name">Standaard spraakmodel</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Geïnstalleerd</string>
     <string name="engine_downloading">Downloaden\u2026 %1$d%%</string>

@@ -88,7 +88,7 @@
     <string name="faq_and_help">常见问题 &amp; 帮助</string>
     <string name="faq_subtitle">常见问题和故障排除</string>
     <string name="about_version">版本 %1$s</string>
-    <string name="about_description">由 Whisper AI 驱动的隐私优先语音转录。所有处理均在您的设备上完成 \u2013 您的音频永远不会离开您的手机。</string>
+    <string name="about_description">在您的设备上运行的隐私优先语音转录。所有处理均在您的设备上完成 \u2013 您的音频永远不会离开您的手机。</string>
     <string name="select_language">选择语言</string>
     <string name="select_theme">选择主题</string>
     <string name="theme_follow_system">跟随系统设置</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">欢迎使用 SecureVox</string>
     <string name="welcome_subtitle">隐私优先的语音转录</string>
     <string name="download_ai_model">下载 AI 模型</string>
-    <string name="download_model_description">SecureVox 需要下载 Whisper AI 模型（约%1$d MB）以在设备上转录您的语音录音。</string>
+    <string name="download_model_description">SecureVox 需要下载语音模型（约%1$d MB）以在设备上转录您的语音录音。</string>
     <string name="download_with_size">下载 (%1$d MB)</string>
     <string name="downloading_progress">正在下载\u2026 %1$d%%</string>
     <string name="download_complete">下载完成！</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">适用于部分语言的可选识别器。点击“下载”之前不会下载任何内容，且都可离线使用。</string>
     <string name="engines_suggestion">%2$s 有更好的引擎：%1$s（需下载 %3$d MB）。点击“下载”即可安装。</string>
     <string name="engines_use_alternative">已安装时使用这些引擎</string>
-    <string name="engines_use_alternative_subtitle">关闭后，将始终使用上方选择的 Whisper 模型。</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">德语、西班牙语、法语。准确度与 Whisper Small 相当，但更快、更轻量。</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">中文。普通话的准确度远高于 Whisper Base。</string>
+    <string name="engines_use_alternative_subtitle">关闭后，将始终使用上方选择的语音模型。</string>
+    <string name="engine_nemo_name">适用于德语、西班牙语和法语的快速引擎</string>
+    <string name="engine_nemo_desc">德语、西班牙语、法语。准确度与 Small 模型相当，但更快、更轻量。</string>
+    <string name="engine_sense_voice_name">中文引擎</string>
+    <string name="engine_sense_voice_desc">中文。普通话的准确度远高于 Base 模型。</string>
+    <string name="engine_default_name">标准语音模型</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">已安装</string>
     <string name="engine_downloading">正在下载\u2026 %1$d%%</string>

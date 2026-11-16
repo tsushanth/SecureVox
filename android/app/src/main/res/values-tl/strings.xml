@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; Tulong</string>
     <string name="faq_subtitle">Mga karaniwang tanong at troubleshooting</string>
     <string name="about_version">Bersyon %1$s</string>
-    <string name="about_description">Privacy-first na voice transcription na pinapagana ng Whisper AI. Lahat ng processing ay nangyayari sa iyong device - hindi kailanman aalis ang iyong audio sa iyong telepono.</string>
+    <string name="about_description">Privacy-first na voice transcription na tumatakbo sa iyong device. Lahat ng processing ay nangyayari sa iyong device - hindi kailanman aalis ang iyong audio sa iyong telepono.</string>
     <string name="select_language">Pumili ng Wika</string>
     <string name="select_theme">Pumili ng Tema</string>
     <string name="theme_follow_system">Sundin ang mga setting ng system</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Maligayang Pagdating sa SecureVox</string>
     <string name="welcome_subtitle">Privacy-first na voice transcription</string>
     <string name="download_ai_model">I-download ang AI Model</string>
-    <string name="download_model_description">Kailangan ng SecureVox na i-download ang Whisper AI model (~%1$d MB) para ma-transcribe ang iyong mga voice recording sa device.</string>
+    <string name="download_model_description">Kailangan ng SecureVox na i-download ang speech model (~%1$d MB) para ma-transcribe ang iyong mga voice recording sa device.</string>
     <string name="download_with_size">I-download (%1$d MB)</string>
     <string name="downloading_progress">Nagda-download\u2026 %1$d%%</string>
     <string name="download_complete">Kumpleto na ang download!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Mga opsyonal na recognizer para sa ilang wika. Walang magda-download hanggang hindi mo tina-tap ang I-download, at gumagana offline ang bawat isa.</string>
     <string name="engines_suggestion">May mas magandang engine para sa %2$s: %1$s (%3$d MB na download). I-tap ang I-download para i-install ito.</string>
     <string name="engines_use_alternative">Gamitin ang mga engine na ito kapag naka-install</string>
-    <string name="engines_use_alternative_subtitle">I-off para laging gamitin ang Whisper na model na napili sa itaas.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Aleman, Espanyol, Pranses. Halos kasingtumpak ng Whisper Small, mas mabilis at mas magaan.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Chinese. Mas tumpak kaysa sa Whisper Base para sa Mandarin.</string>
+    <string name="engines_use_alternative_subtitle">I-off para laging gamitin ang speech model na napili sa itaas.</string>
+    <string name="engine_nemo_name">Mabilis na engine para sa German, Spanish at French</string>
+    <string name="engine_nemo_desc">Aleman, Espanyol, Pranses. Halos kasingtumpak ng Small na model, mas mabilis at mas magaan.</string>
+    <string name="engine_sense_voice_name">Engine para sa Chinese</string>
+    <string name="engine_sense_voice_desc">Chinese. Mas tumpak kaysa sa Base na model para sa Mandarin.</string>
+    <string name="engine_default_name">Karaniwang speech model</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Naka-install</string>
     <string name="engine_downloading">Nagda-download\u2026 %1$d%%</string>

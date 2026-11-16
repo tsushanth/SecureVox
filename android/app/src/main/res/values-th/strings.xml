@@ -88,7 +88,7 @@
     <string name="faq_and_help">คำถามที่พบบ่อย &amp; ช่วยเหลือ</string>
     <string name="faq_subtitle">คำถามทั่วไปและการแก้ไขปัญหา</string>
     <string name="about_version">เวอร์ชัน %1$s</string>
-    <string name="about_description">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว ขับเคลื่อนด้วย Whisper AI การประมวลผลทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ - เสียงของคุณไม่เคยออกจากโทรศัพท์</string>
+    <string name="about_description">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว ทำงานบนอุปกรณ์ของคุณ การประมวลผลทั้งหมดเกิดขึ้นบนอุปกรณ์ของคุณ - เสียงของคุณไม่เคยออกจากโทรศัพท์</string>
     <string name="select_language">เลือกภาษา</string>
     <string name="select_theme">เลือกธีม</string>
     <string name="theme_follow_system">ตามการตั้งค่าของระบบ</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">ยินดีต้อนรับสู่ SecureVox</string>
     <string name="welcome_subtitle">การถอดเสียงที่ให้ความสำคัญกับความเป็นส่วนตัว</string>
     <string name="download_ai_model">ดาวน์โหลดโมเดล AI</string>
-    <string name="download_model_description">SecureVox จำเป็นต้องดาวน์โหลดโมเดล Whisper AI (~%1$d MB) เพื่อถอดเสียงการบันทึกของคุณบนอุปกรณ์</string>
+    <string name="download_model_description">SecureVox จำเป็นต้องดาวน์โหลดโมเดลเสียงพูด (~%1$d MB) เพื่อถอดเสียงการบันทึกของคุณบนอุปกรณ์</string>
     <string name="download_with_size">ดาวน์โหลด (%1$d MB)</string>
     <string name="downloading_progress">กำลังดาวน์โหลด\u2026 %1$d%%</string>
     <string name="download_complete">ดาวน์โหลดเสร็จสิ้น!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">ตัวรู้จำเสียงเสริมสำหรับบางภาษา จะไม่มีการดาวน์โหลดจนกว่าคุณจะแตะดาวน์โหลด และแต่ละตัวทำงานออฟไลน์ได้</string>
     <string name="engines_suggestion">มีเอนจินที่ดีกว่าสำหรับ %2$s: %1$s (ดาวน์โหลด %3$d MB) แตะดาวน์โหลดเพื่อติดตั้ง</string>
     <string name="engines_use_alternative">ใช้เอนจินเหล่านี้เมื่อติดตั้งแล้ว</string>
-    <string name="engines_use_alternative_subtitle">ปิดเพื่อใช้โมเดล Whisper ที่เลือกไว้ด้านบนเสมอ</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">เยอรมัน สเปน ฝรั่งเศส แม่นยำพอ ๆ กับ Whisper Small แต่เร็วและเบากว่ามาก</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">ภาษาจีน แม่นยำกว่า Whisper Base มากสำหรับภาษาจีนกลาง</string>
+    <string name="engines_use_alternative_subtitle">ปิดเพื่อใช้โมเดลเสียงพูดที่เลือกไว้ด้านบนเสมอ</string>
+    <string name="engine_nemo_name">เอนจินเร็วสำหรับภาษาเยอรมัน สเปน และฝรั่งเศส</string>
+    <string name="engine_nemo_desc">เยอรมัน สเปน ฝรั่งเศส แม่นยำพอ ๆ กับโมเดล Small แต่เร็วและเบากว่ามาก</string>
+    <string name="engine_sense_voice_name">เอนจินภาษาจีน</string>
+    <string name="engine_sense_voice_desc">ภาษาจีน แม่นยำกว่าโมเดล Base มากสำหรับภาษาจีนกลาง</string>
+    <string name="engine_default_name">โมเดลเสียงพูดมาตรฐาน</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">ติดตั้งแล้ว</string>
     <string name="engine_downloading">กำลังดาวน์โหลด\u2026 %1$d%%</string>

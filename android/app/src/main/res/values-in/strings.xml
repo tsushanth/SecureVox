@@ -88,7 +88,7 @@
     <string name="faq_and_help">FAQ &amp; Bantuan</string>
     <string name="faq_subtitle">Pertanyaan umum dan pemecahan masalah</string>
     <string name="about_version">Versi %1$s</string>
-    <string name="about_description">Transkripsi suara yang mengutamakan privasi didukung oleh Whisper AI. Semua pemrosesan terjadi di perangkat Anda - audio Anda tidak pernah meninggalkan ponsel Anda.</string>
+    <string name="about_description">Transkripsi suara yang mengutamakan privasi dan berjalan di perangkat Anda. Semua pemrosesan terjadi di perangkat Anda - audio Anda tidak pernah meninggalkan ponsel Anda.</string>
     <string name="select_language">Pilih Bahasa</string>
     <string name="select_theme">Pilih Tema</string>
     <string name="theme_follow_system">Ikuti pengaturan sistem</string>
@@ -110,7 +110,7 @@
     <string name="welcome_title">Selamat Datang di SecureVox</string>
     <string name="welcome_subtitle">Transkripsi suara yang mengutamakan privasi</string>
     <string name="download_ai_model">Unduh Model AI</string>
-    <string name="download_model_description">SecureVox perlu mengunduh model Whisper AI (~%1$d MB) untuk mentranskrip rekaman suara Anda di perangkat.</string>
+    <string name="download_model_description">SecureVox perlu mengunduh model ucapan (~%1$d MB) untuk mentranskrip rekaman suara Anda di perangkat.</string>
     <string name="download_with_size">Unduh (%1$d MB)</string>
     <string name="downloading_progress">Mengunduh\u2026 %1$d%%</string>
     <string name="download_complete">Unduhan selesai!</string>
@@ -218,11 +218,12 @@
     <string name="engines_subtitle">Pengenal suara opsional untuk beberapa bahasa. Tidak ada yang diunduh sampai Anda mengetuk Unduh, dan masing-masing berfungsi offline.</string>
     <string name="engines_suggestion">Tersedia mesin yang lebih baik untuk %2$s: %1$s (unduhan %3$d MB). Ketuk Unduh untuk memasangnya.</string>
     <string name="engines_use_alternative">Gunakan mesin ini jika terpasang</string>
-    <string name="engines_use_alternative_subtitle">Matikan untuk selalu menggunakan model Whisper yang dipilih di atas.</string>
-    <string name="engine_nemo_name">NeMo FastConformer</string>
-    <string name="engine_nemo_desc">Jerman, Spanyol, Prancis. Akurasinya hampir sama dengan Whisper Small, jauh lebih cepat dan ringan.</string>
-    <string name="engine_sense_voice_name">SenseVoice</string>
-    <string name="engine_sense_voice_desc">Mandarin. Jauh lebih akurat daripada Whisper Base untuk bahasa Mandarin.</string>
+    <string name="engines_use_alternative_subtitle">Matikan untuk selalu menggunakan model ucapan yang dipilih di atas.</string>
+    <string name="engine_nemo_name">Mesin cepat untuk bahasa Jerman, Spanyol, dan Prancis</string>
+    <string name="engine_nemo_desc">Jerman, Spanyol, Prancis. Akurasinya hampir sama dengan model Small, jauh lebih cepat dan ringan.</string>
+    <string name="engine_sense_voice_name">Mesin bahasa Mandarin</string>
+    <string name="engine_sense_voice_desc">Mandarin. Jauh lebih akurat daripada model Base untuk bahasa Mandarin.</string>
+    <string name="engine_default_name">Model ucapan standar</string>
     <string name="engine_size_format">%1$d MB</string>
     <string name="engine_installed">Terpasang</string>
     <string name="engine_downloading">Mengunduh\u2026 %1$d%%</string>
