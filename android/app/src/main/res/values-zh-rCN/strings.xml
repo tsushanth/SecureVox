@@ -127,7 +127,6 @@
     <string name="expand">展开</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d 个词</string>
     <string name="add_word">添加词汇</string>
     <string name="import_from_clipboard">从剪贴板导入</string>
     <string name="export_to_clipboard">导出到剪贴板</string>
@@ -324,4 +323,75 @@
     <string name="funnel_reset">重置</string>
     <string name="funnel_reset_title">重置此列表？</string>
     <string name="funnel_reset_body">这会清除此处显示的次数和日期。您的录音、转录文本和设置不受影响。</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">跟随系统</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="model_desc_tiny">快速转录，适合简短笔记</string>
+    <string name="model_desc_base">速度与准确度兼顾</string>
+    <string name="model_desc_small">适用于移动设备的最高准确度</string>
+    <string name="model_accuracy_good">良好</string>
+    <string name="model_accuracy_better">更好</string>
+    <string name="model_accuracy_best">最佳</string>
+    <string name="model_speed_tiny">约为实时的 1 倍</string>
+    <string name="model_speed_base">约为实时的 2-3 倍</string>
+    <string name="model_speed_small">约为实时的 5-8 倍</string>
+    <string name="model_accuracy_speed">准确度：%1$s · 速度：%2$s</string>
+    <string name="export_format_txt">纯文本 (.txt)</string>
+    <string name="export_format_srt">SubRip 字幕 (.srt)</string>
+    <string name="export_format_vtt">WebVTT 字幕 (.vtt)</string>
+    <string name="language_auto_detect">自动检测</string>
+    <string name="read_aloud">朗读</string>
+    <string name="read_aloud_loading_voices">正在加载语音…</string>
+    <string name="read_aloud_preparing">正在准备…</string>
+    <string name="read_aloud_tap_read">点按“朗读”开始。</string>
+    <string name="read_aloud_preparing_engine">正在准备语音引擎…</string>
+    <string name="read_aloud_progress">正在朗读… %1$d%%</string>
+    <string name="read_aloud_paused">已暂停。</string>
+    <string name="read_aloud_stop">停止</string>
+    <string name="read_aloud_read">朗读</string>
+    <string name="read_aloud_done">完成</string>
+    <string name="faq_cat_general">常规</string>
+    <string name="faq_cat_recording">录音</string>
+    <string name="faq_cat_transcription">转录</string>
+    <string name="faq_cat_privacy">隐私与安全</string>
+    <string name="faq_cat_troubleshooting">故障排除</string>
+    <string name="faq_01_q">SecureVox 是什么？</string>
+    <string name="faq_01_a">SecureVox 是一款以隐私为先的语音转录应用。手机上的语音识别模型会把你的录音转成文字。SecureVox 不会上传你的音频或转录文本。</string>
+    <string name="faq_02_q">SecureVox 免费吗？</string>
+    <string name="faq_02_a">SecureVox 在 Google Play 上是一次性购买。没有订阅，没有应用内购买，也没有广告。</string>
+    <string name="faq_03_q">支持哪些语言？</string>
+    <string name="faq_03_a">SecureVox 提供 14 种语言和自动检测。准确度取决于语言和模型：默认的 Tiny 模型只适合英语，Base 还适合西班牙语和韩语，Small 适合大多数主要欧洲语言、日语和韩语。荷兰语、波兰语、中文和阿拉伯语即使使用 Small 准确度也相对较低，印地语为实验性支持。</string>
+    <string name="faq_04_q">如何开始录音？</string>
+    <string name="faq_04_a">点按屏幕底部的麦克风按钮开始录音，完成后点按停止按钮。录音会自动转录。</string>
+    <string name="faq_05_q">录音有时间限制吗？</string>
+    <string name="faq_05_a">录音没有时间限制，只受可用存储空间限制（每分钟约 2 MB）。很长的录音转录需要更久。说话人标签只会添加到约 30 分钟以内的录音。</string>
+    <string name="faq_06_q">可以导入音频文件吗？</string>
+    <string name="faq_06_a">可以。点按导入按钮并选择音频文件。SecureVox 支持 MP3、WAV 和 M4A 等常见音频格式，也可以转录视频文件中的声音。</string>
+    <string name="faq_07_q">转录的准确度如何？</string>
+    <string name="faq_07_a">准确度取决于语言和你选择的模型。Small 最准确但最慢，Tiny 最快但错误最多。背景噪音少、声音清晰的音频效果最好。</string>
+    <string name="faq_08_q">有哪些转录模型？</string>
+    <string name="faq_08_a">SecureVox 提供三种模型：\n\n• Tiny（约 78 MB）：最快，适合英语\n• Base（约 148 MB）：速度与准确度兼顾\n• Small（约 488 MB）：最准确，需要内存充足的手机\n\n你可以在设置中下载并切换模型。</string>
+    <string name="faq_09_q">为什么在我的设备上转录很慢？</string>
+    <string name="faq_09_a">转录速度取决于设备的处理能力。搭载更强芯片的新设备转录更快。可以试试 Tiny 模型以获得更快的结果，或分成较短的片段录音。</string>
+    <string name="faq_10_q">可以编辑转录文本吗？</string>
+    <string name="faq_10_a">暂时不行：转录文本无法在 SecureVox 内编辑。你可以复制文字，或导出为 TXT、SRT 或 VTT，再用其他应用编辑。</string>
+    <string name="faq_11_q">我的数据安全吗？</string>
+    <string name="faq_11_a">SecureVox 在你的设备上转录，不会上传你的音频或转录文本。录音存储在手机上的应用中。如果你在 Android 设置中开启了备份，Android 自动备份可能会把应用数据复制到你的 Google 账号。SecureVox 没有账号、没有广告，也没有分析 SDK。可选的匿名崩溃报告（应用版本、手机型号、错误类型；绝不包含音频或文字）默认关闭，除非你在设置中开启。</string>
+    <string name="faq_12_q">SecureVox 需要联网吗？</string>
+    <string name="faq_12_a">只需联网一次：首次使用 SecureVox 时会下载语音模型（Tiny，约 78 MB）。之后录音和转录无需联网。更大的模型（Base 约 148 MB，Small 约 488 MB）为可选下载。</string>
+    <string name="faq_13_q">我的数据存储在哪里？</string>
+    <string name="faq_13_a">所有录音和转录文本都存储在你设备上应用的私有存储区域，其他应用无法访问。你可以随时导出或删除数据。</string>
+    <string name="faq_14_q">转录时应用崩溃了</string>
+    <string name="faq_14_a">当设备内存不足时可能发生，使用较大的模型时尤其如此。可以尝试：\n\n• 使用占用内存最少的 Tiny 模型\n• 关闭其他应用以释放内存\n• 分成较短的片段录音\n• 重启设备</string>
+    <string name="faq_15_q">我的录音声音太小</string>
+    <string name="faq_15_a">让手机靠近说话的人，并避免用手或手机壳挡住麦克风。SecureVox 按手机麦克风提供的音量录音，没有增益调节。</string>
+    <string name="faq_16_q">转录有很多错误</string>
+    <string name="faq_16_a">以下建议可以提高准确度：\n\n• 在设置中使用更大的模型（Base 或 Small）\n• 在安静的环境中录音\n• 说话清晰，语速适中\n• 选择正确的语言，而不是自动检测</string>
+    <string name="faq_17_q">如何删除我的所有数据？</string>
+    <string name="faq_17_a">在列表中用录音旁边的垃圾桶图标删除录音；这会永久删除其音频和转录文本，且无法撤销。目前还没有“全部删除”按钮。卸载 SecureVox 会删除它存储在手机上的所有内容。</string>
+    <plurals name="words_count">
+        <item quantity="other">%1$d 个词</item>
+    </plurals>
 </resources>

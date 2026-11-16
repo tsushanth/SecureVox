@@ -127,7 +127,6 @@
     <string name="expand">Развернуть</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d слов</string>
     <string name="add_word">Добавить слово</string>
     <string name="import_from_clipboard">Импорт из буфера обмена</string>
     <string name="export_to_clipboard">Экспорт в буфер обмена</string>
@@ -324,4 +323,78 @@
     <string name="funnel_reset">Сбросить</string>
     <string name="funnel_reset_title">Сбросить этот список?</string>
     <string name="funnel_reset_body">Будут удалены показанные здесь количества и даты. Ваши записи, расшифровки и настройки не затрагиваются.</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">Системная</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Тёмная</string>
+    <string name="model_desc_tiny">Быстрая расшифровка, подходит для коротких заметок</string>
+    <string name="model_desc_base">Баланс скорости и точности</string>
+    <string name="model_desc_small">Наилучшая точность для мобильных устройств</string>
+    <string name="model_accuracy_good">Хорошая</string>
+    <string name="model_accuracy_better">Лучше</string>
+    <string name="model_accuracy_best">Лучшая</string>
+    <string name="model_speed_tiny">Примерно 1x реального времени</string>
+    <string name="model_speed_base">Примерно 2-3x реального времени</string>
+    <string name="model_speed_small">Примерно 5-8x реального времени</string>
+    <string name="model_accuracy_speed">Точность: %1$s · Скорость: %2$s</string>
+    <string name="export_format_txt">Обычный текст (.txt)</string>
+    <string name="export_format_srt">Субтитры SubRip (.srt)</string>
+    <string name="export_format_vtt">Субтитры WebVTT (.vtt)</string>
+    <string name="language_auto_detect">Определять автоматически</string>
+    <string name="read_aloud">Читать вслух</string>
+    <string name="read_aloud_loading_voices">Загрузка голосов…</string>
+    <string name="read_aloud_preparing">Подготовка…</string>
+    <string name="read_aloud_tap_read">Нажмите «Читать», чтобы начать.</string>
+    <string name="read_aloud_preparing_engine">Подготовка голосового движка…</string>
+    <string name="read_aloud_progress">Чтение… %1$d%%</string>
+    <string name="read_aloud_paused">Пауза.</string>
+    <string name="read_aloud_stop">Стоп</string>
+    <string name="read_aloud_read">Читать</string>
+    <string name="read_aloud_done">Готово</string>
+    <string name="faq_cat_general">Общие</string>
+    <string name="faq_cat_recording">Запись</string>
+    <string name="faq_cat_transcription">Расшифровка</string>
+    <string name="faq_cat_privacy">Конфиденциальность и безопасность</string>
+    <string name="faq_cat_troubleshooting">Устранение неполадок</string>
+    <string name="faq_01_q">Что такое SecureVox?</string>
+    <string name="faq_01_a">SecureVox — приложение для расшифровки речи, в котором конфиденциальность стоит на первом месте. Модель распознавания речи на вашем телефоне превращает записи в текст. SecureVox не загружает ваше аудио и расшифровки.</string>
+    <string name="faq_02_q">SecureVox бесплатный?</string>
+    <string name="faq_02_a">SecureVox — это разовая покупка в Google Play. Нет подписки, встроенных покупок и рекламы.</string>
+    <string name="faq_03_q">Какие языки поддерживаются?</string>
+    <string name="faq_03_a">SecureVox предлагает 14 языков и автоматическое определение. Точность зависит от языка и модели: модель Tiny по умолчанию хороша только для английского, Base подходит также для испанского и корейского, а Small — для большинства основных европейских языков, японского и корейского. Нидерландский, польский, китайский и арабский остаются менее точными даже с Small, а хинди — экспериментальный язык.</string>
+    <string name="faq_04_q">Как начать запись?</string>
+    <string name="faq_04_a">Нажмите кнопку микрофона внизу экрана, чтобы начать запись. Когда закончите, нажмите кнопку остановки. Запись расшифровывается автоматически.</string>
+    <string name="faq_05_q">Есть ли ограничение по времени записи?</string>
+    <string name="faq_05_a">Время записи не ограничено; ограничение — свободное место в памяти (около 2 МБ в минуту). Очень длинные записи расшифровываются дольше. Метки говорящих добавляются только к записям длительностью до 30 минут.</string>
+    <string name="faq_06_q">Можно ли импортировать аудиофайлы?</string>
+    <string name="faq_06_a">Да. Нажмите кнопку импорта и выберите аудиофайл. SecureVox поддерживает распространённые форматы, такие как MP3, WAV и M4A, а также может расшифровывать звук из видеофайлов.</string>
+    <string name="faq_07_q">Насколько точна расшифровка?</string>
+    <string name="faq_07_a">Точность зависит от языка и выбранной модели. Small — самая точная и самая медленная, Tiny — самая быстрая, но чаще ошибается. Лучшие результаты даёт чёткий звук с малым фоновым шумом.</string>
+    <string name="faq_08_q">Какие есть модели расшифровки?</string>
+    <string name="faq_08_a">SecureVox предлагает три модели:\n\n• Tiny (около 78 МБ): самая быстрая, хороша для английского\n• Base (около 148 МБ): баланс скорости и точности\n• Small (около 488 МБ): самая точная, требует телефона с большим объёмом памяти\n\nМодели можно скачивать и переключать в настройках.</string>
+    <string name="faq_09_q">Почему расшифровка идёт медленно на моём устройстве?</string>
+    <string name="faq_09_a">Скорость зависит от вычислительной мощности устройства. Новые устройства с более мощными чипами расшифровывают быстрее. Попробуйте модель Tiny для более быстрого результата или записывайте более короткими фрагментами.</string>
+    <string name="faq_10_q">Можно ли редактировать расшифровку?</string>
+    <string name="faq_10_a">Пока нет: расшифровки нельзя редактировать внутри SecureVox. Вы можете скопировать текст или экспортировать его в TXT, SRT или VTT и отредактировать в другом приложении.</string>
+    <string name="faq_11_q">Мои данные в безопасности?</string>
+    <string name="faq_11_a">SecureVox расшифровывает речь на вашем устройстве и не загружает ваше аудио и расшифровки. Записи хранятся в приложении на вашем телефоне. Автозагрузка Android может копировать данные приложения в ваш аккаунт Google, если резервное копирование включено в настройках Android. В SecureVox нет аккаунта, рекламы и аналитического SDK. Необязательные анонимные отчёты о сбоях (версия приложения, модель телефона, тип ошибки; никогда аудио или текст) выключены, пока вы не включите их в настройках.</string>
+    <string name="faq_12_q">Нужно ли SecureVox подключение к интернету?</string>
+    <string name="faq_12_a">Только один раз: при первом запуске SecureVox скачивает модель речи (Tiny, около 78 МБ). После этого запись и расшифровка работают без подключения. Более крупные модели (Base около 148 МБ, Small около 488 МБ) скачиваются по желанию.</string>
+    <string name="faq_13_q">Где хранятся мои данные?</string>
+    <string name="faq_13_a">Все записи и расшифровки хранятся локально на вашем устройстве, в закрытой области памяти приложения. Другие приложения не имеют к ним доступа. Вы можете в любой момент экспортировать или удалить свои данные.</string>
+    <string name="faq_14_q">Приложение закрылось во время расшифровки</string>
+    <string name="faq_14_a">Это может случиться, если на устройстве мало памяти, особенно с крупными моделями. Попробуйте:\n\n• Использовать модель Tiny — она занимает меньше всего памяти\n• Закрыть другие приложения, чтобы освободить память\n• Записывать более короткими фрагментами\n• Перезагрузить устройство</string>
+    <string name="faq_15_q">Мои записи слишком тихие</string>
+    <string name="faq_15_a">Поднесите телефон ближе к говорящему и не закрывайте микрофон рукой или чехлом. SecureVox записывает с громкостью, которую даёт микрофон телефона, и не имеет регулировки усиления.</string>
+    <string name="faq_16_q">В расшифровке много ошибок</string>
+    <string name="faq_16_a">Эти советы повышают точность:\n\n• Выберите более крупную модель (Base или Small) в настройках\n• Записывайте в тихом месте\n• Говорите чётко и в умеренном темпе\n• Выберите нужный язык вместо автоматического определения</string>
+    <string name="faq_17_q">Как удалить все мои данные?</string>
+    <string name="faq_17_a">Удалите запись значком корзины рядом с ней в списке; её аудио и расшифровка будут удалены навсегда, это нельзя отменить. Кнопки «удалить всё» пока нет. При удалении SecureVox стирается всё, что приложение сохранило на вашем телефоне.</string>
+    <plurals name="words_count">
+        <item quantity="one">%1$d слово</item>
+        <item quantity="few">%1$d слова</item>
+        <item quantity="many">%1$d слов</item>
+        <item quantity="other">%1$d слова</item>
+    </plurals>
 </resources>

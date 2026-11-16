@@ -127,7 +127,6 @@
     <string name="expand">विस्तृत करें</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d शब्द</string>
     <string name="add_word">शब्द जोड़ें</string>
     <string name="import_from_clipboard">क्लिपबोर्ड से आयात करें</string>
     <string name="export_to_clipboard">क्लिपबोर्ड पर निर्यात करें</string>
@@ -324,4 +323,76 @@
     <string name="funnel_reset">रीसेट करें</string>
     <string name="funnel_reset_title">यह सूची रीसेट करें?</string>
     <string name="funnel_reset_body">इससे यहाँ दिखाई गई गिनती और तारीखें साफ़ हो जाएँगी। आपकी रिकॉर्डिंग, ट्रांसक्रिप्ट और सेटिंग्स पर कोई असर नहीं पड़ेगा।</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">सिस्टम</string>
+    <string name="theme_light">लाइट</string>
+    <string name="theme_dark">डार्क</string>
+    <string name="model_desc_tiny">तेज़ ट्रांसक्रिप्शन, छोटे नोट्स के लिए अच्छा</string>
+    <string name="model_desc_base">गति और सटीकता का संतुलन</string>
+    <string name="model_desc_small">मोबाइल डिवाइस के लिए सबसे अच्छी सटीकता</string>
+    <string name="model_accuracy_good">अच्छी</string>
+    <string name="model_accuracy_better">बेहतर</string>
+    <string name="model_accuracy_best">सर्वश्रेष्ठ</string>
+    <string name="model_speed_tiny">लगभग 1x रीयल टाइम</string>
+    <string name="model_speed_base">लगभग 2-3x रीयल टाइम</string>
+    <string name="model_speed_small">लगभग 5-8x रीयल टाइम</string>
+    <string name="model_accuracy_speed">सटीकता: %1$s · गति: %2$s</string>
+    <string name="export_format_txt">सादा टेक्स्ट (.txt)</string>
+    <string name="export_format_srt">SubRip सबटाइटल (.srt)</string>
+    <string name="export_format_vtt">WebVTT सबटाइटल (.vtt)</string>
+    <string name="language_auto_detect">अपने आप पहचानें</string>
+    <string name="read_aloud">ज़ोर से पढ़ें</string>
+    <string name="read_aloud_loading_voices">आवाज़ें लोड हो रही हैं…</string>
+    <string name="read_aloud_preparing">तैयार हो रहा है…</string>
+    <string name="read_aloud_tap_read">शुरू करने के लिए पढ़ें पर टैप करें।</string>
+    <string name="read_aloud_preparing_engine">वॉइस इंजन तैयार हो रहा है…</string>
+    <string name="read_aloud_progress">पढ़ा जा रहा है… %1$d%%</string>
+    <string name="read_aloud_paused">रुका हुआ है।</string>
+    <string name="read_aloud_stop">रोकें</string>
+    <string name="read_aloud_read">पढ़ें</string>
+    <string name="read_aloud_done">हो गया</string>
+    <string name="faq_cat_general">सामान्य</string>
+    <string name="faq_cat_recording">रिकॉर्डिंग</string>
+    <string name="faq_cat_transcription">ट्रांसक्रिप्शन</string>
+    <string name="faq_cat_privacy">गोपनीयता और सुरक्षा</string>
+    <string name="faq_cat_troubleshooting">समस्या निवारण</string>
+    <string name="faq_01_q">SecureVox क्या है?</string>
+    <string name="faq_01_a">SecureVox एक ऐसा वॉइस ट्रांसक्रिप्शन ऐप है जो गोपनीयता को पहले रखता है। आपके फ़ोन पर चलने वाला स्पीच रिकग्निशन मॉडल आपकी रिकॉर्डिंग को टेक्स्ट में बदलता है। SecureVox आपका ऑडियो या ट्रांसक्रिप्ट अपलोड नहीं करता।</string>
+    <string name="faq_02_q">क्या SecureVox मुफ़्त है?</string>
+    <string name="faq_02_a">SecureVox Google Play पर एक बार की खरीद है। कोई सब्सक्रिप्शन, इन-ऐप खरीदारी या विज्ञापन नहीं है।</string>
+    <string name="faq_03_q">कौन-सी भाषाएँ समर्थित हैं?</string>
+    <string name="faq_03_a">SecureVox 14 भाषाएँ और ऑटो-डिटेक्ट देता है। सटीकता भाषा और मॉडल पर निर्भर करती है: डिफ़ॉल्ट Tiny मॉडल केवल अंग्रेज़ी के लिए अच्छा है, Base स्पेनिश और कोरियाई के लिए भी ठीक है, और Small अधिकतर प्रमुख यूरोपीय भाषाओं, जापानी और कोरियाई के लिए उपयुक्त है। डच, पोलिश, चीनी और अरबी Small के साथ भी कम सटीक रहती हैं, और हिंदी प्रायोगिक है।</string>
+    <string name="faq_04_q">मैं रिकॉर्डिंग कैसे शुरू करूँ?</string>
+    <string name="faq_04_a">रिकॉर्डिंग शुरू करने के लिए स्क्रीन के नीचे माइक्रोफ़ोन बटन पर टैप करें। पूरा होने पर स्टॉप बटन पर टैप करें। रिकॉर्डिंग अपने आप ट्रांसक्राइब हो जाती है।</string>
+    <string name="faq_05_q">क्या रिकॉर्डिंग की कोई समय सीमा है?</string>
+    <string name="faq_05_a">रिकॉर्डिंग की कोई समय सीमा नहीं है; यह आपकी खाली स्टोरेज (लगभग 2 MB प्रति मिनट) से सीमित है। बहुत लंबी रिकॉर्डिंग को ट्रांसक्राइब होने में अधिक समय लगता है। स्पीकर लेबल केवल लगभग 30 मिनट तक की रिकॉर्डिंग में जोड़े जाते हैं।</string>
+    <string name="faq_06_q">क्या मैं ऑडियो फ़ाइलें इंपोर्ट कर सकता/सकती हूँ?</string>
+    <string name="faq_06_a">हाँ। इंपोर्ट बटन पर टैप करें और कोई ऑडियो फ़ाइल चुनें। SecureVox MP3, WAV और M4A जैसे आम ऑडियो फ़ॉर्मैट सपोर्ट करता है, और वीडियो फ़ाइलों की आवाज़ भी ट्रांसक्राइब कर सकता है।</string>
+    <string name="faq_07_q">ट्रांसक्रिप्शन कितना सटीक है?</string>
+    <string name="faq_07_a">सटीकता भाषा और आपके चुने मॉडल पर निर्भर करती है। Small सबसे सटीक और सबसे धीमा है, Tiny सबसे तेज़ है और सबसे ज़्यादा गलतियाँ करता है। कम बैकग्राउंड शोर वाला साफ़ ऑडियो सबसे अच्छे नतीजे देता है।</string>
+    <string name="faq_08_q">ट्रांसक्रिप्शन के अलग-अलग मॉडल कौन-से हैं?</string>
+    <string name="faq_08_a">SecureVox तीन मॉडल देता है:\n\n• Tiny (लगभग 78 MB): सबसे तेज़, अंग्रेज़ी के लिए अच्छा\n• Base (लगभग 148 MB): गति और सटीकता का संतुलन\n• Small (लगभग 488 MB): सबसे सटीक, ज़्यादा मेमोरी वाला फ़ोन चाहिए\n\nआप सेटिंग में मॉडल डाउनलोड करके बदल सकते हैं।</string>
+    <string name="faq_09_q">मेरे डिवाइस पर ट्रांसक्रिप्शन धीमा क्यों है?</string>
+    <string name="faq_09_a">गति आपके डिवाइस की प्रोसेसिंग क्षमता पर निर्भर करती है। ज़्यादा शक्तिशाली चिप वाले नए डिवाइस तेज़ी से ट्रांसक्राइब करते हैं। तेज़ नतीजों के लिए Tiny मॉडल आज़माएँ, या छोटे हिस्सों में रिकॉर्ड करें।</string>
+    <string name="faq_10_q">क्या मैं ट्रांसक्रिप्शन एडिट कर सकता/सकती हूँ?</string>
+    <string name="faq_10_a">अभी नहीं: SecureVox के अंदर ट्रांसक्रिप्ट एडिट नहीं किए जा सकते। आप टेक्स्ट कॉपी कर सकते हैं या TXT, SRT अथवा VTT में एक्सपोर्ट करके किसी दूसरे ऐप में एडिट कर सकते हैं।</string>
+    <string name="faq_11_q">क्या मेरा डेटा सुरक्षित है?</string>
+    <string name="faq_11_a">SecureVox आपके डिवाइस पर ट्रांसक्राइब करता है और आपका ऑडियो या ट्रांसक्रिप्ट अपलोड नहीं करता। रिकॉर्डिंग आपके फ़ोन पर ऐप में सेव रहती हैं। अगर Android सेटिंग में बैकअप चालू है, तो Android ऑटो बैकअप ऐप का डेटा आपके Google खाते में कॉपी कर सकता है। SecureVox में कोई खाता, विज्ञापन या एनालिटिक्स SDK नहीं है। वैकल्पिक गुमनाम क्रैश रिपोर्ट (ऐप वर्शन, फ़ोन मॉडल, एरर का प्रकार; कभी ऑडियो या टेक्स्ट नहीं) तब तक बंद रहती हैं जब तक आप उन्हें सेटिंग में चालू नहीं करते।</string>
+    <string name="faq_12_q">क्या SecureVox को इंटरनेट कनेक्शन चाहिए?</string>
+    <string name="faq_12_a">सिर्फ़ एक बार: SecureVox पहली बार इस्तेमाल करने पर स्पीच मॉडल (Tiny, लगभग 78 MB) डाउनलोड करता है। इसके बाद रिकॉर्डिंग और ट्रांसक्रिप्शन बिना कनेक्शन के चलते हैं। बड़े मॉडल (Base लगभग 148 MB, Small लगभग 488 MB) वैकल्पिक डाउनलोड हैं।</string>
+    <string name="faq_13_q">मेरा डेटा कहाँ स्टोर होता है?</string>
+    <string name="faq_13_a">सभी रिकॉर्डिंग और ट्रांसक्रिप्ट आपके डिवाइस पर ऐप के निजी स्टोरेज क्षेत्र में स्थानीय रूप से स्टोर होते हैं। दूसरे ऐप इस डेटा तक नहीं पहुँच सकते। आप अपना डेटा कभी भी एक्सपोर्ट या डिलीट कर सकते हैं।</string>
+    <string name="faq_14_q">ट्रांसक्रिप्शन के दौरान ऐप क्रैश हो गया</string>
+    <string name="faq_14_a">ऐसा तब हो सकता है जब डिवाइस की मेमोरी कम हो, खासकर बड़े मॉडल के साथ। ये आज़माएँ:\n\n• Tiny मॉडल इस्तेमाल करें, जो सबसे कम मेमोरी लेता है\n• मेमोरी खाली करने के लिए दूसरे ऐप बंद करें\n• छोटे हिस्सों में रिकॉर्ड करें\n• डिवाइस को रीस्टार्ट करें</string>
+    <string name="faq_15_q">मेरी रिकॉर्डिंग की आवाज़ बहुत धीमी है</string>
+    <string name="faq_15_a">फ़ोन को बोलने वाले के पास रखें और माइक्रोफ़ोन को हाथ या केस से न ढकें। SecureVox उसी वॉल्यूम पर रिकॉर्ड करता है जो आपके फ़ोन का माइक्रोफ़ोन देता है, और इसमें गेन कंट्रोल नहीं है।</string>
+    <string name="faq_16_q">ट्रांसक्रिप्शन में बहुत गलतियाँ हैं</string>
+    <string name="faq_16_a">बेहतर सटीकता के लिए ये सुझाव आज़माएँ:\n\n• सेटिंग में बड़ा मॉडल (Base या Small) इस्तेमाल करें\n• शांत जगह में रिकॉर्ड करें\n• साफ़ और मध्यम गति से बोलें\n• ऑटो-डिटेक्ट की जगह सही भाषा चुनें</string>
+    <string name="faq_17_q">मैं अपना सारा डेटा कैसे डिलीट करूँ?</string>
+    <string name="faq_17_a">सूची में रिकॉर्डिंग के बगल के कूड़ेदान आइकन से उसे डिलीट करें; इससे उसका ऑडियो और ट्रांसक्रिप्ट हमेशा के लिए हट जाता है और इसे वापस नहीं किया जा सकता। सब कुछ डिलीट करने का बटन अभी नहीं है। SecureVox अनइंस्टॉल करने पर ऐप ने आपके फ़ोन पर जो कुछ सेव किया था, वह सब हट जाता है।</string>
+    <plurals name="words_count">
+        <item quantity="one">%1$d शब्द</item>
+        <item quantity="other">%1$d शब्द</item>
+    </plurals>
 </resources>

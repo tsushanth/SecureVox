@@ -127,7 +127,6 @@
     <string name="expand">펼치기</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d개 단어</string>
     <string name="add_word">단어 추가</string>
     <string name="import_from_clipboard">클립보드에서 가져오기</string>
     <string name="export_to_clipboard">클립보드로 내보내기</string>
@@ -324,4 +323,75 @@
     <string name="funnel_reset">초기화</string>
     <string name="funnel_reset_title">이 목록을 초기화할까요?</string>
     <string name="funnel_reset_body">여기에 표시된 횟수와 날짜가 지워집니다. 녹음, 텍스트 변환 결과, 설정에는 영향이 없습니다.</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">시스템</string>
+    <string name="theme_light">라이트</string>
+    <string name="theme_dark">다크</string>
+    <string name="model_desc_tiny">빠른 텍스트 변환, 짧은 메모에 적합</string>
+    <string name="model_desc_base">속도와 정확도의 균형</string>
+    <string name="model_desc_small">모바일 기기에서 가장 높은 정확도</string>
+    <string name="model_accuracy_good">좋음</string>
+    <string name="model_accuracy_better">더 좋음</string>
+    <string name="model_accuracy_best">최고</string>
+    <string name="model_speed_tiny">실시간의 약 1배</string>
+    <string name="model_speed_base">실시간의 약 2~3배</string>
+    <string name="model_speed_small">실시간의 약 5~8배</string>
+    <string name="model_accuracy_speed">정확도: %1$s · 속도: %2$s</string>
+    <string name="export_format_txt">일반 텍스트(.txt)</string>
+    <string name="export_format_srt">SubRip 자막(.srt)</string>
+    <string name="export_format_vtt">WebVTT 자막(.vtt)</string>
+    <string name="language_auto_detect">자동 감지</string>
+    <string name="read_aloud">소리 내어 읽기</string>
+    <string name="read_aloud_loading_voices">음성 불러오는 중…</string>
+    <string name="read_aloud_preparing">준비 중…</string>
+    <string name="read_aloud_tap_read">시작하려면 읽기를 탭하세요.</string>
+    <string name="read_aloud_preparing_engine">음성 엔진 준비 중…</string>
+    <string name="read_aloud_progress">읽는 중… %1$d%%</string>
+    <string name="read_aloud_paused">일시정지됨.</string>
+    <string name="read_aloud_stop">중지</string>
+    <string name="read_aloud_read">읽기</string>
+    <string name="read_aloud_done">완료</string>
+    <string name="faq_cat_general">일반</string>
+    <string name="faq_cat_recording">녹음</string>
+    <string name="faq_cat_transcription">텍스트 변환</string>
+    <string name="faq_cat_privacy">개인정보 보호 및 보안</string>
+    <string name="faq_cat_troubleshooting">문제 해결</string>
+    <string name="faq_01_q">SecureVox는 무엇인가요?</string>
+    <string name="faq_01_a">SecureVox는 개인정보 보호를 최우선으로 하는 음성 텍스트 변환 앱입니다. 휴대전화의 음성 인식 모델이 녹음을 텍스트로 바꿔 줍니다. SecureVox는 오디오나 변환된 텍스트를 업로드하지 않습니다.</string>
+    <string name="faq_02_q">SecureVox는 무료인가요?</string>
+    <string name="faq_02_a">SecureVox는 Google Play에서 한 번만 구매하는 앱입니다. 구독, 인앱 구매, 광고가 없습니다.</string>
+    <string name="faq_03_q">어떤 언어를 지원하나요?</string>
+    <string name="faq_03_a">SecureVox는 14개 언어와 자동 감지를 지원합니다. 정확도는 언어와 모델에 따라 다릅니다. 기본 Tiny 모델은 영어에서만 좋고, Base는 스페인어와 한국어에도 적합하며, Small은 대부분의 주요 유럽 언어, 일본어, 한국어에 적합합니다. 네덜란드어, 폴란드어, 중국어, 아랍어는 Small에서도 정확도가 낮은 편이며, 힌디어는 실험적입니다.</string>
+    <string name="faq_04_q">녹음은 어떻게 시작하나요?</string>
+    <string name="faq_04_a">화면 아래의 마이크 버튼을 탭하면 녹음이 시작됩니다. 끝나면 중지 버튼을 탭하세요. 녹음은 자동으로 텍스트로 변환됩니다.</string>
+    <string name="faq_05_q">녹음 시간에 제한이 있나요?</string>
+    <string name="faq_05_a">녹음 시간 제한은 없으며, 남은 저장 공간(분당 약 2MB)이 한도입니다. 매우 긴 녹음은 변환에 더 오래 걸립니다. 화자 라벨은 약 30분까지의 녹음에만 추가됩니다.</string>
+    <string name="faq_06_q">오디오 파일을 가져올 수 있나요?</string>
+    <string name="faq_06_a">네. 가져오기 버튼을 탭하고 오디오 파일을 선택하세요. SecureVox는 MP3, WAV, M4A 같은 일반적인 오디오 형식을 지원하며, 동영상 파일의 소리도 변환할 수 있습니다.</string>
+    <string name="faq_07_q">텍스트 변환은 얼마나 정확한가요?</string>
+    <string name="faq_07_a">정확도는 언어와 선택한 모델에 따라 다릅니다. Small이 가장 정확하지만 가장 느리고, Tiny는 가장 빠르지만 오류가 가장 많습니다. 배경 소음이 적은 선명한 오디오에서 가장 좋은 결과가 나옵니다.</string>
+    <string name="faq_08_q">텍스트 변환 모델에는 어떤 것이 있나요?</string>
+    <string name="faq_08_a">SecureVox는 세 가지 모델을 제공합니다.\n\n• Tiny(약 78MB): 가장 빠름, 영어에 적합\n• Base(약 148MB): 속도와 정확도의 균형\n• Small(약 488MB): 가장 정확함, 메모리가 넉넉한 휴대전화 필요\n\n모델은 설정에서 다운로드하고 전환할 수 있습니다.</string>
+    <string name="faq_09_q">내 기기에서 변환이 느린 이유는 무엇인가요?</string>
+    <string name="faq_09_a">속도는 기기의 처리 성능에 따라 달라집니다. 더 강력한 칩이 들어간 최신 기기가 더 빠르게 변환합니다. 더 빠른 결과를 원하면 Tiny 모델을 써 보거나 짧게 나누어 녹음하세요.</string>
+    <string name="faq_10_q">변환된 텍스트를 편집할 수 있나요?</string>
+    <string name="faq_10_a">아직은 안 됩니다. SecureVox 안에서는 변환된 텍스트를 편집할 수 없습니다. 텍스트를 복사하거나 TXT, SRT, VTT로 내보낸 뒤 다른 앱에서 편집하세요.</string>
+    <string name="faq_11_q">내 데이터는 안전한가요?</string>
+    <string name="faq_11_a">SecureVox는 기기에서 텍스트 변환을 처리하며 오디오나 변환된 텍스트를 업로드하지 않습니다. 녹음은 휴대전화의 앱에 저장됩니다. Android 설정에서 백업을 켜 두었다면 Android 자동 백업이 앱 데이터를 Google 계정으로 복사할 수 있습니다. SecureVox에는 계정, 광고, 분석 SDK가 없습니다. 선택 사항인 익명 충돌 보고서(앱 버전, 휴대전화 모델, 오류 유형이며 오디오나 텍스트는 절대 포함되지 않음)는 설정에서 켜지 않는 한 꺼져 있습니다.</string>
+    <string name="faq_12_q">SecureVox에 인터넷 연결이 필요한가요?</string>
+    <string name="faq_12_a">한 번만 필요합니다. 처음 사용할 때 음성 모델(Tiny, 약 78MB)을 다운로드합니다. 이후에는 연결 없이 녹음과 변환이 작동합니다. 더 큰 모델(Base 약 148MB, Small 약 488MB)은 선택적으로 다운로드할 수 있습니다.</string>
+    <string name="faq_13_q">내 데이터는 어디에 저장되나요?</string>
+    <string name="faq_13_a">모든 녹음과 변환된 텍스트는 기기의 앱 전용 저장 공간에 로컬로 저장됩니다. 다른 앱은 이 데이터에 접근할 수 없습니다. 데이터는 언제든지 내보내거나 삭제할 수 있습니다.</string>
+    <string name="faq_14_q">변환 중에 앱이 종료되었어요</string>
+    <string name="faq_14_a">기기 메모리가 부족할 때, 특히 큰 모델에서 발생할 수 있습니다. 다음을 시도해 보세요.\n\n• 메모리를 가장 적게 쓰는 Tiny 모델 사용\n• 다른 앱을 닫아 메모리 확보\n• 짧게 나누어 녹음\n• 기기 다시 시작</string>
+    <string name="faq_15_q">녹음 소리가 너무 작아요</string>
+    <string name="faq_15_a">휴대전화를 말하는 사람 가까이 대고, 손이나 케이스로 마이크를 가리지 마세요. SecureVox는 휴대전화 마이크가 제공하는 음량 그대로 녹음하며 증폭 조절 기능은 없습니다.</string>
+    <string name="faq_16_q">변환 결과에 오류가 많아요</string>
+    <string name="faq_16_a">정확도를 높이는 팁입니다.\n\n• 설정에서 더 큰 모델(Base 또는 Small) 사용\n• 조용한 환경에서 녹음\n• 또렷하고 적당한 속도로 말하기\n• 자동 감지 대신 올바른 언어 선택</string>
+    <string name="faq_17_q">내 데이터를 모두 삭제하려면 어떻게 하나요?</string>
+    <string name="faq_17_a">목록에서 녹음 옆의 휴지통 아이콘으로 녹음을 삭제하세요. 오디오와 변환된 텍스트가 영구적으로 삭제되며 되돌릴 수 없습니다. 모두 삭제하는 버튼은 아직 없습니다. SecureVox를 제거하면 앱이 휴대전화에 저장한 모든 것이 삭제됩니다.</string>
+    <plurals name="words_count">
+        <item quantity="other">%1$d단어</item>
+    </plurals>
 </resources>

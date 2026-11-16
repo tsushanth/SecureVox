@@ -127,7 +127,6 @@
     <string name="expand">展開する</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d 語</string>
     <string name="add_word">単語を追加</string>
     <string name="import_from_clipboard">クリップボードからインポート</string>
     <string name="export_to_clipboard">クリップボードにエクスポート</string>
@@ -324,4 +323,75 @@
     <string name="funnel_reset">リセット</string>
     <string name="funnel_reset_title">この一覧をリセットしますか？</string>
     <string name="funnel_reset_body">ここに表示されている回数と日付が消去されます。録音、文字起こし、設定には影響しません。</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">システム</string>
+    <string name="theme_light">ライト</string>
+    <string name="theme_dark">ダーク</string>
+    <string name="model_desc_tiny">高速な文字起こし。短いメモ向け</string>
+    <string name="model_desc_base">速度と精度のバランス</string>
+    <string name="model_desc_small">モバイル端末で最高の精度</string>
+    <string name="model_accuracy_good">良い</string>
+    <string name="model_accuracy_better">より良い</string>
+    <string name="model_accuracy_best">最高</string>
+    <string name="model_speed_tiny">リアルタイムの約1倍</string>
+    <string name="model_speed_base">リアルタイムの約2〜3倍</string>
+    <string name="model_speed_small">リアルタイムの約5〜8倍</string>
+    <string name="model_accuracy_speed">精度: %1$s ・ 速度: %2$s</string>
+    <string name="export_format_txt">テキスト (.txt)</string>
+    <string name="export_format_srt">SubRip 字幕 (.srt)</string>
+    <string name="export_format_vtt">WebVTT 字幕 (.vtt)</string>
+    <string name="language_auto_detect">自動検出</string>
+    <string name="read_aloud">読み上げ</string>
+    <string name="read_aloud_loading_voices">音声を読み込み中…</string>
+    <string name="read_aloud_preparing">準備中…</string>
+    <string name="read_aloud_tap_read">「読み上げ」をタップして開始します。</string>
+    <string name="read_aloud_preparing_engine">音声エンジンを準備中…</string>
+    <string name="read_aloud_progress">読み上げ中… %1$d%%</string>
+    <string name="read_aloud_paused">一時停止中。</string>
+    <string name="read_aloud_stop">停止</string>
+    <string name="read_aloud_read">読み上げ</string>
+    <string name="read_aloud_done">完了</string>
+    <string name="faq_cat_general">一般</string>
+    <string name="faq_cat_recording">録音</string>
+    <string name="faq_cat_transcription">文字起こし</string>
+    <string name="faq_cat_privacy">プライバシーとセキュリティ</string>
+    <string name="faq_cat_troubleshooting">トラブルシューティング</string>
+    <string name="faq_01_q">SecureVoxとは?</string>
+    <string name="faq_01_a">SecureVoxは、プライバシーを最優先にした音声文字起こしアプリです。スマートフォン上の音声認識モデルが録音をテキストに変換します。SecureVoxは音声や文字起こしをアップロードしません。</string>
+    <string name="faq_02_q">SecureVoxは無料ですか?</string>
+    <string name="faq_02_a">SecureVoxはGoogle Playでの買い切りです。サブスクリプション、アプリ内課金、広告はありません。</string>
+    <string name="faq_03_q">対応言語は?</string>
+    <string name="faq_03_a">SecureVoxは14言語と自動検出に対応しています。精度は言語とモデルによって異なります。標準のTinyモデルは英語のみ良好、Baseはスペイン語と韓国語にも適し、Smallは主要なヨーロッパ言語の多く、日本語、韓国語に適しています。オランダ語、ポーランド語、中国語、アラビア語はSmallでも精度が低めで、ヒンディー語は試験的な対応です。</string>
+    <string name="faq_04_q">録音はどう始めますか?</string>
+    <string name="faq_04_a">画面下部のマイクボタンをタップすると録音が始まります。終わったら停止ボタンをタップします。録音は自動的に文字起こしされます。</string>
+    <string name="faq_05_q">録音に時間制限はありますか?</string>
+    <string name="faq_05_a">録音に時間制限はなく、空きストレージ容量(1分あたり約2 MB)が上限です。非常に長い録音は文字起こしに時間がかかります。話者ラベルは約30分までの録音にのみ付きます。</string>
+    <string name="faq_06_q">音声ファイルをインポートできますか?</string>
+    <string name="faq_06_a">はい。インポートボタンをタップして音声ファイルを選択します。MP3、WAV、M4Aなどの一般的な形式に対応し、動画ファイルの音声も文字起こしできます。</string>
+    <string name="faq_07_q">文字起こしの精度はどのくらいですか?</string>
+    <string name="faq_07_a">精度は言語と選択したモデルによって異なります。Smallは最も正確ですが最も遅く、Tinyは最も速い一方でミスが最も多くなります。背景ノイズが少ないクリアな音声で最良の結果が得られます。</string>
+    <string name="faq_08_q">文字起こしモデルの違いは?</string>
+    <string name="faq_08_a">SecureVoxには3つのモデルがあります。\n\n• Tiny(約78 MB): 最速、英語向け\n• Base(約148 MB): 速度と精度のバランス\n• Small(約488 MB): 最も正確、メモリに余裕のある端末が必要\n\nモデルは設定でダウンロード、切り替えができます。</string>
+    <string name="faq_09_q">端末での文字起こしが遅いのはなぜですか?</string>
+    <string name="faq_09_a">速度は端末の処理能力に左右されます。高性能なチップを搭載した新しい端末ほど速く処理できます。より速い結果を得るにはTinyモデルを試すか、短く区切って録音してください。</string>
+    <string name="faq_10_q">文字起こしを編集できますか?</string>
+    <string name="faq_10_a">まだできません。SecureVox内では文字起こしを編集できません。テキストをコピーするか、TXT、SRT、VTTで書き出して別のアプリで編集してください。</string>
+    <string name="faq_11_q">データは安全ですか?</string>
+    <string name="faq_11_a">SecureVoxは端末上で文字起こしを行い、音声や文字起こしをアップロードしません。録音はスマートフォン内のアプリに保存されます。Androidの設定でバックアップが有効な場合、Androidの自動バックアップによりアプリのデータがGoogleアカウントにコピーされることがあります。SecureVoxにはアカウント、広告、分析SDKはありません。任意の匿名クラッシュレポート(アプリのバージョン、機種、エラーの種類。音声やテキストは含みません)は、設定でオンにしない限りオフです。</string>
+    <string name="faq_12_q">SecureVoxにはインターネット接続が必要ですか?</string>
+    <string name="faq_12_a">必要なのは最初の1回だけです。初回利用時に音声モデル(Tiny、約78 MB)をダウンロードします。その後は接続なしで録音と文字起こしができます。大きなモデル(Base 約148 MB、Small 約488 MB)は任意でダウンロードできます。</string>
+    <string name="faq_13_q">データはどこに保存されますか?</string>
+    <string name="faq_13_a">録音と文字起こしはすべて、端末内のアプリ専用ストレージに保存されます。他のアプリはこのデータにアクセスできません。データはいつでも書き出しや削除ができます。</string>
+    <string name="faq_14_q">文字起こし中にアプリが落ちました</string>
+    <string name="faq_14_a">端末のメモリが不足すると、特に大きなモデルで起こることがあります。次をお試しください。\n\n• 最もメモリを使わないTinyモデルを使う\n• 他のアプリを閉じてメモリを空ける\n• 短く区切って録音する\n• 端末を再起動する</string>
+    <string name="faq_15_q">録音の音が小さすぎます</string>
+    <string name="faq_15_a">話している人にスマートフォンを近づけ、手やケースでマイクをふさがないでください。SecureVoxはスマートフォンのマイクが拾う音量のまま録音し、ゲイン調整はありません。</string>
+    <string name="faq_16_q">文字起こしに誤りが多いです</string>
+    <string name="faq_16_a">精度を上げるヒントです。\n\n• 設定でより大きなモデル(BaseまたはSmall)を使う\n• 静かな場所で録音する\n• はっきりと適度な速さで話す\n• 自動検出ではなく正しい言語を選ぶ</string>
+    <string name="faq_17_q">すべてのデータを削除するには?</string>
+    <string name="faq_17_a">リストの録音の横にあるゴミ箱アイコンで録音を削除します。音声と文字起こしは完全に削除され、元に戻せません。すべてを一括削除するボタンはまだありません。SecureVoxをアンインストールすると、アプリがスマートフォンに保存したものはすべて削除されます。</string>
+    <plurals name="words_count">
+        <item quantity="other">%1$d語</item>
+    </plurals>
 </resources>

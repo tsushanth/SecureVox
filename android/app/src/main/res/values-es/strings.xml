@@ -127,7 +127,6 @@
     <string name="expand">Expandir</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d palabras</string>
     <string name="add_word">Añadir palabra</string>
     <string name="import_from_clipboard">Importar desde el portapapeles</string>
     <string name="export_to_clipboard">Exportar al portapapeles</string>
@@ -324,4 +323,76 @@
     <string name="funnel_reset">Restablecer</string>
     <string name="funnel_reset_title">¿Restablecer esta lista?</string>
     <string name="funnel_reset_body">Se borrarán los recuentos y las fechas que se muestran aquí. Tus grabaciones, transcripciones y ajustes no se ven afectados.</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">Sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Oscuro</string>
+    <string name="model_desc_tiny">Transcripción rápida, ideal para notas breves</string>
+    <string name="model_desc_base">Equilibrio entre velocidad y precisión</string>
+    <string name="model_desc_small">La mejor precisión para dispositivos móviles</string>
+    <string name="model_accuracy_good">Buena</string>
+    <string name="model_accuracy_better">Mejor</string>
+    <string name="model_accuracy_best">La mejor</string>
+    <string name="model_speed_tiny">Aprox. 1x el tiempo real</string>
+    <string name="model_speed_base">Aprox. 2-3x el tiempo real</string>
+    <string name="model_speed_small">Aprox. 5-8x el tiempo real</string>
+    <string name="model_accuracy_speed">Precisión: %1$s · Velocidad: %2$s</string>
+    <string name="export_format_txt">Texto sin formato (.txt)</string>
+    <string name="export_format_srt">Subtítulos SubRip (.srt)</string>
+    <string name="export_format_vtt">Subtítulos WebVTT (.vtt)</string>
+    <string name="language_auto_detect">Detectar automáticamente</string>
+    <string name="read_aloud">Leer en voz alta</string>
+    <string name="read_aloud_loading_voices">Cargando voces…</string>
+    <string name="read_aloud_preparing">Preparando…</string>
+    <string name="read_aloud_tap_read">Toca Leer para empezar.</string>
+    <string name="read_aloud_preparing_engine">Preparando el motor de voz…</string>
+    <string name="read_aloud_progress">Leyendo… %1$d%%</string>
+    <string name="read_aloud_paused">En pausa.</string>
+    <string name="read_aloud_stop">Detener</string>
+    <string name="read_aloud_read">Leer</string>
+    <string name="read_aloud_done">Listo</string>
+    <string name="faq_cat_general">General</string>
+    <string name="faq_cat_recording">Grabación</string>
+    <string name="faq_cat_transcription">Transcripción</string>
+    <string name="faq_cat_privacy">Privacidad y seguridad</string>
+    <string name="faq_cat_troubleshooting">Solución de problemas</string>
+    <string name="faq_01_q">¿Qué es SecureVox?</string>
+    <string name="faq_01_a">SecureVox es una app de transcripción de voz que prioriza la privacidad. Un modelo de reconocimiento de voz en tu teléfono convierte tus grabaciones en texto. SecureVox no sube tu audio ni tus transcripciones.</string>
+    <string name="faq_02_q">¿SecureVox es gratis?</string>
+    <string name="faq_02_a">SecureVox es una compra única en Google Play. No hay suscripción, ni compras dentro de la app, ni anuncios.</string>
+    <string name="faq_03_q">¿Qué idiomas admite?</string>
+    <string name="faq_03_a">SecureVox ofrece 14 idiomas más detección automática. La precisión depende del idioma y del modelo: el modelo predeterminado, Tiny, solo es bueno para inglés; Base también sirve para español y coreano, y Small sirve para la mayoría de los idiomas europeos principales, japonés y coreano. Neerlandés, polaco, chino y árabe siguen siendo menos precisos incluso con Small, y el hindi es experimental.</string>
+    <string name="faq_04_q">¿Cómo inicio una grabación?</string>
+    <string name="faq_04_a">Toca el botón del micrófono en la parte inferior de la pantalla para empezar a grabar. Toca el botón de detener cuando termines. La grabación se transcribe automáticamente.</string>
+    <string name="faq_05_q">¿Hay un límite de tiempo para las grabaciones?</string>
+    <string name="faq_05_a">No hay límite de tiempo para grabar; solo lo limita tu almacenamiento libre (unos 2 MB por minuto). Las grabaciones muy largas tardan más en transcribirse. Las etiquetas de hablante solo se añaden a grabaciones de hasta unos 30 minutos.</string>
+    <string name="faq_06_q">¿Puedo importar archivos de audio?</string>
+    <string name="faq_06_a">Sí. Toca el botón de importar y elige un archivo de audio. SecureVox admite formatos de audio comunes como MP3, WAV y M4A, y también puede transcribir el sonido de archivos de vídeo.</string>
+    <string name="faq_07_q">¿Qué tan precisa es la transcripción?</string>
+    <string name="faq_07_a">La precisión depende del idioma y del modelo que elijas. Small es el más preciso y el más lento; Tiny es el más rápido y el que más errores comete. El audio claro con poco ruido de fondo da los mejores resultados.</string>
+    <string name="faq_08_q">¿Qué modelos de transcripción hay?</string>
+    <string name="faq_08_a">SecureVox ofrece tres modelos:\n\n• Tiny (unos 78 MB): el más rápido, bueno para inglés\n• Base (unos 148 MB): equilibrio entre velocidad y precisión\n• Small (unos 488 MB): el más preciso, necesita un teléfono con mucha memoria\n\nPuedes descargar y cambiar de modelo en Ajustes.</string>
+    <string name="faq_09_q">¿Por qué la transcripción es lenta en mi dispositivo?</string>
+    <string name="faq_09_a">La velocidad depende de la potencia de procesamiento de tu dispositivo. Los dispositivos más nuevos, con chips más potentes, transcriben más rápido. Prueba el modelo Tiny para obtener resultados más rápidos o graba en fragmentos más cortos.</string>
+    <string name="faq_10_q">¿Puedo editar la transcripción?</string>
+    <string name="faq_10_a">Todavía no: las transcripciones no se pueden editar dentro de SecureVox. Puedes copiar el texto o exportarlo como TXT, SRT o VTT y editarlo en otra app.</string>
+    <string name="faq_11_q">¿Mis datos están seguros?</string>
+    <string name="faq_11_a">SecureVox transcribe en tu dispositivo y no sube tu audio ni tus transcripciones. Las grabaciones se guardan en la app, en tu teléfono. La copia de seguridad automática de Android puede copiar los datos de la app a tu cuenta de Google si tienes activada la copia de seguridad en los ajustes de Android. SecureVox no tiene cuenta, ni anuncios, ni SDK de analítica. Los informes de fallos anónimos opcionales (versión de la app, modelo del teléfono, tipo de error; nunca audio ni texto) están desactivados salvo que los actives en Ajustes.</string>
+    <string name="faq_12_q">¿SecureVox necesita conexión a internet?</string>
+    <string name="faq_12_a">Solo una vez: la primera vez que usas SecureVox descarga el modelo de voz (Tiny, unos 78 MB). Después, la grabación y la transcripción funcionan sin conexión. Los modelos más grandes (Base, unos 148 MB; Small, unos 488 MB) son descargas opcionales.</string>
+    <string name="faq_13_q">¿Dónde se guardan mis datos?</string>
+    <string name="faq_13_a">Todas las grabaciones y transcripciones se guardan localmente en tu dispositivo, en el área de almacenamiento privada de la app. Otras apps no pueden acceder a estos datos. Puedes exportar o eliminar tus datos en cualquier momento.</string>
+    <string name="faq_14_q">La app se cerró durante la transcripción</string>
+    <string name="faq_14_a">Puede ocurrir si tu dispositivo tiene poca memoria, sobre todo con los modelos más grandes. Prueba lo siguiente:\n\n• Usar el modelo Tiny, que consume menos memoria\n• Cerrar otras apps para liberar memoria\n• Grabar en fragmentos más cortos\n• Reiniciar el dispositivo</string>
+    <string name="faq_15_q">Mis grabaciones se oyen muy bajas</string>
+    <string name="faq_15_a">Acerca el teléfono a la persona que habla y evita tapar el micrófono con la mano o con la funda. SecureVox graba con el volumen que ofrece el micrófono de tu teléfono y no tiene control de ganancia.</string>
+    <string name="faq_16_q">La transcripción tiene muchos errores</string>
+    <string name="faq_16_a">Estos consejos mejoran la precisión:\n\n• Usa un modelo más grande (Base o Small) en Ajustes\n• Graba en un lugar silencioso\n• Habla con claridad y a un ritmo moderado\n• Elige el idioma correcto en lugar de la detección automática</string>
+    <string name="faq_17_q">¿Cómo elimino todos mis datos?</string>
+    <string name="faq_17_a">Elimina una grabación con el icono de papelera junto a ella en la lista; esto borra de forma permanente su audio y su transcripción y no se puede deshacer. Todavía no hay un botón para eliminarlo todo. Al desinstalar SecureVox se elimina todo lo que guardó en tu teléfono.</string>
+    <plurals name="words_count">
+        <item quantity="one">%1$d palabra</item>
+        <item quantity="other">%1$d palabras</item>
+    </plurals>
 </resources>

@@ -127,7 +127,6 @@
     <string name="expand">Kembang</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d perkataan</string>
     <string name="add_word">Tambah perkataan</string>
     <string name="import_from_clipboard">Import dari papan keratan</string>
     <string name="export_to_clipboard">Eksport ke papan keratan</string>
@@ -324,4 +323,75 @@
     <string name="funnel_reset">Tetap semula</string>
     <string name="funnel_reset_title">Tetap semula senarai ini?</string>
     <string name="funnel_reset_body">Ini memadamkan bilangan dan tarikh yang dipaparkan di sini. Rakaman, transkrip dan tetapan anda tidak terjejas.</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">Sistem</string>
+    <string name="theme_light">Cerah</string>
+    <string name="theme_dark">Gelap</string>
+    <string name="model_desc_tiny">Transkripsi pantas, sesuai untuk nota ringkas</string>
+    <string name="model_desc_base">Keseimbangan antara kelajuan dan ketepatan</string>
+    <string name="model_desc_small">Ketepatan terbaik untuk peranti mudah alih</string>
+    <string name="model_accuracy_good">Baik</string>
+    <string name="model_accuracy_better">Lebih baik</string>
+    <string name="model_accuracy_best">Terbaik</string>
+    <string name="model_speed_tiny">Kira-kira 1x masa nyata</string>
+    <string name="model_speed_base">Kira-kira 2-3x masa nyata</string>
+    <string name="model_speed_small">Kira-kira 5-8x masa nyata</string>
+    <string name="model_accuracy_speed">Ketepatan: %1$s · Kelajuan: %2$s</string>
+    <string name="export_format_txt">Teks biasa (.txt)</string>
+    <string name="export_format_srt">Sarikata SubRip (.srt)</string>
+    <string name="export_format_vtt">Sarikata WebVTT (.vtt)</string>
+    <string name="language_auto_detect">Kesan automatik</string>
+    <string name="read_aloud">Bacakan</string>
+    <string name="read_aloud_loading_voices">Memuatkan suara…</string>
+    <string name="read_aloud_preparing">Menyediakan…</string>
+    <string name="read_aloud_tap_read">Ketik Baca untuk bermula.</string>
+    <string name="read_aloud_preparing_engine">Menyediakan enjin suara…</string>
+    <string name="read_aloud_progress">Membaca… %1$d%%</string>
+    <string name="read_aloud_paused">Dijeda.</string>
+    <string name="read_aloud_stop">Henti</string>
+    <string name="read_aloud_read">Baca</string>
+    <string name="read_aloud_done">Selesai</string>
+    <string name="faq_cat_general">Umum</string>
+    <string name="faq_cat_recording">Rakaman</string>
+    <string name="faq_cat_transcription">Transkripsi</string>
+    <string name="faq_cat_privacy">Privasi &amp; Keselamatan</string>
+    <string name="faq_cat_troubleshooting">Penyelesaian Masalah</string>
+    <string name="faq_01_q">Apakah SecureVox?</string>
+    <string name="faq_01_a">SecureVox ialah aplikasi transkripsi suara yang mengutamakan privasi. Model pengecaman pertuturan pada telefon anda menukar rakaman kepada teks. SecureVox tidak memuat naik audio atau transkrip anda.</string>
+    <string name="faq_02_q">Adakah SecureVox percuma?</string>
+    <string name="faq_02_a">SecureVox ialah pembelian sekali sahaja di Google Play. Tiada langganan, tiada pembelian dalam aplikasi dan tiada iklan.</string>
+    <string name="faq_03_q">Bahasa apakah yang disokong?</string>
+    <string name="faq_03_a">SecureVox menawarkan 14 bahasa serta pengesanan automatik. Ketepatan bergantung pada bahasa dan model: model lalai Tiny hanya baik untuk bahasa Inggeris, Base juga sesuai untuk bahasa Sepanyol dan Korea, dan Small sesuai untuk kebanyakan bahasa Eropah utama, Jepun dan Korea. Bahasa Belanda, Poland, Cina dan Arab kekal kurang tepat walaupun dengan Small, dan bahasa Hindi masih eksperimen.</string>
+    <string name="faq_04_q">Bagaimana untuk memulakan rakaman?</string>
+    <string name="faq_04_a">Ketik butang mikrofon di bahagian bawah skrin untuk mula merakam. Ketik butang henti apabila selesai. Rakaman ditranskripsi secara automatik.</string>
+    <string name="faq_05_q">Adakah terdapat had masa untuk rakaman?</string>
+    <string name="faq_05_a">Tiada had masa untuk rakaman; ia dihadkan oleh storan kosong anda (kira-kira 2 MB seminit). Rakaman yang sangat panjang mengambil masa lebih lama untuk ditranskripsi. Label penutur hanya ditambah pada rakaman sehingga kira-kira 30 minit.</string>
+    <string name="faq_06_q">Bolehkah saya mengimport fail audio?</string>
+    <string name="faq_06_a">Boleh. Ketik butang import dan pilih fail audio. SecureVox menyokong format audio biasa seperti MP3, WAV dan M4A, dan boleh juga mentranskripsi bunyi daripada fail video.</string>
+    <string name="faq_07_q">Seberapa tepatkah transkripsi?</string>
+    <string name="faq_07_a">Ketepatan bergantung pada bahasa dan model yang anda pilih. Small paling tepat dan paling perlahan, Tiny paling pantas tetapi paling banyak membuat kesilapan. Audio yang jelas dengan sedikit bunyi latar memberikan hasil terbaik.</string>
+    <string name="faq_08_q">Apakah model transkripsi yang berbeza?</string>
+    <string name="faq_08_a">SecureVox menawarkan tiga model:\n\n• Tiny (kira-kira 78 MB): paling pantas, baik untuk bahasa Inggeris\n• Base (kira-kira 148 MB): keseimbangan kelajuan dan ketepatan\n• Small (kira-kira 488 MB): paling tepat, memerlukan telefon dengan memori yang banyak\n\nAnda boleh memuat turun dan menukar model dalam Tetapan.</string>
+    <string name="faq_09_q">Mengapa transkripsi perlahan pada peranti saya?</string>
+    <string name="faq_09_a">Kelajuan bergantung pada kuasa pemprosesan peranti anda. Peranti yang lebih baharu dengan cip lebih berkuasa mentranskripsi dengan lebih pantas. Cuba model Tiny untuk hasil lebih pantas, atau rakam dalam segmen yang lebih pendek.</string>
+    <string name="faq_10_q">Bolehkah saya mengedit transkripsi?</string>
+    <string name="faq_10_a">Belum lagi: transkrip tidak boleh diedit dalam SecureVox. Anda boleh menyalin teks atau mengeksportnya sebagai TXT, SRT atau VTT dan mengeditnya dalam aplikasi lain.</string>
+    <string name="faq_11_q">Adakah data saya selamat?</string>
+    <string name="faq_11_a">SecureVox mentranskripsi pada peranti anda dan tidak memuat naik audio atau transkrip anda. Rakaman disimpan dalam aplikasi pada telefon anda. Sandaran Auto Android mungkin menyalin data aplikasi ke akaun Google anda jika sandaran dihidupkan dalam tetapan Android. SecureVox tiada akaun, tiada iklan dan tiada SDK analitik. Laporan ranap tanpa nama yang pilihan (versi aplikasi, model telefon, jenis ralat; tidak pernah audio atau teks) dimatikan kecuali anda menghidupkannya dalam Tetapan.</string>
+    <string name="faq_12_q">Adakah SecureVox memerlukan sambungan internet?</string>
+    <string name="faq_12_a">Hanya sekali: kali pertama anda menggunakan SecureVox, ia memuat turun model pertuturan (Tiny, kira-kira 78 MB). Selepas itu, rakaman dan transkripsi berfungsi tanpa sambungan. Model yang lebih besar (Base kira-kira 148 MB, Small kira-kira 488 MB) ialah muat turun pilihan.</string>
+    <string name="faq_13_q">Di manakah data saya disimpan?</string>
+    <string name="faq_13_a">Semua rakaman dan transkrip disimpan secara setempat pada peranti anda, dalam kawasan storan peribadi aplikasi. Aplikasi lain tidak boleh mengakses data ini. Anda boleh mengeksport atau memadam data anda pada bila-bila masa.</string>
+    <string name="faq_14_q">Aplikasi ranap semasa transkripsi</string>
+    <string name="faq_14_a">Ini boleh berlaku jika memori peranti anda hampir habis, terutamanya dengan model yang lebih besar. Cuba:\n\n• Gunakan model Tiny, yang menggunakan memori paling sedikit\n• Tutup aplikasi lain untuk membebaskan memori\n• Rakam dalam segmen yang lebih pendek\n• Mulakan semula peranti anda</string>
+    <string name="faq_15_q">Rakaman saya kedengaran terlalu perlahan</string>
+    <string name="faq_15_a">Dekatkan telefon kepada orang yang bercakap dan elakkan menutup mikrofon dengan tangan atau sarung. SecureVox merakam pada kelantangan yang diberikan oleh mikrofon telefon anda dan tidak mempunyai kawalan gandaan.</string>
+    <string name="faq_16_q">Transkripsi mempunyai banyak kesilapan</string>
+    <string name="faq_16_a">Petua ini meningkatkan ketepatan:\n\n• Gunakan model yang lebih besar (Base atau Small) dalam Tetapan\n• Rakam di tempat yang senyap\n• Bercakap dengan jelas dan pada kadar sederhana\n• Pilih bahasa yang betul dan bukannya pengesanan automatik</string>
+    <string name="faq_17_q">Bagaimana untuk memadam semua data saya?</string>
+    <string name="faq_17_a">Padam rakaman dengan ikon tong sampah di sebelahnya dalam senarai; ini memadam audio dan transkripnya secara kekal dan tidak boleh dibuat asal. Belum ada butang padam semua. Menyahpasang SecureVox akan memadam semua yang disimpannya pada telefon anda.</string>
+    <plurals name="words_count">
+        <item quantity="other">%1$d perkataan</item>
+    </plurals>
 </resources>

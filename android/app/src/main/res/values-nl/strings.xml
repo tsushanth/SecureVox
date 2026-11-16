@@ -127,7 +127,6 @@
     <string name="expand">Uitklappen</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d woorden</string>
     <string name="add_word">Woord toevoegen</string>
     <string name="import_from_clipboard">Importeren vanuit klembord</string>
     <string name="export_to_clipboard">Exporteren naar klembord</string>
@@ -324,4 +323,76 @@
     <string name="funnel_reset">Resetten</string>
     <string name="funnel_reset_title">Deze lijst resetten?</string>
     <string name="funnel_reset_body">Hiermee worden de aantallen en datums die hier staan gewist. Je opnames, transcripties en instellingen blijven ongewijzigd.</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">Systeem</string>
+    <string name="theme_light">Licht</string>
+    <string name="theme_dark">Donker</string>
+    <string name="model_desc_tiny">Snelle transcriptie, goed voor korte notities</string>
+    <string name="model_desc_base">Een balans tussen snelheid en nauwkeurigheid</string>
+    <string name="model_desc_small">Hoogste nauwkeurigheid voor mobiele apparaten</string>
+    <string name="model_accuracy_good">Goed</string>
+    <string name="model_accuracy_better">Beter</string>
+    <string name="model_accuracy_best">Best</string>
+    <string name="model_speed_tiny">Ongeveer 1x realtime</string>
+    <string name="model_speed_base">Ongeveer 2-3x realtime</string>
+    <string name="model_speed_small">Ongeveer 5-8x realtime</string>
+    <string name="model_accuracy_speed">Nauwkeurigheid: %1$s · Snelheid: %2$s</string>
+    <string name="export_format_txt">Platte tekst (.txt)</string>
+    <string name="export_format_srt">SubRip-ondertitels (.srt)</string>
+    <string name="export_format_vtt">WebVTT-ondertitels (.vtt)</string>
+    <string name="language_auto_detect">Automatisch detecteren</string>
+    <string name="read_aloud">Voorlezen</string>
+    <string name="read_aloud_loading_voices">Stemmen laden…</string>
+    <string name="read_aloud_preparing">Voorbereiden…</string>
+    <string name="read_aloud_tap_read">Tik op Lezen om te beginnen.</string>
+    <string name="read_aloud_preparing_engine">Spraakengine voorbereiden…</string>
+    <string name="read_aloud_progress">Voorlezen… %1$d%%</string>
+    <string name="read_aloud_paused">Gepauzeerd.</string>
+    <string name="read_aloud_stop">Stoppen</string>
+    <string name="read_aloud_read">Lezen</string>
+    <string name="read_aloud_done">Klaar</string>
+    <string name="faq_cat_general">Algemeen</string>
+    <string name="faq_cat_recording">Opname</string>
+    <string name="faq_cat_transcription">Transcriptie</string>
+    <string name="faq_cat_privacy">Privacy en beveiliging</string>
+    <string name="faq_cat_troubleshooting">Problemen oplossen</string>
+    <string name="faq_01_q">Wat is SecureVox?</string>
+    <string name="faq_01_a">SecureVox is een spraaktranscriptie-app waarin privacy voorop staat. Een spraakherkenningsmodel op je telefoon zet je opnamen om in tekst. SecureVox uploadt je audio of transcripties niet.</string>
+    <string name="faq_02_q">Is SecureVox gratis?</string>
+    <string name="faq_02_a">SecureVox is een eenmalige aankoop in Google Play. Er is geen abonnement, geen in-app-aankoop en geen advertenties.</string>
+    <string name="faq_03_q">Welke talen worden ondersteund?</string>
+    <string name="faq_03_a">SecureVox biedt 14 talen plus automatische detectie. De nauwkeurigheid hangt af van de taal en het model: het standaardmodel Tiny is alleen goed voor Engels, Base past ook bij Spaans en Koreaans, en Small past bij de meeste grote Europese talen, Japans en Koreaans. Nederlands, Pools, Chinees en Arabisch blijven ook met Small minder nauwkeurig, en Hindi is experimenteel.</string>
+    <string name="faq_04_q">Hoe start ik een opname?</string>
+    <string name="faq_04_a">Tik onderaan het scherm op de microfoonknop om de opname te starten. Tik op de stopknop als je klaar bent. De opname wordt automatisch getranscribeerd.</string>
+    <string name="faq_05_q">Is er een tijdslimiet voor opnamen?</string>
+    <string name="faq_05_a">Er is geen tijdslimiet voor opnamen; je vrije opslagruimte is de grens (ongeveer 2 MB per minuut). Zeer lange opnamen duren langer om te transcriberen. Sprekerlabels worden alleen toegevoegd aan opnamen tot ongeveer 30 minuten.</string>
+    <string name="faq_06_q">Kan ik audiobestanden importeren?</string>
+    <string name="faq_06_a">Ja. Tik op de importknop en kies een audiobestand. SecureVox ondersteunt gangbare audioformaten zoals MP3, WAV en M4A en kan ook het geluid van videobestanden transcriberen.</string>
+    <string name="faq_07_q">Hoe nauwkeurig is de transcriptie?</string>
+    <string name="faq_07_a">De nauwkeurigheid hangt af van de taal en het gekozen model. Small is het nauwkeurigst en het langzaamst, Tiny is het snelst en maakt de meeste fouten. Helder geluid met weinig achtergrondlawaai geeft de beste resultaten.</string>
+    <string name="faq_08_q">Wat zijn de verschillende transcriptiemodellen?</string>
+    <string name="faq_08_a">SecureVox biedt drie modellen:\n\n• Tiny (ongeveer 78 MB): het snelst, goed voor Engels\n• Base (ongeveer 148 MB): een balans tussen snelheid en nauwkeurigheid\n• Small (ongeveer 488 MB): het nauwkeurigst, vraagt een telefoon met veel geheugen\n\nJe kunt modellen downloaden en wisselen in Instellingen.</string>
+    <string name="faq_09_q">Waarom is transcriberen traag op mijn apparaat?</string>
+    <string name="faq_09_a">De snelheid hangt af van de rekenkracht van je apparaat. Nieuwere apparaten met krachtigere chips transcriberen sneller. Probeer het Tiny-model voor snellere resultaten, of neem op in kortere stukken.</string>
+    <string name="faq_10_q">Kan ik de transcriptie bewerken?</string>
+    <string name="faq_10_a">Nog niet: transcripties kunnen niet in SecureVox worden bewerkt. Je kunt de tekst kopiëren of exporteren als TXT, SRT of VTT en in een andere app bewerken.</string>
+    <string name="faq_11_q">Zijn mijn gegevens veilig?</string>
+    <string name="faq_11_a">SecureVox transcribeert op je apparaat en uploadt je audio of transcripties niet. Opnamen worden in de app op je telefoon opgeslagen. Automatische back-up van Android kan appgegevens naar je Google-account kopiëren als back-up is ingeschakeld in de Android-instellingen. SecureVox heeft geen account, geen advertenties en geen analyse-SDK. Optionele anonieme crashrapporten (appversie, telefoonmodel, type fout; nooit audio of tekst) staan uit tenzij je ze inschakelt in Instellingen.</string>
+    <string name="faq_12_q">Heeft SecureVox een internetverbinding nodig?</string>
+    <string name="faq_12_a">Slechts één keer: de eerste keer dat je SecureVox gebruikt, downloadt de app het spraakmodel (Tiny, ongeveer 78 MB). Daarna werken opnemen en transcriberen zonder verbinding. Grotere modellen (Base ongeveer 148 MB, Small ongeveer 488 MB) zijn optionele downloads.</string>
+    <string name="faq_13_q">Waar worden mijn gegevens opgeslagen?</string>
+    <string name="faq_13_a">Alle opnamen en transcripties worden lokaal op je apparaat opgeslagen, in het privéopslaggebied van de app. Andere apps hebben hier geen toegang toe. Je kunt je gegevens op elk moment exporteren of verwijderen.</string>
+    <string name="faq_14_q">De app is tijdens het transcriberen gecrasht</string>
+    <string name="faq_14_a">Dit kan gebeuren als je apparaat weinig geheugen heeft, vooral bij grotere modellen. Probeer het volgende:\n\n• Het Tiny-model gebruiken, dat het minste geheugen vraagt\n• Andere apps sluiten om geheugen vrij te maken\n• In kortere stukken opnemen\n• Je apparaat opnieuw starten</string>
+    <string name="faq_15_q">Mijn opnamen klinken te zacht</string>
+    <string name="faq_15_a">Houd je telefoon dichter bij de spreker en bedek de microfoon niet met je hand of hoesje. SecureVox neemt op met het volume dat de microfoon van je telefoon levert en heeft geen versterkingsregeling.</string>
+    <string name="faq_16_q">De transcriptie bevat veel fouten</string>
+    <string name="faq_16_a">Met deze tips verbeter je de nauwkeurigheid:\n\n• Kies in Instellingen een groter model (Base of Small)\n• Neem op in een rustige omgeving\n• Spreek duidelijk en in een gematigd tempo\n• Kies de juiste taal in plaats van automatische detectie</string>
+    <string name="faq_17_q">Hoe verwijder ik al mijn gegevens?</string>
+    <string name="faq_17_a">Verwijder een opname met het prullenbakpictogram ernaast in de lijst; hiermee worden audio en transcriptie definitief verwijderd en dat kan niet ongedaan worden gemaakt. Er is nog geen knop om alles te verwijderen. Als je SecureVox verwijdert, wordt alles gewist wat de app op je telefoon heeft opgeslagen.</string>
+    <plurals name="words_count">
+        <item quantity="one">%1$d woord</item>
+        <item quantity="other">%1$d woorden</item>
+    </plurals>
 </resources>

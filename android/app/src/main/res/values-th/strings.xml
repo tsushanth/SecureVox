@@ -127,7 +127,6 @@
     <string name="expand">ขยาย</string>
 
     <!-- Custom Dictionary Screen -->
-    <string name="words_count">%1$d คำ</string>
     <string name="add_word">เพิ่มคำ</string>
     <string name="import_from_clipboard">นำเข้าจากคลิปบอร์ด</string>
     <string name="export_to_clipboard">ส่งออกไปยังคลิปบอร์ด</string>
@@ -324,4 +323,75 @@
     <string name="funnel_reset">รีเซ็ต</string>
     <string name="funnel_reset_title">รีเซ็ตรายการนี้ไหม</string>
     <string name="funnel_reset_body">การดำเนินการนี้จะล้างจำนวนและวันที่ที่แสดงอยู่ที่นี่ การบันทึกเสียง ข้อความถอดเสียง และการตั้งค่าของคุณจะไม่ได้รับผลกระทบ</string>
+
+    <!-- Wave 2: model/theme/export labels, Read Aloud sheet, FAQ. Machine-written; needs native review. -->
+    <string name="theme_system">ตามระบบ</string>
+    <string name="theme_light">สว่าง</string>
+    <string name="theme_dark">มืด</string>
+    <string name="model_desc_tiny">ถอดเสียงเร็ว เหมาะกับโน้ตสั้น ๆ</string>
+    <string name="model_desc_base">สมดุลระหว่างความเร็วและความแม่นยำ</string>
+    <string name="model_desc_small">ความแม่นยำสูงสุดสำหรับอุปกรณ์เคลื่อนที่</string>
+    <string name="model_accuracy_good">ดี</string>
+    <string name="model_accuracy_better">ดีกว่า</string>
+    <string name="model_accuracy_best">ดีที่สุด</string>
+    <string name="model_speed_tiny">ประมาณ 1 เท่าของเวลาจริง</string>
+    <string name="model_speed_base">ประมาณ 2-3 เท่าของเวลาจริง</string>
+    <string name="model_speed_small">ประมาณ 5-8 เท่าของเวลาจริง</string>
+    <string name="model_accuracy_speed">ความแม่นยำ: %1$s · ความเร็ว: %2$s</string>
+    <string name="export_format_txt">ข้อความธรรมดา (.txt)</string>
+    <string name="export_format_srt">คำบรรยาย SubRip (.srt)</string>
+    <string name="export_format_vtt">คำบรรยาย WebVTT (.vtt)</string>
+    <string name="language_auto_detect">ตรวจหาอัตโนมัติ</string>
+    <string name="read_aloud">อ่านออกเสียง</string>
+    <string name="read_aloud_loading_voices">กำลังโหลดเสียง…</string>
+    <string name="read_aloud_preparing">กำลังเตรียม…</string>
+    <string name="read_aloud_tap_read">แตะ อ่าน เพื่อเริ่ม</string>
+    <string name="read_aloud_preparing_engine">กำลังเตรียมเอนจินเสียง…</string>
+    <string name="read_aloud_progress">กำลังอ่าน… %1$d%%</string>
+    <string name="read_aloud_paused">หยุดชั่วคราว</string>
+    <string name="read_aloud_stop">หยุด</string>
+    <string name="read_aloud_read">อ่าน</string>
+    <string name="read_aloud_done">เสร็จสิ้น</string>
+    <string name="faq_cat_general">ทั่วไป</string>
+    <string name="faq_cat_recording">การบันทึกเสียง</string>
+    <string name="faq_cat_transcription">การถอดเสียง</string>
+    <string name="faq_cat_privacy">ความเป็นส่วนตัวและความปลอดภัย</string>
+    <string name="faq_cat_troubleshooting">การแก้ไขปัญหา</string>
+    <string name="faq_01_q">SecureVox คืออะไร</string>
+    <string name="faq_01_a">SecureVox เป็นแอปถอดเสียงพูดที่ให้ความสำคัญกับความเป็นส่วนตัวเป็นอันดับแรก โมเดลรู้จำเสียงพูดบนโทรศัพท์ของคุณจะแปลงเสียงที่บันทึกเป็นข้อความ SecureVox ไม่อัปโหลดเสียงหรือข้อความที่ถอดได้ของคุณ</string>
+    <string name="faq_02_q">SecureVox ใช้ฟรีหรือไม่</string>
+    <string name="faq_02_a">SecureVox เป็นการซื้อครั้งเดียวบน Google Play ไม่มีการสมัครสมาชิก ไม่มีการซื้อในแอป และไม่มีโฆษณา</string>
+    <string name="faq_03_q">รองรับภาษาอะไรบ้าง</string>
+    <string name="faq_03_a">SecureVox รองรับ 14 ภาษา พร้อมการตรวจหาภาษาอัตโนมัติ ความแม่นยำขึ้นอยู่กับภาษาและโมเดล โมเดล Tiny ที่ตั้งค่าไว้เริ่มต้นเหมาะกับภาษาอังกฤษเท่านั้น Base เหมาะกับภาษาสเปนและเกาหลีด้วย ส่วน Small เหมาะกับภาษาหลักของยุโรปส่วนใหญ่ ภาษาญี่ปุ่น และภาษาเกาหลี ภาษาดัตช์ โปแลนด์ จีน และอาหรับ ยังแม่นยำน้อยกว่าแม้ใช้ Small และภาษาฮินดียังอยู่ในขั้นทดลอง</string>
+    <string name="faq_04_q">เริ่มบันทึกเสียงได้อย่างไร</string>
+    <string name="faq_04_a">แตะปุ่มไมโครโฟนที่ด้านล่างของหน้าจอเพื่อเริ่มบันทึก แตะปุ่มหยุดเมื่อเสร็จ การบันทึกจะถูกถอดเสียงโดยอัตโนมัติ</string>
+    <string name="faq_05_q">การบันทึกมีขีดจำกัดเวลาหรือไม่</string>
+    <string name="faq_05_a">ไม่มีขีดจำกัดเวลาในการบันทึก ขึ้นอยู่กับพื้นที่เก็บข้อมูลว่างของคุณ (ประมาณ 2 MB ต่อนาที) การบันทึกที่ยาวมากใช้เวลาถอดเสียงนานขึ้น ป้ายผู้พูดจะถูกเพิ่มเฉพาะการบันทึกที่ยาวไม่เกินประมาณ 30 นาที</string>
+    <string name="faq_06_q">นำเข้าไฟล์เสียงได้ไหม</string>
+    <string name="faq_06_a">ได้ แตะปุ่มนำเข้าแล้วเลือกไฟล์เสียง SecureVox รองรับรูปแบบเสียงทั่วไป เช่น MP3, WAV และ M4A และถอดเสียงจากไฟล์วิดีโอได้ด้วย</string>
+    <string name="faq_07_q">การถอดเสียงแม่นยำแค่ไหน</string>
+    <string name="faq_07_a">ความแม่นยำขึ้นอยู่กับภาษาและโมเดลที่คุณเลือก Small แม่นยำที่สุดแต่ช้าที่สุด Tiny เร็วที่สุดแต่ผิดพลาดมากที่สุด เสียงที่ชัดเจนและมีเสียงรบกวนรอบข้างน้อยให้ผลดีที่สุด</string>
+    <string name="faq_08_q">โมเดลถอดเสียงต่างกันอย่างไร</string>
+    <string name="faq_08_a">SecureVox มีสามโมเดล:\n\n• Tiny (ประมาณ 78 MB): เร็วที่สุด เหมาะกับภาษาอังกฤษ\n• Base (ประมาณ 148 MB): สมดุลระหว่างความเร็วและความแม่นยำ\n• Small (ประมาณ 488 MB): แม่นยำที่สุด ต้องใช้โทรศัพท์ที่มีหน่วยความจำมาก\n\nคุณดาวน์โหลดและสลับโมเดลได้ในการตั้งค่า</string>
+    <string name="faq_09_q">ทำไมการถอดเสียงช้าบนอุปกรณ์ของฉัน</string>
+    <string name="faq_09_a">ความเร็วขึ้นอยู่กับกำลังประมวลผลของอุปกรณ์ อุปกรณ์รุ่นใหม่ที่มีชิปแรงกว่าจะถอดเสียงได้เร็วกว่า ลองใช้โมเดล Tiny เพื่อให้ได้ผลเร็วขึ้น หรือบันทึกเป็นช่วงสั้น ๆ</string>
+    <string name="faq_10_q">แก้ไขข้อความที่ถอดได้ไหม</string>
+    <string name="faq_10_a">ยังไม่ได้ ไม่สามารถแก้ไขข้อความที่ถอดได้ภายใน SecureVox คุณคัดลอกข้อความหรือส่งออกเป็น TXT, SRT หรือ VTT แล้วแก้ไขในแอปอื่นได้</string>
+    <string name="faq_11_q">ข้อมูลของฉันปลอดภัยไหม</string>
+    <string name="faq_11_a">SecureVox ถอดเสียงบนอุปกรณ์ของคุณและไม่อัปโหลดเสียงหรือข้อความที่ถอดได้ การบันทึกถูกเก็บไว้ในแอปบนโทรศัพท์ของคุณ การสำรองข้อมูลอัตโนมัติของ Android อาจคัดลอกข้อมูลแอปไปยังบัญชี Google ของคุณหากเปิดการสำรองข้อมูลไว้ในการตั้งค่า Android SecureVox ไม่มีบัญชี ไม่มีโฆษณา และไม่มี SDK วิเคราะห์ข้อมูล รายงานข้อขัดข้องแบบไม่ระบุตัวตนที่เป็นทางเลือก (เวอร์ชันแอป รุ่นโทรศัพท์ ประเภทข้อผิดพลาด โดยไม่มีเสียงหรือข้อความเลย) จะปิดอยู่จนกว่าคุณจะเปิดในการตั้งค่า</string>
+    <string name="faq_12_q">SecureVox ต้องใช้อินเทอร์เน็ตหรือไม่</string>
+    <string name="faq_12_a">เพียงครั้งเดียว: เมื่อใช้ SecureVox ครั้งแรกจะดาวน์โหลดโมเดลเสียงพูด (Tiny ประมาณ 78 MB) หลังจากนั้นการบันทึกและการถอดเสียงทำงานได้โดยไม่ต้องเชื่อมต่อ โมเดลที่ใหญ่กว่า (Base ประมาณ 148 MB, Small ประมาณ 488 MB) เป็นการดาวน์โหลดแบบไม่บังคับ</string>
+    <string name="faq_13_q">ข้อมูลของฉันเก็บไว้ที่ไหน</string>
+    <string name="faq_13_a">การบันทึกและข้อความที่ถอดได้ทั้งหมดถูกเก็บไว้ในอุปกรณ์ของคุณ ในพื้นที่จัดเก็บส่วนตัวของแอป แอปอื่นเข้าถึงข้อมูลนี้ไม่ได้ คุณส่งออกหรือลบข้อมูลได้ทุกเมื่อ</string>
+    <string name="faq_14_q">แอปปิดตัวระหว่างถอดเสียง</string>
+    <string name="faq_14_a">อาจเกิดขึ้นเมื่อหน่วยความจำของอุปกรณ์เหลือน้อย โดยเฉพาะกับโมเดลที่ใหญ่กว่า ลองทำดังนี้:\n\n• ใช้โมเดล Tiny ซึ่งใช้หน่วยความจำน้อยที่สุด\n• ปิดแอปอื่นเพื่อเพิ่มหน่วยความจำ\n• บันทึกเป็นช่วงสั้น ๆ\n• รีสตาร์ทอุปกรณ์</string>
+    <string name="faq_15_q">เสียงที่บันทึกเบาเกินไป</string>
+    <string name="faq_15_a">ถือโทรศัพท์ให้ใกล้ผู้พูดมากขึ้น และอย่าใช้มือหรือเคสบังไมโครโฟน SecureVox บันทึกด้วยระดับเสียงที่ไมโครโฟนของโทรศัพท์ให้มา และไม่มีการปรับเกน</string>
+    <string name="faq_16_q">ข้อความที่ถอดได้มีข้อผิดพลาดมาก</string>
+    <string name="faq_16_a">เคล็ดลับเหล่านี้ช่วยเพิ่มความแม่นยำ:\n\n• ใช้โมเดลที่ใหญ่กว่า (Base หรือ Small) ในการตั้งค่า\n• บันทึกในที่เงียบ\n• พูดให้ชัดเจนและด้วยจังหวะปานกลาง\n• เลือกภาษาที่ถูกต้องแทนการตรวจหาอัตโนมัติ</string>
+    <string name="faq_17_q">จะลบข้อมูลทั้งหมดของฉันได้อย่างไร</string>
+    <string name="faq_17_a">ลบการบันทึกด้วยไอคอนถังขยะข้างรายการนั้น การลบจะนำเสียงและข้อความที่ถอดได้ออกอย่างถาวรและย้อนกลับไม่ได้ ยังไม่มีปุ่มลบทั้งหมด การถอนการติดตั้ง SecureVox จะลบทุกอย่างที่แอปเก็บไว้ในโทรศัพท์ของคุณ</string>
+    <plurals name="words_count">
+        <item quantity="other">%1$d คำ</item>
+    </plurals>
 </resources>
