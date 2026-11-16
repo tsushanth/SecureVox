@@ -299,12 +299,18 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
                 .filter { it.sizeBytes <= largest.sizeBytes }
                 .firstOrNull { models.isModelDownloaded(it) } ?: return@launch
 
+            val dictionaryTerms = try {
+                com.securevox.app.data.CustomDictionaryService.getInstance(getApplication()).getWords()
+            } catch (e: Exception) {
+                emptyList()
+            }
             val transcriber = LiveTranscriber(
                 context = getApplication(),
                 modelPath = models.getModelPath(model),
                 language = getSelectedLanguageCode(),
                 audio = audioRecorder.liveAudio,
-                scope = viewModelScope
+                scope = viewModelScope,
+                corrector = com.securevox.app.data.DictionaryCorrector(dictionaryTerms)
             )
             liveTranscriber = transcriber
             funnel().step(Step.LIVE_CAPTIONS, LiveState.ON)

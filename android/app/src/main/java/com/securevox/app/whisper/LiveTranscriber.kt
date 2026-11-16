@@ -35,7 +35,9 @@ class LiveTranscriber(
     private val modelPath: String,
     private val language: String,
     private val audio: Flow<ShortArray>,
-    private val scope: CoroutineScope
+    private val scope: CoroutineScope,
+    /** Custom Dictionary: terms are rewritten in the preview text exactly as the user typed them. */
+    private val corrector: com.securevox.app.data.DictionaryCorrector = com.securevox.app.data.DictionaryCorrector.EMPTY
 ) {
     companion object {
         val KEY_ENABLED = booleanPreferencesKey("live_captions_enabled")
@@ -119,7 +121,7 @@ class LiveTranscriber(
             }
 
             val text = try {
-                clean(lib.transcribe(shot, language, fast = true).joinToString(" ") { it.text })
+                corrector.correct(clean(lib.transcribe(shot, language, fast = true).joinToString(" ") { it.text }))
             } catch (e: CancellationException) {
                 throw e
             } catch (e: OutOfMemoryError) {

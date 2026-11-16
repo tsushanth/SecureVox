@@ -10,7 +10,9 @@ import com.securevox.app.whisper.WhisperLib
 class ChunkRequest(
     val audio: FloatArray,
     val language: String,
-    val leadingOverlapMs: Long = 0L
+    val leadingOverlapMs: Long = 0L,
+    /** Custom Dictionary hint for the model's initial prompt; "" when the dictionary is empty. Engines that cannot use it ignore it. */
+    val prompt: String = ""
 )
 
 /**
@@ -31,7 +33,7 @@ class WhisperEngine(private val lib: WhisperLib) : TranscriptionEngine {
     override val id = EngineId.WHISPER
 
     override suspend fun transcribe(request: ChunkRequest, onProgress: ((Int) -> Unit)?): List<TranscriptionSegment> =
-        lib.transcribe(audioData = request.audio, language = request.language, onProgress = onProgress)
+        lib.transcribe(audioData = request.audio, language = request.language, onProgress = onProgress, prompt = request.prompt)
 }
 
 /**
