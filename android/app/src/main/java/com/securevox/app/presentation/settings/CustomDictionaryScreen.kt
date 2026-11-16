@@ -56,7 +56,7 @@ fun CustomDictionaryScreen(
                     Column {
                         Text(stringResource(R.string.custom_dictionary))
                         Text(
-                            text = stringResource(R.string.words_count, words.size),
+                            text = LocalContext.current.resources.getQuantityString(R.plurals.words_count, words.size, words.size),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
