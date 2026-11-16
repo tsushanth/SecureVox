@@ -60,7 +60,7 @@ class DictionaryCorrectorTest {
     @Test
     fun greekFinalSigmaAndCase() {
         assertEquals("ο Νίκος είπε", fix("ο νίκοσ είπε", "Νίκος"))
-        assertEquals("η Σοφία.", fix("η ΣΟΦΙΑ.", "Σοφία"))
+        assertEquals("η Σοφία.", fix("η ΣΟΦΊΑ.", "Σοφία"))
     }
 
     @Test

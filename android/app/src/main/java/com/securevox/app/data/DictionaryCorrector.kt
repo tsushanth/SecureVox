@@ -36,12 +36,10 @@ fun sanitizeDictionaryTerm(raw: String?): String? {
         val cp = raw.codePointAt(i)
         i += Character.charCount(cp)
         when {
-            // Controls and line/paragraph separators split or break a term; any whitespace becomes one space.
-            Character.isWhitespace(cp) || Character.isSpaceChar(cp) || Character.isISOControl(cp) ||
-                Character.getType(cp) == Character.LINE_SEPARATOR.toInt() ||
-                Character.getType(cp) == Character.PARAGRAPH_SEPARATOR.toInt() -> pendingSpace = sb.isNotEmpty()
-            // Unpaired surrogates, noncharacters and the replacement character carry no text.
-            cp == 0xFFFD || cp == 0xFFFE || cp == 0xFFFF || Character.getType(cp) == Character.SURROGATE.toInt() ||
+            // Any run of whitespace (including line and paragraph separators) becomes one space.
+            Character.isWhitespace(cp) || Character.isSpaceChar(cp) -> pendingSpace = sb.isNotEmpty()
+            // Control characters, unpaired surrogates, noncharacters and the replacement character carry no text.
+            Character.isISOControl(cp) || cp == 0xFFFD || cp == 0xFFFE || cp == 0xFFFF || Character.getType(cp) == Character.SURROGATE.toInt() ||
                 Character.getType(cp) == Character.UNASSIGNED.toInt() -> Unit
             else -> {
                 if (pendingSpace) { sb.append(' '); pendingSpace = false }
