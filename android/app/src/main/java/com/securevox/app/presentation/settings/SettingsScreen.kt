@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.settings
 
+import com.securevox.app.util.mirrorInRtl
 import android.content.Intent
 import android.net.Uri
 import android.text.format.Formatter
@@ -34,6 +35,7 @@ import com.securevox.app.util.funnel.Step
 import com.securevox.app.util.funnel.funnel
 import java.time.ZoneId
 import com.securevox.app.whisper.DownloadState
+import com.securevox.app.whisper.label
 import com.securevox.app.whisper.LanguageAdvice
 import com.securevox.app.whisper.LanguageQuality
 import com.securevox.app.whisper.ModelInfo
@@ -75,7 +77,7 @@ fun SettingsScreen(
                 title = { Text(stringResource(R.string.settings)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 }
             )
@@ -124,7 +126,7 @@ fun SettingsScreen(
             item {
                 SettingsCard(
                     title = stringResource(R.string.transcription_language),
-                    subtitle = selectedLanguage.displayName,
+                    subtitle = selectedLanguage.label(),
                     icon = Icons.Default.Language,
                     onClick = { showLanguageDialog = true }
                 )
@@ -166,7 +168,7 @@ fun SettingsScreen(
             }
 
             // Speech engines (engines package): self-contained block, kept apart from the language/model cards.
-            item { EngineSettingsSection(selectedLanguage.code, selectedLanguage.displayName) }
+            item { EngineSettingsSection(selectedLanguage.code, selectedLanguage.label()) }
 
             // Recording Section
             item {
@@ -246,7 +248,7 @@ fun SettingsScreen(
             item {
                 SettingsCard(
                     title = stringResource(R.string.theme),
-                    subtitle = themeMode.displayName,
+                    subtitle = stringResource(themeMode.labelRes),
                     icon = Icons.Default.Palette,
                     onClick = { showThemeDialog = true }
                 )
@@ -464,7 +466,7 @@ fun SettingsScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = language.displayName,
+                                text = language.label(),
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         }
@@ -503,7 +505,7 @@ fun SettingsScreen(
                             Spacer(modifier = Modifier.width(8.dp))
                             Column {
                                 Text(
-                                    text = mode.displayName,
+                                    text = stringResource(mode.labelRes),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Text(
@@ -629,7 +631,7 @@ private fun ModelCard(
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = model.description,
+                        text = stringResource(model.descriptionRes),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -646,8 +648,8 @@ private fun ModelCard(
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
                         ModelStat(label = stringResource(R.string.model_stat_size), value = stringResource(R.string.engine_size_format, model.sizeMB))
-                        ModelStat(label = stringResource(R.string.model_stat_accuracy), value = model.accuracy)
-                        ModelStat(label = stringResource(R.string.model_stat_speed), value = model.speed)
+                        ModelStat(label = stringResource(R.string.model_stat_accuracy), value = stringResource(model.accuracyRes))
+                        ModelStat(label = stringResource(R.string.model_stat_speed), value = stringResource(model.speedRes))
                     }
                 }
 
@@ -803,6 +805,7 @@ private fun SettingsCard(
             Icon(
                 Icons.Default.ChevronRight,
                 contentDescription = null,
+                modifier = Modifier.mirrorInRtl(),
                 tint = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
@@ -884,10 +887,10 @@ private fun LanguageQualityNote(
                     text = if (advice.canSwitch) {
                         stringResource(
                             R.string.language_quality_note,
-                            language.displayName, selectedModel.displayName, advice.recommended.displayName
+                            language.label(), selectedModel.displayName, advice.recommended.displayName
                         )
                     } else {
-                        stringResource(R.string.language_quality_note_limited, language.displayName)
+                        stringResource(R.string.language_quality_note_limited, language.label())
                     },
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant

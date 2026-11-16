@@ -1,5 +1,6 @@
 package com.securevox.app.presentation.settings
 
+import com.securevox.app.util.mirrorInRtl
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -55,7 +56,7 @@ fun CustomDictionaryScreen(
                     Column {
                         Text(stringResource(R.string.custom_dictionary))
                         Text(
-                            text = stringResource(R.string.words_count, words.size),
+                            text = LocalContext.current.resources.getQuantityString(R.plurals.words_count, words.size, words.size),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -63,7 +64,7 @@ fun CustomDictionaryScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back))
+                        Icon(Icons.Default.ArrowBack, contentDescription = stringResource(R.string.back), modifier = Modifier.mirrorInRtl())
                     }
                 },
                 actions = {
@@ -258,12 +259,19 @@ fun CustomDictionaryScreen(
             onDismiss = { showAddDialog = false },
             onAdd = { word ->
                 scope.launch {
-                    val added = dictionaryService.addWord(word)
-                    if (added) {
-                        Toast.makeText(context, context.getString(R.string.word_added), Toast.LENGTH_SHORT).show()
-                    } else {
-                        Toast.makeText(context, context.getString(R.string.word_already_exists), Toast.LENGTH_SHORT).show()
+                    val usable = com.securevox.app.data.sanitizeDictionaryTerm(word) != null
+                    val full = dictionaryService.getWordCount() >= com.securevox.app.data.DictionaryLimits.MAX_TERMS
+                    val added = usable && dictionaryService.addWord(word)
+                    val message = when {
+                        added -> context.getString(R.string.word_added)
+                        !usable || full -> context.getString(
+                            R.string.word_not_usable,
+                            com.securevox.app.data.DictionaryLimits.MAX_TERM_CODE_POINTS,
+                            com.securevox.app.data.DictionaryLimits.MAX_TERMS
+                        )
+                        else -> context.getString(R.string.word_already_exists)
                     }
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
                 }
                 showAddDialog = false
             }

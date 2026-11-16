@@ -27,6 +27,7 @@ import com.securevox.app.util.funnel.funnel
 import com.securevox.app.whisper.DownloadPolicy
 import com.securevox.app.whisper.DownloadProblem
 import com.securevox.app.whisper.DownloadState
+import com.securevox.app.whisper.label
 import com.securevox.app.whisper.FirstRunModel
 import com.securevox.app.whisper.ModelManager
 import com.securevox.app.whisper.QualityTier
@@ -439,13 +440,13 @@ private fun SuggestedModel(
     )
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            text = stringResource(R.string.setup_suggest_title, language.displayName, offer.suggested.displayName),
+            text = stringResource(R.string.setup_suggest_title, language.label(), offer.suggested.displayName),
             style = MaterialTheme.typography.titleSmall,
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
-            text = stringResource(R.string.setup_suggest_body, tinyWord, language.displayName, offer.suggested.displayName),
+            text = stringResource(R.string.setup_suggest_body, tinyWord, language.label(), offer.suggested.displayName),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             textAlign = TextAlign.Center

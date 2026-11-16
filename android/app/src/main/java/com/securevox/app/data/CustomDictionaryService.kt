@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.map
 
 /**
  * Service for managing custom dictionary words.
- * Words in the custom dictionary can be used to improve transcription accuracy
- * for names, technical terms, or other words that may be commonly misrecognized.
+ * The user's names, technical terms and abbreviations. They are handed to the speech model as a hint when a
+ * recording is transcribed, and DictionaryCorrector then rewrites each term in the text exactly as the user
+ * typed it (capitalization, and a space or hyphen between letters). It does not fix phonetic misspellings.
  */
 class CustomDictionaryService(private val context: Context) {
 
@@ -53,39 +54,32 @@ class CustomDictionaryService(private val context: Context) {
     }
 
     /**
-     * Add a word to the dictionary
-     * @return true if word was added, false if it already exists
+     * Add a word to the dictionary. The word is cleaned first (see [sanitizeDictionaryTerm]).
+     * @return true if word was added, false if it is unusable (empty, longer than
+     * [DictionaryLimits.MAX_TERM_CODE_POINTS]), already there (capitalization ignored) or the dictionary is full
      */
-    suspend fun addWord(word: String): Boolean {
-        val trimmedWord = word.trim()
-        if (trimmedWord.isBlank()) return false
-
-        var added = false
-        dataStore.edit { prefs ->
-            val currentWords = prefs[KEY_WORDS] ?: emptySet()
-            if (!currentWords.contains(trimmedWord)) {
-                prefs[KEY_WORDS] = currentWords + trimmedWord
-                added = true
-            }
-        }
-        return added
-    }
+    suspend fun addWord(word: String): Boolean = addWords(listOf(word)) > 0
 
     /**
-     * Add multiple words to the dictionary
+     * Add multiple words to the dictionary. Unusable, duplicate and over-limit entries are skipped.
      * @return number of words actually added
      */
     suspend fun addWords(words: List<String>): Int {
-        val trimmedWords = words.map { it.trim() }.filter { it.isNotBlank() }.toSet()
-        if (trimmedWords.isEmpty()) return 0
+        val cleaned = words.mapNotNull { sanitizeDictionaryTerm(it) }
+        if (cleaned.isEmpty()) return 0
 
         var addedCount = 0
         dataStore.edit { prefs ->
             val currentWords = prefs[KEY_WORDS] ?: emptySet()
-            val newWords = trimmedWords - currentWords
-            addedCount = newWords.size
-            if (newWords.isNotEmpty()) {
-                prefs[KEY_WORDS] = currentWords + newWords
+            val keys = HashSet<String>(currentWords.map { dictionaryTermKey(it) })
+            val toAdd = LinkedHashSet<String>()
+            for (w in cleaned) {
+                if (currentWords.size + toAdd.size >= DictionaryLimits.MAX_TERMS) break
+                if (keys.add(dictionaryTermKey(w))) toAdd.add(w)
+            }
+            addedCount = toAdd.size
+            if (toAdd.isNotEmpty()) {
+                prefs[KEY_WORDS] = currentWords + toAdd
             }
         }
         return addedCount
@@ -115,7 +109,8 @@ class CustomDictionaryService(private val context: Context) {
      */
     suspend fun containsWord(word: String): Boolean {
         val currentWords = dataStore.data.first()[KEY_WORDS] ?: emptySet()
-        return currentWords.contains(word.trim())
+        val key = sanitizeDictionaryTerm(word)?.let { dictionaryTermKey(it) } ?: return false
+        return currentWords.any { dictionaryTermKey(it) == key }
     }
 
     /**

@@ -56,6 +56,9 @@ class RecordingDetailViewModel(
     private val audioPlayer = AudioPlayerService.getInstance(application)
     private val exportService = ExportService(application)
 
+    /** The user's Custom Dictionary, kept current so an export always uses today's terms. */
+    @Volatile private var dictionaryCorrector = com.securevox.app.data.DictionaryCorrector.EMPTY
+
     val recording: StateFlow<Recording?> = repository.getRecordingByIdFlow(recordingId)
         .stateIn(viewModelScope, SharingStarted.Lazily, null)
 
@@ -173,6 +176,12 @@ class RecordingDetailViewModel(
 
     init {
         viewModelScope.launch {
+            com.securevox.app.data.CustomDictionaryService.getInstance(application).words.collect {
+                dictionaryCorrector = com.securevox.app.data.DictionaryCorrector(it)
+            }
+        }
+
+        viewModelScope.launch {
             recording.filterNotNull().first().let { rec ->
                 audioPlayer.load(rec.audioFilePath)
                 _waveform.value = withContext(Dispatchers.IO) {
@@ -278,14 +287,14 @@ class RecordingDetailViewModel(
     }
 
     fun getFullTranscript(): String {
-        return segments.value.joinToString(" ") { it.text }
+        return com.securevox.app.whisper.joinWords(segments.value.map { it.text })
     }
 
     fun exportTranscript(format: ExportFormat): Intent? {
         val rec = recording.value ?: return null
         val segs = segments.value
         if (segs.isEmpty()) return null
-        val intent = exportService.exportToFile(segs, format, rec.title)
+        val intent = exportService.exportToFile(segs, format, rec.title, dictionaryCorrector)
         if (intent != null) FunnelHooks.valueKindForExport(format.extension)?.let { funnel().step(Step.VALUE_ACTION, it) }
         return intent
     }

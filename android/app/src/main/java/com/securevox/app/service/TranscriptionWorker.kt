@@ -202,6 +202,17 @@ class TranscriptionWorker(
             val allSegments = mutableListOf<TranscriptSegment>()
             var segmentIndex = 0
 
+            // Custom Dictionary: terms become the model's initial prompt, and the finished text is then
+            // corrected to the user's spelling (see data/DictionaryCorrector.kt). Failure to read it never fails a recording.
+            val dictionaryTerms = try {
+                com.securevox.app.data.CustomDictionaryService.getInstance(applicationContext).getWords()
+            } catch (e: Exception) {
+                Log.w(TAG, "Could not read the custom dictionary", e)
+                emptyList()
+            }
+            val dictionaryCorrector = com.securevox.app.data.DictionaryCorrector(dictionaryTerms)
+            val dictionaryPrompt = com.securevox.app.data.promptFor(dictionaryTerms)
+
             // ENGINES: whisper.cpp unless the user installed a better engine for this language (see
             // engines/EngineRouter); an engine that fails to load or throws falls back to whisper.cpp.
             val activeEngine = EngineManager.createEngine(applicationContext, WhisperEngine(whisperLib), language, recordingId)
@@ -226,7 +237,7 @@ class TranscriptionWorker(
 
                 // ENGINES dispatch hook: was whisperLib.transcribe(chunkData, language, onProgress).
                 val chunkSegments = activeEngine.transcribe(
-                    ChunkRequest(chunkData, language, if (chunkIdx > 0) OVERLAP_SAMPLES * 1000L / 16000L else 0L),
+                    ChunkRequest(chunkData, language, if (chunkIdx > 0) OVERLAP_SAMPLES * 1000L / 16000L else 0L, dictionaryPrompt),
                     onProgress = { chunkProgress ->
                         val overall = ((chunkIdx * 100 + chunkProgress) / totalChunks).coerceIn(0, 99)
                         setProgressAsync(progressData(overall, transcriptionStartedAtMs, whisperModel.fileName))
@@ -241,14 +252,15 @@ class TranscriptionWorker(
                 val newSegments = chunkSegments
                     .filter { ChunkTiming.isNewSegment(it.startTimeMs, overlapMs) } // skip overlap from previous chunk
                     .map { seg ->
+                        val (fixedText, fixedWords) = dictionaryCorrector.correctSegment(seg.text, seg.words)
                         TranscriptSegment(
                             recordingId = recordingId,
-                            text = seg.text,
+                            text = fixedText,
                             startTimeMs = ChunkTiming.toRecordingMs(seg.startTimeMs, chunkOffsetMs),
                             endTimeMs = ChunkTiming.toRecordingMs(seg.endTimeMs, chunkOffsetMs),
                             segmentIndex = segmentIndex++,
                             // Word timing: same offset as the segment; "" when none were produced.
-                            words = WordCodec.encode(seg.words.map { it.shifted(chunkOffsetMs) })
+                            words = WordCodec.encode(fixedWords.map { it.shifted(chunkOffsetMs) })
                         )
                     }
 

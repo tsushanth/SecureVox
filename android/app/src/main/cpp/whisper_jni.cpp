@@ -60,7 +60,8 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     jfloatArray audioData,
     jstring language,
     jobject progressCallback,
-    jboolean fast) {
+    jboolean fast,
+    jstring prompt) {
 
     auto* ctx = reinterpret_cast<whisper_context*>(contextPtr);
     if (ctx == nullptr) {
@@ -78,6 +79,16 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     const char* lang = env->GetStringUTFChars(language, nullptr);
     LOGI("Transcribing with language: %s", lang);
 
+    // Optional initial prompt (the user's Custom Dictionary terms): biases decoding towards those spellings.
+    std::string promptText;
+    if (prompt != nullptr) {
+        const char* p = env->GetStringUTFChars(prompt, nullptr);
+        if (p != nullptr) {
+            promptText = p;
+            env->ReleaseStringUTFChars(prompt, p);
+        }
+    }
+
     // Configure whisper parameters
     whisper_full_params params = whisper_full_default_params(WHISPER_SAMPLING_GREEDY);
     params.print_realtime = false;
@@ -90,6 +101,9 @@ Java_com_securevox_app_whisper_WhisperLib_transcribeAudio(
     params.offset_ms = 0;
     params.no_context = true;
     params.single_segment = false;
+    if (!promptText.empty()) {
+        params.initial_prompt = promptText.c_str();  // promptText outlives whisper_full below
+    }
 
     // Word timing: ask whisper.cpp for per-token times (cheap, runs after each segment is
     // decoded, does not change the decoded text). Live captions ('fast') never need them.

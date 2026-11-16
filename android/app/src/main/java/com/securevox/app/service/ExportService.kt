@@ -11,10 +11,10 @@ import com.securevox.app.util.FailureReporter
 /**
  * Export format options matching iOS
  */
-enum class ExportFormat(val extension: String, val mimeType: String, val displayName: String) {
-    TXT("txt", "text/plain", "Plain Text (.txt)"),
-    SRT("srt", "application/x-subrip", "SubRip Subtitle (.srt)"),
-    VTT("vtt", "text/vtt", "WebVTT (.vtt)")
+enum class ExportFormat(val extension: String, val mimeType: String, @androidx.annotation.StringRes val labelRes: Int) {
+    TXT("txt", "text/plain", com.securevox.app.R.string.export_format_txt),
+    SRT("srt", "application/x-subrip", com.securevox.app.R.string.export_format_srt),
+    VTT("vtt", "text/vtt", com.securevox.app.R.string.export_format_vtt)
 }
 
 /**
@@ -24,8 +24,10 @@ enum class ExportFormat(val extension: String, val mimeType: String, val display
 class ExportService(private val context: Context) {
 
     /** "Speaker 2: text" when the transcript has speaker labels, otherwise just the text. */
-    private fun labelled(segment: TranscriptSegment): String =
-        if (segment.speaker >= 0) "Speaker ${segment.speaker + 1}: ${segment.text}" else segment.text
+    private fun labelled(segment: TranscriptSegment, corrector: com.securevox.app.data.DictionaryCorrector): String {
+        val text = corrector.correct(segment.text)
+        return if (segment.speaker >= 0) "${context.getString(com.securevox.app.R.string.speaker_n, segment.speaker + 1)}: $text" else text
+    }
 
 
     companion object {
@@ -35,11 +37,15 @@ class ExportService(private val context: Context) {
     /**
      * Generate transcript content in the specified format.
      */
-    fun generateContent(segments: List<TranscriptSegment>, format: ExportFormat): String {
+    fun generateContent(
+        segments: List<TranscriptSegment>,
+        format: ExportFormat,
+        corrector: com.securevox.app.data.DictionaryCorrector = com.securevox.app.data.DictionaryCorrector.EMPTY
+    ): String {
         return when (format) {
-            ExportFormat.TXT -> generateTxt(segments)
-            ExportFormat.SRT -> generateSrt(segments)
-            ExportFormat.VTT -> generateVtt(segments)
+            ExportFormat.TXT -> generateTxt(segments, corrector)
+            ExportFormat.SRT -> generateSrt(segments, corrector)
+            ExportFormat.VTT -> generateVtt(segments, corrector)
         }
     }
 
@@ -49,10 +55,11 @@ class ExportService(private val context: Context) {
     fun exportToFile(
         segments: List<TranscriptSegment>,
         format: ExportFormat,
-        fileName: String
+        fileName: String,
+        corrector: com.securevox.app.data.DictionaryCorrector = com.securevox.app.data.DictionaryCorrector.EMPTY
     ): Intent? {
         try {
-            val content = generateContent(segments, format)
+            val content = generateContent(segments, format, corrector)
             val sanitizedFileName = sanitizeFileName(fileName)
             val file = createExportFile(sanitizedFileName, format.extension)
 
@@ -81,8 +88,8 @@ class ExportService(private val context: Context) {
      * Generate plain text format.
      * Simple text without timestamps, segments joined with double line breaks.
      */
-    private fun generateTxt(segments: List<TranscriptSegment>): String {
-        return segments.joinToString("\n\n") { labelled(it) }
+    private fun generateTxt(segments: List<TranscriptSegment>, corrector: com.securevox.app.data.DictionaryCorrector): String {
+        return segments.joinToString("\n\n") { labelled(it, corrector) }
     }
 
     /**
@@ -98,11 +105,11 @@ class ExportService(private val context: Context) {
      * 00:00:05,000 --> 00:00:10,000
      * Second segment text
      */
-    private fun generateSrt(segments: List<TranscriptSegment>): String {
+    private fun generateSrt(segments: List<TranscriptSegment>, corrector: com.securevox.app.data.DictionaryCorrector): String {
         return segments.mapIndexed { index, segment ->
             val startTime = formatSrtTimestamp(segment.startTimeMs)
             val endTime = formatSrtTimestamp(segment.endTimeMs)
-            "${index + 1}\n$startTime --> $endTime\n${labelled(segment)}"
+            "${index + 1}\n$startTime --> $endTime\n${labelled(segment, corrector)}"
         }.joinToString("\n\n")
     }
 
@@ -119,12 +126,12 @@ class ExportService(private val context: Context) {
      * 00:00:05.000 --> 00:00:10.000
      * Second segment text
      */
-    private fun generateVtt(segments: List<TranscriptSegment>): String {
+    private fun generateVtt(segments: List<TranscriptSegment>, corrector: com.securevox.app.data.DictionaryCorrector): String {
         val header = "WEBVTT\n\n"
         val body = segments.joinToString("\n\n") { segment ->
             val startTime = formatVttTimestamp(segment.startTimeMs)
             val endTime = formatVttTimestamp(segment.endTimeMs)
-            "$startTime --> $endTime\n${labelled(segment)}"
+            "$startTime --> $endTime\n${labelled(segment, corrector)}"
         }
         return header + body
     }
@@ -137,7 +144,7 @@ class ExportService(private val context: Context) {
         val minutes = (millis / (1000 * 60)) % 60
         val seconds = (millis / 1000) % 60
         val ms = millis % 1000
-        return String.format("%02d:%02d:%02d,%03d", hours, minutes, seconds, ms)
+        return String.format(java.util.Locale.ROOT, "%02d:%02d:%02d,%03d", hours, minutes, seconds, ms)
     }
 
     /**
@@ -148,7 +155,7 @@ class ExportService(private val context: Context) {
         val minutes = (millis / (1000 * 60)) % 60
         val seconds = (millis / 1000) % 60
         val ms = millis % 1000
-        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, ms)
+        return String.format(java.util.Locale.ROOT, "%02d:%02d:%02d.%03d", hours, minutes, seconds, ms)
     }
 
     /**

@@ -35,10 +35,10 @@ import kotlinx.coroutines.launch
 /**
  * Theme mode options matching iOS: System, Light, Dark
  */
-enum class ThemeMode(val displayName: String) {
-    SYSTEM("System"),
-    LIGHT("Light"),
-    DARK("Dark");
+enum class ThemeMode(@androidx.annotation.StringRes val labelRes: Int) {
+    SYSTEM(com.securevox.app.R.string.theme_system),
+    LIGHT(com.securevox.app.R.string.theme_light),
+    DARK(com.securevox.app.R.string.theme_dark);
 
     companion object {
         fun fromString(value: String?): ThemeMode {
