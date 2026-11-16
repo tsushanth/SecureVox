@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Exactly the languages that have a values-* folder (plus default en). LocalesConfigTest keeps this in sync.
-     id = values-in, tl = values-tl (Filipino). -->
+     id = values-in, fil = values-fil (Filipino). -->
 <locale-config xmlns:android="http://schemas.android.com/apk/res/android">
     <locale android:name="en" />
     <locale android:name="es" />
@@ -19,7 +19,7 @@
     <locale android:name="pl" />
     <locale android:name="ru" />
     <locale android:name="th" />
-    <locale android:name="tl" />
+    <locale android:name="fil" />
     <locale android:name="tr" />
     <locale android:name="vi" />
 </locale-config>
