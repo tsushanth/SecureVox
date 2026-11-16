@@ -125,6 +125,14 @@ android {
     }
 
 
+    // Keep every language in the bundle so the per-app language setting (Android 13+ system picker)
+    // can switch to a language other than the phone language without falling back to English.
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
