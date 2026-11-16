@@ -278,7 +278,7 @@ class RecordingDetailViewModel(
     }
 
     fun getFullTranscript(): String {
-        return segments.value.joinToString(" ") { it.text }
+        return com.securevox.app.whisper.joinWords(segments.value.map { it.text })
     }
 
     fun exportTranscript(format: ExportFormat): Intent? {

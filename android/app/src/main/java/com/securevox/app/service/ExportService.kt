@@ -25,7 +25,7 @@ class ExportService(private val context: Context) {
 
     /** "Speaker 2: text" when the transcript has speaker labels, otherwise just the text. */
     private fun labelled(segment: TranscriptSegment): String =
-        if (segment.speaker >= 0) "Speaker ${segment.speaker + 1}: ${segment.text}" else segment.text
+        if (segment.speaker >= 0) "${context.getString(com.securevox.app.R.string.speaker_n, segment.speaker + 1)}: ${segment.text}" else segment.text
 
 
     companion object {
@@ -137,7 +137,7 @@ class ExportService(private val context: Context) {
         val minutes = (millis / (1000 * 60)) % 60
         val seconds = (millis / 1000) % 60
         val ms = millis % 1000
-        return String.format("%02d:%02d:%02d,%03d", hours, minutes, seconds, ms)
+        return String.format(java.util.Locale.ROOT, "%02d:%02d:%02d,%03d", hours, minutes, seconds, ms)
     }
 
     /**
@@ -148,7 +148,7 @@ class ExportService(private val context: Context) {
         val minutes = (millis / (1000 * 60)) % 60
         val seconds = (millis / 1000) % 60
         val ms = millis % 1000
-        return String.format("%02d:%02d:%02d.%03d", hours, minutes, seconds, ms)
+        return String.format(java.util.Locale.ROOT, "%02d:%02d:%02d.%03d", hours, minutes, seconds, ms)
     }
 
     /**
