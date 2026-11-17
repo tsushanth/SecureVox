@@ -316,6 +316,13 @@ class TranscriptionWorker(
             )
             Result.failure()
         } catch (e: Exception) {
+            // The user deleted the recording while it was being transcribed: the segment insert hit the
+            // foreign key. Nothing to repair and nothing to report; the transcript has nowhere to go.
+            val stillThere = try { repository.getRecordingById(recordingId) != null } catch (_: Exception) { true }
+            if (RecordingGone.deletedMidRun(e, stillThere)) {
+                Log.i(TAG, "Recording $recordingId was deleted during transcription; stopping quietly")
+                return@withContext Result.failure()
+            }
             Log.e(TAG, "Transcription failed", e)
             FailureReporter.failure("transcription.run", e, context = progressContext(lastChunkIndexReached, lastTotalChunks, transcriptionStartedAtMs))
             ledgerFailure(WhisperModel.fromFileName(modelName), TranscribeFailClass.OTHER, transcriptionStartedAtMs)

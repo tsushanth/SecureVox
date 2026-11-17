@@ -125,6 +125,8 @@ class FailureReportCoreTest {
         assertTrue(FailureSanitizer.isConnectivity(UnknownHostException("huggingface.co")))
         assertTrue(FailureSanitizer.isConnectivity(RuntimeException("x", java.net.SocketTimeoutException())))
         assertFalse(FailureSanitizer.isConnectivity(IOException("disk")))
+        assertTrue(FailureSanitizer.isConnectivity(java.net.ProtocolException("unexpected end of stream")))
+        assertFalse(FailureSanitizer.isConnectivity(java.net.ProtocolException("Too many follow-up requests")))
         assertTrue(FailureSanitizer.isCancellation(java.util.concurrent.CancellationException("job cancelled")))
         assertFalse(FailureSanitizer.isCancellation(IllegalStateException()))
     }

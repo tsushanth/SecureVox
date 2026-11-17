@@ -433,6 +433,8 @@ class RecordingsViewModel(application: Application) : AndroidViewModel(applicati
     }
 
     fun deleteRecording(recording: Recording) {
+        // Stop a transcription still running for it, so it does not try to save into a row that is gone.
+        workManager.cancelAllWorkByTag("${TranscriptionWorker.TAG_RECORDING_PREFIX}${recording.id}")
         viewModelScope.launch {
             repository.deleteRecording(recording)
         }
