@@ -124,7 +124,9 @@ object FailureSanitizer {
     /** The phone is offline or the network dropped: the user's connection, not a bug in the app. */
     fun isConnectivity(t: Throwable?): Boolean = chain(t).any {
         it is java.net.UnknownHostException || it is java.net.SocketException ||
-            it is java.net.SocketTimeoutException || it is javax.net.ssl.SSLException
+            it is java.net.SocketTimeoutException || it is javax.net.ssl.SSLException ||
+            // The connection closed before the response ended ("unexpected end of stream"): a dropped network.
+            (it is java.net.ProtocolException && it.message.orEmpty().contains("unexpected end of stream", ignoreCase = true))
     }
 
     /** Coroutine / worker cancellation is control flow, never a failure. */
