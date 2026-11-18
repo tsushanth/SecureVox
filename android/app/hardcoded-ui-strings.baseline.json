@@ -1,0 +1,14 @@
+{
+  "_note": "Per-file count of hard-coded user-visible English literals in src/main. NoHardcodedUiStringsTest fails if a count rises or a new file adds any. Lower counts are fine. Regenerate deliberately with scripts/update-hardcoded-baseline.sh; see docs/hardcoded-ui-strings-guard.md.",
+  "total": 29,
+  "files": {
+    "src/main/java/com/securevox/app/engines/EngineRouting.kt": {"count": 3, "h": ["b1b3bf62", "c0336d50", "ca46c644"]},
+    "src/main/java/com/securevox/app/presentation/detail/RecordingDetailScreen.kt": {"count": 1, "h": ["6c3a2d04"]},
+    "src/main/java/com/securevox/app/presentation/settings/SettingsScreen.kt": {"count": 2, "h": ["1f02036d", "b1b8e2fd"]},
+    "src/main/java/com/securevox/app/service/MediaImportService.kt": {"count": 7, "h": ["4a4669f4", "51e06459", "5471661b", "97432746", "bee863f4", "ec812485", "f2988b27"]},
+    "src/main/java/com/securevox/app/service/SpeakerRelabelWorker.kt": {"count": 2, "h": ["268b0794", "3e890760"]},
+    "src/main/java/com/securevox/app/speakers/SpeakerPass.kt": {"count": 4, "h": ["3ae98574", "3b33cd9e", "7ea11f13", "cc9eff79"]},
+    "src/main/java/com/securevox/app/tts/SystemTtsEngine.kt": {"count": 7, "h": ["7f3d4169", "7f3d4169", "8705820a", "95a374d7", "9acb1cb7", "de290a44", "ee0b2d67"]},
+    "src/main/java/com/securevox/app/whisper/WhisperModel.kt": {"count": 3, "h": ["001f7af1", "0027c720", "04c4a4e7"]}
+  }
+}

@@ -105,3 +105,7 @@ MIT License - see LICENSE file for details.
 - [OpenAI Whisper](https://github.com/openai/whisper) - Speech recognition model
 - [WhisperKit](https://github.com/argmaxinc/WhisperKit) - iOS CoreML implementation
 - [whisper.cpp](https://github.com/ggerganov/whisper.cpp) - C++ implementation
+
+## Hard-coded UI strings guard
+
+A unit test (`NoHardcodedUiStringsTest`) fails if new user-visible English is hard-coded in `app/src/main` instead of strings.xml. Pre-existing literals are recorded in `app/hardcoded-ui-strings.baseline.json`. How it works and how to update the baseline: `android/docs/hardcoded-ui-strings-guard.md`.
