@@ -50,7 +50,7 @@ class StringResourcesParityTest {
         "values-ar" -> setOf("zero", "one", "two", "few", "many", "other")
         "values-ru", "values-pl", "values-cs", "values-uk" -> setOf("one", "few", "many", "other")
         "values-ro" -> setOf("one", "few", "other")
-        "values-ja", "values-ko", "values-zh-rCN", "values-th", "values-vi", "values-in", "values-ms" -> setOf("other")
+        "values-ja", "values-ko", "values-zh-rCN", "values-zh-rTW", "values-zh-rHK", "values-b+zh+Hant", "values-th", "values-vi", "values-in", "values-ms" -> setOf("other")
         else -> setOf("one", "other")
     }
 
@@ -85,9 +85,13 @@ class StringResourcesParityTest {
             "values-in" -> "id"
             "values-pt-rBR" -> "pt-BR"
             "values-zh-rCN" -> "zh-CN"
+            "values-zh-rTW" -> "zh-TW"
+            "values-zh-rHK" -> "zh-HK"
             else -> folder.removePrefix("values-")
         }
-        val shipped = (locales().map { tag(it.name) } + "en").sorted()
+        // values-b+zh+Hant is the script fallback for Traditional Chinese regions without their own folder (e.g. zh-MO);
+        // it is not a separate picker entry, zh-TW and zh-HK cover it.
+        val shipped = (locales().filter { it.name != "values-b+zh+Hant" }.map { tag(it.name) } + "en").sorted()
         val listed = Regex("""android:name="([^"]+)"""").findAll(File(res(), "xml/locales_config.xml").readText())
             .map { it.groupValues[1] }.sorted().toList()
         assertEquals(shipped, listed)
