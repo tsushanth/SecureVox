@@ -12,6 +12,7 @@ import com.securevox.app.data.model.TranscriptSegment
 import com.securevox.app.data.model.WordTiming
 import com.securevox.app.data.repository.RecordingRepository
 import com.securevox.app.SecureVoxApp
+import com.securevox.app.data.RecordingRecovery
 import com.securevox.app.service.AudioPlayerService
 import com.securevox.app.service.ExportFormat
 import com.securevox.app.service.ExportService
@@ -182,12 +183,14 @@ class RecordingDetailViewModel(
         }
 
         viewModelScope.launch {
-            recording.filterNotNull().first().let { rec ->
-                audioPlayer.load(rec.audioFilePath)
-                _waveform.value = withContext(Dispatchers.IO) {
-                    runCatching { WaveformExtractor.extract(File(rec.audioFilePath)) }
-                        .getOrDefault(FloatArray(0))
-                }
+            // A recording opened while it is still being made cannot be played yet. The player is shared, so drop
+            // what it holds (Play here must not start another recording) and load once this one is finished.
+            if (RecordingRecovery.looksInterrupted(recording.filterNotNull().first())) audioPlayer.release()
+            val rec = RecordingRecovery.awaitFinished(recording)
+            audioPlayer.load(rec.audioFilePath)
+            _waveform.value = withContext(Dispatchers.IO) {
+                runCatching { WaveformExtractor.extract(File(rec.audioFilePath)) }
+                    .getOrDefault(FloatArray(0))
             }
         }
     }
