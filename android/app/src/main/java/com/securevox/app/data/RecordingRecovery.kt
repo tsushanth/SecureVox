@@ -3,6 +3,9 @@ package com.securevox.app.data
 import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.AudioRecorderService
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.flow.first
 import java.io.File
 import java.io.RandomAccessFile
 
@@ -33,6 +36,14 @@ object RecordingRecovery {
         recording.transcriptionStatus == TranscriptionStatus.PENDING &&
             recording.duration == 0L &&
             recording.fileSize == 0L
+
+    /**
+     * Suspends until the recording's audio is finished and returns that row. The row is saved when recording starts,
+     * so it can be opened while it is still being made: the WAV header is zeros until stop (or recovery) finishes the
+     * file, and a player cannot open it before then.
+     */
+    suspend fun awaitFinished(rows: Flow<Recording?>): Recording =
+        rows.filterNotNull().first { !looksInterrupted(it) }
 
     /**
      * Makes [file] a playable, correctly sized WAV and returns its length, or null when there is nothing to

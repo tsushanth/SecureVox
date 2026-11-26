@@ -4,7 +4,10 @@ import com.securevox.app.data.model.Recording
 import com.securevox.app.data.model.TranscriptionStatus
 import com.securevox.app.service.AudioRecorderService
 import com.securevox.app.service.WavReader
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -130,6 +133,17 @@ class RecordingRecoveryTest {
         assertFalse(RecordingRecovery.looksInterrupted(row(f, status = TranscriptionStatus.COMPLETED)))
         assertFalse(RecordingRecovery.looksInterrupted(row(f, status = TranscriptionStatus.FAILED)))
         assertFalse(RecordingRecovery.looksInterrupted(row(f, status = TranscriptionStatus.IN_PROGRESS)))
+    }
+
+    @Test
+    fun playbackWaitsForARecordingThatIsStillBeingMade() = runBlocking {
+        val f = File("live.wav")
+        val finished = row(f, duration = 3_000L, size = 96_044L)
+
+        // The detail screen sees: nothing yet, the row saved at record start, then the row finished by stop.
+        assertEquals(finished, RecordingRecovery.awaitFinished(flowOf(null, row(f), finished)))
+        // While it is only ever unfinished there is nothing to load.
+        assertNull(withTimeoutOrNull(100) { RecordingRecovery.awaitFinished(MutableStateFlow(row(f))) })
     }
 
     @Test
