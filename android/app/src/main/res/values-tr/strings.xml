@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip altyazı (.srt)</string>
     <string name="export_format_vtt">WebVTT altyazı (.vtt)</string>
     <string name="language_auto_detect">Otomatik algıla</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (Latin harfleriyle Hintçe)</string>
+    <string name="setup_language_title">Konuşacağınız dil</string>
+    <string name="setup_language_body">SecureVox duyduklarını bu dilde yazar. İstediğiniz zaman Ayarlar\'dan değiştirebilirsiniz.</string>
+    <string name="setup_language_current">%1$s (değiştirmek için dokunun)</string>
+    <string name="setup_language_hindi_hint">Latin harflerini mi tercih ediyorsunuz? Hinglish\'i seçin: daha küçük Base modeliyle de iyi çalışır.</string>
     <string name="read_aloud">Sesli oku</string>
     <string name="read_aloud_loading_voices">Sesler yükleniyor…</string>
     <string name="read_aloud_preparing">Hazırlanıyor…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox ücretsiz mi?</string>
     <string name="faq_02_a">SecureVox, Google Play\'de tek seferlik bir satın almadır. Abonelik, uygulama içi satın alma ve reklam yoktur.</string>
     <string name="faq_03_q">Hangi diller destekleniyor?</string>
-    <string name="faq_03_a">SecureVox 14 dil ve otomatik algılama sunar. Doğruluk dile ve modele bağlıdır: varsayılan Tiny modeli yalnızca İngilizce için iyidir, Base İspanyolca ve Korece için de uygundur, Small ise çoğu büyük Avrupa dili, Japonca ve Korece için uygundur. Felemenkçe, Lehçe, Çince ve Arapça Small ile bile daha az doğru kalır, Hintçe ise deneyseldir.</string>
+    <string name="faq_03_a">SecureVox, otomatik algılamaya ek olarak 30\'dan fazla dilde yazıya döker; Hintçe ve Hinglish (Latin harfleriyle Hintçe) de bunlara dahildir. Doğruluk dile ve modele bağlıdır: varsayılan Tiny modeli yalnızca İngilizce için iyidir, Base İspanyolca, Korece ve Hinglish için de uygundur, Small ise büyük Avrupa dillerinin çoğuna, Japoncaya ve Koreceye uygundur. Devanagari yazılı Hintçe, Felemenkçe, Lehçe, Çince, Arapça ve Güney Asya dillerinin çoğu Small ile bile daha az doğru kalır; bu yüzden bu dökümleri taslak olarak değerlendirin.</string>
     <string name="faq_04_q">Kaydı nasıl başlatırım?</string>
     <string name="faq_04_a">Kaydı başlatmak için ekranın altındaki mikrofon düğmesine dokunun. Bitirdiğinizde durdur düğmesine dokunun. Kayıt otomatik olarak yazıya dökülür.</string>
     <string name="faq_05_q">Kayıtlar için bir süre sınırı var mı?</string>

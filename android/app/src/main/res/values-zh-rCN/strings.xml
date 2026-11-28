@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip 字幕 (.srt)</string>
     <string name="export_format_vtt">WebVTT 字幕 (.vtt)</string>
     <string name="language_auto_detect">自动检测</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish（用罗马字母书写的印地语）</string>
+    <string name="setup_language_title">你要说的语言</string>
+    <string name="setup_language_body">SecureVox 会用这种语言写下听到的内容。你可以随时在设置中更改。</string>
+    <string name="setup_language_current">%1$s（点按更改）</string>
+    <string name="setup_language_hindi_hint">想用罗马字母？请选择 Hinglish，它在较小的 Base 模型上也表现不错。</string>
     <string name="read_aloud">朗读</string>
     <string name="read_aloud_loading_voices">正在加载语音…</string>
     <string name="read_aloud_preparing">正在准备…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox 免费吗？</string>
     <string name="faq_02_a">SecureVox 在 Google Play 上是一次性购买。没有订阅，没有应用内购买，也没有广告。</string>
     <string name="faq_03_q">支持哪些语言？</string>
-    <string name="faq_03_a">SecureVox 提供 14 种语言和自动检测。准确度取决于语言和模型：默认的 Tiny 模型只适合英语，Base 还适合西班牙语和韩语，Small 适合大多数主要欧洲语言、日语和韩语。荷兰语、波兰语、中文和阿拉伯语即使使用 Small 准确度也相对较低，印地语为实验性支持。</string>
+    <string name="faq_03_a">SecureVox 支持 30 多种语言的转写，另有自动检测，包括印地语和 Hinglish（用罗马字母书写的印地语）。准确度取决于语言和模型：默认的 Tiny 模型只适合英语，Base 还适合西班牙语、韩语和 Hinglish，Small 适合大多数主要欧洲语言、日语和韩语。天城体印地语、荷兰语、波兰语、中文、阿拉伯语和大多数南亚语言即使使用 Small 准确度也较低，请把这些转写内容当作草稿。</string>
     <string name="faq_04_q">如何开始录音？</string>
     <string name="faq_04_a">点按屏幕底部的麦克风按钮开始录音，完成后点按停止按钮。录音会自动转录。</string>
     <string name="faq_05_q">录音有时间限制吗？</string>

@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip सबटाइटल (.srt)</string>
     <string name="export_format_vtt">WebVTT सबटाइटल (.vtt)</string>
     <string name="language_auto_detect">अपने आप पहचानें</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">हिंग्लिश (हिंदी रोमन अक्षरों में)</string>
+    <string name="setup_language_title">आप किस भाषा में बोलेंगे</string>
+    <string name="setup_language_body">SecureVox जो सुनता है उसे इसी भाषा में लिखता है। आप इसे कभी भी सेटिंग में बदल सकते हैं।</string>
+    <string name="setup_language_current">%1$s (बदलने के लिए टैप करें)</string>
+    <string name="setup_language_hindi_hint">रोमन अक्षर चाहिए? हिंग्लिश चुनें: यह छोटे Base मॉडल के साथ भी अच्छा चलता है।</string>
     <string name="read_aloud">ज़ोर से पढ़ें</string>
     <string name="read_aloud_loading_voices">आवाज़ें लोड हो रही हैं…</string>
     <string name="read_aloud_preparing">तैयार हो रहा है…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">क्या SecureVox मुफ़्त है?</string>
     <string name="faq_02_a">SecureVox Google Play पर एक बार की खरीद है। कोई सब्सक्रिप्शन, इन-ऐप खरीदारी या विज्ञापन नहीं है।</string>
     <string name="faq_03_q">कौन-सी भाषाएँ समर्थित हैं?</string>
-    <string name="faq_03_a">SecureVox 14 भाषाएँ और ऑटो-डिटेक्ट देता है। सटीकता भाषा और मॉडल पर निर्भर करती है: डिफ़ॉल्ट Tiny मॉडल केवल अंग्रेज़ी के लिए अच्छा है, Base स्पेनिश और कोरियाई के लिए भी ठीक है, और Small अधिकतर प्रमुख यूरोपीय भाषाओं, जापानी और कोरियाई के लिए उपयुक्त है। डच, पोलिश, चीनी और अरबी Small के साथ भी कम सटीक रहती हैं, और हिंदी प्रायोगिक है।</string>
+    <string name="faq_03_a">SecureVox 30 से ज़्यादा भाषाओं और ऑटो-डिटेक्ट में ट्रांसक्राइब करता है, जिनमें हिंदी और हिंग्लिश (हिंदी रोमन अक्षरों में) शामिल हैं। सटीकता भाषा और मॉडल पर निर्भर करती है: डिफ़ॉल्ट Tiny मॉडल सिर्फ़ अंग्रेज़ी के लिए अच्छा है, Base स्पेनिश, कोरियाई और हिंग्लिश के लिए भी ठीक है, और Small ज़्यादातर बड़ी यूरोपीय भाषाओं, जापानी और कोरियाई के लिए। देवनागरी में हिंदी, डच, पोलिश, चीनी, अरबी और ज़्यादातर दक्षिण एशियाई भाषाएँ Small के साथ भी कम सटीक रहती हैं, इसलिए इन ट्रांसक्रिप्ट को मसौदा समझें।</string>
     <string name="faq_04_q">मैं रिकॉर्डिंग कैसे शुरू करूँ?</string>
     <string name="faq_04_a">रिकॉर्डिंग शुरू करने के लिए स्क्रीन के नीचे माइक्रोफ़ोन बटन पर टैप करें। पूरा होने पर स्टॉप बटन पर टैप करें। रिकॉर्डिंग अपने आप ट्रांसक्राइब हो जाती है।</string>
     <string name="faq_05_q">क्या रिकॉर्डिंग की कोई समय सीमा है?</string>

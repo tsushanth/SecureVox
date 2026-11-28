@@ -6,7 +6,7 @@ Privacy-first voice transcription app powered by OpenAI's Whisper model. Recordi
 
 - **On-device transcription**: Transcription runs on your phone using Whisper AI (the internet is only used to download speech models)
 - **Privacy First**: SecureVox does not upload your audio or transcripts
-- **Languages**: 14 languages plus auto-detect. Accuracy varies by language and model (see `tools/lang-bench/results.md`); Hindi is experimental
+- **Languages**: more than 30 languages plus auto-detect, including Hindi and Hinglish (Hindi in Roman letters). The phone language is the default transcription language when the app can transcribe it, otherwise auto-detect. Accuracy varies by language and model (see `tools/lang-bench/results.md` and `results-hindi.md`); Hindi in Devanagari is experimental
 - **Timed Transcripts**: Word-level timestamps for easy navigation
 - **Cross-Platform**: Native apps for iOS and Android
 

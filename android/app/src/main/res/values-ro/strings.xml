@@ -320,6 +320,12 @@
     <string name="export_format_srt">Subtitrări SubRip (.srt)</string>
     <string name="export_format_vtt">Subtitrări WebVTT (.vtt)</string>
     <string name="language_auto_detect">Detectare automată</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi cu litere latine)</string>
+    <string name="setup_language_title">Limba în care vei vorbi</string>
+    <string name="setup_language_body">SecureVox scrie ce aude în această limbă. O poți schimba oricând din Setări.</string>
+    <string name="setup_language_current">%1$s (atinge pentru a schimba)</string>
+    <string name="setup_language_hindi_hint">Preferi literele latine? Alege Hinglish: funcționează bine și cu modelul mai mic, Base.</string>
     <string name="read_aloud">Citește cu voce tare</string>
     <string name="read_aloud_loading_voices">Se încarcă vocile…</string>
     <string name="read_aloud_preparing">Se pregătește…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Este SecureVox gratuit?</string>
     <string name="faq_02_a">SecureVox este o achiziție unică pe Google Play. Nu există abonament, nici achiziții în aplicație și nici reclame.</string>
     <string name="faq_03_q">Ce limbi sunt acceptate?</string>
-    <string name="faq_03_a">SecureVox oferă 14 limbi plus detectare automată. Acuratețea depinde de limbă și de model: modelul implicit Tiny este bun doar pentru engleză, Base se potrivește și pentru spaniolă și coreeană, iar Small pentru majoritatea limbilor europene mari, japoneză și coreeană. Olandeza, poloneza, chineza și araba rămân mai puțin precise chiar și cu Small, iar hindi este experimentală.</string>
+    <string name="faq_03_a">SecureVox transcrie peste 30 de limbi, plus detectarea automată, inclusiv hindi și Hinglish (hindi cu litere latine). Acuratețea depinde de limbă și de model: modelul implicit Tiny este bun doar pentru engleză, Base se potrivește și pentru spaniolă, coreeană și Hinglish, iar Small pentru majoritatea limbilor europene mari, japoneză și coreeană. Hindi în devanagari, olandeza, poloneza, chineza, araba și majoritatea limbilor din Asia de Sud rămân mai puțin precise chiar și cu Small, așa că tratează aceste transcrieri ca pe o ciornă.</string>
     <string name="faq_04_q">Cum pornesc o înregistrare?</string>
     <string name="faq_04_a">Atinge butonul microfonului din partea de jos a ecranului pentru a porni înregistrarea. Atinge butonul de oprire când ai terminat. Înregistrarea este transcrisă automat.</string>
     <string name="faq_05_q">Există o limită de timp pentru înregistrări?</string>

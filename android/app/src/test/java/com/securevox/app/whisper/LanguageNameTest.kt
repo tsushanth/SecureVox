@@ -14,8 +14,14 @@ class LanguageNameTest {
 
     @Test
     fun everyTranscriptionLanguageHasAName() {
-        for (l in WhisperLanguage.entries.filter { it != WhisperLanguage.AUTO }) {
-            assertEquals(l.code, false, languageNameIn(l.code, Locale.ENGLISH) == l.code)
+        // Auto-detect and Hinglish have their own string resources.
+        for (l in WhisperLanguage.entries.filter { it != WhisperLanguage.AUTO && it != WhisperLanguage.HINGLISH }) {
+            assertEquals(l.code, false, languageNameIn(l.nameTag, Locale.ENGLISH) == l.nameTag)
         }
+    }
+
+    @Test
+    fun filipinoIsNamedFilipinoNotTagalog() {
+        assertEquals("Filipino", languageNameIn(WhisperLanguage.FILIPINO.nameTag, Locale.ENGLISH))
     }
 }

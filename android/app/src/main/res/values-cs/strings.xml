@@ -320,6 +320,12 @@
     <string name="export_format_srt">Titulky SubRip (.srt)</string>
     <string name="export_format_vtt">Titulky WebVTT (.vtt)</string>
     <string name="language_auto_detect">Automatické rozpoznání</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindština latinkou)</string>
+    <string name="setup_language_title">Jazyk, kterým budete mluvit</string>
+    <string name="setup_language_body">SecureVox píše, co slyší, v tomto jazyce. Můžete ho kdykoli změnit v Nastavení.</string>
+    <string name="setup_language_current">%1$s (klepnutím změníte)</string>
+    <string name="setup_language_hindi_hint">Chcete latinku? Vyberte Hinglish: dobře funguje i s menším modelem Base.</string>
     <string name="read_aloud">Číst nahlas</string>
     <string name="read_aloud_loading_voices">Načítám hlasy…</string>
     <string name="read_aloud_preparing">Připravuji…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Je SecureVox zdarma?</string>
     <string name="faq_02_a">SecureVox je jednorázový nákup v Google Play. Nejsou žádné předplatné, žádné nákupy v aplikaci ani reklamy.</string>
     <string name="faq_03_q">Jaké jazyky jsou podporovány?</string>
-    <string name="faq_03_a">SecureVox nabízí 14 jazyků a automatické rozpoznání. Přesnost závisí na jazyce a modelu: výchozí model Tiny je dobrý jen pro angličtinu, Base se hodí i pro španělštinu a korejštinu a Small pro většinu hlavních evropských jazyků, japonštinu a korejštinu. Nizozemština, polština, čínština a arabština zůstávají méně přesné i se Small a hindština je experimentální.</string>
+    <string name="faq_03_a">SecureVox umí přepisovat více než 30 jazyků a také automatické rozpoznání, včetně hindštiny a Hinglish (hindština latinkou). Přesnost závisí na jazyce a modelu: výchozí model Tiny je dobrý jen pro angličtinu, Base se hodí i pro španělštinu, korejštinu a Hinglish a Small pro většinu hlavních evropských jazyků, japonštinu a korejštinu. Hindština v dévanágarí, nizozemština, polština, čínština, arabština a většina jihoasijských jazyků zůstávají méně přesné i se Small, proto berte přepisy jako koncept.</string>
     <string name="faq_04_q">Jak spustím nahrávání?</string>
     <string name="faq_04_a">Nahrávání spustíte klepnutím na tlačítko mikrofonu ve spodní části obrazovky. Až skončíte, klepněte na tlačítko stop. Nahrávka se přepíše automaticky.</string>
     <string name="faq_05_q">Existuje časový limit nahrávek?</string>

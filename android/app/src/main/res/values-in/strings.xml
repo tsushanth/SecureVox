@@ -344,6 +344,12 @@
     <string name="export_format_srt">Subtitel SubRip (.srt)</string>
     <string name="export_format_vtt">Subtitel WebVTT (.vtt)</string>
     <string name="language_auto_detect">Deteksi otomatis</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (Hindi dengan huruf Latin)</string>
+    <string name="setup_language_title">Bahasa yang akan Anda ucapkan</string>
+    <string name="setup_language_body">SecureVox menuliskan apa yang didengarnya dalam bahasa ini. Anda dapat mengubahnya kapan saja di Pengaturan.</string>
+    <string name="setup_language_current">%1$s (ketuk untuk mengubah)</string>
+    <string name="setup_language_hindi_hint">Lebih suka huruf Latin? Pilih Hinglish: juga berjalan baik dengan model Base yang lebih kecil.</string>
     <string name="read_aloud">Bacakan</string>
     <string name="read_aloud_loading_voices">Memuat suara…</string>
     <string name="read_aloud_preparing">Menyiapkan…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">Apakah SecureVox gratis?</string>
     <string name="faq_02_a">SecureVox adalah pembelian sekali bayar di Google Play. Tidak ada langganan, pembelian dalam aplikasi, maupun iklan.</string>
     <string name="faq_03_q">Bahasa apa saja yang didukung?</string>
-    <string name="faq_03_a">SecureVox menawarkan 14 bahasa ditambah deteksi otomatis. Akurasi bergantung pada bahasa dan model: model bawaan Tiny hanya bagus untuk bahasa Inggris, Base juga cocok untuk bahasa Spanyol dan Korea, dan Small cocok untuk sebagian besar bahasa Eropa utama, Jepang, dan Korea. Bahasa Belanda, Polandia, Mandarin, dan Arab tetap kurang akurat meski dengan Small, dan bahasa Hindi masih eksperimental.</string>
+    <string name="faq_03_a">SecureVox dapat mentranskripsi lebih dari 30 bahasa, ditambah deteksi otomatis, termasuk Hindi dan Hinglish (Hindi dengan huruf Latin). Akurasi bergantung pada bahasa dan model: model bawaan Tiny hanya bagus untuk bahasa Inggris, Base juga cocok untuk bahasa Spanyol, Korea, dan Hinglish, sedangkan Small cocok untuk sebagian besar bahasa Eropa utama, Jepang, dan Korea. Hindi beraksara Dewanagari, Belanda, Polandia, Mandarin, Arab, dan sebagian besar bahasa Asia Selatan tetap kurang akurat meski dengan Small, jadi anggaplah transkripnya sebagai draf.</string>
     <string name="faq_04_q">Bagaimana cara memulai rekaman?</string>
     <string name="faq_04_a">Ketuk tombol mikrofon di bagian bawah layar untuk mulai merekam. Ketuk tombol berhenti jika sudah selesai. Rekaman ditranskripsikan secara otomatis.</string>
     <string name="faq_05_q">Apakah ada batas waktu rekaman?</string>

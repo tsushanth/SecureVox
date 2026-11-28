@@ -35,8 +35,13 @@ class LanguageQualityTest {
     }
 
     @Test
-    fun allFifteenLanguagesStillPresent() {
-        assertEquals(15, WhisperLanguage.entries.size)
+    fun theOriginalFifteenAreStillPresentAndNothingWasDropped() {
+        val codes = WhisperLanguage.entries.map { it.code }.toSet()
+        for (c in listOf("auto", "en", "es", "fr", "de", "it", "pt", "nl", "pl", "ru", "zh", "ja", "ko", "ar", "hi")) {
+            assertTrue(c, c in codes)
+        }
+        // 15 original + Hinglish + 18 added (ur bn ta te mr id ms th tr vi tl uk cs el fi hu ro sv)
+        assertEquals(34, WhisperLanguage.entries.size)
     }
 
     @Test

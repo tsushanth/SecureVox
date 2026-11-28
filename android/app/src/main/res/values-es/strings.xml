@@ -344,6 +344,12 @@
     <string name="export_format_srt">Subtítulos SubRip (.srt)</string>
     <string name="export_format_vtt">Subtítulos WebVTT (.vtt)</string>
     <string name="language_auto_detect">Detectar automáticamente</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi en letras latinas)</string>
+    <string name="setup_language_title">Idioma en el que hablarás</string>
+    <string name="setup_language_body">SecureVox escribe lo que oye en este idioma. Puedes cambiarlo cuando quieras en Ajustes.</string>
+    <string name="setup_language_current">%1$s (toca para cambiar)</string>
+    <string name="setup_language_hindi_hint">¿Prefieres letras latinas? Elige Hinglish: también funciona bien con el modelo más pequeño, Base.</string>
     <string name="read_aloud">Leer en voz alta</string>
     <string name="read_aloud_loading_voices">Cargando voces…</string>
     <string name="read_aloud_preparing">Preparando…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">¿SecureVox es gratis?</string>
     <string name="faq_02_a">SecureVox es una compra única en Google Play. No hay suscripción, ni compras dentro de la app, ni anuncios.</string>
     <string name="faq_03_q">¿Qué idiomas admite?</string>
-    <string name="faq_03_a">SecureVox ofrece 14 idiomas más detección automática. La precisión depende del idioma y del modelo: el modelo predeterminado, Tiny, solo es bueno para inglés; Base también sirve para español y coreano, y Small sirve para la mayoría de los idiomas europeos principales, japonés y coreano. Neerlandés, polaco, chino y árabe siguen siendo menos precisos incluso con Small, y el hindi es experimental.</string>
+    <string name="faq_03_a">SecureVox transcribe más de 30 idiomas, además de la detección automática, entre ellos hindi y Hinglish (hindi en letras latinas). La precisión depende del idioma y del modelo: el modelo predeterminado Tiny solo es bueno para inglés, Base también sirve para español, coreano y Hinglish, y Small para la mayoría de los grandes idiomas europeos, japonés y coreano. El hindi en devanagari, el neerlandés, el polaco, el chino, el árabe y la mayoría de los idiomas del sur de Asia siguen siendo menos precisos incluso con Small, así que trata esas transcripciones como un borrador.</string>
     <string name="faq_04_q">¿Cómo inicio una grabación?</string>
     <string name="faq_04_a">Toca el botón del micrófono en la parte inferior de la pantalla para empezar a grabar. Toca el botón de detener cuando termines. La grabación se transcribe automáticamente.</string>
     <string name="faq_05_q">¿Hay un límite de tiempo para las grabaciones?</string>

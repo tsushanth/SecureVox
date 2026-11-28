@@ -1,6 +1,8 @@
 package com.securevox.app.engines
 
+import com.securevox.app.whisper.LanguagePrompt
 import com.securevox.app.whisper.TranscriptionSegment
+import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperLib
 
 /**
@@ -33,7 +35,12 @@ class WhisperEngine(private val lib: WhisperLib) : TranscriptionEngine {
     override val id = EngineId.WHISPER
 
     override suspend fun transcribe(request: ChunkRequest, onProgress: ((Int) -> Unit)?): List<TranscriptionSegment> =
-        lib.transcribe(audioData = request.audio, language = request.language, onProgress = onProgress, prompt = request.prompt)
+        WhisperLanguage.decoderCode(request.language).let { decoder ->
+            lib.transcribe(
+                audioData = request.audio, language = decoder, onProgress = onProgress,
+                prompt = LanguagePrompt.build(request.language, request.prompt)
+            )
+        }
 }
 
 /**

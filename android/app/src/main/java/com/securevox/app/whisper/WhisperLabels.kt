@@ -21,6 +21,9 @@ fun languageNameIn(code: String, locale: Locale): String {
 @Composable
 fun WhisperLanguage.label(): String {
     val locale = LocalConfiguration.current.locales[0]
-    return if (this == WhisperLanguage.AUTO) stringResource(R.string.language_auto_detect)
-    else remember(code, locale) { languageNameIn(code, locale) }
+    return when (this) {
+        WhisperLanguage.AUTO -> stringResource(R.string.language_auto_detect)
+        WhisperLanguage.HINGLISH -> stringResource(R.string.language_hinglish)
+        else -> remember(code, locale) { languageNameIn(nameTag, locale) }
+    }
 }

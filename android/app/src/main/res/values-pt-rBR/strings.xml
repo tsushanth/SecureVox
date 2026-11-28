@@ -344,6 +344,12 @@
     <string name="export_format_srt">Legendas SubRip (.srt)</string>
     <string name="export_format_vtt">Legendas WebVTT (.vtt)</string>
     <string name="language_auto_detect">Detectar automaticamente</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (híndi em letras latinas)</string>
+    <string name="setup_language_title">Idioma em que você vai falar</string>
+    <string name="setup_language_body">O SecureVox escreve o que ouve neste idioma. Você pode mudá-lo a qualquer momento em Configurações.</string>
+    <string name="setup_language_current">%1$s (toque para mudar)</string>
+    <string name="setup_language_hindi_hint">Prefere letras latinas? Escolha Hinglish: ele também funciona bem com o modelo menor, Base.</string>
     <string name="read_aloud">Ler em voz alta</string>
     <string name="read_aloud_loading_voices">Carregando vozes…</string>
     <string name="read_aloud_preparing">Preparando…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">O SecureVox é gratuito?</string>
     <string name="faq_02_a">O SecureVox é uma compra única no Google Play. Não há assinatura, compras no app nem anúncios.</string>
     <string name="faq_03_q">Quais idiomas são compatíveis?</string>
-    <string name="faq_03_a">O SecureVox oferece 14 idiomas mais detecção automática. A precisão depende do idioma e do modelo: o modelo padrão, Tiny, só é bom para inglês; o Base também serve para espanhol e coreano, e o Small serve para a maioria dos principais idiomas europeus, japonês e coreano. Holandês, polonês, chinês e árabe continuam menos precisos mesmo com o Small, e o hindi é experimental.</string>
+    <string name="faq_03_a">O SecureVox transcreve mais de 30 idiomas, além da detecção automática, incluindo híndi e Hinglish (híndi em letras latinas). A precisão depende do idioma e do modelo: o modelo padrão Tiny só é bom para inglês, o Base também serve para espanhol, coreano e Hinglish, e o Small para a maioria dos grandes idiomas europeus, japonês e coreano. Híndi em devanágari, holandês, polonês, chinês, árabe e a maioria dos idiomas do Sul da Ásia continuam menos precisos mesmo com o Small, então trate essas transcrições como um rascunho.</string>
     <string name="faq_04_q">Como começo uma gravação?</string>
     <string name="faq_04_a">Toque no botão do microfone na parte inferior da tela para começar a gravar. Toque no botão de parar quando terminar. A gravação é transcrita automaticamente.</string>
     <string name="faq_05_q">Existe um limite de tempo para as gravações?</string>

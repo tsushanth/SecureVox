@@ -344,6 +344,12 @@
     <string name="export_format_srt">คำบรรยาย SubRip (.srt)</string>
     <string name="export_format_vtt">คำบรรยาย WebVTT (.vtt)</string>
     <string name="language_auto_detect">ตรวจหาอัตโนมัติ</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">ฮิงลิช (ภาษาฮินดีด้วยอักษรโรมัน)</string>
+    <string name="setup_language_title">ภาษาที่คุณจะพูด</string>
+    <string name="setup_language_body">SecureVox จะเขียนสิ่งที่ได้ยินเป็นภาษานี้ คุณเปลี่ยนได้ทุกเมื่อในการตั้งค่า</string>
+    <string name="setup_language_current">%1$s (แตะเพื่อเปลี่ยน)</string>
+    <string name="setup_language_hindi_hint">ต้องการอักษรโรมันใช่ไหม เลือก Hinglish ซึ่งใช้งานได้ดีกับโมเดล Base ที่เล็กกว่าด้วย</string>
     <string name="read_aloud">อ่านออกเสียง</string>
     <string name="read_aloud_loading_voices">กำลังโหลดเสียง…</string>
     <string name="read_aloud_preparing">กำลังเตรียม…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox ใช้ฟรีหรือไม่</string>
     <string name="faq_02_a">SecureVox เป็นการซื้อครั้งเดียวบน Google Play ไม่มีการสมัครสมาชิก ไม่มีการซื้อในแอป และไม่มีโฆษณา</string>
     <string name="faq_03_q">รองรับภาษาอะไรบ้าง</string>
-    <string name="faq_03_a">SecureVox รองรับ 14 ภาษา พร้อมการตรวจหาภาษาอัตโนมัติ ความแม่นยำขึ้นอยู่กับภาษาและโมเดล โมเดล Tiny ที่ตั้งค่าไว้เริ่มต้นเหมาะกับภาษาอังกฤษเท่านั้น Base เหมาะกับภาษาสเปนและเกาหลีด้วย ส่วน Small เหมาะกับภาษาหลักของยุโรปส่วนใหญ่ ภาษาญี่ปุ่น และภาษาเกาหลี ภาษาดัตช์ โปแลนด์ จีน และอาหรับ ยังแม่นยำน้อยกว่าแม้ใช้ Small และภาษาฮินดียังอยู่ในขั้นทดลอง</string>
+    <string name="faq_03_a">SecureVox ถอดเสียงได้มากกว่า 30 ภาษา พร้อมการตรวจจับภาษาอัตโนมัติ รวมถึงภาษาฮินดีและ Hinglish (ฮินดีด้วยอักษรโรมัน) ความแม่นยำขึ้นอยู่กับภาษาและโมเดล โมเดล Tiny ที่เป็นค่าเริ่มต้นดีสำหรับภาษาอังกฤษเท่านั้น Base เหมาะกับภาษาสเปน เกาหลี และ Hinglish ด้วย ส่วน Small เหมาะกับภาษาหลักของยุโรปส่วนใหญ่ ญี่ปุ่น และเกาหลี ภาษาฮินดีอักษรเทวนาครี ดัตช์ โปแลนด์ จีน อาหรับ และภาษาเอเชียใต้ส่วนใหญ่ยังแม่นยำน้อยกว่าแม้ใช้ Small ดังนั้นควรถือว่าข้อความที่ถอดเป็นฉบับร่าง</string>
     <string name="faq_04_q">เริ่มบันทึกเสียงได้อย่างไร</string>
     <string name="faq_04_a">แตะปุ่มไมโครโฟนที่ด้านล่างของหน้าจอเพื่อเริ่มบันทึก แตะปุ่มหยุดเมื่อเสร็จ การบันทึกจะถูกถอดเสียงโดยอัตโนมัติ</string>
     <string name="faq_05_q">การบันทึกมีขีดจำกัดเวลาหรือไม่</string>

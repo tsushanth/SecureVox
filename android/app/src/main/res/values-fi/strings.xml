@@ -320,6 +320,12 @@
     <string name="export_format_srt">SubRip-tekstitys (.srt)</string>
     <string name="export_format_vtt">WebVTT-tekstitys (.vtt)</string>
     <string name="language_auto_detect">Tunnista automaattisesti</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi latinalaisin kirjaimin)</string>
+    <string name="setup_language_title">Kieli, jota puhut</string>
+    <string name="setup_language_body">SecureVox kirjoittaa kuulemansa tällä kielellä. Voit vaihtaa kielen milloin tahansa asetuksissa.</string>
+    <string name="setup_language_current">%1$s (vaihda napauttamalla)</string>
+    <string name="setup_language_hindi_hint">Haluatko latinalaiset kirjaimet? Valitse Hinglish: se toimii hyvin myös pienemmällä Base-mallilla.</string>
     <string name="read_aloud">Lue ääneen</string>
     <string name="read_aloud_loading_voices">Ladataan ääniä…</string>
     <string name="read_aloud_preparing">Valmistellaan…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Onko SecureVox ilmainen?</string>
     <string name="faq_02_a">SecureVox on kertaostos Google Playssa. Ei tilausta, ei sovelluksen sisäisiä ostoksia eikä mainoksia.</string>
     <string name="faq_03_q">Mitä kieliä tuetaan?</string>
-    <string name="faq_03_a">SecureVox tarjoaa 14 kieltä sekä automaattisen tunnistuksen. Tarkkuus riippuu kielestä ja mallista: oletusmalli Tiny on hyvä vain englannille, Base sopii myös espanjalle ja korealle ja Small useimmille suurille eurooppalaisille kielille, japanille ja korealle. Hollanti, puola, kiina ja arabia pysyvät vähemmän tarkkoina Smallillakin ja hindi on kokeellinen.</string>
+    <string name="faq_03_a">SecureVox litteroi yli 30 kieltä ja tunnistaa kielen myös automaattisesti, mukaan lukien hindin ja Hinglishin (hindi latinalaisin kirjaimin). Tarkkuus riippuu kielestä ja mallista: oletusmalli Tiny on hyvä vain englannille, Base sopii myös espanjalle, korealle ja Hinglishille, ja Small useimmille suurille eurooppalaisille kielille, japanille ja korealle. Devanagari-kirjoitettu hindi, hollanti, puola, kiina, arabia ja useimmat Etelä-Aasian kielet jäävät epätarkemmiksi Smallillakin, joten pidä niiden litteroinnit luonnoksina.</string>
     <string name="faq_04_q">Miten aloitan tallennuksen?</string>
     <string name="faq_04_a">Aloita tallennus napauttamalla mikrofonipainiketta näytön alareunassa. Napauta lopetuspainiketta, kun olet valmis. Tallenne litteroidaan automaattisesti.</string>
     <string name="faq_05_q">Onko tallenteilla aikarajaa?</string>

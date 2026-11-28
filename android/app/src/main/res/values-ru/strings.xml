@@ -344,6 +344,12 @@
     <string name="export_format_srt">Субтитры SubRip (.srt)</string>
     <string name="export_format_vtt">Субтитры WebVTT (.vtt)</string>
     <string name="language_auto_detect">Определять автоматически</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Хинглиш (хинди латиницей)</string>
+    <string name="setup_language_title">Язык, на котором вы будете говорить</string>
+    <string name="setup_language_body">SecureVox записывает услышанное на этом языке. Его можно изменить в любой момент в Настройках.</string>
+    <string name="setup_language_current">%1$s (нажмите, чтобы изменить)</string>
+    <string name="setup_language_hindi_hint">Нужна латиница? Выберите Hinglish: он хорошо работает и с меньшей моделью Base.</string>
     <string name="read_aloud">Читать вслух</string>
     <string name="read_aloud_loading_voices">Загрузка голосов…</string>
     <string name="read_aloud_preparing">Подготовка…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox бесплатный?</string>
     <string name="faq_02_a">SecureVox — это разовая покупка в Google Play. Нет подписки, встроенных покупок и рекламы.</string>
     <string name="faq_03_q">Какие языки поддерживаются?</string>
-    <string name="faq_03_a">SecureVox предлагает 14 языков и автоматическое определение. Точность зависит от языка и модели: модель Tiny по умолчанию хороша только для английского, Base подходит также для испанского и корейского, а Small — для большинства основных европейских языков, японского и корейского. Нидерландский, польский, китайский и арабский остаются менее точными даже с Small, а хинди — экспериментальный язык.</string>
+    <string name="faq_03_a">SecureVox расшифровывает более 30 языков и умеет определять язык автоматически, в том числе хинди и Hinglish (хинди латиницей). Точность зависит от языка и модели: стандартная модель Tiny хороша только для английского, Base подходит также для испанского, корейского и Hinglish, а Small для большинства крупных европейских языков, японского и корейского. Хинди на деванагари, нидерландский, польский, китайский, арабский и большинство южноазиатских языков остаются менее точными даже с Small, поэтому считайте такие расшифровки черновиком.</string>
     <string name="faq_04_q">Как начать запись?</string>
     <string name="faq_04_a">Нажмите кнопку микрофона внизу экрана, чтобы начать запись. Когда закончите, нажмите кнопку остановки. Запись расшифровывается автоматически.</string>
     <string name="faq_05_q">Есть ли ограничение по времени записи?</string>
