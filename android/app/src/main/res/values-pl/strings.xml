@@ -344,6 +344,12 @@
     <string name="export_format_srt">Napisy SubRip (.srt)</string>
     <string name="export_format_vtt">Napisy WebVTT (.vtt)</string>
     <string name="language_auto_detect">Wykrywaj automatycznie</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi w alfabecie łacińskim)</string>
+    <string name="setup_language_title">Język, w którym będziesz mówić</string>
+    <string name="setup_language_body">SecureVox zapisuje to, co słyszy, w tym języku. Możesz go zmienić w dowolnej chwili w Ustawieniach.</string>
+    <string name="setup_language_current">%1$s (dotknij, aby zmienić)</string>
+    <string name="setup_language_hindi_hint">Wolisz alfabet łaciński? Wybierz Hinglish: dobrze działa też z mniejszym modelem Base.</string>
     <string name="read_aloud">Czytaj na głos</string>
     <string name="read_aloud_loading_voices">Wczytywanie głosów…</string>
     <string name="read_aloud_preparing">Przygotowywanie…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">Czy SecureVox jest darmowy?</string>
     <string name="faq_02_a">SecureVox to jednorazowy zakup w Google Play. Nie ma subskrypcji, zakupów w aplikacji ani reklam.</string>
     <string name="faq_03_q">Jakie języki są obsługiwane?</string>
-    <string name="faq_03_a">SecureVox oferuje 14 języków oraz automatyczne wykrywanie. Dokładność zależy od języka i modelu: domyślny model Tiny jest dobry tylko dla angielskiego, Base nadaje się także do hiszpańskiego i koreańskiego, a Small — do większości głównych języków europejskich, japońskiego i koreańskiego. Niderlandzki, polski, chiński i arabski pozostają mniej dokładne nawet w modelu Small, a hindi jest eksperymentalny.</string>
+    <string name="faq_03_a">SecureVox transkrybuje ponad 30 języków oraz ma automatyczne wykrywanie, w tym hindi i Hinglish (hindi w alfabecie łacińskim). Dokładność zależy od języka i modelu: domyślny model Tiny jest dobry tylko dla angielskiego, Base nadaje się też do hiszpańskiego, koreańskiego i Hinglish, a Small do większości dużych języków europejskich, japońskiego i koreańskiego. Hindi w dewanagari, niderlandzki, polski, chiński, arabski i większość języków Azji Południowej pozostają mniej dokładne nawet ze Small, więc traktuj te transkrypcje jak szkic.</string>
     <string name="faq_04_q">Jak rozpocząć nagrywanie?</string>
     <string name="faq_04_a">Kliknij przycisk mikrofonu u dołu ekranu, aby rozpocząć nagrywanie. Kliknij przycisk zatrzymania, gdy skończysz. Nagranie jest transkrybowane automatycznie.</string>
     <string name="faq_05_q">Czy nagrania mają limit czasu?</string>

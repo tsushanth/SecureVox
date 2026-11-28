@@ -64,18 +64,36 @@ enum class QualityTier { GOOD, FAIR, POOR }
 
 /**
  * Supported languages for transcription.
+ *
+ * Tiers for the first 14 languages are measured with the shipped models (tools/lang-bench/results.md, FLEURS, 25
+ * utterances each). Tiers for the languages added later come from the Whisper paper (Radford et al. 2022, appendix
+ * Table 13, FLEURS WER of Whisper tiny / base / small) with the same thresholds; they were not re-measured with this
+ * app's greedy decoder, so treat them as indicative. Rule: GOOD at most 15 WER, FAIR at most 30, POOR above.
  */
 enum class WhisperLanguage(
+    /** What is saved and passed around. Equals [whisperCode] except for [HINGLISH]. */
     val code: String,
     val displayName: String,
-    /** Measured quality with Tiny, Base and Small (tools/lang-bench/results.md, FLEURS, 25 utterances each). */
+    /** Quality with Tiny, Base and Small. */
     val tiny: QualityTier,
     val base: QualityTier,
-    val small: QualityTier
+    val small: QualityTier,
+    /** The language the decoder is told to expect. */
+    val whisperCode: String = code,
+    /** Show the Hindi the decoder writes in Roman letters (Hinglish). */
+    val romanScript: Boolean = false,
+    /** BCP-47 tag used to look up the language's name in the user's language, when it differs from [code]. */
+    val nameTag: String = code
 ) {
     // Auto-detect: tiers reflect language-ID reliability (Tiny misjudged 5 of 140 clips), not word error rate.
     AUTO("auto", "Auto-detect", FAIR, GOOD, GOOD),
     ENGLISH("en", "English", GOOD, GOOD, GOOD),
+    // Hindi in Devanagari is POOR on every shipped model (Small 54% WER measured, 38% in the Whisper paper), so it is
+    // offered with an honest note. Hinglish is Hindi decoded with a Roman-letter prompt, written in Roman letters:
+    // on 25 FLEURS Hindi clips a phonetic character error rate (not WER) of 35 / 21 / 17 for Tiny / Base / Small
+    // (tools/lang-bench/results-hindi.md), so Base is the smallest model that reaches FAIR.
+    HINDI("hi", "Hindi", POOR, POOR, POOR),
+    HINGLISH("hi-Latn", "Hinglish", POOR, FAIR, FAIR, whisperCode = "hi", romanScript = true), // i18n-ok: saved code and display fallback; the label is R.string.language_hinglish
     SPANISH("es", "Spanish", FAIR, GOOD, GOOD),
     FRENCH("fr", "French", POOR, POOR, GOOD),
     GERMAN("de", "German", FAIR, FAIR, GOOD),
@@ -88,7 +106,26 @@ enum class WhisperLanguage(
     JAPANESE("ja", "Japanese", POOR, FAIR, GOOD),
     KOREAN("ko", "Korean", FAIR, GOOD, GOOD),
     ARABIC("ar", "Arabic", POOR, POOR, FAIR),
-    HINDI("hi", "Hindi", POOR, POOR, POOR);
+
+    // Added for the app's other UI languages and for South Asia. Paper FLEURS WER, tiny / base / small:
+    URDU("ur", "Urdu", POOR, POOR, POOR),                // 65 / 52 / 37
+    BENGALI("bn", "Bengali", POOR, POOR, POOR),          // 102 / 101 / 104
+    TAMIL("ta", "Tamil", POOR, POOR, POOR),              // 100 / 59 / 35
+    TELUGU("te", "Telugu", POOR, POOR, POOR),            // 105 / 105 / 98
+    MARATHI("mr", "Marathi", POOR, POOR, POOR),          // 100 / 100 / 60
+    INDONESIAN("id", "Indonesian", POOR, POOR, FAIR),    // 52 / 33 / 16
+    MALAY("ms", "Malay", POOR, POOR, FAIR),              // 51 / 35 / 19
+    THAI("th", "Thai", POOR, POOR, FAIR),                // 59 / 38 / 22
+    TURKISH("tr", "Turkish", POOR, FAIR, FAIR),          // 43 / 28 / 16
+    VIETNAMESE("vi", "Vietnamese", POOR, POOR, FAIR),    // 60 / 41 / 21
+    FILIPINO("tl", "Filipino", POOR, POOR, FAIR, nameTag = "fil"), // 66 / 46 / 28 (Whisper calls it Tagalog)
+    UKRAINIAN("uk", "Ukrainian", POOR, POOR, FAIR),      // 51 / 38 / 19
+    CZECH("cs", "Czech", POOR, POOR, POOR),              // 83 / 66 / 38
+    GREEK("el", "Greek", POOR, POOR, POOR),              // 67 / 54 / 31
+    FINNISH("fi", "Finnish", POOR, POOR, FAIR),          // 60 / 43 / 24
+    HUNGARIAN("hu", "Hungarian", POOR, POOR, POOR),      // 84 / 65 / 39
+    ROMANIAN("ro", "Romanian", POOR, POOR, FAIR),        // 75 / 56 / 30
+    SWEDISH("sv", "Swedish", POOR, POOR, FAIR);          // 53 / 37 / 21
 
     fun tierFor(model: WhisperModel): QualityTier = when (model) {
         WhisperModel.TINY -> tiny
@@ -108,18 +145,35 @@ enum class WhisperLanguage(
         }
 
     companion object {
+        /** Only for a saved code the app no longer knows. A new install does not start here; see [forLocale]. */
         val DEFAULT = ENGLISH
 
-        fun fromCode(code: String): WhisperLanguage {
-            return entries.find { it.code == code } ?: DEFAULT
+        /** Android and Java still report some languages by their old codes. */
+        private fun canonical(code: String): String = when (code.lowercase()) {
+            "in" -> "id"
+            "iw" -> "he"
+            "fil" -> "tl"
+            else -> code
         }
 
-        /**
-         * Returns the WhisperLanguage matching the device locale, or ENGLISH if unsupported.
-         */
-        fun fromDeviceLocale(): WhisperLanguage {
-            val deviceLanguage = java.util.Locale.getDefault().language
-            return entries.find { it.code == deviceLanguage } ?: DEFAULT
+        fun fromCode(code: String): WhisperLanguage {
+            val c = canonical(code)
+            return entries.find { it.code.equals(c, ignoreCase = true) } ?: DEFAULT
         }
+
+        /** The language code to give the decoder for a saved code ("hi-Latn" is decoded as "hi"). */
+        fun decoderCode(code: String): String = fromCode(code).whisperCode
+
+        /**
+         * The transcription language for a phone / app language: its own entry when the app can transcribe it,
+         * else Auto-detect. Never English by default, which garbles every other language.
+         */
+        fun forLocale(language: String): WhisperLanguage {
+            val c = canonical(language)
+            return entries.find { it.code == c && it != HINGLISH } ?: AUTO
+        }
+
+        /** [forLocale] for the phone / per-app language currently in effect. */
+        fun fromDeviceLocale(): WhisperLanguage = forLocale(java.util.Locale.getDefault().language)
     }
 }

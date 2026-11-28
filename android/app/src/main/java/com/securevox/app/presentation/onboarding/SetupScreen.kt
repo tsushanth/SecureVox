@@ -17,10 +17,12 @@ import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.securevox.app.R
+import com.securevox.app.presentation.settings.LanguagePickerDialog
 import com.securevox.app.presentation.settings.dataStore
 import com.securevox.app.util.Connectivity
 import com.securevox.app.util.funnel.FunnelModel
 import com.securevox.app.util.funnel.LangBucket
+import com.securevox.app.util.funnel.SettingWhich
 import com.securevox.app.util.funnel.SetupEntry
 import com.securevox.app.util.funnel.Step
 import com.securevox.app.util.funnel.funnel
@@ -36,6 +38,7 @@ import com.securevox.app.whisper.SetupStatus
 import com.securevox.app.whisper.WhisperLanguage
 import com.securevox.app.whisper.WhisperModel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 /**
  * First-run setup: download the speech model once.
@@ -62,6 +65,8 @@ fun SetupScreen(
         if (saved != null) language = WhisperLanguage.fromCode(saved)
     }
     val offer = remember(language) { FirstRunModel.offerFor(language) }
+    var showLanguagePicker by remember { mutableStateOf(false) }
+    val appContextForLanguage = context.applicationContext
 
     // Usage ledger (on this phone only): the setup screen was shown, and through which door.
     LaunchedEffect(Unit) { funnel().step(Step.SETUP_SHOWN, entry) }
@@ -94,6 +99,24 @@ fun SetupScreen(
 
     fun requestDownload(model: WhisperModel) {
         if (FirstRunModel.needsSizeConfirmation(model)) pendingConfirm = model else start(model)
+    }
+
+    if (showLanguagePicker) {
+        val scope = rememberCoroutineScope()
+        LanguagePickerDialog(
+            selected = language,
+            onSelect = { picked ->
+                language = picked
+                showLanguagePicker = false
+                // Saved right away so the first recording is transcribed in this language. Only how well the
+                // model handles it is logged on this phone, never which language.
+                scope.launch {
+                    appContextForLanguage.dataStore.edit { it[stringPreferencesKey("selected_language")] = picked.code }
+                }
+                funnel().step(Step.SETTING_CHANGED, SettingWhich.LANGUAGE, LangBucket.of(picked, WhisperModel.TINY))
+            },
+            onDismiss = { showLanguagePicker = false }
+        )
     }
 
     pendingConfirm?.let { model ->
@@ -161,7 +184,13 @@ fun SetupScreen(
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Not while a download runs: the suggested model below would change under the user's finger.
+            if (downloadState !is DownloadState.Downloading) {
+                LanguageCard(language = language, onChange = { showLanguagePicker = true })
+                Spacer(modifier = Modifier.height(16.dp))
+            }
 
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(
@@ -420,6 +449,42 @@ private fun OfflineNotice(target: WhisperModel) {
         style = MaterialTheme.typography.bodyMedium,
         textAlign = TextAlign.Center
     )
+}
+
+/** First-run card: the language SecureVox will write in, with one tap to change it. */
+@Composable
+private fun LanguageCard(language: WhisperLanguage, onChange: () -> Unit) {
+    Card(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth().padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.setup_language_title),
+                style = MaterialTheme.typography.titleSmall
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = stringResource(R.string.setup_language_body),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            if (language == WhisperLanguage.HINDI) {
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.setup_language_hindi_hint),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            OutlinedButton(onClick = onChange, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Default.Language, contentDescription = null, modifier = Modifier.size(20.dp))
+                Spacer(modifier = Modifier.width(8.dp))
+                Text(
+                    text = stringResource(R.string.setup_language_current, language.label()),
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+    }
 }
 
 @Composable

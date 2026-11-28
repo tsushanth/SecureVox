@@ -344,6 +344,12 @@
     <string name="export_format_srt">Sous-titres SubRip (.srt)</string>
     <string name="export_format_vtt">Sous-titres WebVTT (.vtt)</string>
     <string name="language_auto_detect">Détection automatique</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi en lettres latines)</string>
+    <string name="setup_language_title">Langue dans laquelle vous parlerez</string>
+    <string name="setup_language_body">SecureVox écrit ce qu\'il entend dans cette langue. Vous pouvez la changer à tout moment dans les Réglages.</string>
+    <string name="setup_language_current">%1$s (appuyez pour changer)</string>
+    <string name="setup_language_hindi_hint">Vous préférez les lettres latines ? Choisissez Hinglish : il fonctionne bien aussi avec le plus petit modèle, Base.</string>
     <string name="read_aloud">Lecture à voix haute</string>
     <string name="read_aloud_loading_voices">Chargement des voix…</string>
     <string name="read_aloud_preparing">Préparation…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox est-il gratuit ?</string>
     <string name="faq_02_a">SecureVox est un achat unique sur Google Play. Il n\'y a ni abonnement, ni achat intégré, ni publicité.</string>
     <string name="faq_03_q">Quelles langues sont prises en charge ?</string>
-    <string name="faq_03_a">SecureVox propose 14 langues, plus la détection automatique. La précision dépend de la langue et du modèle : le modèle par défaut, Tiny, n\'est bon que pour l\'anglais ; Base convient aussi à l\'espagnol et au coréen, et Small convient à la plupart des grandes langues européennes, au japonais et au coréen. Le néerlandais, le polonais, le chinois et l\'arabe restent moins précis même avec Small, et l\'hindi est expérimental.</string>
+    <string name="faq_03_a">SecureVox transcrit plus de 30 langues, plus la détection automatique, dont le hindi et le Hinglish (hindi en lettres latines). La précision dépend de la langue et du modèle : le modèle par défaut, Tiny, n\'est bon que pour l\'anglais, Base convient aussi à l\'espagnol, au coréen et au Hinglish, et Small à la plupart des grandes langues européennes, au japonais et au coréen. Le hindi en devanagari, le néerlandais, le polonais, le chinois, l\'arabe et la plupart des langues d\'Asie du Sud restent moins précis même avec Small ; considérez ces transcriptions comme un brouillon.</string>
     <string name="faq_04_q">Comment démarrer un enregistrement ?</string>
     <string name="faq_04_a">Appuyez sur le bouton du micro en bas de l\'écran pour démarrer l\'enregistrement. Appuyez sur le bouton d\'arrêt quand vous avez terminé. L\'enregistrement est transcrit automatiquement.</string>
     <string name="faq_05_q">Les enregistrements sont-ils limités en durée ?</string>

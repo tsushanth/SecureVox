@@ -344,6 +344,12 @@
     <string name="export_format_srt">Phụ đề SubRip (.srt)</string>
     <string name="export_format_vtt">Phụ đề WebVTT (.vtt)</string>
     <string name="language_auto_detect">Tự động phát hiện</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (tiếng Hindi viết bằng chữ Latinh)</string>
+    <string name="setup_language_title">Ngôn ngữ bạn sẽ nói</string>
+    <string name="setup_language_body">SecureVox ghi lại những gì nghe được bằng ngôn ngữ này. Bạn có thể đổi bất cứ lúc nào trong Cài đặt.</string>
+    <string name="setup_language_current">%1$s (chạm để đổi)</string>
+    <string name="setup_language_hindi_hint">Bạn thích chữ Latinh? Hãy chọn Hinglish: nó cũng chạy tốt với mô hình Base nhỏ hơn.</string>
     <string name="read_aloud">Đọc to</string>
     <string name="read_aloud_loading_voices">Đang tải giọng đọc…</string>
     <string name="read_aloud_preparing">Đang chuẩn bị…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox có miễn phí không?</string>
     <string name="faq_02_a">SecureVox là ứng dụng mua một lần trên Google Play. Không có gói đăng ký, không có giao dịch mua trong ứng dụng và không có quảng cáo.</string>
     <string name="faq_03_q">Ứng dụng hỗ trợ những ngôn ngữ nào?</string>
-    <string name="faq_03_a">SecureVox hỗ trợ 14 ngôn ngữ cùng tính năng tự động phát hiện. Độ chính xác phụ thuộc vào ngôn ngữ và mô hình: mô hình mặc định Tiny chỉ tốt cho tiếng Anh, Base còn phù hợp với tiếng Tây Ban Nha và tiếng Hàn, còn Small phù hợp với hầu hết các ngôn ngữ châu Âu chính, tiếng Nhật và tiếng Hàn. Tiếng Hà Lan, tiếng Ba Lan, tiếng Trung và tiếng Ả Rập vẫn kém chính xác hơn ngay cả với Small, và tiếng Hindi ở mức thử nghiệm.</string>
+    <string name="faq_03_a">SecureVox có thể chuyển giọng nói thành văn bản cho hơn 30 ngôn ngữ, cộng với tự động nhận diện, gồm cả tiếng Hindi và Hinglish (tiếng Hindi viết bằng chữ Latinh). Độ chính xác phụ thuộc vào ngôn ngữ và mô hình: mô hình mặc định Tiny chỉ tốt cho tiếng Anh, Base còn phù hợp với tiếng Tây Ban Nha, tiếng Hàn và Hinglish, còn Small phù hợp với hầu hết ngôn ngữ lớn của châu Âu, tiếng Nhật và tiếng Hàn. Tiếng Hindi chữ Devanagari, tiếng Hà Lan, tiếng Ba Lan, tiếng Trung, tiếng Ả Rập và hầu hết ngôn ngữ Nam Á vẫn kém chính xác hơn ngay cả với Small, vì vậy hãy xem các bản chép đó là bản nháp.</string>
     <string name="faq_04_q">Làm sao để bắt đầu ghi âm?</string>
     <string name="faq_04_a">Nhấn nút micrô ở cuối màn hình để bắt đầu ghi âm. Nhấn nút dừng khi xong. Bản ghi âm được chuyển thành văn bản tự động.</string>
     <string name="faq_05_q">Có giới hạn thời gian ghi âm không?</string>

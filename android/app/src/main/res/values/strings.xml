@@ -353,6 +353,11 @@
     <string name="export_format_srt">SubRip subtitles (.srt)</string>
     <string name="export_format_vtt">WebVTT subtitles (.vtt)</string>
     <string name="language_auto_detect">Auto-detect</string>
+    <string name="language_hinglish">Hinglish (Hindi in Roman letters)</string>
+    <string name="setup_language_title">Language you will speak</string>
+    <string name="setup_language_body">SecureVox writes what it hears in this language. You can change it any time in Settings.</string>
+    <string name="setup_language_current">%1$s (tap to change)</string>
+    <string name="setup_language_hindi_hint">Prefer Roman letters? Choose Hinglish: it also works well with the smaller Base model.</string>
     <string name="read_aloud">Read aloud</string>
     <string name="read_aloud_loading_voices">Loading voices…</string>
     <string name="read_aloud_preparing">Preparing…</string>
@@ -373,7 +378,7 @@
     <string name="faq_02_q">Is SecureVox free to use?</string>
     <string name="faq_02_a">SecureVox is a one-time purchase on Google Play. There is no subscription, no in-app purchase and no ads.</string>
     <string name="faq_03_q">What languages are supported?</string>
-    <string name="faq_03_a">SecureVox offers 14 languages plus auto-detect. Accuracy depends on the language and the model: the default Tiny model is good for English only, Base also suits Spanish and Korean, and Small suits most major European languages, Japanese and Korean. Dutch, Polish, Chinese and Arabic stay less accurate even with Small, and Hindi is experimental.</string>
+    <string name="faq_03_a">SecureVox transcribes more than 30 languages plus auto-detect, including Hindi and Hinglish (Hindi in Roman letters). Accuracy depends on the language and the model: the default Tiny model is good for English only, Base also suits Spanish, Korean and Hinglish, and Small suits most major European languages, Japanese and Korean. Hindi in Devanagari, Dutch, Polish, Chinese, Arabic and most South Asian languages stay less accurate even with Small, so treat those transcripts as a draft.</string>
     <string name="faq_04_q">How do I start a recording?</string>
     <string name="faq_04_a">Tap the microphone button at the bottom of the screen to start recording. Tap the stop button when you are done. The recording is transcribed automatically.</string>
     <string name="faq_05_q">Is there a time limit for recordings?</string>

@@ -344,6 +344,12 @@
     <string name="export_format_srt">ترجمات SubRip (.srt)</string>
     <string name="export_format_vtt">ترجمات WebVTT (.vtt)</string>
     <string name="language_auto_detect">اكتشاف تلقائي</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">هنغليش (الهندية بالأحرف اللاتينية)</string>
+    <string name="setup_language_title">اللغة التي ستتحدث بها</string>
+    <string name="setup_language_body">يكتب SecureVox ما يسمعه بهذه اللغة. يمكنك تغييرها في أي وقت من الإعدادات.</string>
+    <string name="setup_language_current">%1$s (اضغط للتغيير)</string>
+    <string name="setup_language_hindi_hint">هل تفضّل الأحرف اللاتينية؟ اختر Hinglish: يعمل جيدًا أيضًا مع النموذج الأصغر Base.</string>
     <string name="read_aloud">القراءة بصوت عالٍ</string>
     <string name="read_aloud_loading_voices">جارٍ تحميل الأصوات…</string>
     <string name="read_aloud_preparing">جارٍ التحضير…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">هل SecureVox مجاني؟</string>
     <string name="faq_02_a">SecureVox عملية شراء لمرة واحدة على Google Play. لا يوجد اشتراك ولا مشتريات داخل التطبيق ولا إعلانات.</string>
     <string name="faq_03_q">ما اللغات المدعومة؟</string>
-    <string name="faq_03_a">يوفر SecureVox 14 لغة مع الاكتشاف التلقائي. تعتمد الدقة على اللغة والنموذج: النموذج الافتراضي Tiny جيد للإنجليزية فقط، وBase يناسب الإسبانية والكورية أيضًا، وSmall يناسب معظم اللغات الأوروبية الرئيسية واليابانية والكورية. تبقى الهولندية والبولندية والصينية والعربية أقل دقة حتى مع Small، والهندية تجريبية.</string>
+    <string name="faq_03_a">يستطيع SecureVox التفريغ بأكثر من 30 لغة إضافة إلى الكشف التلقائي، ومنها الهندية وHinglish (الهندية بالأحرف اللاتينية). تعتمد الدقة على اللغة وعلى النموذج: النموذج الافتراضي Tiny جيد للإنجليزية فقط، ويناسب Base أيضًا الإسبانية والكورية وHinglish، ويناسب Small معظم اللغات الأوروبية الكبرى واليابانية والكورية. تبقى الهندية بحروف الديفاناغاري والهولندية والبولندية والصينية والعربية ومعظم لغات جنوب آسيا أقل دقة حتى مع Small، فاعتبر النص مسودة.</string>
     <string name="faq_04_q">كيف أبدأ التسجيل؟</string>
     <string name="faq_04_a">اضغط على زر الميكروفون في أسفل الشاشة لبدء التسجيل. اضغط على زر الإيقاف عند الانتهاء. يُفرَّغ التسجيل إلى نص تلقائيًا.</string>
     <string name="faq_05_q">هل هناك حد زمني للتسجيلات؟</string>

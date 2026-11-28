@@ -320,6 +320,12 @@
     <string name="export_format_srt">SubRip-undertexter (.srt)</string>
     <string name="export_format_vtt">WebVTT-undertexter (.vtt)</string>
     <string name="language_auto_detect">Identifiera automatiskt</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi med latinska bokstäver)</string>
+    <string name="setup_language_title">Språket du kommer att tala</string>
+    <string name="setup_language_body">SecureVox skriver ned det den hör på det här språket. Du kan ändra det när som helst i Inställningar.</string>
+    <string name="setup_language_current">%1$s (tryck för att ändra)</string>
+    <string name="setup_language_hindi_hint">Föredrar du latinska bokstäver? Välj Hinglish: det fungerar bra även med den mindre modellen Base.</string>
     <string name="read_aloud">Läs upp</string>
     <string name="read_aloud_loading_voices">Laddar röster…</string>
     <string name="read_aloud_preparing">Förbereder…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Är SecureVox gratis?</string>
     <string name="faq_02_a">SecureVox är ett engångsköp på Google Play. Det finns ingen prenumeration, inga köp i appen och inga annonser.</string>
     <string name="faq_03_q">Vilka språk stöds?</string>
-    <string name="faq_03_a">SecureVox erbjuder 14 språk plus automatisk identifiering. Noggrannheten beror på språk och modell: standardmodellen Tiny är bra bara för engelska, Base passar även spanska och koreanska, och Small passar de flesta stora europeiska språk samt japanska och koreanska. Nederländska, polska, kinesiska och arabiska förblir mindre exakta även med Small, och hindi är experimentellt.</string>
+    <string name="faq_03_a">SecureVox kan transkribera mer än 30 språk plus automatisk igenkänning, bland annat hindi och Hinglish (hindi med latinska bokstäver). Noggrannheten beror på språk och modell: standardmodellen Tiny är bara bra för engelska, Base passar även spanska, koreanska och Hinglish, och Small passar de flesta stora europeiska språk, japanska och koreanska. Hindi med devanagari, nederländska, polska, kinesiska, arabiska och de flesta sydasiatiska språk förblir mindre exakta även med Small, så se transkriptionerna som ett utkast.</string>
     <string name="faq_04_q">Hur startar jag en inspelning?</string>
     <string name="faq_04_a">Tryck på mikrofonknappen längst ned på skärmen för att starta inspelningen. Tryck på stoppknappen när du är klar. Inspelningen transkriberas automatiskt.</string>
     <string name="faq_05_q">Finns det en tidsgräns för inspelningar?</string>

@@ -38,6 +38,7 @@ import com.securevox.app.util.funnel.FunnelHooks
 import com.securevox.app.util.funnel.TranscribeFailClass
 import com.securevox.app.util.funnel.Trigger
 import com.securevox.app.util.funnel.funnel
+import com.securevox.app.whisper.OutputScript
 import com.securevox.app.whisper.WhisperLanguage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -252,7 +253,9 @@ class TranscriptionWorker(
                 val newSegments = chunkSegments
                     .filter { ChunkTiming.isNewSegment(it.startTimeMs, overlapMs) } // skip overlap from previous chunk
                     .map { seg ->
-                        val (fixedText, fixedWords) = dictionaryCorrector.correctSegment(seg.text, seg.words)
+                        // Hinglish: Devanagari from the Hindi decoder is written in Roman letters, text and words alike.
+                        val shown = OutputScript.apply(language, seg)
+                        val (fixedText, fixedWords) = dictionaryCorrector.correctSegment(shown.text, shown.words)
                         TranscriptSegment(
                             recordingId = recordingId,
                             text = fixedText,

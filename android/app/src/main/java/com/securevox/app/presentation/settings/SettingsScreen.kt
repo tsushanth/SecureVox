@@ -436,48 +436,13 @@ fun SettingsScreen(
 
     // Language selection dialog
     if (showLanguageDialog) {
-        AlertDialog(
-            onDismissRequest = { showLanguageDialog = false },
-            title = { Text(stringResource(R.string.select_language)) },
-            text = {
-                LazyColumn {
-                    items(WhisperLanguage.entries.toList()) { language ->
-                        // The whole row is the target (name and radio), announced as one radio button.
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .heightIn(min = 48.dp)
-                                .selectable(
-                                    selected = language == selectedLanguage,
-                                    role = Role.RadioButton,
-                                    onClick = {
-                                        viewModel.selectLanguage(language)
-                                        showLanguageDialog = false
-                                    }
-                                )
-                                .padding(vertical = 4.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            // onClick = null: the row handles the tap, so the radio is visual only and is not
-                            // announced a second time by accessibility services.
-                            RadioButton(
-                                selected = language == selectedLanguage,
-                                onClick = null
-                            )
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(
-                                text = language.label(),
-                                style = MaterialTheme.typography.bodyMedium
-                            )
-                        }
-                    }
-                }
+        LanguagePickerDialog(
+            selected = selectedLanguage,
+            onSelect = { language ->
+                viewModel.selectLanguage(language)
+                showLanguageDialog = false
             },
-            confirmButton = {
-                TextButton(onClick = { showLanguageDialog = false }) {
-                    Text(stringResource(R.string.cancel))
-                }
-            }
+            onDismiss = { showLanguageDialog = false }
         )
     }
 

@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip 자막(.srt)</string>
     <string name="export_format_vtt">WebVTT 자막(.vtt)</string>
     <string name="language_auto_detect">자동 감지</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">힝글리시 (로마자로 쓴 힌디어)</string>
+    <string name="setup_language_title">말할 언어</string>
+    <string name="setup_language_body">SecureVox는 들은 내용을 이 언어로 받아 적습니다. 설정에서 언제든지 바꿀 수 있습니다.</string>
+    <string name="setup_language_current">%1$s (탭하여 변경)</string>
+    <string name="setup_language_hindi_hint">로마자가 더 좋으신가요? Hinglish를 선택하세요. 더 작은 Base 모델에서도 잘 작동합니다.</string>
     <string name="read_aloud">소리 내어 읽기</string>
     <string name="read_aloud_loading_voices">음성 불러오는 중…</string>
     <string name="read_aloud_preparing">준비 중…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox는 무료인가요?</string>
     <string name="faq_02_a">SecureVox는 Google Play에서 한 번만 구매하는 앱입니다. 구독, 인앱 구매, 광고가 없습니다.</string>
     <string name="faq_03_q">어떤 언어를 지원하나요?</string>
-    <string name="faq_03_a">SecureVox는 14개 언어와 자동 감지를 지원합니다. 정확도는 언어와 모델에 따라 다릅니다. 기본 Tiny 모델은 영어에서만 좋고, Base는 스페인어와 한국어에도 적합하며, Small은 대부분의 주요 유럽 언어, 일본어, 한국어에 적합합니다. 네덜란드어, 폴란드어, 중국어, 아랍어는 Small에서도 정확도가 낮은 편이며, 힌디어는 실험적입니다.</string>
+    <string name="faq_03_a">SecureVox는 30개 이상의 언어와 자동 감지로 받아쓰기를 할 수 있으며, 힌디어와 Hinglish(로마자로 쓴 힌디어)도 포함됩니다. 정확도는 언어와 모델에 따라 달라집니다. 기본 Tiny 모델은 영어에만 좋고, Base는 스페인어, 한국어, Hinglish에도 알맞으며, Small은 대부분의 주요 유럽 언어, 일본어, 한국어에 알맞습니다. 데바나가리 문자의 힌디어, 네덜란드어, 폴란드어, 중국어, 아랍어와 대부분의 남아시아 언어는 Small에서도 정확도가 낮으므로 받아쓴 내용은 초안으로 보세요.</string>
     <string name="faq_04_q">녹음은 어떻게 시작하나요?</string>
     <string name="faq_04_a">화면 아래의 마이크 버튼을 탭하면 녹음이 시작됩니다. 끝나면 중지 버튼을 탭하세요. 녹음은 자동으로 텍스트로 변환됩니다.</string>
     <string name="faq_05_q">녹음 시간에 제한이 있나요?</string>

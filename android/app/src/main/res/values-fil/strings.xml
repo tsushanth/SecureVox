@@ -344,6 +344,12 @@
     <string name="export_format_srt">Mga subtitle na SubRip (.srt)</string>
     <string name="export_format_vtt">Mga subtitle na WebVTT (.vtt)</string>
     <string name="language_auto_detect">Awtomatikong tukuyin</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (Hindi sa letrang Latin)</string>
+    <string name="setup_language_title">Wikang gagamitin mo sa pagsasalita</string>
+    <string name="setup_language_body">Isinusulat ng SecureVox ang naririnig nito sa wikang ito. Maaari mo itong palitan anumang oras sa Mga Setting.</string>
+    <string name="setup_language_current">%1$s (i-tap para palitan)</string>
+    <string name="setup_language_hindi_hint">Mas gusto ang letrang Latin? Piliin ang Hinglish: maayos din itong gumagana sa mas maliit na modelong Base.</string>
     <string name="read_aloud">Basahin nang malakas</string>
     <string name="read_aloud_loading_voices">Nilo-load ang mga boses…</string>
     <string name="read_aloud_preparing">Inihahanda…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">Libre ba ang SecureVox?</string>
     <string name="faq_02_a">Ang SecureVox ay isang beses na pagbili sa Google Play. Walang subscription, walang in-app na pagbili, at walang ad.</string>
     <string name="faq_03_q">Anong mga wika ang sinusuportahan?</string>
-    <string name="faq_03_a">Nag-aalok ang SecureVox ng 14 na wika at awtomatikong pagtukoy. Nakadepende ang katumpakan sa wika at sa model: ang default na Tiny ay mahusay lang sa English, ang Base ay angkop din sa Spanish at Korean, at ang Small ay angkop sa karamihan ng mga pangunahing wika sa Europa, Japanese, at Korean. Mas mababa pa rin ang katumpakan ng Dutch, Polish, Chinese, at Arabic kahit sa Small, at eksperimental ang Hindi.</string>
+    <string name="faq_03_a">Kayang i-transcribe ng SecureVox ang mahigit 30 wika, bukod pa sa awtomatikong pagtukoy, kabilang ang Hindi at Hinglish (Hindi sa letrang Latin). Nakadepende ang katumpakan sa wika at sa modelo: ang default na Tiny ay mahusay lang sa Ingles, ang Base ay bagay din sa Espanyol, Koreano at Hinglish, at ang Small ay sa karamihan ng malalaking wika sa Europa, Hapones at Koreano. Ang Hindi sa Devanagari, Dutch, Polish, Chinese, Arabic at karamihan ng mga wika sa Timog Asya ay hindi pa rin gaanong tumpak kahit sa Small, kaya ituring na burador ang mga transcript na iyon.</string>
     <string name="faq_04_q">Paano ako magsisimula ng recording?</string>
     <string name="faq_04_a">I-tap ang button ng mikropono sa ibaba ng screen para magsimulang mag-record. I-tap ang stop button kapag tapos ka na. Awtomatikong ita-transcribe ang recording.</string>
     <string name="faq_05_q">May limitasyon ba sa oras ng mga recording?</string>

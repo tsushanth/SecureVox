@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip 字幕 (.srt)</string>
     <string name="export_format_vtt">WebVTT 字幕 (.vtt)</string>
     <string name="language_auto_detect">自動検出</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">ヒングリッシュ（ローマ字表記のヒンディー語）</string>
+    <string name="setup_language_title">話す言語</string>
+    <string name="setup_language_body">SecureVox は聞き取った内容をこの言語で書き起こします。設定からいつでも変更できます。</string>
+    <string name="setup_language_current">%1$s（タップして変更）</string>
+    <string name="setup_language_hindi_hint">ローマ字がよいですか？ Hinglish を選んでください。小さい Base モデルでもよく動作します。</string>
     <string name="read_aloud">読み上げ</string>
     <string name="read_aloud_loading_voices">音声を読み込み中…</string>
     <string name="read_aloud_preparing">準備中…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVoxは無料ですか?</string>
     <string name="faq_02_a">SecureVoxはGoogle Playでの買い切りです。サブスクリプション、アプリ内課金、広告はありません。</string>
     <string name="faq_03_q">対応言語は?</string>
-    <string name="faq_03_a">SecureVoxは14言語と自動検出に対応しています。精度は言語とモデルによって異なります。標準のTinyモデルは英語のみ良好、Baseはスペイン語と韓国語にも適し、Smallは主要なヨーロッパ言語の多く、日本語、韓国語に適しています。オランダ語、ポーランド語、中国語、アラビア語はSmallでも精度が低めで、ヒンディー語は試験的な対応です。</string>
+    <string name="faq_03_a">SecureVox は30以上の言語と自動検出で文字起こしでき、ヒンディー語や Hinglish（ローマ字表記のヒンディー語）にも対応します。精度は言語とモデルによって変わります。標準の Tiny モデルが得意なのは英語のみで、Base はスペイン語、韓国語、Hinglish にも向き、Small はヨーロッパの主要言語の多く、日本語、韓国語に向いています。デーヴァナーガリー表記のヒンディー語、オランダ語、ポーランド語、中国語、アラビア語、南アジアのほとんどの言語は Small でも精度が下がるため、文字起こしは下書きとしてご利用ください。</string>
     <string name="faq_04_q">録音はどう始めますか?</string>
     <string name="faq_04_a">画面下部のマイクボタンをタップすると録音が始まります。終わったら停止ボタンをタップします。録音は自動的に文字起こしされます。</string>
     <string name="faq_05_q">録音に時間制限はありますか?</string>

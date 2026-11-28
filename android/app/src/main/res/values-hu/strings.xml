@@ -320,6 +320,12 @@
     <string name="export_format_srt">SubRip feliratok (.srt)</string>
     <string name="export_format_vtt">WebVTT feliratok (.vtt)</string>
     <string name="language_auto_detect">Automatikus felismerés</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi latin betűkkel)</string>
+    <string name="setup_language_title">A nyelv, amelyen beszélni fogsz</string>
+    <string name="setup_language_body">A SecureVox ezen a nyelven írja le, amit hall. Bármikor megváltoztathatod a Beállításokban.</string>
+    <string name="setup_language_current">%1$s (koppints a módosításhoz)</string>
+    <string name="setup_language_hindi_hint">Latin betűket szeretnél? Válaszd a Hinglisht: a kisebb Base modellel is jól működik.</string>
     <string name="read_aloud">Felolvasás</string>
     <string name="read_aloud_loading_voices">Hangok betöltése…</string>
     <string name="read_aloud_preparing">Előkészítés…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Ingyenes a SecureVox?</string>
     <string name="faq_02_a">A SecureVox egyszeri vásárlás a Google Playen. Nincs előfizetés, nincs alkalmazáson belüli vásárlás és nincsenek hirdetések.</string>
     <string name="faq_03_q">Mely nyelveket támogatja?</string>
-    <string name="faq_03_a">A SecureVox 14 nyelvet kínál, plusz automatikus felismerést. A pontosság a nyelvtől és a modelltől függ: az alapértelmezett Tiny modell csak angolra jó, a Base spanyolra és koreaira is megfelel, a Small pedig a legtöbb jelentős európai nyelvre, japánra és koreaira. A holland, lengyel, kínai és arab Small modellel is kevésbé pontos marad, a hindi pedig kísérleti.</string>
+    <string name="faq_03_a">A SecureVox több mint 30 nyelven képes átírni, plusz automatikus felismeréssel, köztük hindi és Hinglish (hindi latin betűkkel) nyelven. A pontosság a nyelvtől és a modelltől függ: az alapértelmezett Tiny csak angolra jó, a Base spanyolra, koreaira és Hinglishre is megfelel, a Small pedig a legtöbb nagy európai nyelvre, a japánra és a koreaira. A devanagari írású hindi, a holland, lengyel, kínai, arab és a legtöbb dél-ázsiai nyelv a Smallal is kevésbé pontos marad, ezért az átiratokat tekintsd vázlatnak.</string>
     <string name="faq_04_q">Hogyan indíthatok felvételt?</string>
     <string name="faq_04_a">A felvétel indításához koppintson a képernyő alján lévő mikrofon gombra. Ha végzett, koppintson a leállítás gombra. A felvétel automatikusan átírásra kerül.</string>
     <string name="faq_05_q">Van időkorlát a felvételekre?</string>

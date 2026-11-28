@@ -121,7 +121,17 @@ class LiveTranscriber(
             }
 
             val text = try {
-                corrector.correct(clean(lib.transcribe(shot, language, fast = true).joinToString(" ") { it.text }))
+                corrector.correct(
+                    OutputScript.apply(
+                        language,
+                        clean(
+                            lib.transcribe(
+                                shot, WhisperLanguage.decoderCode(language), fast = true,
+                                prompt = LanguagePrompt.build(language, "")
+                            ).joinToString(" ") { it.text }
+                        )
+                    )
+                )
             } catch (e: CancellationException) {
                 throw e
             } catch (e: OutOfMemoryError) {

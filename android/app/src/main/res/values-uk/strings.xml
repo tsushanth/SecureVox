@@ -320,6 +320,12 @@
     <string name="export_format_srt">Субтитри SubRip (.srt)</string>
     <string name="export_format_vtt">Субтитри WebVTT (.vtt)</string>
     <string name="language_auto_detect">Автовизначення</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Хінґліш (гінді латиницею)</string>
+    <string name="setup_language_title">Мова, якою ви говоритимете</string>
+    <string name="setup_language_body">SecureVox записує почуте цією мовою. Її можна змінити будь-коли в Налаштуваннях.</string>
+    <string name="setup_language_current">%1$s (торкніться, щоб змінити)</string>
+    <string name="setup_language_hindi_hint">Потрібна латиниця? Виберіть Hinglish: він добре працює і з меншою моделлю Base.</string>
     <string name="read_aloud">Читати вголос</string>
     <string name="read_aloud_loading_voices">Завантаження голосів…</string>
     <string name="read_aloud_preparing">Підготовка…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Чи безкоштовний SecureVox?</string>
     <string name="faq_02_a">SecureVox – це одноразова покупка в Google Play. Немає ні підписки, ні покупок у застосунку, ні реклами.</string>
     <string name="faq_03_q">Які мови підтримуються?</string>
-    <string name="faq_03_a">SecureVox пропонує 14 мов і автовизначення. Точність залежить від мови й моделі: стандартна модель Tiny добра лише для англійської, Base підходить також для іспанської та корейської, а Small – для більшості основних європейських мов, японської та корейської. Нідерландська, польська, китайська й арабська залишаються менш точними навіть зі Small, а гінді є експериментальною.</string>
+    <string name="faq_03_a">SecureVox розшифровує понад 30 мов і вміє визначати мову автоматично, зокрема гінді та Hinglish (гінді латиницею). Точність залежить від мови та моделі: стандартна модель Tiny добра лише для англійської, Base підходить також для іспанської, корейської та Hinglish, а Small для більшості великих європейських мов, японської та корейської. Гінді деванагарі, нідерландська, польська, китайська, арабська та більшість південноазійських мов залишаються менш точними навіть зі Small, тому сприймайте такі розшифровки як чернетку.</string>
     <string name="faq_04_q">Як почати запис?</string>
     <string name="faq_04_a">Торкніться кнопки мікрофона внизу екрана, щоб почати запис. Коли закінчите, торкніться кнопки зупинки. Запис транскрибується автоматично.</string>
     <string name="faq_05_q">Чи є обмеження часу запису?</string>

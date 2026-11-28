@@ -344,6 +344,12 @@
     <string name="export_format_srt">Sottotitoli SubRip (.srt)</string>
     <string name="export_format_vtt">Sottotitoli WebVTT (.vtt)</string>
     <string name="language_auto_detect">Rilevamento automatico</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (hindi in caratteri latini)</string>
+    <string name="setup_language_title">Lingua in cui parlerai</string>
+    <string name="setup_language_body">SecureVox scrive ciò che sente in questa lingua. Puoi cambiarla in qualsiasi momento nelle Impostazioni.</string>
+    <string name="setup_language_current">%1$s (tocca per cambiare)</string>
+    <string name="setup_language_hindi_hint">Preferisci i caratteri latini? Scegli Hinglish: funziona bene anche con il modello più piccolo, Base.</string>
     <string name="read_aloud">Lettura ad alta voce</string>
     <string name="read_aloud_loading_voices">Caricamento delle voci…</string>
     <string name="read_aloud_preparing">Preparazione…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">SecureVox è gratuita?</string>
     <string name="faq_02_a">SecureVox è un acquisto una tantum su Google Play. Non ci sono abbonamenti, acquisti in-app o pubblicità.</string>
     <string name="faq_03_q">Quali lingue sono supportate?</string>
-    <string name="faq_03_a">SecureVox offre 14 lingue più il rilevamento automatico. La precisione dipende dalla lingua e dal modello: il modello predefinito, Tiny, è buono solo per l\'inglese; Base va bene anche per spagnolo e coreano, e Small va bene per la maggior parte delle principali lingue europee, il giapponese e il coreano. Olandese, polacco, cinese e arabo restano meno precisi anche con Small, e l\'hindi è sperimentale.</string>
+    <string name="faq_03_a">SecureVox trascrive più di 30 lingue, più il rilevamento automatico, tra cui hindi e Hinglish (hindi in caratteri latini). La precisione dipende dalla lingua e dal modello: il modello predefinito Tiny è buono solo per l\'inglese, Base va bene anche per spagnolo, coreano e Hinglish, e Small per la maggior parte delle grandi lingue europee, il giapponese e il coreano. L\'hindi in devanagari, l\'olandese, il polacco, il cinese, l\'arabo e la maggior parte delle lingue dell\'Asia meridionale restano meno precisi anche con Small, quindi considera queste trascrizioni una bozza.</string>
     <string name="faq_04_q">Come avvio una registrazione?</string>
     <string name="faq_04_a">Tocca il pulsante del microfono in basso nella schermata per iniziare a registrare. Tocca il pulsante di stop quando hai finito. La registrazione viene trascritta automaticamente.</string>
     <string name="faq_05_q">Esiste un limite di tempo per le registrazioni?</string>

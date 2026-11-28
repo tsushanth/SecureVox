@@ -344,6 +344,12 @@
     <string name="export_format_srt">SubRip-ondertitels (.srt)</string>
     <string name="export_format_vtt">WebVTT-ondertitels (.vtt)</string>
     <string name="language_auto_detect">Automatisch detecteren</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (Hindi in Latijnse letters)</string>
+    <string name="setup_language_title">Taal waarin je gaat spreken</string>
+    <string name="setup_language_body">SecureVox schrijft op wat het hoort in deze taal. Je kunt dit altijd wijzigen in Instellingen.</string>
+    <string name="setup_language_current">%1$s (tik om te wijzigen)</string>
+    <string name="setup_language_hindi_hint">Liever Latijnse letters? Kies Hinglish: het werkt ook goed met het kleinere model Base.</string>
     <string name="read_aloud">Voorlezen</string>
     <string name="read_aloud_loading_voices">Stemmen laden…</string>
     <string name="read_aloud_preparing">Voorbereiden…</string>
@@ -364,7 +370,7 @@
     <string name="faq_02_q">Is SecureVox gratis?</string>
     <string name="faq_02_a">SecureVox is een eenmalige aankoop in Google Play. Er is geen abonnement, geen in-app-aankoop en geen advertenties.</string>
     <string name="faq_03_q">Welke talen worden ondersteund?</string>
-    <string name="faq_03_a">SecureVox biedt 14 talen plus automatische detectie. De nauwkeurigheid hangt af van de taal en het model: het standaardmodel Tiny is alleen goed voor Engels, Base past ook bij Spaans en Koreaans, en Small past bij de meeste grote Europese talen, Japans en Koreaans. Nederlands, Pools, Chinees en Arabisch blijven ook met Small minder nauwkeurig, en Hindi is experimenteel.</string>
+    <string name="faq_03_a">SecureVox transcribeert meer dan 30 talen plus automatische herkenning, waaronder Hindi en Hinglish (Hindi in Latijnse letters). De nauwkeurigheid hangt af van de taal en het model: het standaardmodel Tiny is alleen goed voor Engels, Base past ook bij Spaans, Koreaans en Hinglish, en Small bij de meeste grote Europese talen, Japans en Koreaans. Hindi in Devanagari, Nederlands, Pools, Chinees, Arabisch en de meeste Zuid-Aziatische talen blijven ook met Small minder nauwkeurig; zie die transcripties als een concept.</string>
     <string name="faq_04_q">Hoe start ik een opname?</string>
     <string name="faq_04_a">Tik onderaan het scherm op de microfoonknop om de opname te starten. Tik op de stopknop als je klaar bent. De opname wordt automatisch getranscribeerd.</string>
     <string name="faq_05_q">Is er een tijdslimiet voor opnamen?</string>

@@ -18,7 +18,10 @@ class NewStringsLocalizedTest {
         "search_recordings", "nothing_recorded_toast",
         // On this phone (usage ledger) screen
         "funnel_settings_title", "funnel_settings_subtitle", "funnel_stays_on_phone", "funnel_since", "funnel_empty",
-        "funnel_row_detail", "funnel_reset", "funnel_reset_title", "funnel_reset_body"
+        "funnel_row_detail", "funnel_reset", "funnel_reset_title", "funnel_reset_body",
+        // Hindi / Hinglish and the first-run language card
+        "language_hinglish", "setup_language_title", "setup_language_body", "setup_language_current",
+        "setup_language_hindi_hint", "faq_03_a"
     )
 
     private fun res(): File = listOf(File("src/main/res"), File("app/src/main/res")).first { it.isDirectory }

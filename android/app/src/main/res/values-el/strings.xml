@@ -320,6 +320,12 @@
     <string name="export_format_srt">Υπότιτλοι SubRip (.srt)</string>
     <string name="export_format_vtt">Υπότιτλοι WebVTT (.vtt)</string>
     <string name="language_auto_detect">Αυτόματος εντοπισμός</string>
+    <!-- Hindi / Hinglish and first-run language card. Machine-written; needs native review. -->
+    <string name="language_hinglish">Hinglish (Χίντι με λατινικούς χαρακτήρες)</string>
+    <string name="setup_language_title">Η γλώσσα στην οποία θα μιλάτε</string>
+    <string name="setup_language_body">Το SecureVox γράφει σε αυτή τη γλώσσα όσα ακούει. Μπορείτε να την αλλάξετε οποτεδήποτε στις Ρυθμίσεις.</string>
+    <string name="setup_language_current">%1$s (πατήστε για αλλαγή)</string>
+    <string name="setup_language_hindi_hint">Προτιμάτε λατινικούς χαρακτήρες; Επιλέξτε Hinglish: λειτουργεί καλά και με το μικρότερο μοντέλο Base.</string>
     <string name="read_aloud">Ανάγνωση φωναχτά</string>
     <string name="read_aloud_loading_voices">Φόρτωση φωνών…</string>
     <string name="read_aloud_preparing">Προετοιμασία…</string>
@@ -340,7 +346,7 @@
     <string name="faq_02_q">Είναι το SecureVox δωρεάν;</string>
     <string name="faq_02_a">Το SecureVox είναι εφάπαξ αγορά στο Google Play. Δεν υπάρχει συνδρομή, ούτε αγορές εντός εφαρμογής ούτε διαφημίσεις.</string>
     <string name="faq_03_q">Ποιες γλώσσες υποστηρίζονται;</string>
-    <string name="faq_03_a">Το SecureVox προσφέρει 14 γλώσσες και αυτόματο εντοπισμό. Η ακρίβεια εξαρτάται από τη γλώσσα και το μοντέλο: το προεπιλεγμένο μοντέλο Tiny είναι καλό μόνο για αγγλικά, το Base ταιριάζει και σε ισπανικά και κορεατικά και το Small στις περισσότερες μεγάλες ευρωπαϊκές γλώσσες, τα ιαπωνικά και τα κορεατικά. Τα ολλανδικά, πολωνικά, κινεζικά και αραβικά παραμένουν λιγότερο ακριβή ακόμη και με το Small και τα χίντι είναι πειραματικά.</string>
+    <string name="faq_03_a">Το SecureVox μεταγράφει περισσότερες από 30 γλώσσες, συν την αυτόματη ανίχνευση, μεταξύ των οποίων τα Χίντι και τα Hinglish (Χίντι με λατινικούς χαρακτήρες). Η ακρίβεια εξαρτάται από τη γλώσσα και το μοντέλο: το προεπιλεγμένο Tiny είναι καλό μόνο για αγγλικά, το Base ταιριάζει και σε ισπανικά, κορεατικά και Hinglish, και το Small στις περισσότερες μεγάλες ευρωπαϊκές γλώσσες, τα ιαπωνικά και τα κορεατικά. Τα Χίντι σε Ντεβαναγκάρι, τα ολλανδικά, πολωνικά, κινεζικά, αραβικά και οι περισσότερες γλώσσες της Νότιας Ασίας μένουν λιγότερο ακριβή ακόμη και με το Small, γι\' αυτό αντιμετωπίστε τις μεταγραφές ως πρόχειρες.</string>
     <string name="faq_04_q">Πώς ξεκινώ μια εγγραφή;</string>
     <string name="faq_04_a">Πατήστε το κουμπί του μικροφώνου στο κάτω μέρος της οθόνης για να ξεκινήσει η εγγραφή. Πατήστε το κουμπί διακοπής όταν τελειώσετε. Η εγγραφή απομαγνητοφωνείται αυτόματα.</string>
     <string name="faq_05_q">Υπάρχει χρονικό όριο για τις εγγραφές;</string>
